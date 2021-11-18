@@ -2,7 +2,7 @@
 name: Crash Report
 about: A crash occurred.
 title: "[CRASH] Simple Title for The Crash"
-labels: ''
+labels: crash, unchecked
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report unexpected behavior.
 title: "[BUG] Simple Title for The Bug"
-labels: ''
+labels: bug, unchecked
 assignees: ''
 
 ---

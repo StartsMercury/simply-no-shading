@@ -2,7 +2,7 @@
 name: Compatiblity Request
 about: Request compatibility for a different mod.
 title: "[COMPATIBLITY] Mod Name"
-labels: ''
+labels: compat-request, unchecked
 assignees: ''
 
 ---
