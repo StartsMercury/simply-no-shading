@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "simply-no-shading",
+  "version": "${version}",
+
+  "name": "Simply No Shading Mod",
+  "description": "Removes distinct shading on blocks and fluids.",
+  "authors": [
+    "StartsMercury"
+  ],
+  "contact": {
+    "sources": "https://github.com/FabricMC/simply-no-shading",
+    "issues": "https://github.com/FabricMC/simply-no-shading/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/simply_no_shading/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingClient"
+    ]
+  },
+  "mixins": [
+    "simply-no-shading.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "java": ">=16",
+    "minecraft": "1.17.x"
+  },
+  "suggests": {
+  	"fabric-renderer-indigo": ">=0.4.8+a02b446318",
+  	"indium": ">=1.0.0+mc1.17.1",
+  	"sodium": ">=0.3.2+build.7"
+  }
+}
