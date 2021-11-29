@@ -17,5 +17,5 @@ This mod is available under the MIT license.
   
   ### Does this affect performance?
   
-  No. this mod just keeps the brightness on block sides uniform.
+  No, this mod just keeps the brightness on block sides uniform.
 </details>
