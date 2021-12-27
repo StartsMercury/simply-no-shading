@@ -1,5 +1,9 @@
 # Simply No Shading
 
+**You might also want to check out the [FAQ](FAQ.md), or the [GALLERY](GALLERY.md).**
+
+---
+
 This mod, by default, will disable *shading*.
 
 But what is shading? To this mod, shading is the difference in brightness to a cube's sides. Each side are assigned a different brightness if that cube applies shading.
