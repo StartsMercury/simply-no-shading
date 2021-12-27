@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.startsmercury.simplynoshading.mixin.minecraft",
+  "compatibilityLevel": "JAVA_16",
+  "plugin": "com.github.startsmercury.simplynoshading.mixin.minecraft.MinecraftMixinPlugin",
+  "client": [
+    "BakedQuadMixin",
+    "ClientWorldMixin",
+    "KeyboardMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

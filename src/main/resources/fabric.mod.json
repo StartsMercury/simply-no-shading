@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "simply-no-shading",
+  "version": "${version}",
+
+  "name": "Simply No Shading",
+  "description": "Toggle shading for blocks and fluids",
+  "authors": [
+    "StartsMercury"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/simply-no-shading",
+    "sources": "https://github.com/StartsMercury/simply-no-shading",
+    "issues": "https://github.com/StartsMercury/simply-no-shading/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/simply-no-shading/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod"
+    ]
+  },
+  "mixins": [
+    "simply-no-shading.indigo.mixins.json",
+    "simply-no-shading.minecraft.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.12.8",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "fabric-lifecycle-events-v1": ">=1.4.10+c15ca33514",
+    "fabric-key-binding-api-v1": ">=1.0.8+c8aba2f314",
+    "fabric-renderer-indigo": ">=0.4.12+3ac43d9514"
+  }
+}

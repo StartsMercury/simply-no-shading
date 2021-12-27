@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.startsmercury.simplynoshading.mixin.indigo",
+  "compatibilityLevel": "JAVA_16",
+  "plugin": "com.github.startsmercury.simplynoshading.mixin.indigo.IndigoMixinPlugin",
+  "client": [
+    "QuadViewImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
