@@ -7,36 +7,35 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
-version = "${project.mod_version}+mc${project.minecraft_version}"
+version = project.mod_version
 group = project.maven_group
 
 repositories {
-	maven { url = "https://api.modrinth.com/maven" }
 	maven { url = "https://jitpack.io" }
-	mavenLocal()
+	maven { url = "https://maven.terraformersmc.com" }
+	maven { url = "https://maven.shedaniel.me" }
 }
 
 dependencies {
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-
+	// Minecraft and Fabric
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-
-	// Lazy DFU makes the dev env start up much faster by loading DataFixerUpper lazily, which would otherwise take a long time. We rarely need it anyway.
-	modRuntime("com.github.astei:lazydfu:${lazydfu_version}") {
-		exclude(module: "fabric-loader")
-	}
-
-	// Indium
-	// modImplementation "maven.modrinth:indium:${project.indium_version}"
-
-	// Sodium
-	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
-
-	// Fabric Loader
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	// Fabric Key Binding API (V1)
+	modImplementation "net.fabricmc.fabric-api:fabric-key-binding-api-v1:${fabric_key_binding_api_v1_version}"
+
+	// Fabric Lifecycle Events (v1)
+	modImplementation "net.fabricmc.fabric-api:fabric-lifecycle-events-v1:${fabric_lifecycle_events_v1_version}"
+
+	// Fabric Renderer - Indigo
+	modImplementation "net.fabricmc.fabric-api:fabric-renderer-indigo:${fabric_renderer_indigo}"
+
+	// Lazy DFU makes the dev env start up much faster by loading DataFixerUpper
+	// lazily, which would otherwise take a long time. We rarely need it anyway.
+	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
+		exclude(module: "fabric-loader")
+	}
 }
 
 processResources {

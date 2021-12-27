@@ -1,48 +1,39 @@
-# Simply No Shading Mod
+# Simply No Shading
 
-Removes distinct shading on blocks and fluids.
+This mod, by default, will disable *shading*.
 
-# Licensing
+But what is shading? To this mod, shading is the difference in brightness to a cube's sides. Each side are assigned a different brightness if that cube applies shading.
 
-This mod is available under the MIT license.
+This mod allows you to force disable the said shading.
 
-# FAQs
+## Configuration
 
-<details>
-  <summary>Frequently Asked Questions</summary>
-  
-  ## Is this a performance mod?
-  
-  No, this mod is purely visual.
-  
-  ## Does this affect performance?
-  
-  No, this mod just keeps the brightness on block sides uniform.
-</details>
+If you desire to be able toggle shading in-game then here is what you do:
 
-# Images
+ - Make sure [Fabric API](https://github.com/FabricMC/fabric) is installed.
+ - Then you can now press `F6` to toggle shading in-game.
+ - You can now also change the key binding in `Options -> Controls -> Key Bind`.
 
-<details>
-  <summary>Images</summary>
-  
-  ## Snowy Peaks
-  
-  ### Without
-  
-  ![image](https://user-images.githubusercontent.com/89975834/144984302-670b7230-133f-4221-85dc-adcdcc0cf681.png)
+If you currently dont have Fabric API installed you can edit or add the file `.minecraft/config/simply-no-shading.json` with the contents:
 
-  ### With
-  
-  ![image](https://user-images.githubusercontent.com/89975834/144984323-8ebe8db3-63bf-4a34-87f5-c47b4bf72a2d.png)
+```
+{ "shading": true }
+```
 
-  ## Jungle
-  
-  ### Without
-  
-  ![image](https://user-images.githubusercontent.com/89975834/144984373-a121d484-ecc2-4e4d-8683-4a888887c76f.png)
+Alternatively setting it to false will re-enable shading.
 
-  ### With
-  
-  ![image](https://user-images.githubusercontent.com/89975834/144984393-b08ed237-347e-454f-bdd0-342c39785455.png)
+## Compatibility
 
-</details>
+Currently these are the test-proven compatible mods:
+
+ - [Fabric API's Renderer - Indigo](https://github.com/FabricMC/fabric)
+
+Mods that are currently not on the above list might be compatible.
+
+### Incompatiblities
+
+When a certain mod is incompatible with this mod common side-effects are:
+
+ - force-disable shading won't work for some modded blocks or fluids.
+ - In-game crash, when certain code is conflicting another.
+ - Startup crash, when a certain code can't properly run due to conflicts.
