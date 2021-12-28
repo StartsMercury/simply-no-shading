@@ -12,6 +12,10 @@ This mod allows you to force disable the said shading.
 
 ## Configuration
 
+**You might also want to check out the [FAQ](FAQ.md), or the [GALLERY](GALLERY.md).**
+
+---
+
 If you desire to be able toggle shading in-game then here is what you do:
 
  - Make sure [Fabric API](https://github.com/FabricMC/fabric) is installed.
@@ -27,6 +31,10 @@ If you currently dont have Fabric API installed you can edit or add the file `.m
 Alternatively setting it to false will re-enable shading.
 
 ## Compatibility
+
+**You might also want to check out the [FAQ](FAQ.md), or the [GALLERY](GALLERY.md).**
+
+---
 
 Currently these are the test-proven compatible mods:
 
