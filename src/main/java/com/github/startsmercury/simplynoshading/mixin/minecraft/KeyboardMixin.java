@@ -11,15 +11,18 @@ import com.github.startsmercury.simplynoshading.SimplyNoShading;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
+import net.minecraft.client.util.InputUtil;
 
 @Environment(CLIENT)
 @Mixin(Keyboard.class)
 public abstract class KeyboardMixin {
 	@Inject(method = "processF3", at = @At("HEAD"))
 	private final void onProcessF3Head(final int key, final CallbackInfoReturnable<Boolean> callback) {
-		if (key == 65) {
+		switch (key) {
+		case InputUtil.GLFW_KEY_A:
 			SimplyNoShading.loadConfig();
 			SimplyNoShading.bakeConfig();
+			break;
 		}
 	}
 }
