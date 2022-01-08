@@ -11,31 +11,29 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+	maven { url = "https://api.modrinth.com/maven" }
 	maven { url = "https://jitpack.io" }
 	maven { url = "https://maven.terraformersmc.com" }
 	maven { url = "https://maven.shedaniel.me" }
 }
 
 dependencies {
-	// Minecraft and Fabric
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	// Minecraft Fabric
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
-	// Fabric Key Binding API (V1)
-	modImplementation "net.fabricmc.fabric-api:fabric-key-binding-api-v1:${fabric_key_binding_api_v1_version}"
-
-	// Fabric Lifecycle Events (v1)
-	modImplementation "net.fabricmc.fabric-api:fabric-lifecycle-events-v1:${fabric_lifecycle_events_v1_version}"
-
-	// Fabric Renderer - Indigo
-	modImplementation "net.fabricmc.fabric-api:fabric-renderer-indigo:${fabric_renderer_indigo}"
-
+	// Fabric API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+	
 	// Lazy DFU makes the dev env start up much faster by loading DataFixerUpper
 	// lazily, which would otherwise take a long time. We rarely need it anyway.
 	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
-		exclude(module: "fabric-loader")
+		exclude(module: 'fabric-loader')
 	}
+
+	// Sodium
+	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
 }
 
 processResources {
