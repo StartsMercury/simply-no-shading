@@ -78,3 +78,13 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+def getModVersion() {
+	def modVersion = project.mod_version
+
+	if (System.env.GITHUB_ACTIONS == "true") {
+		modVersion += "-build." + System.env.GITHUB_RUN_NUMBER
+	}
+
+	return modVersion
+}
