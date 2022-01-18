@@ -43,12 +43,10 @@ public class SimplyNoShadingClientMod implements ClientModInitializer {
 
 		initModLoaded();
 
-		if (this.isFabricLifycycleEventsV1Loaded) {
-			SimplyNoShadingKeyBindings.registerKeyBindings();
-		}
-
-		if (this.isFabricKeyBindingApiV1Loaded) {
+		if (this.isFabricLifycycleEventsV1Loaded && this.isFabricKeyBindingApiV1Loaded) {
 			SimplyNoShadingLifecycleEvents.registerLifecycleEvents();
+
+			SimplyNoShadingKeyBindings.registerKeyBindings();
 		}
 	}
 }
