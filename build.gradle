@@ -26,6 +26,9 @@ dependencies {
 	// Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 	
+	// JOML
+	runtimeOnly "org.joml:joml:${joml_version}"
+	
 	// Lazy DFU makes the dev env start up much faster by loading DataFixerUpper
 	// lazily, which would otherwise take a long time. We rarely need it anyway.
 	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {

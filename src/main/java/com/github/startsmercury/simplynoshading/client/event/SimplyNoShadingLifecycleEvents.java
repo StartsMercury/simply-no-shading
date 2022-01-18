@@ -17,7 +17,9 @@ public class SimplyNoShadingLifecycleEvents {
 	public static void registerLifecycleEvents() {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (SimplyNoShadingKeyBindings.getToggleKey().wasPressed()) {
-				JsonElement config = SimplyNoShading.getConfig();
+				JsonElement config;
+
+				config = SimplyNoShading.getConfig();
 
 				if (!config.isJsonObject()) {
 					config = new JsonObject();

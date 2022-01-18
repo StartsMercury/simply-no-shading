@@ -10,7 +10,7 @@ import com.github.startsmercury.simplynoshading.SimplyNoShading;
 import net.fabricmc.fabric.impl.client.indigo.renderer.mesh.QuadViewImpl;
 
 @Mixin(QuadViewImpl.class)
-public abstract class QuadViewImplMixin {
+public class QuadViewImplMixin {
 	@Inject(method = "hasShade", at = @At("RETURN"), cancellable = true, remap = false)
 	private final void onHasShadeHead(final CallbackInfoReturnable<Boolean> callback) {
 		callback.setReturnValue(callback.getReturnValueZ() && SimplyNoShading.getBakedConfig().shading());

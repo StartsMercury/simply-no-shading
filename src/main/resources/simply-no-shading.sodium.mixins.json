@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.startsmercury.simplynoshading.mixin.sodium",
+  "compatibilityLevel": "JAVA_16",
+  "plugin": "com.github.startsmercury.simplynoshading.mixin.sodium.SodiumMixinPlugin",
+  "client": [
+    "FluidRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

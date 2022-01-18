@@ -14,8 +14,8 @@ import net.minecraft.client.world.ClientWorld;
 @Environment(CLIENT)
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin {
-	@ModifyVariable(method = "getBrightness", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-	private final boolean onGetBrightnessHead(final boolean shaded) {
+	@ModifyVariable(method = "getBrightness", at = @At("HEAD"), argsOnly = true)
+	private final boolean modifyShadedOnGetBrightness(final boolean shaded) {
 		return SimplyNoShading.getBakedConfig().shading() && shaded;
 	}
 }

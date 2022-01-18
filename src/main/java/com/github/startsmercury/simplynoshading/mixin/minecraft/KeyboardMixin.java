@@ -15,7 +15,7 @@ import net.minecraft.client.util.InputUtil;
 
 @Environment(CLIENT)
 @Mixin(Keyboard.class)
-public abstract class KeyboardMixin {
+public class KeyboardMixin {
 	@Inject(method = "processF3", at = @At("HEAD"))
 	private final void onProcessF3Head(final int key, final CallbackInfoReturnable<Boolean> callback) {
 		switch (key) {
