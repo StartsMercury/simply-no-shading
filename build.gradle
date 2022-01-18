@@ -80,11 +80,10 @@ publishing {
 }
 
 def getModVersion() {
-	def githubRunNumber = System.env.GITHUB_RUN_NUMBER;
 	def modVersion = project.mod_version
 
-	if (githubRunNumber != null) {
-		modVersion += "-build." + githubRunNumber
+	if (System.env.GITHUB_ACTIONS == "true") {
+		modVersion += "-build." + System.env.GITHUB_RUN_NUMBER
 	}
 
 	return modVersion
