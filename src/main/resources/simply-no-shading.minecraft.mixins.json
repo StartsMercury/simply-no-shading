@@ -7,7 +7,9 @@
   "client": [
     "BakedQuadMixin",
     "ClientWorldMixin",
-    "KeyboardMixin"
+    "GameOptionsMixin",
+    "KeyboardMixin",
+    "VideoOptionsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

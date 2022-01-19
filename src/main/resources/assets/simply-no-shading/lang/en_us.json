@@ -1,3 +1,5 @@
 {
-  "key.simply-no-shading.toggle_shading": "Toggle Shading"
+  "simply-no-shading.key.toggle_shading": "Toggle Shading",
+  "simply-no-shading.options.shading": "Shading",
+  "simply-no-shading.options.shading.tooltip": "Non-uniform shading on surfaces of blocks, imitating directional light."
 }

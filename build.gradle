@@ -39,6 +39,10 @@ dependencies {
 	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
 }
 
+loom {
+	accessWidenerPath = file('src/main/resources/simply-no-shading.accesswidener')
+}
+
 processResources {
 	inputs.property "version", project.version
 

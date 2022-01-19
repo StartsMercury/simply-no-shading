@@ -7,9 +7,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.github.startsmercury.simplynoshading.SimplyNoShading;
+import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
 
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedQuad;
 
 @Environment(CLIENT)
@@ -17,6 +18,7 @@ import net.minecraft.client.render.model.BakedQuad;
 public class BakedQuadMixin {
 	@Inject(method = "hasShade", at = @At("RETURN"), cancellable = true)
 	private final void onHasShadeHead(final CallbackInfoReturnable<Boolean> callback) {
-		callback.setReturnValue(callback.getReturnValueZ() && SimplyNoShading.getBakedConfig().shading());
+		callback.setReturnValue(
+				callback.getReturnValueZ() && ((SimplyNoShadingGameOptions) MinecraftClient.getInstance().options).isShading());
 	}
 }
