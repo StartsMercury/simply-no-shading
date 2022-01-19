@@ -16,13 +16,27 @@ This mod allows you to force disable the said shading.
 
 ---
 
+If you desire to toggle shading in the settings here is what you do:
+
+ - Open Video Settings.
+ - When you have [Sodium](https://github.com/CaffeineMC/sodium-fabric) installed, click on the quality tab.
+ - Lastly you should see a button with text 'Shading'.
+
+If you are unable to find the said button:
+
+ - Open your file explorer
+ - Go to your `.minecraft` folder
+ - Open `options.txt`
+ - Find the line containing "`shading`"
+ - Then set the text after the colon (`:`) with either `true` or `false`.
+
+---
+
 If you desire to be able toggle shading in-game then here is what you do:
 
  - Make sure [Fabric API](https://github.com/FabricMC/fabric) is installed.
  - Then you can now press `F6` to toggle shading in-game.
  - You can now also change the key binding in `Options -> Controls -> Key Bind`.
-
-If you currently dont have Fabric API installed you can edit or add the file `.minecraft/config/simply-no-shading.json` with the contents:
 
 ```
 { "shading": true }
@@ -39,8 +53,9 @@ Alternatively setting it to false will re-enable shading.
 Currently these are the test-proven compatible mods:
 
  - [Fabric API's Renderer - Indigo](https://github.com/FabricMC/fabric)
+ - [Sodium](https://github.com/CaffeineMC/sodium-fabric)
 
-Mods that are currently not on the above list might be compatible.
+Mods that are currently not on the above list may be compatible, but is not assured.
 
 ### Incompatiblities
 
