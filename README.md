@@ -38,12 +38,6 @@ If you desire to be able toggle shading in-game then here is what you do:
  - Then you can now press `F6` to toggle shading in-game.
  - You can now also change the key binding in `Options -> Controls -> Key Bind`.
 
-```
-{ "shading": true }
-```
-
-Alternatively setting it to false will re-enable shading.
-
 ## Compatibility
 
 **You might also want to check out the [FAQ](FAQ.md), or the [GALLERY](GALLERY.md).**
