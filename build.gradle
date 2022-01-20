@@ -35,8 +35,12 @@ dependencies {
 		exclude(module: 'fabric-loader')
 	}
 
+	// SLF4J
+	implementation "org.slf4j:slf4j-api:${slf4j_api_version}"
+	include "org.slf4j:slf4j-api:${slf4j_api_version}"
+
 	// Sodium
-	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
+	modImplementation "maven.modrinth:sodium:${sodium_version}"
 }
 
 loom {
