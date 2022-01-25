@@ -25,7 +25,6 @@
   },
   "accessWidener" : "simply-no-shading.accesswidener",
   "mixins": [
-    "simply-no-shading.indigo.mixins.json",
     "simply-no-shading.minecraft.mixins.json",
     "simply-no-shading.sodium.mixins.json"
   ],

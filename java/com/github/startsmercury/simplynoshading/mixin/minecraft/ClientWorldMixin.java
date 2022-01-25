@@ -17,6 +17,6 @@ import net.minecraft.client.world.ClientWorld;
 public class ClientWorldMixin {
 	@ModifyVariable(method = "getBrightness", at = @At("HEAD"), argsOnly = true)
 	private final boolean modifyShadedOnGetBrightness(final boolean shaded) {
-		return shaded && ((SimplyNoShadingGameOptions) MinecraftClient.getInstance().options).isShading();
+		return shaded && ((SimplyNoShadingGameOptions) MinecraftClient.getInstance().options).isShadeAll();
 	}
 }

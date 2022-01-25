@@ -4,6 +4,7 @@ import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.util.StringJoiner;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 @Environment(CLIENT)
+@Internal
 public class SimplyNoShadingClientMod implements ClientModInitializer {
 	private static final String FABRIC_KEY_BINDING_API_V1_ID;
 

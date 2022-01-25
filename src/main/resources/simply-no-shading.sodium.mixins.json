@@ -6,7 +6,8 @@
   "plugin": "com.github.startsmercury.simplynoshading.mixin.sodium.SodiumMixinPlugin",
   "client": [
     "FluidRendererMixin",
-    "SodiumGameOptionPagesMixin"
+    "SodiumGameOptionPagesAccessor",
+    "SodiumOptionsGUIMixin"
   ],
   "injectors": {
     "defaultRequire": 1

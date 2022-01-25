@@ -7,8 +7,8 @@
   "client": [
     "BakedQuadMixin",
     "ClientWorldMixin",
+    "FluidRendererMixin",
     "GameOptionsMixin",
-    "KeyboardMixin",
     "VideoOptionsScreenMixin"
   ],
   "injectors": {

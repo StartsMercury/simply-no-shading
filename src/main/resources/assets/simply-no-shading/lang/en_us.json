@@ -1,5 +1,12 @@
 {
-  "simply-no-shading.key.toggle_shading": "Toggle Shading",
-  "simply-no-shading.options.shading": "Shading",
-  "simply-no-shading.options.shading.tooltip": "Non-uniform shading on surfaces of blocks, imitating directional light."
+  "simply-no-shading.key.categories.shading": "Shading",
+  "simply-no-shading.key.cycle_shade_all": "Cycle Shade All",
+  "simply-no-shading.key.cycle_shade_blocks": "Cycle Shade Blocks",
+  "simply-no-shading.key.cycle_shade_fluids": "Cycle Shade Fluids",
+  "simply-no-shading.options.pages.shading": "Shading",
+  "simply-no-shading.options.shade_all": "Shade All",
+  "simply-no-shading.options.shade_any.tooltip": "Overwritten if Shade All is on",
+  "simply-no-shading.options.shade_all.tooltip": "Shading on the surface of blocks is a cheap imitation of directional light.",
+  "simply-no-shading.options.shade_blocks": "Shade Blocks",
+  "simply-no-shading.options.shade_fluids": "Shade Fluids"
 }

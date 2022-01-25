@@ -17,8 +17,12 @@ import net.minecraft.client.render.model.BakedQuad;
 @Mixin(BakedQuad.class)
 public class BakedQuadMixin {
 	@Inject(method = "hasShade", at = @At("RETURN"), cancellable = true)
+	@SuppressWarnings("resource")
 	private final void onHasShadeHead(final CallbackInfoReturnable<Boolean> callback) {
-		callback.setReturnValue(
-				callback.getReturnValueZ() && ((SimplyNoShadingGameOptions) MinecraftClient.getInstance().options).isShading());
+		final SimplyNoShadingGameOptions options;
+
+		options = (SimplyNoShadingGameOptions) MinecraftClient.getInstance().options;
+
+		callback.setReturnValue(callback.getReturnValueZ() && (options.isShadeAll() || options.isShadeBlocks()));
 	}
 }
