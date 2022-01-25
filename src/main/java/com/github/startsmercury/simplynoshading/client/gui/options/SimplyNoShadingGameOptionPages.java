@@ -17,6 +17,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
 import com.google.common.collect.ImmutableList;
 
+import me.jellysquid.mods.sodium.client.gui.SodiumGameOptionPages;
+import me.jellysquid.mods.sodium.client.gui.SodiumOptionsGUI;
 import me.jellysquid.mods.sodium.client.gui.options.Option;
 import me.jellysquid.mods.sodium.client.gui.options.OptionGroup;
 import me.jellysquid.mods.sodium.client.gui.options.OptionImpl;
@@ -24,10 +26,20 @@ import me.jellysquid.mods.sodium.client.gui.options.OptionPage;
 import me.jellysquid.mods.sodium.client.gui.options.control.TickBoxControl;
 import net.minecraft.text.TranslatableText;
 
+/**
+ * Contains page(s) shown in {@link SodiumOptionsGUI} which also contains pages
+ * from {@link SodiumGameOptionPages}.
+ */
 public class SimplyNoShadingGameOptionPages {
+	/**
+	 * {@link #shading() Shading page} name.
+	 */
 	@Internal
 	public static final TranslatableText SHADING_NAME;
 
+	/**
+	 * {@link #SHADING_NAME Shading page name} key.
+	 */
 	@Internal
 	public static final String SHADING_NAME_KEY;
 
@@ -36,6 +48,12 @@ public class SimplyNoShadingGameOptionPages {
 		SHADING_NAME = new TranslatableText(SHADING_NAME_KEY);
 	}
 
+	/**
+	 * Creates the Shading page similar to how pages in
+	 * {@link SodiumGameOptionPages} are made.
+	 *
+	 * @return a new Shading page
+	 */
 	public static final OptionPage shading() {
 		final List<OptionGroup> groups;
 		final Option<Boolean> shadeAll;

@@ -8,10 +8,19 @@ import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGam
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.event.Event;
 
+/**
+ * Contains code to register client lifecycle event listener(s).
+ */
 @Environment(CLIENT)
 @Internal
 public class SimplyNoShadingLifecycleEvents {
+	/**
+	 * Registers key listeners to react to key presses.
+	 *
+	 * @see Event#register
+	 */
 	public static void registerLifecycleEvents() {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final SimplyNoShadingGameOptions clientOptions;

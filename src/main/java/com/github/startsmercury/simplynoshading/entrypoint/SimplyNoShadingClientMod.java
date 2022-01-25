@@ -15,13 +15,25 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
+/**
+ * @see ClientModInitializer
+ */
 @Environment(CLIENT)
 @Internal
 public class SimplyNoShadingClientMod implements ClientModInitializer {
-	private static final String FABRIC_KEY_BINDING_API_V1_ID;
+	/**
+	 * Identifier of Fabric Key Binding API (v1)
+	 */
+	public static final String FABRIC_KEY_BINDING_API_V1_ID;
 
-	private static final String FABRIC_LIFECYCLE_EVENTS_V1_ID;
+	/**
+	 * Identifier of Fabric Lifecycle Events API (v1)
+	 */
+	public static final String FABRIC_LIFECYCLE_EVENTS_V1_ID;
 
+	/**
+	 * Used for client-side logging.
+	 */
 	public static final Logger LOGGER;
 
 	static {
@@ -30,6 +42,11 @@ public class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER = LoggerFactory.getLogger("simply-no-shading+client");
 	}
 
+	/**
+	 * Adds custom key binds if mods {@link #FABRIC_KEY_BINDING_API_V1_ID Fabric Key
+	 * Binding API (v1)} and {@link #FABRIC_LIFECYCLE_EVENTS_V1_ID Fabric Lifecycle
+	 * Events API (v1)} is loaded.
+	 */
 	@Override
 	public void onInitializeClient() {
 		final boolean fabricKeyBindingApiV1Loaded;

@@ -14,10 +14,19 @@ import net.minecraft.client.option.KeyBinding;
 @Environment(CLIENT)
 @Internal
 public final class SimplyNoShadingKeyBindings {
+	/**
+	 * @see SimplyNoShadingGameOptions#keyCycleShadeAll()
+	 */
 	public static final KeyBinding KEY_CYCLE_SHADE_ALL;
 
+	/**
+	 * @see SimplyNoShadingGameOptions#keyCycleShadeBlocks()
+	 */
 	public static final KeyBinding KEY_CYCLE_SHADE_BLOCKS;
 
+	/**
+	 * @see SimplyNoShadingGameOptions#keyCycleShadeFluids()
+	 */
 	public static final KeyBinding KEY_CYCLE_SHADE_FLUIDS;
 
 	static {
@@ -28,6 +37,11 @@ public final class SimplyNoShadingKeyBindings {
 				SHADING_CATEGORY);
 	}
 
+	/**
+	 * Registers all custom key bindings.
+	 *
+	 * @see KeyBindingHelper#registerKeyBinding
+	 */
 	public static void registerKeyBindings() {
 		KeyBindingHelper.registerKeyBinding(KEY_CYCLE_SHADE_ALL);
 		KeyBindingHelper.registerKeyBinding(KEY_CYCLE_SHADE_BLOCKS);

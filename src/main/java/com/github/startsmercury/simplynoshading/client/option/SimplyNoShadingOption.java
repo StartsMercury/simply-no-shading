@@ -6,32 +6,70 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.option.CyclingOption;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.TranslatableText;
 
+/**
+ * Contains member(s) related to {@link KeyBinding}.
+ */
 @Environment(CLIENT)
 @Internal
 public final class SimplyNoShadingOption {
+	/**
+	 * @see SimplyNoShadingGameOptions#cycleShadeAll
+	 */
 	public static final CyclingOption<Boolean> SHADE_ALL;
 
-	public static final String SHADE_ALL_NAME_KEY;
-
+	/**
+	 * {@link #SHADE_ALL shadeAll} name.
+	 */
 	public static final TranslatableText SHADE_ALL_NAME;
 
+	/**
+	 * {@link #SHADE_ALL_NAME shadeAll name} key.
+	 */
+	public static final String SHADE_ALL_NAME_KEY;
+
+	/**
+	 * {@link #SHADE_ALL shadeAll} tooltip.
+	 */
 	public static final TranslatableText SHADE_ALL_TOOLTIP;
 
+	/**
+	 * {@link #SHADE_BLOCKS shadeBlocks} and {@link #SHADE_FLUIDS shadeFluids}
+	 * tooltip.
+	 */
 	public static final TranslatableText SHADE_ANY_TOOLTIP;
 
+	/**
+	 * @see SimplyNoShadingGameOptions#cycleShadeBlocks
+	 */
 	public static final CyclingOption<Boolean> SHADE_BLOCKS;
 
-	public static final String SHADE_BLOCKS_NAME_KEY;
-
+	/**
+	 * {@link #SHADE_BLOCKS shadeBlocks} name.
+	 */
 	public static final TranslatableText SHADE_BLOCKS_NAME;
 
+	/**
+	 * {@link #SHADE_BLOCKS_NAME shadeBlocks name} key.
+	 */
+	public static final String SHADE_BLOCKS_NAME_KEY;
+
+	/**
+	 * @see SimplyNoShadingGameOptions#cycleShadeFluids
+	 */
 	public static final CyclingOption<Boolean> SHADE_FLUIDS;
 
-	public static final String SHADE_FLUIDS_NAME_KEY;
-
+	/**
+	 * {@link #SHADE_FLUIDS shadeFluids} name.
+	 */
 	public static final TranslatableText SHADE_FLUIDS_NAME;
+
+	/**
+	 * {@link #SHADE_FLUIDS_NAME shadeFluids name} key.
+	 */
+	public static final String SHADE_FLUIDS_NAME_KEY;
 
 	static {
 		SHADE_ALL_NAME_KEY = "simply-no-shading.options.shade_all";

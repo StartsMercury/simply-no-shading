@@ -30,6 +30,11 @@ public class SodiumOptionsGUIMixin {
 	@Shadow(remap = false)
 	private Screen prevScreen;
 
+	@Inject(method = "<init>", at = @At(value = "INVOKE", shift = AFTER, target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 2), remap = false)
+	private final void onInitAfterInvokeAdd(final CallbackInfo callback) {
+		this.pages.add(shading());
+	}
+
 	@Inject(method = "init", at = @At("RETURN"))
 	@SuppressWarnings("resource")
 	private final void onInitReturn(final CallbackInfo callback) {
@@ -41,10 +46,5 @@ public class SodiumOptionsGUIMixin {
 			MinecraftClient.getInstance()
 					.setScreen(new VideoOptionsScreen(this.prevScreen, MinecraftClient.getInstance().options));
 		}
-	}
-
-	@Inject(method = "<init>", at = @At(value = "INVOKE", shift = AFTER, target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 2), remap = false)
-	private final void onInitAfterInvokeAdd(final CallbackInfo callback) {
-		this.pages.add(shading());
 	}
 }
