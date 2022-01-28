@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.mixin.sodium;
+package com.github.startsmercury.dev.mixin;
 
 import static com.github.startsmercury.simplynoshading.client.gui.options.SimplyNoShadingGameOptionPages.shading;
 import static org.spongepowered.asm.mixin.injection.At.Shift.AFTER;

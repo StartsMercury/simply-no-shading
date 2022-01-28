@@ -3,7 +3,7 @@
  * subpackages.
  *
  * @see com.github.startsmercury.simplynoshading.client.event
- * @see com.github.startsmercury.simplynoshading.client.gui.options
+ * @see com.github.startsmercury.simplynoshading.client.gui
  * @see com.github.startsmercury.simplynoshading.client.option
  * @see com.github.startsmercury.simplynoshading.client.util
  */

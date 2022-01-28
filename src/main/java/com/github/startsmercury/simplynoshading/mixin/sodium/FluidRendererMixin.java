@@ -19,8 +19,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
 
+/**
+ * {@link Mixin mixin} for the class {@link FluidRenderer}.
+ */
 @Mixin(FluidRenderer.class)
 public class FluidRendererMixin {
+	/**
+	 * Makes all fluids (rendered by sodium) require either
+	 * {@link SimplyNoShadingGameOptions#isShadeAll()} or
+	 * {@link SimplyNoShadingGameOptions#isShadeFluids()} to return {@code true} to
+	 * shade.
+	 *
+	 * @param shaded the raw shade
+	 * @return the expected shade
+	 * @implSpec {@code shaded && (isShadeAll || isShadeFluids())}
+	 */
 	@ModifyVariable(method = "calculateQuadColors", at = @At("HEAD"), argsOnly = true, remap = false)
 	@SuppressWarnings("resource")
 	private final float modifyBrightnessOnCalculateQuadColors(final float target, final ModelQuadView quad,

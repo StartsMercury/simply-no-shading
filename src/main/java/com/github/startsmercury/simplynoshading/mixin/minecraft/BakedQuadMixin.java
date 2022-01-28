@@ -13,9 +13,21 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedQuad;
 
+/**
+ * {@link Mixin mixin} for the class {@link BakedQuad}.
+ */
 @Environment(CLIENT)
 @Mixin(BakedQuad.class)
 public class BakedQuadMixin {
+	/**
+	 * Makes all model faces require either
+	 * {@link SimplyNoShadingGameOptions#isShadeAll()} or
+	 * {@link SimplyNoShadingGameOptions#isShadeBlocks()} to return {@code true} to
+	 * shade.
+	 *
+	 * @param callback the callback
+	 * @implSpec {@code hasShade() && (isShadeAll || isShadeBlocks())}
+	 */
 	@Inject(method = "hasShade", at = @At("RETURN"), cancellable = true)
 	@SuppressWarnings("resource")
 	private final void onHasShadeHead(final CallbackInfoReturnable<Boolean> callback) {

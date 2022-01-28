@@ -15,13 +15,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.gui.screen.option.VideoOptionsScreen;
 import net.minecraft.client.option.Option;
 
+/**
+ * {@link Mixin mixin} for the class {@link VideoOptionsScreen}.
+ */
 @Mixin(VideoOptionsScreen.class)
 public class VideoOptionsScreenMixin {
+	/**
+	 * This shadowed field allows this mixin to insert additional options.
+	 */
 	@Final
 	@Mutable
 	@Shadow
 	private static Option[] OPTIONS;
 
+	/**
+	 * Adds the custom options to the video options screen.
+	 *
+	 * @param callback the method callback
+	 */
 	@Inject(method = "<clinit>", at = @At("RETURN"))
 	private static void onClinitReturn(final CallbackInfo callback) {
 		final Option[] appendedOptions = new Option[OPTIONS.length + 3];

@@ -35,7 +35,6 @@
     "minecraft": "1.18.x"
   },
   "suggests": {
-    "fabric": ">=0.45.2+1.18",
     "sodium": ">=0.4.0-alpha6+build.14"
   }
 }

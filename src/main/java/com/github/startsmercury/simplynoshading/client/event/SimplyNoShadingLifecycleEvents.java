@@ -1,25 +1,26 @@
 package com.github.startsmercury.simplynoshading.client.event;
 
-import static net.fabricmc.api.EnvType.CLIENT;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
+import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyBindings;
+import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
 
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.Event;
 
 /**
- * Contains code to register client lifecycle event listener(s).
+ * This class contains the method {@link #registerLifecycleEvents()} which is
+ * called by {@link SimplyNoShadingClientMod#onInitializeClient()}.
  */
-@Environment(CLIENT)
 @Internal
 public class SimplyNoShadingLifecycleEvents {
 	/**
-	 * Registers key listeners to react to key presses.
-	 *
-	 * @see Event#register
+	 * {@linkplain Event#register(Object) Registers}
+	 * {@linkplain ClientTickEvents#END_CLIENT_TICK tick} listeners that anticipates
+	 * key binding(s) being pressed. This method should only be called once by
+	 * {@link SimplyNoShadingClientMod#onInitializeClient()} after
+	 * {@link SimplyNoShadingKeyBindings#registerKeyBindings()}.
 	 */
 	public static void registerLifecycleEvents() {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
