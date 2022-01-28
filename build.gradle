@@ -3,42 +3,12 @@ plugins {
 	id 'maven-publish'
 }
 
-import java.time.Instant
-
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
 version = getModVersion()
 group = project.maven_group
-
-loom {
-	accessWidenerPath = file('src/main/resources/simply-no-shading.accesswidener')
-}
-
-sourceSets {
-	dev {
-		compileClasspath += main.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-	}
-}
-
-loom {
-	runs {
-		devClient {
-			client()
-			name = 'Dev Client'
-			source sourceSets.dev
-		}
-		devServer {
-			server()
-			name = 'Dev Server'
-			source sourceSets.dev
-		}
-	}
-
-	runConfigs.forEach(runConfig -> runConfig.vmArgs '-Dmixin.debug.export=true')
-}
 
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
@@ -78,11 +48,37 @@ dependencies {
 	modImplementation "maven.modrinth:sodium:${sodium_version}"
 }
 
-processResources {
-	inputs.property "version", project.version
+sourceSets {
+	dev {
+		compileClasspath += main.compileClasspath
+		runtimeClasspath += main.runtimeClasspath
+	}
+}
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+loom {
+	accessWidenerPath = file('src/main/resources/simply-no-shading.accesswidener')
+
+	runs {
+		devClient {
+			client()
+			name = 'Dev Client'
+			source sourceSets.dev
+		}
+		devServer {
+			server()
+			name = 'Dev Server'
+			source sourceSets.dev
+		}
+	}
+
+	runConfigs.forEach(runConfig -> runConfig.vmArgs '-Dmixin.debug.export=true')
+}
+
+processResources {
+	inputs.property 'version', project.version
+
+	filesMatching('fabric.mod.json') {
+		expand 'version': project.version
 	}
 }
 
@@ -94,7 +90,7 @@ java {
 }
 
 jar {
-	from ('LICENSE') {
+	from('LICENSE') {
 		rename { "${it}_${project.archivesBaseName}" }
 	}
 }
@@ -135,18 +131,24 @@ final String getModVersion() {
 }
 
 final long globalNanoTime() {
-	final Instant now = Instant.now();
+	final java.time.Instant now = java.time.Instant.now();
 
 	return now.epochSecond * 1_000_000_000L + now.nano
 }
 
-final void includeModImplementation(final Object dependency) {
+final def includeModImplementation(final def dependency) {
 	dependencies.modImplementation(dependency)
-	dependencies.include(dependency)
+	return dependencies.include(dependency)
+}
+
+final int nonnegative(final int i) {
+	return i < 0 ? 0 : i
+}
+
+final String padLeft(final int ch = ' ', final int pad, final String s) {
+	return Character.toString(ch).repeat(nonnegative(pad - s.length())) + s;
 }
 
 final String toFullHexString(final long l) {
-	final String hex = Long.toHexString(l)
-
-	return '0'.repeat(16 - hex.length()) + hex;
+	return padLeft((int) '0', 16, Long.toHexString(l));
 }
