@@ -14,7 +14,6 @@ group = project.maven_group
 
 loom {
 	accessWidenerPath = file('src/main/resources/simply-no-shading.accesswidener')
-	shareRemapCaches = true
 }
 
 sourceSets {
@@ -77,8 +76,6 @@ dependencies {
 
 	// Sodium
 	modImplementation "maven.modrinth:sodium:${sodium_version}"
-
-	devImplementation sourceSets.main.output
 }
 
 processResources {
@@ -97,7 +94,7 @@ java {
 }
 
 jar {
-	from('LICENSE') {
+	from ('LICENSE') {
 		rename { "${it}_${project.archivesBaseName}" }
 	}
 }
