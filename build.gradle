@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.10-SNAPSHOT'
+	id 'fabric-loom' version '0.11-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -7,14 +7,25 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
-version = getModVersion()
+version = "${project.mod_version}+1.18.x${getVersionExtension()}"
 group = project.maven_group
 
+loom {
+	accessWidenerPath = file 'src/main/resources/simply-no-shading.accesswidener'
+}
+
+configurations {
+	includeModImplementation
+
+	include.extendsFrom includeModImplementation
+	modImplementation.extendsFrom includeModImplementation
+}
+
 repositories {
-	maven { url = "https://api.modrinth.com/maven" }
-	maven { url = "https://jitpack.io" }
-	maven { url = "https://maven.shedaniel.me" }
-	maven { url = "https://maven.terraformersmc.com" }
+	maven { url = 'https://api.modrinth.com/maven' }
+	maven { url = 'https://jitpack.io' }
+	maven { url = 'https://maven.shedaniel.me' }
+	maven { url = 'https://maven.terraformersmc.com' }
 }
 
 dependencies {
@@ -45,40 +56,20 @@ dependencies {
 	}
 
 	// Sodium
-	modImplementation "maven.modrinth:sodium:${sodium_version}"
-}
-
-sourceSets {
-	dev {
-		compileClasspath += main.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-	}
+	// modImplementation "maven.modrinth:sodium:${sodium_version}"
+	modCompileOnly "maven.modrinth:sodium:${sodium_version}"
 }
 
 loom {
-	accessWidenerPath = file('src/main/resources/simply-no-shading.accesswidener')
-
-	runs {
-		devClient {
-			client()
-			name = 'Dev Client'
-			source sourceSets.dev
-		}
-		devServer {
-			server()
-			name = 'Dev Server'
-			source sourceSets.dev
-		}
-	}
-
 	runConfigs.forEach(runConfig -> runConfig.vmArgs '-Dmixin.debug.export=true')
 }
 
 processResources {
-	inputs.property 'version', project.version
+	inputs.property 'version', project.mod_version
 
 	filesMatching('fabric.mod.json') {
-		expand 'version': project.version
+		expand 'loader_version': project.loader_version,
+			   'version': project.mod_version
 	}
 }
 
@@ -115,30 +106,26 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
 	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
+
+	doFirst {
+		println "Building ${project.archivesBaseName}-${project.version}..."
+	}
 }
 
-final String getModVersion() {
+final String getVersionExtension() {
 	final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
-	String modVersion = project.mod_version
 
 	if (githubRunNumber != null) {
-		modVersion += '-build.' + githubRunNumber
+		return '-build.' + githubRunNumber
 	} else {
-		modVersion += '-local.' + toFullHexString(globalNanoTime())
+		return '-local.' + toFullHexString(globalNanoTime())
 	}
-
-	return modVersion
 }
 
 final long globalNanoTime() {
-	final java.time.Instant now = java.time.Instant.now();
+	final java.time.Instant now = java.time.Instant.now()
 
 	return now.epochSecond * 1_000_000_000L + now.nano
-}
-
-final def includeModImplementation(final def dependency) {
-	dependencies.modImplementation(dependency)
-	return dependencies.include(dependency)
 }
 
 final int nonnegative(final int i) {
