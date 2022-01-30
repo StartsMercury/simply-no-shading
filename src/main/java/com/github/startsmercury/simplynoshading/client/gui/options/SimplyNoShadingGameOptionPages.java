@@ -13,6 +13,7 @@ import static me.jellysquid.mods.sodium.client.gui.options.OptionImpact.LOW;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
@@ -25,7 +26,6 @@ import me.jellysquid.mods.sodium.client.gui.options.OptionGroup;
 import me.jellysquid.mods.sodium.client.gui.options.OptionImpl;
 import me.jellysquid.mods.sodium.client.gui.options.OptionPage;
 import me.jellysquid.mods.sodium.client.gui.options.control.TickBoxControl;
-import net.minecraft.text.TranslatableText;
 
 /**
  * Contains page(s) shown in {@link SodiumOptionsGUI} which also contains pages
@@ -36,7 +36,7 @@ public class SimplyNoShadingGameOptionPages {
 	 * {@link #shading() Shading page} name.
 	 */
 	@Internal
-	public static final TranslatableText SHADING_NAME;
+	public static final TranslatableComponent SHADING_NAME;
 
 	/**
 	 * {@link #SHADING_NAME Shading page name} key.
@@ -46,7 +46,7 @@ public class SimplyNoShadingGameOptionPages {
 
 	static {
 		SHADING_NAME_KEY = "simply-no-shading.options.pages.shading";
-		SHADING_NAME = new TranslatableText(SHADING_NAME_KEY);
+		SHADING_NAME = new TranslatableComponent(SHADING_NAME_KEY);
 	}
 
 	/**

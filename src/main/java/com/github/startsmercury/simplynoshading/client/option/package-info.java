@@ -6,7 +6,7 @@
  *      SimplyNoShadingGameOptions
  * @see com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyBinding
  *      SimplyNoShadingKeyBinding
- * @see com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyBindings
+ * @see com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings
  *      SimplyNoShadingKeyBindings
  * @see com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption
  *      SimplyNoShadingOptionn

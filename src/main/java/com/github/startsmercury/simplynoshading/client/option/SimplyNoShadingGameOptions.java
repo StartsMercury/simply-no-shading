@@ -3,11 +3,11 @@ package com.github.startsmercury.simplynoshading.client.option;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import net.fabricmc.api.Environment;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.Options;
+import net.minecraft.client.KeyMapping;
 
 /**
- * Contains extensions to the class {@link GameOptions}.
+ * Contains extensions to the class {@link Options}.
  * <p>
  * <table border=1 style="margin:0;padding:0;">
  * <tr>
@@ -135,28 +135,28 @@ public interface SimplyNoShadingGameOptions {
 	 *
 	 * @return the constant reference of the property keyCycleShadeAll
 	 */
-	KeyBinding keyCycleShadeAll();
+	KeyMapping keyCycleShadeAll();
 
 	/**
 	 * Accessor for the property keyCycleShadeBlocks.
 	 *
 	 * @return the constant reference of the property keyCycleShadeBlocks
 	 */
-	KeyBinding keyCycleShadeBlocks();
+	KeyMapping keyCycleShadeBlocks();
 
 	/**
 	 * Accessor for the property keyCycleShadeClouds.
 	 *
 	 * @return the constant reference of the property keyCycleShadeClouds
 	 */
-	KeyBinding keyCycleShadeClouds();
+	KeyMapping keyCycleShadeClouds();
 
 	/**
 	 * Accessor for the property keyCycleShadeFluids.
 	 *
 	 * @return the constant reference of the property keyCycleShadeFluids
 	 */
-	KeyBinding keyCycleShadeFluids();
+	KeyMapping keyCycleShadeFluids();
 
 	/**
 	 * Setter for the property shadeAll.

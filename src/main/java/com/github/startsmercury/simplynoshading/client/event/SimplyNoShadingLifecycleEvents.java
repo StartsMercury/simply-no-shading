@@ -3,9 +3,9 @@ package com.github.startsmercury.simplynoshading.client.event;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyBindings;
+import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
 import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
-import com.github.startsmercury.simplynoshading.mixin.minecraft.WorldRendererAccessor;
+import com.github.startsmercury.simplynoshading.mixin.minecraft.LevelRendererAccessor;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.Event;
@@ -21,42 +21,42 @@ public class SimplyNoShadingLifecycleEvents {
 	 * {@linkplain ClientTickEvents#END_CLIENT_TICK tick} listeners that anticipates
 	 * key binding(s) being pressed. This method should only be called once by
 	 * {@link SimplyNoShadingClientMod#onInitializeClient()} after
-	 * {@link SimplyNoShadingKeyBindings#registerKeyBindings()}.
+	 * {@link SimplyNoShadingKeyMappings#registerKeyBindings()}.
 	 */
 	public static void registerLifecycleEvents() {
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
 			final SimplyNoShadingGameOptions clientOptions;
 			boolean reload;
 
-			clientOptions = (SimplyNoShadingGameOptions) client.options;
+			clientOptions = (SimplyNoShadingGameOptions) minecraft.options;
 			reload = false;
 
-			if (clientOptions.keyCycleShadeAll().wasPressed()) {
+			if (clientOptions.keyCycleShadeAll().consumeClick()) {
 				reload = true;
 
 				clientOptions.cycleShadeAll();
 			}
 
-			if (clientOptions.keyCycleShadeBlocks().wasPressed()) {
+			if (clientOptions.keyCycleShadeBlocks().consumeClick()) {
 				reload = true;
 
 				clientOptions.cycleShadeBlocks();
 			}
 
-			if (clientOptions.keyCycleShadeClouds().wasPressed()) {
+			if (clientOptions.keyCycleShadeClouds().consumeClick()) {
 				clientOptions.cycleShadeClouds();
 
-				((WorldRendererAccessor) client.worldRenderer).setCloudsDirty(true);
+				((LevelRendererAccessor) minecraft.levelRenderer).setGenerateClouds(true);
 			}
 
-			if (clientOptions.keyCycleShadeFluids().wasPressed()) {
+			if (clientOptions.keyCycleShadeFluids().consumeClick()) {
 				reload = true;
 
 				clientOptions.cycleShadeFluids();
 			}
 
 			if (reload) {
-				client.worldRenderer.reload();
+				minecraft.levelRenderer.allChanged();
 			}
 		});
 	}

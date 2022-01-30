@@ -2,28 +2,30 @@ package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyBindings;
+import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
 
 import net.fabricmc.api.Environment;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
 
 /**
- * Contains implementation of the extensions to the class {@link GameOptions}.
+ * Contains implementation of the extensions to the class {@link Options}.
  * <p>
  * <table border=1 style="margin:0;padding:0;">
  * <tr>
- * <td align=center>keyCycleShadeAll</td>
+ * <td align=center>{@link SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_ALL
+ * keyCycleShadeAll}</td>
  * <td align=center colspan=2>{@link #keyCycleShadeAll() get}</td>
  * </tr>
  * <tr>
- * <td align=center>keyCycleShadeBlocks</td>
+ * <td align=center>{@link SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_BLOCKS
+ * keyCycleShadeBlocks}</td>
  * <td align=center colspan=2>{@link #keyCycleShadeBlocks() get}</td>
  * </tr>
  * <tr>
@@ -57,8 +59,8 @@ import net.minecraft.client.option.KeyBinding;
  * </table>
  */
 @Environment(CLIENT)
-@Mixin(GameOptions.class)
-public class GameOptionsMixin implements SimplyNoShadingGameOptions {
+@Mixin(Options.class)
+public class OptionsMixin implements SimplyNoShadingGameOptions {
 	/**
 	 * Complementary flag to other shadeXxxs properties.
 	 * <p>
@@ -141,48 +143,48 @@ public class GameOptionsMixin implements SimplyNoShadingGameOptions {
 	}
 
 	/**
-	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_ALL
+	 * @see SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_ALL
 	 */
 	@Override
-	public final KeyBinding keyCycleShadeAll() {
-		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_ALL;
+	public final KeyMapping keyCycleShadeAll() {
+		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_ALL;
 	}
 
 	/**
-	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_BLOCKS
+	 * @see SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_BLOCKS
 	 */
 	@Override
-	public KeyBinding keyCycleShadeBlocks() {
-		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_BLOCKS;
+	public KeyMapping keyCycleShadeBlocks() {
+		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_BLOCKS;
 	}
 
 	/**
-	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_CLOUDS
+	 * @see SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_CLOUDS
 	 */
 	@Override
-	public KeyBinding keyCycleShadeClouds() {
-		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_CLOUDS;
+	public KeyMapping keyCycleShadeClouds() {
+		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_CLOUDS;
 	}
 
 	/**
-	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_FLUIDS
+	 * @see SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_FLUIDS
 	 */
 	@Override
-	public KeyBinding keyCycleShadeFluids() {
-		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_FLUIDS;
+	public KeyMapping keyCycleShadeFluids() {
+		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_FLUIDS;
 	}
 
 	/**
 	 * Allows the extensions to be incorporated even in the serialization process.
 	 *
-	 * @param visitor  the serialization api
-	 * @param callback the method callback
+	 * @param fieldAccess  the serialization api
+	 * @param ci the method callback
 	 */
-	@Inject(method = "accept", at = @At("HEAD"))
-	private final void onAcceptHead(final GameOptions.Visitor visitor, final CallbackInfo callback) {
-		this.shadeAll = visitor.visitBoolean("shadeAll", this.shadeAll);
-		this.shadeBlocks = visitor.visitBoolean("shadeBlocks", this.shadeBlocks);
-		this.shadeFluids = visitor.visitBoolean("shadeFluids", this.shadeFluids);
+	@Inject(method = "processOptions", at = @At("HEAD"))
+	private final void onAcceptHead(Options.FieldAccess fieldAccess, CallbackInfo ci) {
+		this.shadeAll = fieldAccess.process("shadeAll", this.shadeAll);
+		this.shadeBlocks = fieldAccess.process("shadeBlocks", this.shadeBlocks);
+		this.shadeFluids = fieldAccess.process("shadeFluids", this.shadeFluids);
 	}
 
 	/**

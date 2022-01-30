@@ -4,15 +4,15 @@
  *
  * @see com.github.startsmercury.simplynoshading.mixin.minecraft.BakedQuadMixin
  *      BakedQuadMixin
- * @see com.github.startsmercury.simplynoshading.mixin.minecraft.ClientWorldMixin
+ * @see com.github.startsmercury.simplynoshading.mixin.minecraft.ClientLevelMixin
  *      ClientWorldMixin
- * @see com.github.startsmercury.simplynoshading.mixin.minecraft.FluidRendererMixin
+ * @see com.github.startsmercury.simplynoshading.mixin.minecraft.LiquidBlockRendererMixin
  *      FluidRendererMixin
- * @see com.github.startsmercury.simplynoshading.mixin.minecraft.GameOptionsMixin
+ * @see com.github.startsmercury.simplynoshading.mixin.minecraft.OptionsMixin
  *      GameOptionsMixin
  * @see com.github.startsmercury.simplynoshading.mixin.minecraft.MinecraftMixinPlugin
  *      MinecraftMixinPlugin
- * @see com.github.startsmercury.simplynoshading.mixin.minecraft.VideoOptionsScreenMixin
+ * @see com.github.startsmercury.simplynoshading.mixin.minecraft.VideoSettingsScreenMixin
  *      VideoOptionsScreenMixin
  */
 @Internal
