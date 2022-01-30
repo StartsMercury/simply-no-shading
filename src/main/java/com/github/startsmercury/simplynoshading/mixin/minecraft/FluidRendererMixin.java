@@ -26,7 +26,7 @@ public class FluidRendererMixin {
 	 */
 	@ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F"), index = 1)
 	@SuppressWarnings("resource")
-	private final boolean modifyShadedOnRender(final boolean shaded) {
+	private final boolean changeShade(final boolean shaded) {
 		final SimplyNoShadingGameOptions options;
 
 		options = (SimplyNoShadingGameOptions) MinecraftClient.getInstance().options;

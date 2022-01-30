@@ -57,6 +57,21 @@ public final class SimplyNoShadingOption {
 	public static final String SHADE_BLOCKS_NAME_KEY;
 
 	/**
+	 * @see SimplyNoShadingGameOptions#cycleShadeClouds
+	 */
+	public static final CyclingOption<Boolean> SHADE_CLOUDS;
+
+	/**
+	 * {@link #SHADE_CLOUDS shadeClouds} name.
+	 */
+	public static final TranslatableText SHADE_CLOUDS_NAME;
+
+	/**
+	 * {@link #SHADE_CLOUDS_NAME shadeClouds name} key.
+	 */
+	public static final String SHADE_CLOUDS_NAME_KEY;
+
+	/**
 	 * @see SimplyNoShadingGameOptions#cycleShadeFluids
 	 */
 	public static final CyclingOption<Boolean> SHADE_FLUIDS;
@@ -76,9 +91,11 @@ public final class SimplyNoShadingOption {
 		SHADE_ALL_TOOLTIP = new TranslatableText("simply-no-shading.options.shade_all.tooltip");
 		SHADE_ANY_TOOLTIP = new TranslatableText("simply-no-shading.options.shade_any.tooltip");
 		SHADE_BLOCKS_NAME_KEY = "simply-no-shading.options.shade_blocks";
+		SHADE_CLOUDS_NAME_KEY = "simply-no-shading.options.shade_clouds";
 		SHADE_FLUIDS_NAME_KEY = "simply-no-shading.options.shade_fluids";
 		SHADE_ALL_NAME = new TranslatableText(SHADE_ALL_NAME_KEY);
 		SHADE_BLOCKS_NAME = new TranslatableText(SHADE_BLOCKS_NAME_KEY);
+		SHADE_CLOUDS_NAME = new TranslatableText(SHADE_CLOUDS_NAME_KEY);
 		SHADE_FLUIDS_NAME = new TranslatableText(SHADE_FLUIDS_NAME_KEY);
 		SHADE_ALL = CyclingOption.create(SHADE_ALL_NAME_KEY, SHADE_ALL_TOOLTIP,
 				options -> ((SimplyNoShadingGameOptions) options).isShadeAll(),
@@ -86,6 +103,9 @@ public final class SimplyNoShadingOption {
 		SHADE_BLOCKS = CyclingOption.create(SHADE_BLOCKS_NAME_KEY, SHADE_ANY_TOOLTIP,
 				options -> ((SimplyNoShadingGameOptions) options).isShadeBlocks(),
 				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeBlocks(shading));
+		SHADE_CLOUDS = CyclingOption.create(SHADE_CLOUDS_NAME_KEY, SHADE_ANY_TOOLTIP,
+				options -> ((SimplyNoShadingGameOptions) options).isShadeClouds(),
+				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeClouds(shading));
 		SHADE_FLUIDS = CyclingOption.create(SHADE_FLUIDS_NAME_KEY, SHADE_ANY_TOOLTIP,
 				options -> ((SimplyNoShadingGameOptions) options).isShadeFluids(),
 				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeFluids(shading));

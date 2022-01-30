@@ -2,11 +2,13 @@
   "simply-no-shading.key.categories.shading": "Shading",
   "simply-no-shading.key.cycle_shade_all": "Cycle Shade All",
   "simply-no-shading.key.cycle_shade_blocks": "Cycle Shade Blocks",
+  "simply-no-shading.key.cycle_shade_clouds": "Cycle Shade Clouds",
   "simply-no-shading.key.cycle_shade_fluids": "Cycle Shade Fluids",
   "simply-no-shading.options.pages.shading": "Shading",
   "simply-no-shading.options.shade_all": "Shade All",
   "simply-no-shading.options.shade_any.tooltip": "Overwritten if Shade All is on",
   "simply-no-shading.options.shade_all.tooltip": "Shading on the surface of blocks is a cheap imitation of directional light.",
   "simply-no-shading.options.shade_blocks": "Shade Blocks",
+  "simply-no-shading.options.shade_clouds": "Shade Clouds",
   "simply-no-shading.options.shade_fluids": "Shade Fluids"
 }

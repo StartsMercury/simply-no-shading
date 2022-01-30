@@ -30,7 +30,7 @@ public class BakedQuadMixin {
 	 */
 	@Inject(method = "hasShade", at = @At("RETURN"), cancellable = true)
 	@SuppressWarnings("resource")
-	private final void onHasShadeHead(final CallbackInfoReturnable<Boolean> callback) {
+	private final void changeShade(final CallbackInfoReturnable<Boolean> callback) {
 		final SimplyNoShadingGameOptions options;
 
 		options = (SimplyNoShadingGameOptions) MinecraftClient.getInstance().options;

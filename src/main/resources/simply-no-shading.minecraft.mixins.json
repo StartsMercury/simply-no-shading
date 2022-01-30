@@ -9,7 +9,9 @@
     "ClientWorldMixin",
     "FluidRendererMixin",
     "GameOptionsMixin",
-    "VideoOptionsScreenMixin"
+    "VideoOptionsScreenMixin",
+    "WorldRendererAccessor",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

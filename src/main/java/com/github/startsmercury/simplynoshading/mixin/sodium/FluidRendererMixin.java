@@ -36,9 +36,9 @@ public class FluidRendererMixin {
 	 */
 	@ModifyVariable(method = "calculateQuadColors", at = @At("HEAD"), argsOnly = true, remap = false)
 	@SuppressWarnings("resource")
-	private final float modifyBrightnessOnCalculateQuadColors(final float target, final ModelQuadView quad,
-			final BlockRenderView world, final BlockPos pos, final LightPipeline lighter, final Direction dir,
-			final float brightness, final ColorSampler<FluidState> colorSampler, final FluidState fluidState) {
+	private final float changeShade(final float target, final ModelQuadView quad, final BlockRenderView world,
+			final BlockPos pos, final LightPipeline lighter, final Direction dir, final float brightness,
+			final ColorSampler<FluidState> colorSampler, final FluidState fluidState) {
 		final SimplyNoShadingGameOptions options;
 
 		options = (SimplyNoShadingGameOptions) MinecraftClient.getInstance().options;

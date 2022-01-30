@@ -33,6 +33,11 @@ public final class SimplyNoShadingKeyBindings {
 	public static final KeyBinding KEY_CYCLE_SHADE_BLOCKS;
 
 	/**
+	 * @see SimplyNoShadingGameOptions#keyCycleShadeClouds()
+	 */
+	public static final KeyBinding KEY_CYCLE_SHADE_CLOUDS;
+
+	/**
 	 * @see SimplyNoShadingGameOptions#keyCycleShadeFluids()
 	 */
 	public static final KeyBinding KEY_CYCLE_SHADE_FLUIDS;
@@ -40,6 +45,8 @@ public final class SimplyNoShadingKeyBindings {
 	static {
 		KEY_CYCLE_SHADE_ALL = new KeyBinding("simply-no-shading.key.cycle_shade_all", GLFW_KEY_F6, SHADING_CATEGORY);
 		KEY_CYCLE_SHADE_BLOCKS = new KeyBinding("simply-no-shading.key.cycle_shade_blocks", GLFW_KEY_UNKNOWN,
+				SHADING_CATEGORY);
+		KEY_CYCLE_SHADE_CLOUDS = new KeyBinding("simply-no-shading.key.cycle_shade_clouds", GLFW_KEY_UNKNOWN,
 				SHADING_CATEGORY);
 		KEY_CYCLE_SHADE_FLUIDS = new KeyBinding("simply-no-shading.key.cycle_shade_fluids", GLFW_KEY_UNKNOWN,
 				SHADING_CATEGORY);
@@ -54,6 +61,7 @@ public final class SimplyNoShadingKeyBindings {
 	public static void registerKeyBindings() {
 		registerKeyBinding(KEY_CYCLE_SHADE_ALL);
 		registerKeyBinding(KEY_CYCLE_SHADE_BLOCKS);
+		registerKeyBinding(KEY_CYCLE_SHADE_CLOUDS);
 		registerKeyBinding(KEY_CYCLE_SHADE_FLUIDS);
 	}
 }

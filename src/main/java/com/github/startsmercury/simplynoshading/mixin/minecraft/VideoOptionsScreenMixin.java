@@ -2,6 +2,7 @@ package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
 import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_ALL;
 import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_BLOCKS;
+import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_CLOUDS;
 import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_FLUIDS;
 
 import org.spongepowered.asm.mixin.Final;
@@ -35,13 +36,14 @@ public class VideoOptionsScreenMixin {
 	 */
 	@Inject(method = "<clinit>", at = @At("RETURN"))
 	private static void onClinitReturn(final CallbackInfo callback) {
-		final Option[] appendedOptions = new Option[OPTIONS.length + 3];
+		final Option[] appendedOptions = new Option[OPTIONS.length + 4];
 
 		System.arraycopy(OPTIONS, 0, appendedOptions, 0, OPTIONS.length);
 
 		appendedOptions[OPTIONS.length] = SHADE_ALL;
 		appendedOptions[OPTIONS.length + 1] = SHADE_BLOCKS;
-		appendedOptions[OPTIONS.length + 2] = SHADE_FLUIDS;
+		appendedOptions[OPTIONS.length + 2] = SHADE_CLOUDS;
+		appendedOptions[OPTIONS.length + 3] = SHADE_FLUIDS;
 
 		OPTIONS = appendedOptions;
 	}
