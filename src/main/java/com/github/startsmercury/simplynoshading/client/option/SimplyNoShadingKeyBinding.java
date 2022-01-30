@@ -1,9 +1,9 @@
 package com.github.startsmercury.simplynoshading.client.option;
 
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 
 /**
- * Contains member(s) related to {@link KeyBinding}.
+ * Contains member(s) related to {@link KeyMapping}.
  */
 public interface SimplyNoShadingKeyBinding {
 	/**

@@ -6,10 +6,10 @@
   "plugin": "com.github.startsmercury.simplynoshading.mixin.minecraft.MinecraftMixinPlugin",
   "client": [
     "BakedQuadMixin",
-    "ClientWorldMixin",
-    "FluidRendererMixin",
-    "GameOptionsMixin",
-    "VideoOptionsScreenMixin"
+    "ClientLevelMixin",
+    "LiquidBlockRendererMixin",
+    "OptionsMixin",
+    "VideoSettingsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

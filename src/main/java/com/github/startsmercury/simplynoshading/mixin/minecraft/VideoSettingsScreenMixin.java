@@ -4,6 +4,8 @@ import static com.github.startsmercury.simplynoshading.client.option.SimplyNoSha
 import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_BLOCKS;
 import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_FLUIDS;
 
+import net.minecraft.client.Option;
+import net.minecraft.client.gui.screens.VideoSettingsScreen;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -12,14 +14,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.gui.screen.option.VideoOptionsScreen;
-import net.minecraft.client.option.Option;
-
 /**
- * {@link Mixin mixin} for the class {@link VideoOptionsScreen}.
+ * {@link Mixin mixin} for the class {@link VideoSettingsScreen}.
  */
-@Mixin(VideoOptionsScreen.class)
-public class VideoOptionsScreenMixin {
+@Mixin(VideoSettingsScreen.class)
+public class VideoSettingsScreenMixin {
 	/**
 	 * This shadowed field allows this mixin to insert additional options.
 	 */
