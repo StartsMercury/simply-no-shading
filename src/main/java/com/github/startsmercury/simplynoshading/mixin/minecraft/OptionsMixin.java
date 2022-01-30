@@ -159,11 +159,11 @@ public class OptionsMixin implements SimplyNoShadingGameOptions {
 	}
 
 	/**
-	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_CLOUDS
+	 * @see SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_CLOUDS
 	 */
 	@Override
-	public KeyBinding keyCycleShadeClouds() {
-		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_CLOUDS;
+	public KeyMapping keyCycleShadeClouds() {
+		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_CLOUDS;
 	}
 
 	/**

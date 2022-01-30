@@ -58,12 +58,12 @@ public final class SimplyNoShadingOption {
 	/**
 	 * @see SimplyNoShadingGameOptions#cycleShadeClouds
 	 */
-	public static final CyclingOption<Boolean> SHADE_CLOUDS;
+	public static final CycleOption<Boolean> SHADE_CLOUDS;
 
 	/**
 	 * {@link #SHADE_CLOUDS shadeClouds} name.
 	 */
-	public static final TranslatableText SHADE_CLOUDS_NAME;
+	public static final TranslatableComponent SHADE_CLOUDS_NAME;
 
 	/**
 	 * {@link #SHADE_CLOUDS_NAME shadeClouds name} key.

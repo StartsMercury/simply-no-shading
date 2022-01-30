@@ -149,7 +149,7 @@ public interface SimplyNoShadingGameOptions {
 	 *
 	 * @return the constant reference of the property keyCycleShadeClouds
 	 */
-	KeyBinding keyCycleShadeClouds();
+	KeyMapping keyCycleShadeClouds();
 
 	/**
 	 * Accessor for the property keyCycleShadeFluids.

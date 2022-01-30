@@ -5,7 +5,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
 import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
 import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
-import com.github.startsmercury.simplynoshading.mixin.minecraft.WorldRendererAccessor;
+import com.github.startsmercury.simplynoshading.mixin.minecraft.LevelRendererAccessor;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.Event;
@@ -46,7 +46,7 @@ public class SimplyNoShadingLifecycleEvents {
 			if (clientOptions.keyCycleShadeClouds().consumeClick()) {
 				clientOptions.cycleShadeClouds();
 
-				((WorldRendererAccessor) minecraft.worldRenderer).setCloudsDirty(true);
+				((LevelRendererAccessor) minecraft.levelRenderer).setGenerateClouds(true);
 			}
 
 			if (clientOptions.keyCycleShadeFluids().consumeClick()) {
