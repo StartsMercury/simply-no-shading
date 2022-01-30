@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 import net.fabricmc.api.Environment;
 
@@ -26,7 +26,7 @@ public class ClientLevelMixin {
 	 * @implSpec {@code shaded && isShadeAll()}
 	 */
 	@ModifyVariable(method = "getShade", at = @At("HEAD"), argsOnly = true)
-	private final boolean modifyShadedOnGetBrightness(final boolean shaded) {
-		return shaded && ((SimplyNoShadingGameOptions) Minecraft.getInstance().options).isShadeAll();
+	private final boolean changeReturnedShade(final boolean shaded) {
+		return shaded && ((SimplyNoShadingOptions) Minecraft.getInstance().options).isShadeAll();
 	}
 }

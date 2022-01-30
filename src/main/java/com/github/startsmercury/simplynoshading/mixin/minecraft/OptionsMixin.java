@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 import net.fabricmc.api.Environment;
 
@@ -60,7 +60,7 @@ import net.fabricmc.api.Environment;
  */
 @Environment(CLIENT)
 @Mixin(Options.class)
-public class OptionsMixin implements SimplyNoShadingGameOptions {
+public class OptionsMixin implements SimplyNoShadingOptions {
 	/**
 	 * Complementary flag to other shadeXxxs properties.
 	 * <p>

@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.client.option;
+package com.github.startsmercury.simplynoshading.client;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
@@ -49,7 +49,7 @@ import net.minecraft.client.KeyMapping;
  * </table>
  */
 @Environment(CLIENT)
-public interface SimplyNoShadingGameOptions {
+public interface SimplyNoShadingOptions {
 	/**
 	 * Cycles through the next values for the property shadeAll.
 	 * <p>
@@ -162,7 +162,7 @@ public interface SimplyNoShadingGameOptions {
 	 * Setter for the property shadeAll.
 	 *
 	 * @param shadeAll the new value
-	 * @see SimplyNoShadingGameOptions#isShadeAll()
+	 * @see SimplyNoShadingOptions#isShadeAll()
 	 */
 	void setShadeAll(boolean shadeAll);
 

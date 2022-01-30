@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.client.option;
+package com.github.startsmercury.simplynoshading.client;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
@@ -15,7 +15,7 @@ import net.fabricmc.api.Environment;
 @Internal
 public final class SimplyNoShadingOption {
 	/**
-	 * @see SimplyNoShadingGameOptions#cycleShadeAll
+	 * @see SimplyNoShadingOptions#cycleShadeAll
 	 */
 	public static final CycleOption<Boolean> SHADE_ALL;
 
@@ -41,7 +41,7 @@ public final class SimplyNoShadingOption {
 	public static final TranslatableComponent SHADE_ANY_TOOLTIP;
 
 	/**
-	 * @see SimplyNoShadingGameOptions#cycleShadeBlocks
+	 * @see SimplyNoShadingOptions#cycleShadeBlocks
 	 */
 	public static final CycleOption<Boolean> SHADE_BLOCKS;
 
@@ -56,7 +56,7 @@ public final class SimplyNoShadingOption {
 	public static final String SHADE_BLOCKS_NAME_KEY;
 
 	/**
-	 * @see SimplyNoShadingGameOptions#cycleShadeClouds
+	 * @see SimplyNoShadingOptions#cycleShadeClouds
 	 */
 	public static final CycleOption<Boolean> SHADE_CLOUDS;
 
@@ -71,7 +71,7 @@ public final class SimplyNoShadingOption {
 	public static final String SHADE_CLOUDS_NAME_KEY;
 
 	/**
-	 * @see SimplyNoShadingGameOptions#cycleShadeFluids
+	 * @see SimplyNoShadingOptions#cycleShadeFluids
 	 */
 	public static final CycleOption<Boolean> SHADE_FLUIDS;
 
@@ -97,16 +97,16 @@ public final class SimplyNoShadingOption {
 		SHADE_CLOUDS_NAME = new TranslatableComponent(SHADE_CLOUDS_NAME_KEY);
 		SHADE_FLUIDS_NAME = new TranslatableComponent(SHADE_FLUIDS_NAME_KEY);
 		SHADE_ALL = CycleOption.createOnOff(SHADE_ALL_NAME_KEY, SHADE_ALL_TOOLTIP,
-				options -> ((SimplyNoShadingGameOptions) options).isShadeAll(),
-				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeAll(shading));
+				options -> ((SimplyNoShadingOptions) options).isShadeAll(),
+				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeAll(shading));
 		SHADE_BLOCKS = CycleOption.createOnOff(SHADE_BLOCKS_NAME_KEY, SHADE_ANY_TOOLTIP,
-				options -> ((SimplyNoShadingGameOptions) options).isShadeBlocks(),
-				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeBlocks(shading));
+				options -> ((SimplyNoShadingOptions) options).isShadeBlocks(),
+				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeBlocks(shading));
 		SHADE_CLOUDS = CycleOption.createOnOff(SHADE_CLOUDS_NAME_KEY, SHADE_ANY_TOOLTIP,
-				options -> ((SimplyNoShadingGameOptions) options).isShadeClouds(),
-				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeClouds(shading));
+				options -> ((SimplyNoShadingOptions) options).isShadeClouds(),
+				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeClouds(shading));
 		SHADE_FLUIDS = CycleOption.createOnOff(SHADE_FLUIDS_NAME_KEY, SHADE_ANY_TOOLTIP,
-				options -> ((SimplyNoShadingGameOptions) options).isShadeFluids(),
-				(options, option, shading) -> ((SimplyNoShadingGameOptions) options).setShadeFluids(shading));
+				options -> ((SimplyNoShadingOptions) options).isShadeFluids(),
+				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeFluids(shading));
 	}
 }

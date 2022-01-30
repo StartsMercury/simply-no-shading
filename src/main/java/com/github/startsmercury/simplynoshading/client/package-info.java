@@ -4,7 +4,10 @@
  *
  * @see com.github.startsmercury.simplynoshading.client.event
  * @see com.github.startsmercury.simplynoshading.client.gui
- * @see com.github.startsmercury.simplynoshading.client.option
- * @see com.github.startsmercury.simplynoshading.client.util
+ * @see com.github.startsmercury.simplynoshading.blaze3d.platform
+ * @see com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMapping SimplyNoShadingKeyMapping
+ * @see com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings SimplyNoShadingKeyMappings
+ * @see com.github.startsmercury.simplynoshading.client.SimplyNoShadingOption SimplyNoShadingOption
+ * @see com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions SimplyNoShadingOptions
  */
 package com.github.startsmercury.simplynoshading.client;

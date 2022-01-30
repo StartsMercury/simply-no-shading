@@ -1,12 +1,13 @@
 package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
-import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_ALL;
-import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_BLOCKS;
-import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_CLOUDS;
-import static com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingOption.SHADE_FLUIDS;
-
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.screens.VideoSettingsScreen;
+
+import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingOption.SHADE_ALL;
+import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingOption.SHADE_BLOCKS;
+import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingOption.SHADE_CLOUDS;
+import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingOption.SHADE_FLUIDS;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;

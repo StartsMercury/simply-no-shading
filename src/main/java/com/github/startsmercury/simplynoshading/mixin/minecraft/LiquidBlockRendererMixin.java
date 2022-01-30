@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 /**
  * {@link Mixin mixin} for the class {@link FluidRenderer}.
@@ -16,8 +16,8 @@ import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGam
 public class LiquidBlockRendererMixin {
 	/**
 	 * Makes all fluids require either
-	 * {@link SimplyNoShadingGameOptions#isShadeAll()} or
-	 * {@link SimplyNoShadingGameOptions#isShadeFluids()} to return {@code true} to
+	 * {@link SimplyNoShadingOptions#isShadeAll()} or
+	 * {@link SimplyNoShadingOptions#isShadeFluids()} to return {@code true} to
 	 * shade.
 	 *
 	 * @param shaded the raw shade
@@ -27,9 +27,9 @@ public class LiquidBlockRendererMixin {
 	@ModifyArg(method = "tesselate", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"), index = 1)
 	@SuppressWarnings("resource")
 	private final boolean changeShade(final boolean shaded) {
-		final SimplyNoShadingGameOptions options;
+		final SimplyNoShadingOptions options;
 
-		options = (SimplyNoShadingGameOptions) Minecraft.getInstance().options;
+		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
 		return shaded && (options.isShadeAll() || options.isShadeFluids());
 	}

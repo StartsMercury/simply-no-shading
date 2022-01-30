@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 /**
  * {@link Mixin mixin} for the class {@link LevelRendererMixin}.
@@ -15,8 +15,8 @@ import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGam
 public class LevelRendererMixin {
 	/**
 	 * Makes all model faces require either
-	 * {@link SimplyNoShadingGameOptions#isShadeAll()} or
-	 * {@link SimplyNoShadingGameOptions#isShadeClouds()} to return {@code true} to
+	 * {@link SimplyNoShadingOptions#isShadeAll()} or
+	 * {@link SimplyNoShadingOptions#isShadeClouds()} to return {@code true} to
 	 * shade.
 	 *
 	 * @implSpec {@code hasShade() && (isShadeAll || isShadeClouds())}
@@ -29,9 +29,9 @@ public class LevelRendererMixin {
 			@Constant(floatValue = 0.8F, ordinal = 2) })
 	@SuppressWarnings("resource")
 	private float changeCloudShade(final float shade) {
-		final SimplyNoShadingGameOptions options;
+		final SimplyNoShadingOptions options;
 
-		options = (SimplyNoShadingGameOptions) Minecraft.getInstance().options;
+		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
 		return options.isShadeAll() || options.isShadeClouds() ? shade : 1.0F;
 	}

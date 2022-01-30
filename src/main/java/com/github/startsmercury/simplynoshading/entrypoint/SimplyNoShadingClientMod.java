@@ -4,8 +4,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
 import com.github.startsmercury.simplynoshading.client.event.SimplyNoShadingLifecycleEvents;
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;

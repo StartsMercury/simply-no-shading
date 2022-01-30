@@ -2,8 +2,8 @@ package com.github.startsmercury.simplynoshading.client.event;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingKeyMappings;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
 import com.github.startsmercury.simplynoshading.mixin.minecraft.LevelRendererAccessor;
 
@@ -25,10 +25,10 @@ public class SimplyNoShadingLifecycleEvents {
 	 */
 	public static void registerLifecycleEvents() {
 		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
-			final SimplyNoShadingGameOptions clientOptions;
+			final SimplyNoShadingOptions clientOptions;
 			boolean reload;
 
-			clientOptions = (SimplyNoShadingGameOptions) minecraft.options;
+			clientOptions = (SimplyNoShadingOptions) minecraft.options;
 			reload = false;
 
 			if (clientOptions.keyCycleShadeAll().consumeClick()) {

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import com.github.startsmercury.simplynoshading.client.option.SimplyNoShadingGameOptions;
+import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 import me.jellysquid.mods.sodium.client.model.light.LightPipeline;
 import me.jellysquid.mods.sodium.client.model.quad.ModelQuadView;
@@ -23,8 +23,8 @@ import me.jellysquid.mods.sodium.client.render.pipeline.FluidRenderer;
 public class FluidRendererMixin {
 	/**
 	 * Makes all fluids (rendered by sodium) require either
-	 * {@link SimplyNoShadingGameOptions#isShadeAll()} or
-	 * {@link SimplyNoShadingGameOptions#isShadeFluids()} to return {@code true} to
+	 * {@link SimplyNoShadingOptions#isShadeAll()} or
+	 * {@link SimplyNoShadingOptions#isShadeFluids()} to return {@code true} to
 	 * shade.
 	 *
 	 * @param dir the raw shade
@@ -36,9 +36,9 @@ public class FluidRendererMixin {
 	private final float changeShade(final float target, final ModelQuadView quad,
 				final BlockAndTintGetter world, final BlockPos pos, final LightPipeline lighter, final Direction dir,
 				final float brightness, final ColorSampler<FluidState> colorSampler, final FluidState fluidState) {
-		final SimplyNoShadingGameOptions options;
+		final SimplyNoShadingOptions options;
 
-		options = (SimplyNoShadingGameOptions) Minecraft.getInstance().options;
+		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
 		return world.getShade(dir == Direction.DOWN ? Direction.UP : dir, options.isShadeAll() || options.isShadeFluids());
 	}
