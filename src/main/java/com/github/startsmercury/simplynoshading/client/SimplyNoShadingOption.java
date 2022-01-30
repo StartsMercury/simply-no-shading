@@ -98,15 +98,15 @@ public final class SimplyNoShadingOption {
 		SHADE_FLUIDS_NAME = new TranslatableComponent(SHADE_FLUIDS_NAME_KEY);
 		SHADE_ALL = CycleOption.createOnOff(SHADE_ALL_NAME_KEY, SHADE_ALL_TOOLTIP,
 				options -> ((SimplyNoShadingOptions) options).isShadeAll(),
-				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeAll(shading));
+				(options, option, shadeAll) -> ((SimplyNoShadingOptions) options).setShadeAll(shadeAll));
 		SHADE_BLOCKS = CycleOption.createOnOff(SHADE_BLOCKS_NAME_KEY, SHADE_ANY_TOOLTIP,
 				options -> ((SimplyNoShadingOptions) options).isShadeBlocks(),
-				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeBlocks(shading));
+				(options, option, shadeBlocks) -> ((SimplyNoShadingOptions) options).setShadeBlocks(shadeBlocks));
 		SHADE_CLOUDS = CycleOption.createOnOff(SHADE_CLOUDS_NAME_KEY, SHADE_ANY_TOOLTIP,
 				options -> ((SimplyNoShadingOptions) options).isShadeClouds(),
-				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeClouds(shading));
+				(options, option, shadeClouds) -> ((SimplyNoShadingOptions) options).setShadeClouds(shadeClouds));
 		SHADE_FLUIDS = CycleOption.createOnOff(SHADE_FLUIDS_NAME_KEY, SHADE_ANY_TOOLTIP,
 				options -> ((SimplyNoShadingOptions) options).isShadeFluids(),
-				(options, option, shading) -> ((SimplyNoShadingOptions) options).setShadeFluids(shading));
+				(options, option, shadeFluids) -> ((SimplyNoShadingOptions) options).setShadeFluids(shadeFluids));
 	}
 }

@@ -26,19 +26,19 @@ public class SimplyNoShadingLifecycleEvents {
 	public static void registerLifecycleEvents() {
 		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
 			final SimplyNoShadingOptions clientOptions;
-			boolean reload;
+			boolean changed;
 
 			clientOptions = (SimplyNoShadingOptions) minecraft.options;
-			reload = false;
+			changed = false;
 
 			if (clientOptions.keyCycleShadeAll().consumeClick()) {
-				reload = true;
+				changed = true;
 
 				clientOptions.cycleShadeAll();
 			}
 
 			if (clientOptions.keyCycleShadeBlocks().consumeClick()) {
-				reload = true;
+				changed = true;
 
 				clientOptions.cycleShadeBlocks();
 			}
@@ -50,12 +50,12 @@ public class SimplyNoShadingLifecycleEvents {
 			}
 
 			if (clientOptions.keyCycleShadeFluids().consumeClick()) {
-				reload = true;
+				changed = true;
 
 				clientOptions.cycleShadeFluids();
 			}
 
-			if (reload) {
+			if (changed) {
 				minecraft.levelRenderer.allChanged();
 			}
 		});

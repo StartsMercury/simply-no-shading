@@ -2,8 +2,6 @@ package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,6 +11,8 @@ import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMapping
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 import net.fabricmc.api.Environment;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Options;
 
 /**
  * Contains implementation of the extensions to the class {@link Options}.
@@ -177,11 +177,11 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	/**
 	 * Allows the extensions to be incorporated even in the serialization process.
 	 *
-	 * @param fieldAccess  the serialization api
-	 * @param ci the method callback
+	 * @param fieldAccess the serialization api
+	 * @param ci          the method callback
 	 */
 	@Inject(method = "processOptions", at = @At("HEAD"))
-	private final void onAcceptHead(Options.FieldAccess fieldAccess, CallbackInfo ci) {
+	private final void onAcceptHead(final Options.FieldAccess fieldAccess, final CallbackInfo ci) {
 		this.shadeAll = fieldAccess.process("shadeAll", this.shadeAll);
 		this.shadeBlocks = fieldAccess.process("shadeBlocks", this.shadeBlocks);
 		this.shadeFluids = fieldAccess.process("shadeFluids", this.shadeFluids);
@@ -193,6 +193,8 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeAll(final boolean shadeAll) {
+		System.err.println("[shadeAll] " + this.shadeAll + " -> " + shadeAll);
+
 		this.shadeAll = shadeAll;
 	}
 
@@ -202,6 +204,8 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeBlocks(final boolean shadeBlocks) {
+		System.err.println("[shadeBlocks] " + this.shadeBlocks + " -> " + shadeBlocks);
+
 		this.shadeBlocks = shadeBlocks;
 	}
 
@@ -211,6 +215,8 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeClouds(final boolean shadeClouds) {
+		System.err.println("[shadeClouds] " + this.shadeClouds + " -> " + shadeClouds);
+
 		this.shadeClouds = shadeClouds;
 	}
 
@@ -220,6 +226,8 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeFluids(final boolean shadeFluids) {
+		System.err.println("[shadeFluids] " + this.shadeFluids + " -> " + shadeFluids);
+
 		this.shadeFluids = shadeFluids;
 	}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.components.Button;
@@ -51,7 +52,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	@Override
+	@SuppressWarnings("resource")
 	public void removed() {
+		Minecraft.getInstance().levelRenderer.allChanged();
 	}
 	
 	@Override
