@@ -55,4 +55,5 @@ public class VideoSettingsScreenMixin {
 				list.addSmall(options[i], (i < options.length - 1) ? options[i + 1] : null);
 			}
 		}
-	}}
+	}
+}
