@@ -7,11 +7,12 @@
   "client": [
     "BakedQuadMixin",
     "ClientLevelMixin",
+    "LevelRendererAccessor",
+    "LevelRendererMixin",
     "LiquidBlockRendererMixin",
     "OptionsMixin",
-    "VideoSettingsScreenMixin",
-    "LevelRendererAccessor",
-    "LevelRendererMixin"
+    "OptionsSubScreenAccessor",
+    "VideoSettingsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

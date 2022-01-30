@@ -41,8 +41,8 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
-	// Fabric API
-	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	// Fabric Rendering Fluids (V1)
+	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
 	// Fabric Key Binding API (V1)
 	includeModImplementation fabricApi.module('fabric-key-binding-api-v1', project.fabric_version)
@@ -53,8 +53,7 @@ dependencies {
 	// JOML
 	runtimeOnly "org.joml:joml:${joml_version}"
 	
-	// Lazy DFU makes the dev env start up much faster by loading DataFixerUpper
-	// lazily, which would otherwise take a long time. We rarely need it anyway.
+	// Lazy DFU
 	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
 		exclude(module: 'fabric-loader')
 	}
@@ -67,7 +66,13 @@ dependencies {
 		// Sodium
 		modImplementation "maven.modrinth:sodium:${sodium_version}"
 		break;
-	case 'vanilla':
+	default:
+		// Fabric Rendering Fluids (V1)
+		modCompileOnly fabricApi.module('fabric-rendering-fluids-v1', project.fabric_version)
+
+		// Fabric Rendering Data Attachment (V1)
+		modCompileOnly fabricApi.module('fabric-rendering-data-attachment-v1', project.fabric_version)
+
 		// Sodium
 		modCompileOnly "maven.modrinth:sodium:${sodium_version}"
 		break;

@@ -87,13 +87,13 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	/**
 	 * Complementary flag to the shadeAll property.
 	 * <p>
-	 * Default value is {@code false}.
+	 * Default value is {@code true}.
 	 *
 	 * @see #isShadeClouds()
 	 * @see #setShadeClouds(boolean)
 	 * @see #shadeAll
 	 */
-	private boolean shadeClouds;
+	private boolean shadeClouds = true;
 
 	/**
 	 * Complementary flag to the shadeAll property.
