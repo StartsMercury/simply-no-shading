@@ -23,6 +23,13 @@ configurations {
 
 repositories {
 	maven { url = 'https://api.modrinth.com/maven' }
+	maven {
+		url = 'https://cursemaven.com'
+
+		content {
+			includeGroup 'curse.maven'
+		}
+	}
 	maven { url = 'https://jitpack.io' }
 	maven { url = 'https://maven.shedaniel.me' }
 	maven { url = 'https://maven.terraformersmc.com' }
@@ -34,17 +41,14 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
+	// Fabric API
+	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
 	// Fabric Key Binding API (V1)
-    includeModImplementation fabricApi.module('fabric-key-binding-api-v1', project.fabric_version)
-    
+	includeModImplementation fabricApi.module('fabric-key-binding-api-v1', project.fabric_version)
+	
 	// Fabric Lifecycle Events (V1)
-    includeModImplementation fabricApi.module('fabric-lifecycle-events-v1', project.fabric_version)
-    
-	// Fabric Rendering Data Attachments (V1)
-    modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', project.fabric_version)
-    
-	// Fabric Rendering Fluids (V1)
-    modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', project.fabric_version)
+	includeModImplementation fabricApi.module('fabric-lifecycle-events-v1', project.fabric_version)
 	
 	// JOML
 	runtimeOnly "org.joml:joml:${joml_version}"
@@ -55,9 +59,19 @@ dependencies {
 		exclude(module: 'fabric-loader')
 	}
 
-	// Sodium
-	// modImplementation "maven.modrinth:sodium:${sodium_version}"
-	modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+	// Smooth Boot
+	modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
+
+	switch (System.getProperty('simply-no-shading.mode')) {
+	case 'sodium':
+		// Sodium
+		modImplementation "maven.modrinth:sodium:${sodium_version}"
+		break;
+	case 'vanilla':
+		// Sodium
+		modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+		break;
+	}
 }
 
 loom {
@@ -108,7 +122,7 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17
 
 	doFirst {
-		println "Building ${project.archivesBaseName}-${project.version}..."
+		println "Compiling ${project.archivesBaseName}-${project.version}..."
 	}
 }
 

@@ -20,7 +20,7 @@ import net.fabricmc.api.Environment;
 public class ClientLevelMixin {
 	/**
 	 * Adds an extra layer of check to make shading configuration consistent.
-	 * 
+	 *
 	 * @param shaded the raw shade
 	 * @return the expected shade
 	 * @implSpec {@code shaded && isShadeAll()}

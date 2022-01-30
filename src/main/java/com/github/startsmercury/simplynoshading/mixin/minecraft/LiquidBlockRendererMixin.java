@@ -26,7 +26,7 @@ public class LiquidBlockRendererMixin {
 	 */
 	@ModifyArg(method = "tesselate", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"), index = 1)
 	@SuppressWarnings("resource")
-	private final boolean modifyShadedOnRender(final boolean shaded) {
+	private final boolean changeShade(final boolean shaded) {
 		final SimplyNoShadingGameOptions options;
 
 		options = (SimplyNoShadingGameOptions) Minecraft.getInstance().options;

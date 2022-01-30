@@ -29,22 +29,30 @@ import net.fabricmc.api.Environment;
  * <td align=center colspan=2>{@link #keyCycleShadeBlocks() get}</td>
  * </tr>
  * <tr>
- * <td align=center>{@link SimplyNoShadingKeyMappings#KEY_CYCLE_SHADE_FLUIDS
- * keyCycleShadeFluids}</td>
+ * <td align=center>keyCycleShadeClouds</td>
+ * <td align=center colspan=2>{@link #keyCycleShadeClouds() get}</td>
+ * </tr>
+ * <tr>
+ * <td align=center>keyCycleShadeFluids</td>
  * <td align=center colspan=2>{@link #keyCycleShadeFluids() get}</td>
  * </tr>
  * <tr>
- * <td align=center>{@link #shadeAll}</td>
+ * <td align=center>shadeAll</td>
  * <td align=center>{@link #isShadeAll() get}</td>
  * <td align=center>{@link #setShadeAll(boolean) set</td>
  * </tr>
  * <tr>
- * <td align=center>{@link #shadeBlocks}</td>
+ * <td align=center>shadeBlocks</td>
  * <td align=center>{@link #isShadeBlocks() get}</td>
  * <td align=center>{@link #setShadeBlocks(boolean) set</td>
  * </tr>
  * <tr>
- * <td align=center>{@link #shadeFluids}</td>
+ * <td align=center>shadeClouds</td>
+ * <td align=center>{@link #isShadeClouds() get}</td>
+ * <td align=center>{@link #setShadeClouds(boolean) set</td>
+ * </tr>
+ * <tr>
+ * <td align=center>shadeFluids</td>
  * <td align=center>{@link #isShadeFluids() get}</td>
  * <td align=center>{@link #setShadeFluids(boolean) set</td>
  * </tr>
@@ -81,6 +89,17 @@ public class OptionsMixin implements SimplyNoShadingGameOptions {
 	 * <p>
 	 * Default value is {@code false}.
 	 *
+	 * @see #isShadeClouds()
+	 * @see #setShadeClouds(boolean)
+	 * @see #shadeAll
+	 */
+	private boolean shadeClouds;
+
+	/**
+	 * Complementary flag to the shadeAll property.
+	 * <p>
+	 * Default value is {@code false}.
+	 *
 	 * @see #isShadeFluids()
 	 * @see #setShadeFluids(boolean)
 	 * @see #shadeAll
@@ -106,6 +125,15 @@ public class OptionsMixin implements SimplyNoShadingGameOptions {
 	}
 
 	/**
+	 * @see #shadeClouds
+	 * @see #setShadeClouds(boolean)
+	 */
+	@Override
+	public boolean isShadeClouds() {
+		return this.shadeClouds;
+	}
+
+	/**
 	 * @see #shadeFluids
 	 * @see #setShadeFluids(boolean)
 	 */
@@ -128,6 +156,14 @@ public class OptionsMixin implements SimplyNoShadingGameOptions {
 	@Override
 	public KeyMapping keyCycleShadeBlocks() {
 		return SimplyNoShadingKeyMappings.KEY_CYCLE_SHADE_BLOCKS;
+	}
+
+	/**
+	 * @see SimplyNoShadingKeyBindings#KEY_CYCLE_SHADE_CLOUDS
+	 */
+	@Override
+	public KeyBinding keyCycleShadeClouds() {
+		return SimplyNoShadingKeyBindings.KEY_CYCLE_SHADE_CLOUDS;
 	}
 
 	/**
@@ -167,6 +203,15 @@ public class OptionsMixin implements SimplyNoShadingGameOptions {
 	@Override
 	public void setShadeBlocks(final boolean shadeBlocks) {
 		this.shadeBlocks = shadeBlocks;
+	}
+
+	/**
+	 * @see #shadeClouds
+	 * @see #isShadeClouds()
+	 */
+	@Override
+	public void setShadeClouds(final boolean shadeClouds) {
+		this.shadeClouds = shadeClouds;
 	}
 
 	/**

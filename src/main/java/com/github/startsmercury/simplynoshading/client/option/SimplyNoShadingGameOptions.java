@@ -19,6 +19,10 @@ import net.minecraft.client.KeyMapping;
  * <td align=center colspan=2>{@link #keyCycleShadeBlocks() get}</td>
  * </tr>
  * <tr>
+ * <td align=center>keyCycleShadeClouds</td>
+ * <td align=center colspan=2>{@link #keyCycleShadeClouds() get}</td>
+ * </tr>
+ * <tr>
  * <td align=center>keyCycleShadeFluids</td>
  * <td align=center colspan=2>{@link #keyCycleShadeFluids() get}</td>
  * </tr>
@@ -31,6 +35,11 @@ import net.minecraft.client.KeyMapping;
  * <td align=center>shadeBlocks</td>
  * <td align=center>{@link #isShadeBlocks() get}</td>
  * <td align=center>{@link #setShadeBlocks(boolean) set</td>
+ * </tr>
+ * <tr>
+ * <td align=center>shadeClouds</td>
+ * <td align=center>{@link #isShadeClouds() get}</td>
+ * <td align=center>{@link #setShadeClouds(boolean) set</td>
  * </tr>
  * <tr>
  * <td align=center>shadeFluids</td>
@@ -66,6 +75,18 @@ public interface SimplyNoShadingGameOptions {
 	}
 
 	/**
+	 * Cycles through the next values for the property shadeClouds.
+	 * <p>
+	 * All possible values are just {@code false} and {@code true}.
+	 *
+	 * @see #isShadeClouds()
+	 * @see #setShadeClouds(boolean)
+	 */
+	default void cycleShadeClouds() {
+		setShadeClouds(!isShadeClouds());
+	}
+
+	/**
 	 * Cycles through the next values for the property shadeFluids.
 	 * <p>
 	 * All possible values are just {@code false} and {@code true}.
@@ -94,6 +115,14 @@ public interface SimplyNoShadingGameOptions {
 	boolean isShadeBlocks();
 
 	/**
+	 * Getter for the property shadeClouds.
+	 *
+	 * @return the value of the property shadeCLouds
+	 * @see #setShadeClouds(boolean)
+	 */
+	boolean isShadeClouds();
+
+	/**
 	 * Getter for the property shadeFluids.
 	 *
 	 * @return the value of the property shadeFluids
@@ -114,6 +143,13 @@ public interface SimplyNoShadingGameOptions {
 	 * @return the constant reference of the property keyCycleShadeBlocks
 	 */
 	KeyMapping keyCycleShadeBlocks();
+
+	/**
+	 * Accessor for the property keyCycleShadeClouds.
+	 *
+	 * @return the constant reference of the property keyCycleShadeClouds
+	 */
+	KeyBinding keyCycleShadeClouds();
 
 	/**
 	 * Accessor for the property keyCycleShadeFluids.
@@ -137,6 +173,14 @@ public interface SimplyNoShadingGameOptions {
 	 * @see #isShadeBlocks()
 	 */
 	void setShadeBlocks(boolean shadeBlocks);
+
+	/**
+	 * Setter for the property shadeClouds.
+	 *
+	 * @param shadeClouds the new value
+	 * @see #isShadeClouds()
+	 */
+	void setShadeClouds(boolean shadeClouds);
 
 	/**
 	 * Setter for the property shadeFluids.

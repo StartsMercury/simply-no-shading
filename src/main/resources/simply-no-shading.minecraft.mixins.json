@@ -9,7 +9,9 @@
     "ClientLevelMixin",
     "LiquidBlockRendererMixin",
     "OptionsMixin",
-    "VideoSettingsScreenMixin"
+    "VideoSettingsScreenMixin",
+    "WorldRendererAccessor",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
