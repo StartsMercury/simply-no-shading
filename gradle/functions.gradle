@@ -21,7 +21,7 @@ ext {
 			build = '-local.' + toFullHexString(getGlobalNanoTime())
 		}
 
-		if (System.env.RELEASE_TYPE?.equalsIgnoreCase 'ALPHA') {
+		if (System.env.RELEASE_TYPE == 'alpha') {
 			return build + '-alpha'
 		} else {
 			return build

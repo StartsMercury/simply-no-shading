@@ -12,7 +12,7 @@ tasks.configure() {
 			versionType = System.env.RELEASE_TYPE
 		}
 
-		final boolean alpha = versionType.toString().equalsIgnoreCase 'alpha'
+		final boolean alpha = System.env.RELEASE_TYPE == 'alpha'
 
 		projectId = '9gx5Xvc5'
 		versionNumber = alpha ? project.version : "${project.mod_version}+mc1.18.x"
