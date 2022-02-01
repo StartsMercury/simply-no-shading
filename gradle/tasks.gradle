@@ -15,8 +15,8 @@ tasks.configure() {
 		final boolean alpha = System.env.RELEASE_TYPE == 'alpha'
 
 		projectId = '9gx5Xvc5'
-		versionNumber = alpha ? "${project.mod_version}+${getVersionExtension()}" : project.mod_version
-		versionName = project.mod_version
+		versionNumber = alpha ? "${project.mod_version}${getVersionExtension()}" : project.mod_version
+		versionName = project.version
 		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
 			: System.env.CHANGELOG ?: 'No changelog provided'
 
