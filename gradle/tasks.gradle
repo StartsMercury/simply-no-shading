@@ -16,9 +16,8 @@ tasks.configure() {
 
 		projectId = '9gx5Xvc5'
 		versionNumber = alpha ? project.version : "${project.mod_version}+mc1.18.x"
-		versionName = "${toTitleCase versionType.toString()} ${versionNumber} for Minecraft 1.18.x"
-		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.' :
-			System.env.CHANGELOG ?: 'No changelog provided'
+		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
+			: System.env.CHANGELOG ?: 'No changelog provided'
 
 		uploadFile = remapJar
 

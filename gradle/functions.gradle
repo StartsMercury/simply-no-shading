@@ -7,17 +7,24 @@ ext {
 
 	getGlobalNanoTime = { ->
 		final Instant now = Instant.now()
-	
+
 		return now.epochSecond * 1_000_000_000L + now.nano
 	}
 
 	getVersionExtension = { ->
 		final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
-	
-		if (githubRunNumber != null) {
-			return '-build.' + githubRunNumber
+		String build;
+
+		if (githubRunNumber) {
+			build = '-build.' + githubRunNumber
 		} else {
-			return '-local.' + toFullHexString(getGlobalNanoTime())
+			build = '-local.' + toFullHexString(getGlobalNanoTime())
+		}
+
+		if (System.env.RELEASE_TYPE?.equalsIgnoreCase 'ALPHA') {
+			return build + '-alpha'
+		} else {
+			return build
 		}
 	}
 
@@ -32,7 +39,7 @@ ext {
 	}
 
 	toTitleCase = { final String s ->
-		return s.length() == 0 ? s : Character.toUpperCase(s.charAt(0)).toString() + s.substring(1, s.length())
+		return s != null ? s.length() == 0 ? s : Character.toUpperCase(s.charAt(0)).toString() + s.substring(1, s.length()) : null
 	}
 
 	toFullHexString = { final long l ->
