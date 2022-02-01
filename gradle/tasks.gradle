@@ -24,10 +24,6 @@ tasks.configure() {
 		addGameVersion '1.18'
 		addGameVersion '1.18.1'
 		addLoader 'fabric'
-
-		if (alpha) {
-			versionNumber += '-alpha'
-		}
 	}
 
 	withType(JavaCompile).configureEach {
