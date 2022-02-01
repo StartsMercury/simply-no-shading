@@ -1,31 +1,41 @@
-ext.getFabricApiModule = { final def module ->
-	return fabricApi.module(module, project.fabric_version)
-}
+import java.time.Instant
 
-ext.getGlobalNanoTime = { ->
-	final java.time.Instant now = java.time.Instant.now()
-
-	return now.epochSecond * 1_000_000_000L + now.nano
-}
-
-ext.getVersionExtension = { ->
-	final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
-
-	if (githubRunNumber != null) {
-		return '-build.' + githubRunNumber
-	} else {
-		return '-local.' + toFullHexString(getGlobalNanoTime())
+ext {
+	getFabricApiModule = { final def module ->
+		return fabricApi.module(module, project.fabric_version)
 	}
-}
 
-ext.nonnegative = { final int i ->
-	return i < 0 ? 0 : i
-}
+	getGlobalNanoTime = { ->
+		final Instant now = Instant.now()
+	
+		return now.epochSecond * 1_000_000_000L + now.nano
+	}
 
-ext.padLeft = { final int ch = ' ', final int pad, final String s ->
-	return Character.toString(ch).repeat(nonnegative(pad - s.length())) + s;
-}
+	getVersionExtension = { ->
+		final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
+	
+		if (githubRunNumber != null) {
+			return '-build.' + githubRunNumber
+		} else {
+			return '-local.' + toFullHexString(getGlobalNanoTime())
+		}
+	}
 
-ext.toFullHexString = { final long l ->
-	return padLeft((int) '0', 16, Long.toHexString(l));
+	nonnegative = { final int i ->
+		return i < 0 ? 0 : i
+	}
+
+	padLeft = { final int ch = ' ', final int pad, final String s ->
+		final String padding = ch.toString().repeat(nonnegative(pad - s.length()))
+
+		return padding + s;
+	}
+
+	toTitleCase = { final String s ->
+		return s.length() == 0 ? s : Character.toUpperCase(s.charAt(0)).toString() + s.substring(1, s.length())
+	}
+
+	toFullHexString = { final long l ->
+		return padLeft((int) '0', 16, Long.toHexString(l));
+	}
 }

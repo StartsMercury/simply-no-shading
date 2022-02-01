@@ -1,0 +1,29 @@
+curseforge {
+	if (System.env.CURSEFORGE_API_KEY) {
+		apiKey = System.env.CURSEFORGE_API_KEY
+	}
+
+	project {
+		releaseType = project.prerelease == "true" ? "beta" : "release"
+		final boolean alpha = releaseType.toString().equalsIgnoreCase 'ALPHA'
+		
+		id = '550997'
+		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.' :
+			System.env.CHANGELOG ?: 'No changelog provided'
+		addGameVersion '1.18'
+		addGameVersion '1.18.1'
+		addGameVersion 'Fabric'
+
+		mainArtifact(remapJar) {
+			displayName = "${toTitleCase versionType.toString()} ${versionNumber} for Minecraft 1.18.x"
+		}
+
+		afterEvaluate {
+			uploadTask.dependsOn 'remapJar'
+		}
+	}
+
+	options {
+		forgeGradleIntegration = false
+	}
+}

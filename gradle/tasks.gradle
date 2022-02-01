@@ -1,20 +1,48 @@
+apply from: 'gradle/functions.gradle'
 apply from: 'gradle/properties.gradle'
 
-registerCompatibilityTestTask 'iris'
-registerCompatibilityTestTask 'none'
-registerCompatibilityTestTask 'sodium'
+registerCompatibilityTestTask('iris')
+registerCompatibilityTestTask('none')
+registerCompatibilityTestTask('sodium')
 
-tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+tasks.configure() {
+	named('modrinth') {
+		onlyIf {
+			token = System.env.MODRINTH_TOKEN
+			versionType = System.env.RELEASE_TYPE
+		}
 
-	doFirst {
-		println "Compiling ${project.archivesBaseName}-${project.version}..."
+		final boolean alpha = versionType.toString().equalsIgnoreCase 'ALPHA'
+
+		projectId = '9gx5Xvc5'
+		versionNumber = alpha ? project.version : "${project.mod_version}+mc1.18.x"
+		versionName = "${toTitleCase versionType.toString()} ${versionNumber} for Minecraft 1.18.x"
+		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.' :
+			System.env.CHANGELOG ?: 'No changelog provided'
+
+		uploadFile = remapJar
+
+		addGameVersion '1.18'
+		addGameVersion '1.18.1'
+		addLoader 'fabric'
+
+		if (alpha) {
+			versionNumber += '-alpha'
+		}
+	}
+
+	withType(JavaCompile).configureEach {
+		// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+		it.options.release = 17
+
+		doFirst {
+			println "Compiling ${project.archivesBaseName}-${project.version}..."
+		}
 	}
 }
 
-void registerCompatibilityTestTask(final String mode) {
-	tasks.register(mode) {
+private final def registerCompatibilityTestTask(final String mode) {
+	return tasks.register(mode) {
 		group 'compatibility test'
 
 		doFirst {
