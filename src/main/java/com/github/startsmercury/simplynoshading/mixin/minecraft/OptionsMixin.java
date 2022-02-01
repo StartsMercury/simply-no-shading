@@ -193,7 +193,7 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeAll(final boolean shadeAll) {
-		System.err.println("[shadeAll] " + this.shadeAll + " -> " + shadeAll);
+		// System.err.println("[shadeAll] " + this.shadeAll + " -> " + shadeAll);
 
 		this.shadeAll = shadeAll;
 	}
@@ -204,7 +204,7 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeBlocks(final boolean shadeBlocks) {
-		System.err.println("[shadeBlocks] " + this.shadeBlocks + " -> " + shadeBlocks);
+		// System.err.println("[shadeBlocks] " + this.shadeBlocks + " -> " + shadeBlocks);
 
 		this.shadeBlocks = shadeBlocks;
 	}
@@ -215,7 +215,7 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeClouds(final boolean shadeClouds) {
-		System.err.println("[shadeClouds] " + this.shadeClouds + " -> " + shadeClouds);
+		// System.err.println("[shadeClouds] " + this.shadeClouds + " -> " + shadeClouds);
 
 		this.shadeClouds = shadeClouds;
 	}
@@ -226,7 +226,7 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	 */
 	@Override
 	public void setShadeFluids(final boolean shadeFluids) {
-		System.err.println("[shadeFluids] " + this.shadeFluids + " -> " + shadeFluids);
+		// System.err.println("[shadeFluids] " + this.shadeFluids + " -> " + shadeFluids);
 
 		this.shadeFluids = shadeFluids;
 	}

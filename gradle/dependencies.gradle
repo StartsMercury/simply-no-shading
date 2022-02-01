@@ -1,0 +1,65 @@
+apply from: 'gradle/configurations.gradle'
+apply from: 'gradle/repositories.gradle'
+apply from: 'gradle/functions.gradle'
+
+dependencies {
+	// Minecraft Fabric
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+
+	// DynamicFPS
+	modRuntimeOnly 'maven.modrinth:dynamic-fps:v2.1.0'
+
+	// Fabric Rendering Fluids (V1)
+	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+	// Fabric Key Binding API (V1)
+	includeModImplementation getFabricApiModule('fabric-key-binding-api-v1')
+	
+	// Fabric Lifecycle Events (V1)
+	includeModImplementation getFabricApiModule('fabric-lifecycle-events-v1')
+
+	// FerriteCore
+	modRuntimeOnly 'curse.maven:ferritecore-459857:3550048'
+
+	// JOML
+	runtimeOnly 'org.joml:joml:1.10.2'
+
+	// Lazy DFU
+	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
+		exclude(module: 'fabric-loader')
+	}
+
+	// Lithium
+	modRuntimeOnly 'curse.maven:lithium-360438:3590908'
+
+	// Mod Menu
+	modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
+
+	// Smooth Boot
+	modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
+
+	// Starlight
+	modRuntimeOnly 'curse.maven:starlight-521783:3554912'
+
+	// TOML
+	runtimeOnly 'com.moandjiezana.toml:toml4j:0.7.2'
+
+	switch (System.getProperty 'simply-no-shading.mode') {
+	case 'iris':
+		// Iris
+		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.0'
+
+		// JCPP
+		runtimeOnly 'org.anarres:jcpp:1.4.14'
+	case 'sodium':
+		// Sodium
+		modImplementation "maven.modrinth:sodium:${sodium_version}"
+		break
+	default:
+		// Sodium
+		modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+		break
+	}
+}

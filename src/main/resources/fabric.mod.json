@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Simply No Shading",
-  "description": "Toggle shading for blocks and fluids",
+  "description": "This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.",
   "authors": [
     "StartsMercury"
   ],
@@ -24,6 +24,9 @@
   "entrypoints": {
     "client": [
       "com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod"
+    ],
+    "modmenu": [
+      "com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingModMenu"
     ]
   },
   "accessWidener" : "simply-no-shading.accesswidener",

@@ -1,0 +1,19 @@
+configurations {
+	includeApi
+	includeImplementation
+	includeModApi
+	includeModImplementation
+
+	api.extendsFrom includeApi
+
+	implementation.extendsFrom includeImplementation
+
+	include.extendsFrom includeApi
+	include.extendsFrom includeImplementation
+	include.extendsFrom includeModApi
+	include.extendsFrom includeModImplementation
+
+	modApi.extendsFrom includeModApi
+
+	modImplementation.extendsFrom includeModImplementation
+}

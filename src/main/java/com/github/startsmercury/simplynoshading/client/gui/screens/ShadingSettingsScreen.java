@@ -35,8 +35,25 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	private OptionsList list;
 
+	private final boolean save;
+
+	public ShadingSettingsScreen(final Screen screen) {
+		this(screen, true);
+	}
+
+	@SuppressWarnings("resource")
+	public ShadingSettingsScreen(final Screen screen, final boolean save) {
+		this(screen, Minecraft.getInstance().options, save);
+	}
+
 	public ShadingSettingsScreen(final Screen screen, final Options options) {
+		this(screen, options, true);
+	}
+
+	public ShadingSettingsScreen(final Screen screen, final Options options, final boolean save) {
 		super(screen, options, COMPONENT);
+
+		this.save = save;
 	}
 
 	@Override
@@ -54,9 +71,13 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	@Override
 	@SuppressWarnings("resource")
 	public void removed() {
+		if (this.save) {
+			super.removed();
+		}
+
 		Minecraft.getInstance().levelRenderer.allChanged();
 	}
-	
+
 	@Override
 	public void render(final PoseStack poseStack, final int i, final int j, final float f) {
 		renderBackground(poseStack);

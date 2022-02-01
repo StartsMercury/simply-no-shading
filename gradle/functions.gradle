@@ -1,0 +1,31 @@
+ext.getFabricApiModule = { final def module ->
+	return fabricApi.module(module, project.fabric_version)
+}
+
+ext.getGlobalNanoTime = { ->
+	final java.time.Instant now = java.time.Instant.now()
+
+	return now.epochSecond * 1_000_000_000L + now.nano
+}
+
+ext.getVersionExtension = { ->
+	final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
+
+	if (githubRunNumber != null) {
+		return '-build.' + githubRunNumber
+	} else {
+		return '-local.' + toFullHexString(getGlobalNanoTime())
+	}
+}
+
+ext.nonnegative = { final int i ->
+	return i < 0 ? 0 : i
+}
+
+ext.padLeft = { final int ch = ' ', final int pad, final String s ->
+	return Character.toString(ch).repeat(nonnegative(pad - s.length())) + s;
+}
+
+ext.toFullHexString = { final long l ->
+	return padLeft((int) '0', 16, Long.toHexString(l));
+}

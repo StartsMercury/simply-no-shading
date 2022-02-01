@@ -1,0 +1,8 @@
+processResources {
+	inputs.property 'version', project.mod_version
+
+	filesMatching('fabric.mod.json') {
+		expand 'loader_version': project.loader_version,
+			   'version': project.mod_version
+	}
+}

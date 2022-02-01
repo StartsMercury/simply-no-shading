@@ -1,0 +1,7 @@
+apply from: 'gradle/properties.gradle'
+
+jar {
+	from('LICENSE') {
+		rename { "${it}_${project.archivesBaseName}" }
+	}
+}

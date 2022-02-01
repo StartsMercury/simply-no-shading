@@ -1,18 +1,14 @@
 package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import com.github.startsmercury.simplynoshading.client.ButtonOption;
 import com.github.startsmercury.simplynoshading.client.gui.screens.ShadingSettingsScreen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
-import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.VideoSettingsScreen;
 
@@ -22,38 +18,21 @@ import net.minecraft.client.gui.screens.VideoSettingsScreen;
 @Mixin(VideoSettingsScreen.class)
 public class VideoSettingsScreenMixin {
 	/**
-	 * This shadowed field allows this mixin to insert additional options.
+	 * Adds the Shading Settings screen among other options in Video Settings.
+	 * 
+	 * @param options the first batch of options 
+	 * @return the new options
 	 */
-	@Final
-	@Mutable
-	@Shadow
-	private static Option[] OPTIONS;
+	@ModifyArg(method = "init()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/OptionsList;addSmall([Lnet/minecraft/client/Option;)V", ordinal = 0))
+	private final Option[] addShadingSettingsButton(final Option[] options) {
+		final Option[] appendedOptions = new Option[options.length + 1];
 
-	/**
-	 * Adds the custom options to the video settings screen.
-	 *
-	 * @param callback the method callback
-	 */
-	@Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/OptionsList;addSmall([Lnet/minecraft/client/Option;)V", ordinal = 0))
-	private final void addOptions(final OptionsList list, final Option[] options) {
-		final Option shadingOption;
-
-		if (list == null) {
-			return;
-		}
-
-		shadingOption = new ButtonOption("simply-no-shading.options.shading",
+		appendedOptions[0] = new ButtonOption("simply-no-shading.options.shading",
 				button -> Minecraft.getInstance().setScreen(new ShadingSettingsScreen((Screen) (Object) this,
-						((OptionsSubScreenAccessor) this).getOptions())));
+						((OptionsSubScreenAccessor) this).getOptions(), false)));
 
-		if (options == null || options.length == 0) {
-			list.addSmall(shadingOption, null);
-		} else {
-			list.addSmall(shadingOption, options[0]);
+		System.arraycopy(options, 0, appendedOptions, 1, options.length);
 
-			for (int i = 1; i < options.length; i += 2) {
-				list.addSmall(options[i], (i < options.length - 1) ? options[i + 1] : null);
-			}
-		}
+		return appendedOptions;
 	}
 }
