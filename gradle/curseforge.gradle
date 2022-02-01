@@ -10,7 +10,7 @@ curseforge {
 		id = '550997'
 		releaseType = System.env.RELEASE_TYPE ?: 'alpha'
 		changelogType = 'markdown'
-		changelog = releaseType.toString().equalsIgnoreCase 'ALPHA'
+		changelog = releaseType == 'alpha'
 			? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
 			: System.env.CHANGELOG ?: 'No changelog provided'
 		addGameVersion '1.18'
