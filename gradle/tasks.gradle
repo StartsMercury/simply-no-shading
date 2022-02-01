@@ -1,10 +1,31 @@
 apply from: 'gradle/properties.gradle'
 
+registerCompatibilityTestTask 'iris'
+registerCompatibilityTestTask 'none'
+registerCompatibilityTestTask 'sodium'
+
 tasks.withType(JavaCompile).configureEach {
 	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 
 	doFirst {
 		println "Compiling ${project.archivesBaseName}-${project.version}..."
+	}
+}
+
+void registerCompatibilityTestTask(final String mode) {
+	tasks.register(mode) {
+		group 'compatibility test'
+
+		doFirst {
+			final def propertiesFile = file 'gradle.properties'
+
+			propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
+				'-Dsimply-no-shading.compatibilityTest=' + mode
+		}
+
+		dependsOn 'cleanEclipse'
+		dependsOn 'eclipse'
+		dependsOn 'runClient'
 	}
 }

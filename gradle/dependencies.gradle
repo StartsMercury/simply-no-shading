@@ -37,6 +37,9 @@ dependencies {
 	// Mod Menu
 	modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
 
+	// Screenshot to Clipboard
+	modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3509043'
+
 	// Smooth Boot
 	modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
 
@@ -46,7 +49,7 @@ dependencies {
 	// TOML
 	runtimeOnly 'com.moandjiezana.toml:toml4j:0.7.2'
 
-	switch (System.getProperty 'simply-no-shading.mode') {
+	switch (System.getProperty 'simply-no-shading.compatibilityTest') {
 	case 'iris':
 		// Iris
 		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.0'
