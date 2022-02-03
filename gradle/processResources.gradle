@@ -3,6 +3,8 @@ processResources {
 
 	filesMatching('fabric.mod.json') {
 		expand 'loader_version': project.loader_version,
-			   'version': project.mod_version
+		       'modmenu_version': project.modmenu_version,
+		       'sodium_version': project.sodium_version,
+		       'version': project.mod_version
 	}
 }

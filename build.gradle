@@ -6,7 +6,7 @@ plugins {
 }
 
 // Plugin sensitive tasks are registered first
-tasks.register('modrinth', com.modrinth.minotaur.TaskModrinthUpload)
+tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
 
 apply from: 'gradle/configurations.gradle'
 apply from: 'gradle/curseforge.gradle'

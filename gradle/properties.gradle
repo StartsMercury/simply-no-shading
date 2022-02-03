@@ -3,6 +3,13 @@ apply from: 'gradle/functions.gradle'
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
+ext {
+	localBuild = System.env.GITHUB_RUN_NUMBER == null
+	versionLabel = System.env.RELEASE_TYPE == 'alpha' ? '-alpha' : ''
+	localBuildNumber = localBuild ? toFullHexString(getGlobalNanoTime()) : null
+	versionBuildName = localBuild ? "local.${localBuildNumber}" : "build.${System.env.GITHUB_RUN_NUMBER}"
+}
+
 archivesBaseName = project.archives_base_name
-version = "${project.mod_version}+mc1.18.x${getVersionExtension()}"
+version = "${project.mod_version}+mc1.18.x-${project.versionBuildName}${project.versionLabel}"
 group = project.maven_group

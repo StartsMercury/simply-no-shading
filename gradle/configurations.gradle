@@ -1,19 +1,17 @@
 configurations {
 	includeApi
+	include                 .extendsFrom includeApi
+	       api              .extendsFrom includeApi
+
 	includeImplementation
+	include                 .extendsFrom includeImplementation
+	       implementation   .extendsFrom includeImplementation
+
 	includeModApi
+	include                 .extendsFrom includeModApi
+	       modApi           .extendsFrom includeModApi
+
 	includeModImplementation
-
-	api.extendsFrom includeApi
-
-	implementation.extendsFrom includeImplementation
-
-	include.extendsFrom includeApi
-	include.extendsFrom includeImplementation
-	include.extendsFrom includeModApi
-	include.extendsFrom includeModImplementation
-
-	modApi.extendsFrom includeModApi
-
-	modImplementation.extendsFrom includeModImplementation
+	include                 .extendsFrom includeModImplementation
+	       modImplementation.extendsFrom includeModImplementation
 }

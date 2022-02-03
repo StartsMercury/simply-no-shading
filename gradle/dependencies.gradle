@@ -8,61 +8,95 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
-	// DynamicFPS
-	modRuntimeOnly 'maven.modrinth:dynamic-fps:v2.1.0'
-
-	// Fabric Rendering Fluids (V1)
-	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-
 	// Fabric Key Binding API (V1)
 	includeModImplementation getFabricApiModule('fabric-key-binding-api-v1')
 	
 	// Fabric Lifecycle Events (V1)
 	includeModImplementation getFabricApiModule('fabric-lifecycle-events-v1')
+}
 
-	// FerriteCore
-	modRuntimeOnly 'curse.maven:ferritecore-459857:3550048'
+compatibilityTestMods()
+libraryMods()
+performanceMods()
+utilityMods()
 
-	// JOML
-	runtimeOnly 'org.joml:joml:1.10.2'
-
-	// Lazy DFU
-	modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
-		exclude(module: 'fabric-loader')
+final def compatibilityTestMods() {
+	return dependencies {
+		switch (System.getProperty 'simply-no-shading.compatibilityTest', 'none') {
+		case 'iris': irisTestMods()
+		case 'sodium': sodiumTestMods(); break
+		default: normalTestMods(); break
+		}
 	}
+}
 
-	// Lithium
-	modRuntimeOnly 'curse.maven:lithium-360438:3590908'
-
-	// Mod Menu
-	modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-
-	// Screenshot to Clipboard
-	modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3509043'
-
-	// Smooth Boot
-	modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
-
-	// Starlight
-	modRuntimeOnly 'curse.maven:starlight-521783:3554912'
-
-	// TOML
-	runtimeOnly 'com.moandjiezana.toml:toml4j:0.7.2'
-
-	switch (System.getProperty 'simply-no-shading.compatibilityTest') {
-	case 'iris':
+final def irisTestMods() {
+	return dependencies {
 		// Iris
 		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.0'
 
 		// JCPP
 		runtimeOnly 'org.anarres:jcpp:1.4.14'
-	case 'sodium':
-		// Sodium
-		modImplementation "maven.modrinth:sodium:${sodium_version}"
-		break
-	default:
+	}
+}
+
+final def libraryMods() {
+	return dependencies {
+		// Fabric API
+		modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+		// JOML
+		runtimeOnly 'org.joml:joml:1.10.2'
+
+		// TOML
+		runtimeOnly 'com.moandjiezana.toml:toml4j:0.7.2'
+	}
+}
+
+final def normalTestMods() {
+	return dependencies {
 		// Sodium
 		modCompileOnly "maven.modrinth:sodium:${sodium_version}"
-		break
+	}
+}
+
+final def performanceMods() {
+	return dependencies {
+		// DynamicFPS
+		modRuntimeOnly 'maven.modrinth:dynamic-fps:v2.1.0'
+
+		// FerriteCore
+		modRuntimeOnly 'curse.maven:ferritecore-459857:3550048'
+
+		// Lazy DFU
+		modRuntimeOnly("com.github.astei:lazydfu:${lazydfu_version}") {
+			exclude(module: 'fabric-loader')
+		}
+
+		// Lithium
+		modRuntimeOnly 'curse.maven:lithium-360438:3590908'
+
+		// Smooth Boot
+		modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
+
+		// Starlight
+		modRuntimeOnly 'curse.maven:starlight-521783:3554912'
+	}
+}
+
+final def sodiumTestMods() {
+	return dependencies {
+		// Sodium
+		modImplementation "maven.modrinth:sodium:${sodium_version}"
+	}
+}
+
+final def utilityMods() {
+	return dependencies {
+		// Mod Menu
+		modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
+
+		// Screenshot to Clipboard
+		modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3509043'
 	}
 }

@@ -11,23 +11,6 @@ ext {
 		return now.epochSecond * 1_000_000_000L + now.nano
 	}
 
-	getVersionExtension = { ->
-		final String githubRunNumber = System.env.GITHUB_RUN_NUMBER
-		String build;
-
-		if (githubRunNumber) {
-			build = '-build.' + githubRunNumber
-		} else {
-			build = '-local.' + toFullHexString(getGlobalNanoTime())
-		}
-
-		if (System.env.RELEASE_TYPE == 'alpha') {
-			return build + '-alpha'
-		} else {
-			return build
-		}
-	}
-
 	nonnegative = { final int i ->
 		return i < 0 ? 0 : i
 	}

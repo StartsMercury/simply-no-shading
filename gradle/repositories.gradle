@@ -10,5 +10,4 @@ repositories {
 	maven { url = 'https://jitpack.io' }
 	maven { url = 'https://maven.shedaniel.me' }
 	maven { url = 'https://maven.terraformersmc.com' }
-	maven { url 'https://plugins.gradle.org/m2/' }
 }

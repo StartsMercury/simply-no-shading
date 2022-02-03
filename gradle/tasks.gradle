@@ -6,17 +6,25 @@ registerCompatibilityTestTask('none')
 registerCompatibilityTestTask('sodium')
 
 tasks.configure() {
+	register('cleanBuild') { group 'build'; dependsOn 'clean', 'build' }
+
+	register('cleanBuildDependants') { group 'build'; dependsOn 'clean', 'buildDependants' }
+
+	register('cleanBuildNeeded') { group 'build'; dependsOn 'clean', 'buildNeeded' }
+
 	named('modrinth') {
 		onlyIf {
 			token = System.env.MODRINTH_TOKEN
-			versionType = System.env.RELEASE_TYPE
 		}
 
-		final boolean alpha = System.env.RELEASE_TYPE == 'alpha'
+		versionType = System.env.RELEASE_TYPE ?: 'alpha'
+		final boolean alpha = versionType == 'alpha'
 
 		projectId = '9gx5Xvc5'
 		versionNumber = alpha ? "${project.mod_version}${getVersionExtension()}" : project.mod_version
-		versionName = project.version
+		versionName = "${toTitleCase versionType.toString()} ${project.mod_version} " +
+ 				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
+					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
 		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
 			: System.env.CHANGELOG ?: 'No changelog provided'
 
@@ -48,8 +56,6 @@ private final def registerCompatibilityTestTask(final String mode) {
 				'-Dsimply-no-shading.compatibilityTest=' + mode
 		}
 
-		dependsOn 'cleanEclipse'
-		dependsOn 'eclipse'
-		dependsOn 'runClient'
+		dependsOn 'cleanEclipse', 'eclipse', 'runClient'
 	}
 }

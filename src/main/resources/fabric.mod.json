@@ -41,6 +41,7 @@
     "minecraft": "1.18.x"
   },
   "suggests": {
-    "sodium": ">=0.4.0-alpha6+build.14"
+    "modmenu": ">=${modmenu_version}",
+    "sodium": ">=${sodium_version}+build.x"
   }
 }

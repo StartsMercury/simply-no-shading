@@ -18,6 +18,10 @@ curseforge {
 		addGameVersion 'Fabric'
 
 		mainArtifact(remapJar) {
+			displayName = "${toTitleCase releaseType} ${project.mod_version} " +
+ 				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
+					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
+
 			relations {
 				optionalDependency 'sodium'
 			}
