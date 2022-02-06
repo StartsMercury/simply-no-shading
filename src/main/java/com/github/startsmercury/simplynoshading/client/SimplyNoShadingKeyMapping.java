@@ -7,7 +7,7 @@ import net.minecraft.client.KeyMapping;
  */
 public interface SimplyNoShadingKeyMapping {
 	/**
-	 * Custom category dedicated for keys cycling shade related game options.
+	 * Custom category dedicated for key mappings that cycle shade options.
 	 */
 	String SHADING_CATEGORY = "simply-no-shading.key.categories.shading";
 }

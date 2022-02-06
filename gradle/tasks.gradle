@@ -1,10 +1,6 @@
 apply from: 'gradle/functions.gradle'
 apply from: 'gradle/properties.gradle'
 
-registerCompatibilityTestTask('iris')
-registerCompatibilityTestTask('none')
-registerCompatibilityTestTask('sodium')
-
 tasks.configure() {
 	register(     'cleanBuild'     ) { group 'build'; dependsOn 'clean'; finalizedBy 'build' }
 
@@ -40,35 +36,6 @@ tasks.configure() {
 
 		doFirst {
 			println "Compiling ${project.archivesBaseName}-${project.version}..."
-		}
-	}
-}
-
-private final def registerCompatibilityTestTask(final String mode) {
-	return tasks.configure() {
-		register("\$${mode}") {
-			doFirst {
-				final def propertiesFile = file 'gradle.properties'
-	
-				propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
-					'-Dsimply-no-shading.compatibilityTest=' + mode
-			}
-		}
-
-		register("test${toTitleCase mode}") {
-			group 'compatibility test'
-
-			doFirst {
-				final def propertiesFile = file 'gradle.properties'
-	
-				propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
-					'-Dsimply-no-shading.compatibilityTest=' + mode
-			}
-
-			dependsOn "\$${mode}"
-			dependsOn 'cleanEclipse'
-			dependsOn 'eclipse'
-			dependsOn 'runClient'
 		}
 	}
 }

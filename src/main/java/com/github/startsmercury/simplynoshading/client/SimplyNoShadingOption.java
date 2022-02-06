@@ -2,14 +2,14 @@ package com.github.startsmercury.simplynoshading.client;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import net.minecraft.client.CycleOption;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.fabricmc.api.Environment;
+import net.minecraft.client.CycleOption;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
- * Contains member(s) related to {@link net.minecraft.client.KeyMapping}.
+ * Contains member(s) related to {@link net.minecraft.client.Option}.
  */
 @Environment(CLIENT)
 @Internal

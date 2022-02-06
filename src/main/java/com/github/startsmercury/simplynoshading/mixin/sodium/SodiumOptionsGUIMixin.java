@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.github.startsmercury.simplynoshading.client.gui.options.SimplyNoShadingGameOptionPages;
+
 import me.jellysquid.mods.sodium.client.gui.SodiumOptionsGUI;
 import me.jellysquid.mods.sodium.client.gui.options.OptionPage;
 
@@ -28,9 +30,10 @@ public class SodiumOptionsGUIMixin {
 	private List<OptionPage> pages;
 
 	/**
-	 * Adds the custom page to the sodium video options screen.
+	 * Adds the custom page 'shading' to the sodium video options screen.
 	 *
 	 * @param callback the method callback
+	 * @see SimplyNoShadingGameOptionPages#shading()
 	 */
 	@Inject(method = "<init>", at = @At(value = "INVOKE", shift = AFTER, target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 2), remap = false)
 	private final void onInitAfterInvokeAdd(final CallbackInfo callback) {

@@ -1,25 +1,15 @@
 package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
-import net.minecraft.client.renderer.LevelRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import me.jellysquid.mods.sodium.client.gui.SodiumGameOptionPages;
+import net.minecraft.client.renderer.LevelRenderer;
 
 /**
- * Includes accessors to inaccessible members of the class
- * {@link SodiumGameOptionPages}
+ * Includes accessors to inaccessible members of the class {@link LevelRenderer}
  */
 @Mixin(LevelRenderer.class)
 public interface LevelRendererAccessor {
-	/**
-	 * Returns the value of the private field {@code generateClouds}.
-	 *
-	 * @return {@code generateClouds}
-	 */
-	@Accessor(value = "generateClouds")
-	boolean shouldGenerateClouds();
-
 	/**
 	 * Sets the value of the private field {@code generateClouds}.
 	 *
@@ -27,4 +17,12 @@ public interface LevelRendererAccessor {
 	 */
 	@Accessor(value = "generateClouds")
 	void setGenerateClouds(boolean generateClouds);
+
+	/**
+	 * Returns the value of the private field {@code generateClouds}.
+	 *
+	 * @return {@code generateClouds}
+	 */
+	@Accessor(value = "generateClouds")
+	boolean shouldGenerateClouds();
 }

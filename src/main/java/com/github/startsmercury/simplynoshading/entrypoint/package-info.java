@@ -4,6 +4,8 @@
  *
  * @see com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod
  *      SimplyNoShadingClientMod
+ * @see com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingModMenu
+ *      SimplyNoShadingModMenu
  */
 @Internal
 package com.github.startsmercury.simplynoshading.entrypoint;

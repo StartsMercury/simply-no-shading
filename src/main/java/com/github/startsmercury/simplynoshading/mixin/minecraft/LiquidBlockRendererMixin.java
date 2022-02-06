@@ -1,13 +1,14 @@
 package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
-import me.jellysquid.mods.sodium.client.render.pipeline.FluidRenderer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
+
+import me.jellysquid.mods.sodium.client.render.pipeline.FluidRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 
 /**
  * {@link Mixin mixin} for the class {@link FluidRenderer}.
@@ -15,7 +16,7 @@ import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 @Mixin(LiquidBlockRenderer.class)
 public class LiquidBlockRendererMixin {
 	/**
-	 * Makes all fluids require either
+	 * Makes all fluid faces require either
 	 * {@link SimplyNoShadingOptions#isShadeAll()} or
 	 * {@link SimplyNoShadingOptions#isShadeFluids()} to return {@code true} to
 	 * shade.

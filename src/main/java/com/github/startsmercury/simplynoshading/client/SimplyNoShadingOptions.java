@@ -3,8 +3,8 @@ package com.github.startsmercury.simplynoshading.client;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Options;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Options;
 
 /**
  * Contains extensions to the class {@link Options}.

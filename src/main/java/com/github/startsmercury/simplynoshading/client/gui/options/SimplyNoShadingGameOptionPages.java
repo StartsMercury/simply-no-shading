@@ -13,7 +13,6 @@ import static me.jellysquid.mods.sodium.client.gui.options.OptionImpact.LOW;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
@@ -26,6 +25,7 @@ import me.jellysquid.mods.sodium.client.gui.options.OptionGroup;
 import me.jellysquid.mods.sodium.client.gui.options.OptionImpl;
 import me.jellysquid.mods.sodium.client.gui.options.OptionPage;
 import me.jellysquid.mods.sodium.client.gui.options.control.TickBoxControl;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * Contains page(s) shown in {@link SodiumOptionsGUI} which also contains pages
@@ -50,10 +50,10 @@ public class SimplyNoShadingGameOptionPages {
 	}
 
 	/**
-	 * Creates the Shading page similar to how pages in
-	 * {@link SodiumGameOptionPages} are made.
+	 * Creates the shading page, the same way other pages in
+	 * {@link SodiumGameOptionPages} are created.
 	 *
-	 * @return a new Shading page
+	 * @return a new shading page
 	 */
 	public static final OptionPage shading() {
 		final List<OptionGroup> groups;

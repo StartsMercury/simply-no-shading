@@ -2,11 +2,10 @@ package com.github.startsmercury.simplynoshading.client;
 
 import static com.github.startsmercury.simplynoshading.blaze3d.platform.SimplyNoShadingInputConstants.KEY_UNKNOWN;
 import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMapping.SHADING_CATEGORY;
+import static com.mojang.blaze3d.platform.InputConstants.KEY_F6;
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding;
-import static com.mojang.blaze3d.platform.InputConstants.KEY_F6;
 
-import net.minecraft.client.KeyMapping;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.github.startsmercury.simplynoshading.client.event.SimplyNoShadingLifecycleEvents;
@@ -14,6 +13,7 @@ import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClient
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.KeyMapping;
 
 /**
  * This class contains the method {@link #registerKeyBindings()} which is called

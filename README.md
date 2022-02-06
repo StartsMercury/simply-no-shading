@@ -4,7 +4,7 @@ This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. T
 
 ## Configuration
 
-The screen for configuring this mod can be found `Options > Video Settings > Shading Settings`. However, as you notice, in sodium it is `Options > Video Settings`, Shading tab.
+The screen for configuring this mod can be found `Options > Video Settings > Shading Settings`. However, as you notice, in sodium it is `Options > Video Settings`, Shading tab. Alternatively, if you have modmenu installed, go to `Mods > Simply No Shading > Configure`.
 
 ---
 
@@ -16,7 +16,7 @@ Mods currently compatible are:
 
  - [Fabric API's Renderer - Indigo](https://github.com/FabricMC/fabric)
  - [Sodium](https://github.com/CaffeineMC/sodium-fabric)
- - [Iris](https://github.com/IrisShaders/Iris) with shaders **disabled**
+ - [Iris](https://github.com/IrisShaders/Iris) with shaders **disabled**[^1]
 
 Mods may or may not be compatible, for signs and/or effects of incompatibilities proceed reading.
 
@@ -30,3 +30,12 @@ When a certain mod is incompatible with this mod common side-effects are:
 Any incompatibilities should be reported to the [issue tracker](https://github.com/StartsMercury/simply-no-shading/issues).
 
 ## Images
+
+<table>
+  <tr><th>Scene</th>
+      <th>With</th>
+      <th>Without</th></tr>
+  <tr><th>Snowy Peeks</th>
+      <td><img=src></td>
+      </tr>
+</table>

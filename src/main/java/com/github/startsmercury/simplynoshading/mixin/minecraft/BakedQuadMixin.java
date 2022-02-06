@@ -2,8 +2,6 @@ package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 
 /**
  * {@link Mixin mixin} for the class {@link BakedQuad}.
@@ -20,7 +20,7 @@ import net.fabricmc.api.Environment;
 @Mixin(BakedQuad.class)
 public class BakedQuadMixin {
 	/**
-	 * Makes all model faces require either
+	 * Makes all block model faces require either
 	 * {@link SimplyNoShadingOptions#isShadeAll()} or
 	 * {@link SimplyNoShadingOptions#isShadeBlocks()} to return {@code true} to
 	 * shade.

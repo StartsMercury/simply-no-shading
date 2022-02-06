@@ -18,9 +18,9 @@ import net.minecraft.client.gui.screens.VideoSettingsScreen;
 @Mixin(VideoSettingsScreen.class)
 public class VideoSettingsScreenMixin {
 	/**
-	 * Adds the Shading Settings screen among other options in Video Settings.
-	 * 
-	 * @param options the first batch of options 
+	 * Adds the Shading Settings button among other options in Video Settings.
+	 *
+	 * @param options the first batch of options
 	 * @return the new options
 	 */
 	@ModifyArg(method = "init()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/OptionsList;addSmall([Lnet/minecraft/client/Option;)V", ordinal = 0))

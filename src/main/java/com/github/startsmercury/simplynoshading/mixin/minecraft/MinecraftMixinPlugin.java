@@ -9,6 +9,9 @@ import com.github.startsmercury.simplynoshading.mixin.CompatibilityMixinPlugin;
  * under this.
  */
 public class MinecraftMixinPlugin extends CompatibilityMixinPlugin {
+	/**
+	 * Creates a new {@code MinecraftMixinPlugin}.
+	 */
 	public MinecraftMixinPlugin() {
 		// super("minecraft");
 	}
