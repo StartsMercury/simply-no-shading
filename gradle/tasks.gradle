@@ -18,14 +18,13 @@ tasks.configure() {
 		}
 
 		versionType = System.env.RELEASE_TYPE ?: 'alpha'
-		final boolean alpha = versionType == 'alpha'
 
 		projectId = '9gx5Xvc5'
-		versionNumber = alpha ? "${project.mod_version}${getVersionExtension()}" : project.mod_version
+		versionNumber = "${project.mod_version}-${project.versionBuildName}${project.versionLabel}"
 		versionName = "${toTitleCase versionType.toString()} ${project.mod_version} " +
  				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
 					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
-		changelog = alpha ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
+		changelog = isAlpha() ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
 			: System.env.CHANGELOG ?: 'No changelog provided'
 
 		uploadFile = remapJar

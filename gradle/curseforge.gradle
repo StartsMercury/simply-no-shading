@@ -10,7 +10,7 @@ curseforge {
 		id = '550997'
 		releaseType = System.env.RELEASE_TYPE ?: 'alpha'
 		changelogType = 'markdown'
-		changelog = releaseType == 'alpha'
+		changelog = isAlpha()
 			? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
 			: System.env.CHANGELOG ?: 'No changelog provided'
 		addGameVersion '1.18'
@@ -18,7 +18,7 @@ curseforge {
 		addGameVersion 'Fabric'
 
 		mainArtifact(remapJar) {
-			displayName = "${toTitleCase releaseType} ${project.mod_version} " +
+			displayName = "${toTitleCase System.env.RELEASE_TYPE ?: 'alpha'} ${project.mod_version} " +
  				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
 					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
 

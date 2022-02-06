@@ -5,7 +5,7 @@ targetCompatibility = JavaVersion.VERSION_17
 
 ext {
 	localBuild = System.env.GITHUB_RUN_NUMBER == null
-	versionLabel = System.env.RELEASE_TYPE == 'alpha' ? '-alpha' : ''
+	versionLabel = isAlpha() ? '-alpha' : ''
 	localBuildNumber = localBuild ? toFullHexString(getGlobalNanoTime()) : null
 	versionBuildName = localBuild ? "local.${localBuildNumber}" : "build.${System.env.GITHUB_RUN_NUMBER}"
 }
