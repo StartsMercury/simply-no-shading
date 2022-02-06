@@ -6,11 +6,11 @@ registerCompatibilityTestTask('none')
 registerCompatibilityTestTask('sodium')
 
 tasks.configure() {
-	register('cleanBuild') { group 'build'; dependsOn 'clean', 'build' }
+	register(     'cleanBuild'     ) { group 'build'; dependsOn 'clean'; finalizedBy 'build' }
 
-	register('cleanBuildDependants') { group 'build'; dependsOn 'clean', 'buildDependants' }
+	register('cleanBuildDependants') { group 'build'; dependsOn 'clean'; finalizedBy 'buildDependants' }
 
-	register('cleanBuildNeeded') { group 'build'; dependsOn 'clean', 'buildNeeded' }
+	register(  'cleanBuildNeeded'  ) { group 'build'; dependsOn 'clean'; finalizedBy 'buildNeeded' }
 
 	named('modrinth') {
 		onlyIf {
