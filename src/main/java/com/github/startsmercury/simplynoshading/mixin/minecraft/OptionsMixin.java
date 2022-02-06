@@ -62,6 +62,11 @@ import net.minecraft.client.Options;
 @Mixin(Options.class)
 public class OptionsMixin implements SimplyNoShadingOptions {
 	/**
+	 * @see Options#processOptions(Options.FieldAccess)
+	 */
+	private static final String processOptions = "Lnet/minecraft/client/Options;processOptions(Lnet/minecraft/client/Options$FieldAccess;)V";
+
+	/**
 	 * Complementary flag to other shadeXxxs properties.
 	 * <p>
 	 * Default value is {@code false}.
@@ -175,13 +180,13 @@ public class OptionsMixin implements SimplyNoShadingOptions {
 	}
 
 	/**
-	 * Allows the extensions to be incorporated even in the serialization process.
+	 * Allows the extensions to be incorporated in the save and load process.
 	 *
 	 * @param fieldAccess the serialization api
 	 * @param ci          the method callback
 	 */
-	@Inject(method = "processOptions", at = @At("HEAD"))
-	private final void onAcceptHead(final Options.FieldAccess fieldAccess, final CallbackInfo ci) {
+	@Inject(method = processOptions, at = @At("HEAD"))
+	private final void processOptions(final Options.FieldAccess fieldAccess, final CallbackInfo ci) {
 		this.shadeAll = fieldAccess.process("shadeAll", this.shadeAll);
 		this.shadeBlocks = fieldAccess.process("shadeBlocks", this.shadeBlocks);
 		this.shadeFluids = fieldAccess.process("shadeFluids", this.shadeFluids);

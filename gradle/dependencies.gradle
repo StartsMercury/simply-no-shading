@@ -87,13 +87,13 @@ final def performanceMods() {
 final def sodiumTestMods() {
 	return dependencies {
 		// Reese's Sodium Options
-		modRuntimeOnly 'curse.maven:reeses-sodium-options-511319:3622245'
+		// modRuntimeOnly 'curse.maven:reeses-sodium-options-511319:3622245'
 
 		// Sodium
 		modImplementation "maven.modrinth:sodium:${sodium_version}"
 
 		// Sodium Extra
-		modRuntimeOnly 'curse.maven:sodium-extra-447673:3392192'
+		// modRuntimeOnly 'curse.maven:sodium-extra-447673:3392192'
 	}
 }
 
@@ -103,7 +103,7 @@ final def utilityMods() {
 		modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
 
 		// Ok Zoomer
-		modRuntimeOnly 'curse.maven:ok-zoomer-354047:3538853'
+		// modRuntimeOnly 'curse.maven:ok-zoomer-354047:3538853'
 
 		// Screenshot to Clipboard
 		modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3509043'

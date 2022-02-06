@@ -22,6 +22,12 @@ import net.minecraft.world.level.material.FluidState;
 @Mixin(FluidRenderer.class)
 public class FluidRendererMixin {
 	/**
+	 * @see FluidRenderer#calculateQuadColors(ModelQuadView, BlockAndTintGetter,
+	 *      BlockPos, LightPipeline, Direction, float, ColorSampler, FluidState)
+	 */
+	private static final String calculateQuadColors = "Lme/jellysquid/mods/sodium/client/render/pipeline/FluidRenderer;calculateQuadColors(Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;Lnet/minecraft/core/Direction;FLme/jellysquid/mods/sodium/client/model/quad/blender/ColorSampler;Lnet/minecraft/world/level/material/FluidState;)V";
+
+	/**
 	 * Makes all fluid faces (rendered by sodium) require either
 	 * {@link SimplyNoShadingOptions#isShadeAll()} or
 	 * {@link SimplyNoShadingOptions#isShadeFluids()} to return {@code true} to
@@ -31,7 +37,7 @@ public class FluidRendererMixin {
 	 * @return the expected shade
 	 * @implSpec {@code shaded && (isShadeAll || isShadeFluids())}
 	 */
-	@ModifyVariable(method = "calculateQuadColors", at = @At("HEAD"), argsOnly = true, remap = false)
+	@ModifyVariable(method = calculateQuadColors, at = @At("HEAD"), argsOnly = true, remap = false)
 	@SuppressWarnings("resource")
 	private final float changeShade(final float target, final ModelQuadView quad, final BlockAndTintGetter world,
 			final BlockPos pos, final LightPipeline lighter, final Direction dir, final float brightness,
