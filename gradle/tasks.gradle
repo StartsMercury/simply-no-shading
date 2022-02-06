@@ -46,16 +46,30 @@ tasks.configure() {
 }
 
 private final def registerCompatibilityTestTask(final String mode) {
-	return tasks.register(mode) {
-		group 'compatibility test'
-
-		doFirst {
-			final def propertiesFile = file 'gradle.properties'
-
-			propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
-				'-Dsimply-no-shading.compatibilityTest=' + mode
+	return tasks.configure() {
+		register("\$${mode}") {
+			doFirst {
+				final def propertiesFile = file 'gradle.properties'
+	
+				propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
+					'-Dsimply-no-shading.compatibilityTest=' + mode
+			}
 		}
 
-		dependsOn 'cleanEclipse', 'eclipse', 'runClient'
+		register("test${toTitleCase mode}") {
+			group 'compatibility test'
+
+			doFirst {
+				final def propertiesFile = file 'gradle.properties'
+	
+				propertiesFile.text = propertiesFile.text.replaceFirst '-Dsimply-no-shading.compatibilityTest=\\w+',
+					'-Dsimply-no-shading.compatibilityTest=' + mode
+			}
+
+			dependsOn "\$${mode}"
+			dependsOn 'cleanEclipse'
+			dependsOn 'eclipse'
+			dependsOn 'runClient'
+		}
 	}
 }
