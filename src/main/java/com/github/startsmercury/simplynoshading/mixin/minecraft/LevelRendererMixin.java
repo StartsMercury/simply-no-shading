@@ -22,10 +22,10 @@ public class LevelRendererMixin {
 	private static final String buildClouds = "Lnet/minecraft/client/renderer/LevelRenderer;buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)V";
 
 	/**
-	 * @see LevelRenderer#renderClouds(com.mojang.blaze3d.vertex.PoseStack,
-	 *      com.mojang.math.Matrix4f, float, double, double, double)
+	 * @see LevelRenderer#renderClouds(PoseStack, Matrix4f, float, double, double,
+	 *      double)
 	 */
-//	private static final String renderClouds = "Lnet/minecraft/client/renderer/LevelRenderer;renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V";
+	//	private static final String renderClouds = "Lnet/minecraft/client/renderer/LevelRenderer;renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V";
 
 	/**
 	 * Makes all cloud faces require either
@@ -52,8 +52,8 @@ public class LevelRendererMixin {
 	/**
 	 * Makes the clouds not move.
 	 */
-//	@ModifyVariable(method = renderClouds, at = @At("INVOKE"), name = "m")
-//	private double holdClouds(final double shade) {
-//		return 0.0D;
-//	}
+	//	@ModifyVariable(method = renderClouds, at = @At("INVOKE"), name = "m")
+	//	private double holdClouds(final double shade) {
+	//		return 0.0D;
+	//	}
 }
