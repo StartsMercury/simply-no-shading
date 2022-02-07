@@ -1,10 +1,8 @@
 package com.github.startsmercury.simplynoshading.mixin.minecraft;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -27,7 +25,7 @@ public class LevelRendererMixin {
 	 * @see LevelRenderer#renderClouds(com.mojang.blaze3d.vertex.PoseStack,
 	 *      com.mojang.math.Matrix4f, float, double, double, double)
 	 */
-	private static final String renderClouds = "Lnet/minecraft/client/renderer/LevelRenderer;renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V";
+//	private static final String renderClouds = "Lnet/minecraft/client/renderer/LevelRenderer;renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V";
 
 	/**
 	 * Makes all cloud faces require either
@@ -54,8 +52,8 @@ public class LevelRendererMixin {
 	/**
 	 * Makes the clouds not move.
 	 */
-	@ModifyVariable(method = renderClouds, at = @At("INVOKE"), name = "m")
-	private double holdClouds(final double shade) {
-		return 0.0D;
-	}
+//	@ModifyVariable(method = renderClouds, at = @At("INVOKE"), name = "m")
+//	private double holdClouds(final double shade) {
+//		return 0.0D;
+//	}
 }
