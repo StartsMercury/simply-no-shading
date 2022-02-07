@@ -2,11 +2,13 @@
 
 This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.
 
- 1. [Configuration](#Configuration)
- 2. [Compatibility](#Compatibility)
-    1. [Incompatiblities](#Incompatiblities)
- 3. [Images](#Images)
- 3. [Performance](#Performance)
+---
+
+ - [Configuration](#Configuration)
+ - [Compatibility](#Compatibility)
+    - [Incompatiblities](#Incompatiblities)
+ - [Images](#Images)
+ - [Performance](#Performance)
 
 ## Configuration
 
