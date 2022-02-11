@@ -1,14 +1,16 @@
 import java.time.Instant
 
 ext {
-	getFabricApiModule = { final def module ->
+	epochNanoOf = { final Instant instant ->
+		return instant.epochSecond * 1_000_000_000L + instant.nano
+	}
+
+	fabricApiModule = { final def module ->
 		return fabricApi.module(module, project.fabric_version)
 	}
 
-	getGlobalNanoTime = { ->
-		final Instant now = Instant.now()
-
-		return now.epochSecond * 1_000_000_000L + now.nano
+	globalNanoTime = { ->
+		return epochNanoOf(Instant.now())
 	}
 
 	isAlpha = { ->
@@ -19,17 +21,35 @@ ext {
 		return i < 0 ? 0 : i
 	}
 
+	paddedHexString = { final long l ->
+		return padLeft((int) '0', 16, Long.toHexString(l));
+	}
+
 	padLeft = { final int ch = ' ', final int pad, final String s ->
 		final String padding = ch.toString().repeat(nonnegative(pad - s.length()))
 
 		return padding + s;
 	}
 
-	toTitleCase = { final String s ->
-		return s != null ? s.length() == 0 ? s : Character.toUpperCase(s.charAt(0)).toString() + s.substring(1, s.length()).toLowerCase() : null
-	}
+	titleCased = { final String text ->
+		final char[] textTitleCased = new char[text.size()]
+		boolean titleCase = true
 
-	toFullHexString = { final long l ->
-		return padLeft((int) '0', 16, Long.toHexString(l));
+		for (int i = 0; i < text.size(); i++) {
+			char ch = text.charAt i
+
+			if (!Character.isWhitespace(ch)) {
+				if (titleCase) {
+					ch = Character.toTitleCase ch
+					titleCase = false
+				}
+
+				textTitleCased[i] = ch
+			} else {
+				titleCase = true
+			}
+		}
+
+		return String.valueOf(textTitleCased)
 	}
 }

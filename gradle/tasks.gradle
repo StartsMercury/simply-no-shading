@@ -17,7 +17,7 @@ tasks.configure() {
 
 		projectId = '9gx5Xvc5'
 		versionNumber = "${project.mod_version}-${project.versionBuildName}${project.versionLabel}"
-		versionName = "${toTitleCase versionType.toString()} ${project.mod_version} " +
+		versionName = "${titleCased versionType.toString().toLowerCase()} ${project.mod_version} " +
  				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
 					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
 		changelog = isAlpha() ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'

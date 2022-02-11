@@ -18,7 +18,7 @@ curseforge {
 		addGameVersion 'Fabric'
 
 		mainArtifact(remapJar) {
-			displayName = "${toTitleCase System.env.RELEASE_TYPE ?: 'alpha'} ${project.mod_version} " +
+			displayName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${project.mod_version} " +
  				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
 					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
 

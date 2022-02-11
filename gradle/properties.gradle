@@ -1,15 +1,17 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 apply from: 'gradle/functions.gradle'
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = VERSION_17
+targetCompatibility = VERSION_17
 
 ext {
 	localBuild = System.env.GITHUB_RUN_NUMBER == null
 	versionLabel = isAlpha() ? '-alpha' : ''
-	localBuildNumber = localBuild ? toFullHexString(getGlobalNanoTime()) : null
+	localBuildNumber = localBuild ? paddedHexString(globalNanoTime()) : null
 	versionBuildName = localBuild ? "local.${localBuildNumber}" : "build.${System.env.GITHUB_RUN_NUMBER}"
 }
 
-archivesBaseName = project.archives_base_name
+archivesBaseName = project.mod_name
 version = "${project.mod_version}+mc1.18.x-${project.versionBuildName}${project.versionLabel}"
-group = project.maven_group
+group = project.mod_group
