@@ -1,4 +1,4 @@
-# Simply No Shading
+# Simply No Shading [![build](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x)](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml)
 
 This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.
 
