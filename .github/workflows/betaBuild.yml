@@ -1,4 +1,5 @@
 name: beta build
+concurrency: staging_environment
 on: [workflow_dispatch]
 
 jobs:
