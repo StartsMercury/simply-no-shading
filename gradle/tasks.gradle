@@ -2,7 +2,7 @@ apply from: 'gradle/functions.gradle'
 apply from: 'gradle/properties.gradle'
 
 tasks.configure {
-	register '[0] bumpMajorVersion', {
+	register 'bumpMajorVersion', {
 		group 'versioning'
 
 		doFirst {
@@ -10,7 +10,7 @@ tasks.configure {
 		}
 	}
 	
-	register '[1] bumpMinorVersion', {
+	register 'bumpMinorVersion', {
 		group 'versioning'
 
 		doFirst {
@@ -18,7 +18,7 @@ tasks.configure {
 		}
 	}
 	
-	register '[2] bumpBuildVersion', {
+	register 'bumpBuildVersion', {
 		group 'versioning'
 
 		doFirst {
