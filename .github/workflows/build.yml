@@ -20,8 +20,12 @@ jobs:
       - name: activate gradle wrapper
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: bump version
-        run: ./gradlew bumpBuildVersion
+      - name: build
+        run: ./gradlew bumpVersion build modrinth curseforge
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          RELEASE_TYPE: alpha
       - name: commit version bump
         run: |
           git config --local user.email "test@github.com"
@@ -35,30 +39,6 @@ jobs:
           force: true
       - name: checkout repository
         uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: build
-        run: ./gradlew build modrinth curseforge
-        env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
