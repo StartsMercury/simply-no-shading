@@ -1,10 +1,8 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
-
 name: build
-on: [pull_request, push]
+on: [pull_request, push, workflow_dispatch]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -26,7 +24,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build modrinth curseforge
+        run: ./gradlew bumpBuildVersion build modrinth curseforge
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
