@@ -1,10 +1,11 @@
-name: betaBuild
-on: [workflow_dispatch] # Manual trigger
+name: build
+on: [workflow_dispatch]
 
 jobs:
   build:
     strategy:
       matrix:
+        # Use these Java versions
         java: [ 17 ] # Current Java LTS & minimum supported by Minecraft
     runs-on: ubuntu-20.04
     steps:
@@ -16,15 +17,28 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
+      - name: activate gradle wrapper
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build modrinth curseforge
+        run: ./gradlew bumpVersion build modrinth curseforge
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: beta
+      - name: commit version bump
+        run: |
+          git config --local user.email "test@github.com"
+          git config --local user.name "GitHub Build Action"
+          git add ./gradle.properties
+          git commit -m "Bump Version"
+      - name: push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+      - name: checkout repository
+        uses: actions/checkout@v2
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
