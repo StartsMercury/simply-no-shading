@@ -5,10 +5,11 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
-import com.github.startsmercury.simplynoshading.mixin.minecraft.LevelRendererAccessor;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.Event;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 
 /**
  * This class contains the method {@link #registerLifecycleEvents()} which is
@@ -24,40 +25,30 @@ public class SimplyNoShadingLifecycleEvents {
 	 * {@link SimplyNoShadingKeyMappings#registerKeyBindings()}.
 	 */
 	public static void registerLifecycleEvents() {
-		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
-			final SimplyNoShadingOptions clientOptions;
-			boolean changed;
+		ClientTickEvents.END_CLIENT_TICK.register(SimplyNoShadingLifecycleEvents::onClientEndTick);
+	}
 
-			clientOptions = (SimplyNoShadingOptions) minecraft.options;
-			changed = false;
+	private static boolean consumeClick(final KeyMapping keyMapping, final Runnable action) {
+		if (keyMapping.consumeClick()) {
+			action.run();
 
-			if (clientOptions.keyCycleShadeAll().consumeClick()) {
-				changed = true;
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-				clientOptions.cycleShadeAll();
-			}
+	private static void onClientEndTick(final Minecraft client) {
+		final SimplyNoShadingOptions clientOptions = (SimplyNoShadingOptions) client.options;
+		boolean changed = false;
 
-			if (clientOptions.keyCycleShadeBlocks().consumeClick()) {
-				changed = true;
+		changed |= consumeClick(clientOptions.keyCycleShadeAll(), clientOptions::cycleShadeAll);
+		changed |= consumeClick(clientOptions.keyCycleShadeBlocks(), clientOptions::cycleShadeBlocks);
+		/*      */ consumeClick(clientOptions.keyCycleShadeClouds(), clientOptions::cycleShadeClouds);
+		changed |= consumeClick(clientOptions.keyCycleShadeFluids(), clientOptions::cycleShadeFluids);
 
-				clientOptions.cycleShadeBlocks();
-			}
-
-			if (clientOptions.keyCycleShadeClouds().consumeClick()) {
-				clientOptions.cycleShadeClouds();
-
-				((LevelRendererAccessor) minecraft.levelRenderer).setGenerateClouds(true);
-			}
-
-			if (clientOptions.keyCycleShadeFluids().consumeClick()) {
-				changed = true;
-
-				clientOptions.cycleShadeFluids();
-			}
-
-			if (changed) {
-				minecraft.levelRenderer.allChanged();
-			}
-		});
+		if (changed) {
+			client.levelRenderer.allChanged();
+		}
 	}
 }
