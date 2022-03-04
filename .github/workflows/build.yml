@@ -1,9 +1,8 @@
 name: build
-concurrency: staging_environment
 on: [pull_request, push, workflow_dispatch]
 
 jobs:
-  build:
+  bumpVersion:
     strategy:
       matrix:
         # Use these Java versions
@@ -22,10 +21,8 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build modrinth curseforge bumpVersion
+        run: ./gradlew build bumpVersion
         env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
       - name: commit version bump
         run: |
@@ -37,8 +34,20 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
-      - name: checkout repository
-        uses: actions/checkout@v2
+  build:
+    needs: bumpVersion
+    strategy:
+      matrix:
+        # Use these Java versions
+        java: [ 17 ] # Current Java LTS & minimum supported by Minecraft
+    runs-on: ubuntu-20.04
+    steps:
+      - name: build
+        run: ./gradlew build modrinth curseforge
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
