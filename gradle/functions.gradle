@@ -4,8 +4,29 @@ import static java.lang.Character.toTitleCase
 import java.time.Instant
 
 ext {
+	bumpVersion = { int index = releaseTypeOrdinal() ->
+		def nextVersion = nextVersion(index)
+		def propertiesFile = file 'gradle/properties'
+
+		propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${mod_version}", "mod_version\$1${nextVersion}"
+
+		return nextVersion
+	}
+
 	fabricApiModule = { final def module, final def version = fabric_version ->
 		return fabricApi.module(module, version)
+	}
+	
+	nextVersion = { int index = releaseTypeOrdinal() ->
+		def split = mod_version.split "\\."
+
+		split[index] = (split[index] as Integer) + 1
+
+		for (i in (index + 1) ..< split.length) {
+			split[i] = 0
+		}
+
+		return split.join('.')
 	}
 
 	nonnegative = { final int i ->
@@ -20,6 +41,17 @@ ext {
 		final String padding = ch.toString().repeat(nonnegative(pad - s.length()))
 
 		return padding + s;
+	}
+
+	releaseTypeOrdinal = { ->
+		switch (System.env.RELEASE_TYPE ?: 'alpha') {
+		case 'release':
+			return 0
+		case 'beta':
+			return 1
+		default:
+			return 2
+		}
 	}
 
 	titleCased = { final String text ->

@@ -2,6 +2,14 @@ apply from: 'gradle/functions.gradle'
 apply from: 'gradle/properties.gradle'
 
 tasks.configure {
+	register 'bumpBuildVersion', {
+		group 'versioning'
+
+		doFirst {
+			bumpVersion 2
+		}
+	}
+
 	register 'bumpMajorVersion', {
 		group 'versioning'
 
@@ -9,7 +17,7 @@ tasks.configure {
 			bumpVersion 0
 		}
 	}
-	
+
 	register 'bumpMinorVersion', {
 		group 'versioning'
 
@@ -18,11 +26,11 @@ tasks.configure {
 		}
 	}
 	
-	register 'bumpBuildVersion', {
+	register 'bumpVersion', {
 		group 'versioning'
 
 		doFirst {
-			bumpVersion 2
+			bumpVersion()
 		}
 	}
 
@@ -54,8 +62,8 @@ tasks.configure {
 
 		versionType = System.env.RELEASE_TYPE ?: 'alpha'
 		projectId = '9gx5Xvc5'
-		versionNumber = mod_version
-		versionName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${mod_version} for Minecraft ${minecraft_version}"
+		versionNumber = nextVersion()
+		versionName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${versionNumber} for Minecraft ${minecraft_version}"
 		changelog = System.env.CHANGELOG ?: 'No changelog provided'
 		uploadFile = remapJar
 
@@ -71,21 +79,4 @@ tasks.configure {
 			println "Compiling ${archivesBaseName}-${version}..."
 		}
 	}
-}
-
-def bumpVersion(int index) {
-	def propertiesFile = file 'gradle.properties'
-
-	def version = mod_version
-	def split = version.split "\\."
-
-	split[index] = (split[index] as Integer) + 1
-	
-	for (i in (index + 1) ..< split.length) {
-		split[i] = 0
-	}
-	
-	mod_version = split.join '.'
-
-	propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${version}", "mod_version\$1${mod_version}"
 }
