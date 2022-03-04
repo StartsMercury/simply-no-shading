@@ -1,9 +1,6 @@
 name: build
 on: [pull_request, push, workflow_dispatch]
 
-permissions:
-  contents: write
-
 jobs:
   build:
     strategy:
@@ -25,11 +22,21 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew bumpBuildVersion build modrinth curseforge
-        uses: actions/checkout@v2
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
+      - name: Commit files
+        run: |
+          git config --local user.email "test@github.com"
+          git config --local user.name "GitHub Action test"
+          git add ./gradle.properties
+          git commit -m "Add changes"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
