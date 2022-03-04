@@ -75,7 +75,6 @@ tasks.configure {
 
 def bumpVersion(int index) {
 	def propertiesFile = file 'gradle.properties'
-	def properties = project.properties
 
 	def version = mod_version
 	def split = version.split "\\."
@@ -86,7 +85,7 @@ def bumpVersion(int index) {
 		split[i] = 0
 	}
 	
-	def newVersion = split.join '.'
+	mod_version = split.join '.'
 
-	propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${version}", "mod_version\$1${newVersion}"
+	propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${version}", "mod_version\$1${mod_version}"
 }
