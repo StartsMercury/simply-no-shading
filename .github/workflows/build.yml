@@ -20,7 +20,7 @@ jobs:
       - name: activate gradle wrapper
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: build
+      - name: bumpVersion
         run: ./gradlew bumpVersion
         env:
           RELEASE_TYPE: alpha
