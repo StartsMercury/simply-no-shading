@@ -6,7 +6,7 @@ import java.time.Instant
 ext {
 	bumpVersion = { int index = releaseTypeOrdinal() ->
 		def nextVersion = nextVersion(index)
-		def propertiesFile = file 'gradle/properties'
+		def propertiesFile = file 'gradle.properties'
 
 		propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${mod_version}", "mod_version\$1${nextVersion}"
 
