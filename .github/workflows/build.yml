@@ -21,7 +21,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build bumpVersion
+        run: ./gradlew bumpVersion
         env:
           RELEASE_TYPE: alpha
       - name: commit version bump
