@@ -21,15 +21,15 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew bumpVersion build modrinth curseforge
+        run: ./gradlew build modrinth curseforge bumpVersion
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
       - name: commit version bump
+          # git config --local user.email "startsmercury@github.com"
+          # git config --local user.name "StartsMercury"
         run: |
-          git config --local user.email "test@github.com"
-          git config --local user.name "GitHub Build Action"
           git add ./gradle.properties
           git commit -m "Bump Version"
       - name: push changes
