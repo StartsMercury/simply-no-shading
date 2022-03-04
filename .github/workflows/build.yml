@@ -21,7 +21,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: bump version
-        run: ./gradle bumpBuildVersion
+        run: ./gradlew bumpBuildVersion
       - name: Commit files
         run: |
           git config --local user.email "test@github.com"
