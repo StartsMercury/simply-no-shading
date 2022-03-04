@@ -1,4 +1,5 @@
 name: build
+concurrency: staging_environment
 on: [pull_request, push, workflow_dispatch]
 
 jobs:
