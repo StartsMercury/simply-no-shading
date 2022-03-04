@@ -20,12 +20,8 @@ jobs:
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew bumpBuildVersion build modrinth curseforge
-        env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          RELEASE_TYPE: alpha
+      - name: bump version
+        run: ./gradle bumpBuildVersion
       - name: Commit files
         run: |
           git config --local user.email "test@github.com"
@@ -37,6 +33,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: build
+        run: ./gradlew build modrinth curseforge
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
