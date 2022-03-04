@@ -27,7 +27,6 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
       - name: commit version bump
-          # git config --local user.email "startsmercury@github.com"
         run: |
           git config --local user.name "Build Action"
           git add ./gradle.properties
