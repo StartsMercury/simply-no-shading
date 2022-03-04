@@ -36,7 +36,7 @@ public class LiquidBlockRendererMixin {
 	 * @see LiquidBlockRenderer#tesselate(BlockAndTintGetter, BlockPos,
 	 *      VertexConsumer, FluidState)
 	 */
-	private static final String tesselate = "Lnet/minecraft/client/renderer/block/LiquidBlockRenderer;tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/material/FluidState;)Z";
+	private static final String tesselate = "Lnet/minecraft/client/renderer/block/LiquidBlockRenderer;tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/material/FluidState;)Z";
 
 	/**
 	 * Makes all fluid faces require either
