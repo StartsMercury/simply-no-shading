@@ -28,8 +28,8 @@ jobs:
           RELEASE_TYPE: alpha
       - name: commit version bump
         run: |
-          git config --local user.email "test@github.com"
-          git config --local user.name "GitHub Build Action"
+          git config --local user.email "startsmercury@github.com"
+          git config --local user.name "StartsMercury"
           git add ./gradle.properties
           git commit -m "Bump Version"
       - name: push changes
