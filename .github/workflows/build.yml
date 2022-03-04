@@ -25,6 +25,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew bumpBuildVersion build modrinth curseforge
+        uses: actions/checkout@v2
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
