@@ -38,10 +38,10 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "java": ">=17",
-    "minecraft": "1.18.x"
+    "minecraft": ">=${minecraft_version}"
   },
   "suggests": {
     "modmenu": ">=${modmenu_version}",
-    "sodium": ">=${sodium_version}+build.x"
+    "sodium": ">=${sodium_version}"
   }
 }

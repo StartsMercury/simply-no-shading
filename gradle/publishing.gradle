@@ -1,7 +1,7 @@
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		mavenJava MavenPublication, {
 			from components.java
 		}
 	}

@@ -1,10 +1,11 @@
 processResources {
-	inputs.property 'version', project.mod_version
+	inputs.property 'version', mod_version
 
 	filesMatching('fabric.mod.json') {
-		expand 'loader_version': project.loader_version,
-		       'modmenu_version': project.modmenu_version,
-		       'sodium_version': project.sodium_version,
-		       'version': project.mod_version
+		expand 'loader_version': loader_version,
+		       'minecraft_version': minecraft_version,
+		       'modmenu_version': modmenu_version,
+		       'sodium_version': sodium_version,
+		       'version': mod_version
 	}
 }

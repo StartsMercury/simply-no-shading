@@ -1,20 +1,11 @@
+import static java.lang.Character.isWhitespace
+import static java.lang.Character.toTitleCase
+
 import java.time.Instant
 
 ext {
-	epochNanoOf = { final Instant instant ->
-		return instant.epochSecond * 1_000_000_000L + instant.nano
-	}
-
-	fabricApiModule = { final def module ->
-		return fabricApi.module(module, project.fabric_version)
-	}
-
-	globalNanoTime = { ->
-		return epochNanoOf(Instant.now())
-	}
-
-	isAlpha = { ->
-		return !System.env.RELEASE_TYPE || System.env.RELEASE_TYPE == 'alpha'
+	fabricApiModule = { final def module, final def version = fabric_version ->
+		return fabricApi.module(module, version)
 	}
 
 	nonnegative = { final int i ->
@@ -38,9 +29,9 @@ ext {
 		for (int i = 0; i < text.size(); i++) {
 			char ch = text.charAt i
 
-			if (!Character.isWhitespace(ch)) {
+			if (!isWhitespace(ch)) {
 				if (titleCase) {
-					ch = Character.toTitleCase ch
+					ch = toTitleCase ch
 					titleCase = false
 				}
 

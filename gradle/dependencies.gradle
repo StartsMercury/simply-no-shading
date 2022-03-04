@@ -1,6 +1,12 @@
 apply from: 'gradle/configurations.gradle'
-apply from: 'gradle/repositories.gradle'
 apply from: 'gradle/functions.gradle'
+apply from: 'gradle/repositories.gradle'
+
+dependencies.ext {	
+	includeFabricApiModuleImplementation = { final def module, final def version = fabric_version ->
+		return dependencies.includeModImplementation(fabricApiModule(module, version))
+	}
+}
 
 dependencies {
 	// Minecraft Fabric
@@ -9,10 +15,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
 	// Fabric Key Binding API (V1)
-	includeModImplementation fabricApiModule('fabric-key-binding-api-v1')
+	includeFabricApiModuleImplementation 'fabric-key-binding-api-v1'
 	
 	// Fabric Lifecycle Events (V1)
-	includeModImplementation fabricApiModule('fabric-lifecycle-events-v1')
+	includeFabricApiModuleImplementation 'fabric-lifecycle-events-v1'
 }
 
 compatibilityTestMods()
@@ -20,7 +26,7 @@ libraryMods()
 performanceMods()
 utilityMods()
 
-final def compatibilityTestMods() {
+def compatibilityTestMods() {
 	return dependencies {
 		switch (System.getProperty 'simply-no-shading.compatibilityTest', 'none') {
 		case 'iris': irisTestMods()
@@ -30,7 +36,7 @@ final def compatibilityTestMods() {
 	}
 }
 
-final def irisTestMods() {
+def irisTestMods() {
 	return dependencies {
 		// Iris
 		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.0'
@@ -40,7 +46,7 @@ final def irisTestMods() {
 	}
 }
 
-final def libraryMods() {
+def libraryMods() {
 	return dependencies {
 		// CaffeineConfig
 		modRuntimeOnly 'com.github.FlashyReese:CaffeineConfig:383ee33be5'
@@ -65,14 +71,14 @@ final def libraryMods() {
 	}
 }
 
-final def normalTestMods() {
+def normalTestMods() {
 	return dependencies {
 		// Sodium
 		modCompileOnly "maven.modrinth:sodium:${sodium_version}"
 	}
 }
 
-final def performanceMods() {
+def performanceMods() {
 	return dependencies {
 		// DynamicFPS
 		modRuntimeOnly 'maven.modrinth:dynamic-fps:v2.1.0'
@@ -81,7 +87,7 @@ final def performanceMods() {
 		modRuntimeOnly 'curse.maven:ferritecore-459857:3550048'
 
 		// Lazy DFU
-		modRuntimeOnly "com.github.astei:lazydfu:${lazydfu_version}", {
+		modRuntimeOnly 'com.github.astei:lazydfu:0.1.2', {
 			exclude module: 'fabric-loader'
 		}
 
@@ -96,7 +102,7 @@ final def performanceMods() {
 	}
 }
 
-final def sodiumTestMods() {
+def sodiumTestMods() {
 	return dependencies {
 		// Reese's Sodium Options
 		modRuntimeOnly 'curse.maven:reeses-sodium-options-511319:3622245'
@@ -109,7 +115,7 @@ final def sodiumTestMods() {
 	}
 }
 
-final def utilityMods() {
+def utilityMods() {
 	return dependencies {
 		// Mod Menu
 		modImplementation "com.terraformersmc:modmenu:${modmenu_version}"

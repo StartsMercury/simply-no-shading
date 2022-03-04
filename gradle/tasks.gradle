@@ -1,32 +1,65 @@
 apply from: 'gradle/functions.gradle'
 apply from: 'gradle/properties.gradle'
 
-tasks.configure() {
-	register(     'cleanBuild'     ) { group 'build'; dependsOn 'clean'; finalizedBy 'build' }
+tasks.configure {
+	register '[0] bumpMajorVersion', {
+		group 'versioning'
 
-	register('cleanBuildDependants') { group 'build'; dependsOn 'clean'; finalizedBy 'buildDependants' }
+		doFirst {
+			bumpVersion 0
+		}
+	}
+	
+	register '[1] bumpMinorVersion', {
+		group 'versioning'
 
-	register(  'cleanBuildNeeded'  ) { group 'build'; dependsOn 'clean'; finalizedBy 'buildNeeded' }
+		doFirst {
+			bumpVersion 1
+		}
+	}
+	
+	register '[2] bumpBuildVersion', {
+		group 'versioning'
 
-	named('modrinth') {
+		doFirst {
+			bumpVersion 2
+		}
+	}
+
+	register 'cleanBuild', {
+		group 'build'
+
+		dependsOn 'clean'
+		finalizedBy 'build'
+	}
+
+	register 'cleanBuildDependants', {
+		group 'build'
+
+		dependsOn 'clean'
+		finalizedBy 'buildDependants'
+	}
+
+	register 'cleanBuildNeeded', {
+		group 'build'
+
+		dependsOn 'clean'
+		finalizedBy 'buildNeeded'
+	}
+
+	named 'modrinth', {
 		onlyIf {
 			token = System.env.MODRINTH_TOKEN
 		}
 
 		versionType = System.env.RELEASE_TYPE ?: 'alpha'
-
 		projectId = '9gx5Xvc5'
-		versionNumber = "${project.mod_version}-${project.versionBuildName}${project.versionLabel}"
-		versionName = "${titleCased versionType.toString().toLowerCase()} ${project.mod_version} " +
- 				(project.localBuild ? "Local Build ${project.localBuildNumber}" :
-					"Build ${System.env.GITHUB_RUN_NUMBER}") + ' for Minecraft 1.18.x';
-		changelog = isAlpha() ? '**USE WITH CAUTION**\n\nThis is an automatic alpha build.'
-			: System.env.CHANGELOG ?: 'No changelog provided'
-
+		versionNumber = mod_version
+		versionName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${mod_version} for Minecraft ${minecraft_version}"
+		changelog = System.env.CHANGELOG ?: 'No changelog provided'
 		uploadFile = remapJar
 
-		addGameVersion '1.18'
-		addGameVersion '1.18.1'
+		addGameVersion minecraft_version
 		addLoader 'fabric'
 	}
 
@@ -35,7 +68,25 @@ tasks.configure() {
 		it.options.release = 17
 
 		doFirst {
-			println "Compiling ${project.archivesBaseName}-${project.version}..."
+			println "Compiling ${archivesBaseName}-${version}..."
 		}
 	}
+}
+
+def bumpVersion(int index) {
+	def propertiesFile = file 'gradle.properties'
+	def properties = project.properties
+
+	def version = mod_version
+	def split = version.split "\\."
+
+	split[index] = (split[index] as Integer) + 1
+	
+	for (i in (index + 1) ..< split.length) {
+		split[i] = 0
+	}
+	
+	def newVersion = split.join '.'
+
+	propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${version}", "mod_version\$1${newVersion}"
 }
