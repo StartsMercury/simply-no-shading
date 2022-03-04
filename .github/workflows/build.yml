@@ -17,26 +17,48 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
+      - name: activate gradle wrapper
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew bumpBuildVersion build modrinth curseforge
-        env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          RELEASE_TYPE: alpha
-      - name: Commit files
+      - name: bump version
+        run: ./gradlew bumpBuildVersion
+      - name: commit version bump
         run: |
           git config --local user.email "test@github.com"
-          git config --local user.name "GitHub Action test"
+          git config --local user.name "GitHub Build Action"
           git add ./gradle.properties
-          git commit -m "Add changes"
-      - name: Push changes
+          git commit -m "Bump Version"
+      - name: push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: build
+        run: ./gradlew build modrinth curseforge
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
