@@ -1,22 +1,55 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 plugins {
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'com.modrinth.minotaur' version '1.2.1'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
-	id 'maven-publish'
 }
 
-// Plugin sensitive tasks are registered first
-tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
-
-apply from: 'gradle/configurations.gradle'
-apply from: 'gradle/curseforge.gradle'
-apply from: 'gradle/dependencies.gradle'
 apply from: 'gradle/functions.gradle'
-apply from: 'gradle/java.gradle'
-apply from: 'gradle/jar.gradle'
-apply from: 'gradle/loom.gradle'
-apply from: 'gradle/processResources.gradle'
-apply from: 'gradle/properties.gradle'
-apply from: 'gradle/publishing.gradle'
+
+sourceCompatibility = VERSION_17
+targetCompatibility = VERSION_17
+
+archivesBaseName = project.mod_name
+version = "${nextVersion()}+mc${minecraft_version}"
+group = project.mod_group
+
 apply from: 'gradle/repositories.gradle'
+apply from: 'gradle/configurations.gradle'
+
+dependencies {
+	// Fabric Key Binding API (V1)
+	fabricModuleCompileOnly 'fabric-key-binding-api-v1'
+
+	// Fabric Lifecycle Events (V1)
+	fabricModuleCompileOnly 'fabric-lifecycle-events-v1'
+
+	// Fabric Loader
+	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+
+	// Iris
+	modCompileOnly 'maven.modrinth:iris:1.18.x-v1.2.1'
+
+	// Minecraft
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+
+	// Mod Menu
+	modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}"
+
+	// Official Mojang Mappings
+	mappings loom.officialMojangMappings()
+
+	// Sodium
+	modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+}
+
+apply from: 'gradle/compatibility.gradle'
+apply from: 'gradle/loom.gradle'
+apply from: 'gradle/jar.gradle'
+apply from: 'gradle/java.gradle'
+apply from: 'gradle/processResources.gradle'
 apply from: 'gradle/tasks.gradle'
+
+tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
+apply from: 'gradle/publishing.gradle'

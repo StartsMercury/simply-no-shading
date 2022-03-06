@@ -15,3 +15,29 @@ configurations {
 	include                 .extendsFrom includeModImplementation
 	       modImplementation.extendsFrom includeModImplementation
 }
+
+dependencies.ext {
+	fabricModuleApi = { final def module, final def version = fabric_version ->
+		return dependencies.modApi(fabricApiModule(module, version))
+	}
+	
+	fabricModuleCompileOnly = { final def module, final def version = fabric_version ->
+		return dependencies.modCompileOnly(fabricApiModule(module, version))
+	}
+	
+	fabricModuleImplementation = { final def module, final def version = fabric_version ->
+		return dependencies.modImplementation(fabricApiModule(module, version))
+	}
+
+	fabricModuleRuntimeOnly = { final def module, final def version = fabric_version ->
+		return dependencies.modRuntimeOnly(fabricApiModule(module, version))
+	}
+
+	includeFabricModuleApi = { final def module, final def version = fabric_version ->
+		return dependencies.includeModApi(fabricApiModule(module, version))
+	}
+
+	includeFabricModuleImplementation = { final def module, final def version = fabric_version ->
+		return dependencies.includeModImplementation(fabricApiModule(module, version))
+	}
+}

@@ -1,0 +1,27 @@
+dependencies {
+	if (fabric_compat) {
+		// Fabric Key Binding API (V1)
+		fabricModuleRuntimeOnly 'fabric-key-binding-api-v1'
+
+		// Fabric Lifecycle Events (V1)
+		fabricModuleRuntimeOnly 'fabric-lifecycle-events-v1'
+	}
+
+	if (iris_compat) {
+		// Iris
+		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.1'
+
+		// JCPP
+		runtimeOnly 'org.anarres:jcpp:1.4.14'
+	}
+
+	if (modmenu_compat) {
+		// Mod Menu
+		modRuntimeOnly "com.terraformersmc:modmenu:${modmenu_version}"
+	}
+
+	if (sodium_compat) {
+		// Sodium
+		modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
+	}
+}

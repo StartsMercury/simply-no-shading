@@ -1,6 +1,3 @@
-apply from: 'gradle/functions.gradle'
-apply from: 'gradle/properties.gradle'
-
 tasks.configure {
 	register 'bumpBuildVersion', {
 		group 'versioning'
@@ -53,22 +50,6 @@ tasks.configure {
 
 		dependsOn 'clean'
 		finalizedBy 'buildNeeded'
-	}
-
-	named 'modrinth', {
-		onlyIf {
-			token = System.env.MODRINTH_TOKEN
-		}
-
-		versionType = System.env.RELEASE_TYPE ?: 'alpha'
-		projectId = '9gx5Xvc5'
-		versionNumber = nextVersion()
-		versionName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${versionNumber} for Minecraft ${minecraft_version}"
-		changelog = System.env.CHANGELOG ?: 'No changelog provided'
-		uploadFile = remapJar
-
-		addGameVersion minecraft_version
-		addLoader 'fabric'
 	}
 
 	withType(JavaCompile).configureEach {
