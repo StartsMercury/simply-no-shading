@@ -16,7 +16,7 @@ curseforge {
 			displayName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${nextVersion()} for Minecraft ${minecraft_version}"
 
 			relations {
-				optionalDependency 'fabric'
+				optionalDependency 'fabric-api'
 				optionalDependency 'modmenu'
 				optionalDependency 'irisshaders'
 				optionalDependency 'sodium'
