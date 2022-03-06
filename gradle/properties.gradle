@@ -6,5 +6,5 @@ sourceCompatibility = VERSION_17
 targetCompatibility = VERSION_17
 
 archivesBaseName = project.mod_name
-version = "${mod_version}+mc${minecraft_version}"
+version = "${nextVersion()}+mc${minecraft_version}"
 group = project.mod_group
