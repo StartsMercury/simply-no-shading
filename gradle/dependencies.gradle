@@ -39,7 +39,7 @@ def compatibilityTestMods() {
 def irisTestMods() {
 	return dependencies {
 		// Iris
-		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.0'
+		modRuntimeOnly 'maven.modrinth:iris:1.18.x-v1.2.1'
 
 		// JCPP
 		runtimeOnly 'org.anarres:jcpp:1.4.14'
@@ -58,7 +58,7 @@ def libraryMods() {
 		runtimeOnly 'org.joml:joml:1.10.2'
 
 		// LibZoomer
-		modRuntimeOnly 'io.github.ennuil:LibZoomer:0.3.0+1.17.1'
+		// modRuntimeOnly 'io.github.ennuil:LibZoomer:0.4.0+1.18.2'
 
 		// Quilt Json5
 		modRuntimeOnly 'org.quiltmc:quilt-json5:1.0.0'
@@ -84,34 +84,29 @@ def performanceMods() {
 		modRuntimeOnly 'maven.modrinth:dynamic-fps:v2.1.0'
 
 		// FerriteCore
-		modRuntimeOnly 'curse.maven:ferritecore-459857:3550048'
-
-		// Lazy DFU
-		modRuntimeOnly 'com.github.astei:lazydfu:0.1.2', {
-			exclude module: 'fabric-loader'
-		}
+		// modRuntimeOnly 'maven.modrinth:ferrite-core:4.1.2'
 
 		// Lithium
-		modRuntimeOnly 'curse.maven:lithium-360438:3590908'
+		modRuntimeOnly 'maven.modrinth:lithium:mc1.18.2-0.7.9'
 
 		// Smooth Boot
-		modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
+		// modRuntimeOnly 'curse.maven:smoothboot-415758:3549723'
 
 		// Starlight
-		modRuntimeOnly 'curse.maven:starlight-521783:3554912'
+		modRuntimeOnly 'maven.modrinth:starlight:1.0.2+1.18.2'
 	}
 }
 
 def sodiumTestMods() {
 	return dependencies {
 		// Reese's Sodium Options
-		modRuntimeOnly 'curse.maven:reeses-sodium-options-511319:3622245'
+		modRuntimeOnly 'maven.modrinth:reeses-sodium-options:mc1.18.2-1.4.1'
 
 		// Sodium
-		modImplementation "maven.modrinth:sodium:${sodium_version}"
+		modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
 
 		// Sodium Extra
-		modRuntimeOnly 'curse.maven:sodium-extra-447673:3392192'
+		modRuntimeOnly 'maven.modrinth:sodium-extra:mc1.18.2-0.4.1'
 	}
 }
 
@@ -121,12 +116,9 @@ def utilityMods() {
 		modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
 
 		// Ok Zoomer
-		modRuntimeOnly 'maven.modrinth:ok-zoomer:5.0.0-beta.3+1.17.1'
+		// modRuntimeOnly 'maven.modrinth:ok-zoomer:5.0.0-beta.3+1.17.1'
 
 		// Screenshot to Clipboard
-		modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3509043'
-
-		// WorldEdit
-		modRuntimeOnly 'curse.maven:worldedit-225608:3631606'
+		modRuntimeOnly 'curse.maven:screenshot-to-clipboard-327154:3643025'
 	}
 }

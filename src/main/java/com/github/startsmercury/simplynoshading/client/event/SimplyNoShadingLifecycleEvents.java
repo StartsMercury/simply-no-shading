@@ -5,6 +5,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
 import com.github.startsmercury.simplynoshading.client.SimplyNoShadingOptions;
 import com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simplynoshading.mixin.minecraft.LevelRendererAccessor;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.Event;
@@ -40,15 +41,18 @@ public class SimplyNoShadingLifecycleEvents {
 
 	private static void onClientEndTick(final Minecraft client) {
 		final SimplyNoShadingOptions clientOptions = (SimplyNoShadingOptions) client.options;
-		boolean changed = false;
 
-		changed |= consumeClick(clientOptions.keyCycleShadeAll(), clientOptions::cycleShadeAll);
-		changed |= consumeClick(clientOptions.keyCycleShadeBlocks(), clientOptions::cycleShadeBlocks);
-		/*      */ consumeClick(clientOptions.keyCycleShadeClouds(), clientOptions::cycleShadeClouds);
-		changed |= consumeClick(clientOptions.keyCycleShadeFluids(), clientOptions::cycleShadeFluids);
+		final boolean blocksOrFluidsChanged = consumeClick(clientOptions.keyCycleShadeAll(),
+				clientOptions::cycleShadeAll) |
+				consumeClick(clientOptions.keyCycleShadeBlocks(), clientOptions::cycleShadeBlocks) |
+				consumeClick(clientOptions.keyCycleShadeFluids(), clientOptions::cycleShadeFluids);
+		final boolean cloudsChanged = consumeClick(clientOptions.keyCycleShadeClouds(),
+				clientOptions::cycleShadeClouds);
 
-		if (changed) {
+		if (blocksOrFluidsChanged) {
 			client.levelRenderer.allChanged();
+		} else if (cloudsChanged) {
+			((LevelRendererAccessor) client.levelRenderer).setGenerateClouds(true);
 		}
 	}
 }
