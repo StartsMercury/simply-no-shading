@@ -18,7 +18,7 @@ curseforge {
 			relations {
 				optionalDependency 'fabric'
 				optionalDependency 'modmenu'
-				optionalDependency 'iris'
+				optionalDependency 'irisshaders'
 				optionalDependency 'sodium'
 			}
 		}
