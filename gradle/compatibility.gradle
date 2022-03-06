@@ -20,7 +20,13 @@ dependencies {
 		modRuntimeOnly "com.terraformersmc:modmenu:${modmenu_version}"
 	}
 
-	if (sodium_compat) {
+	if (iris_compat || sodium_compat) {
+		// Fabric Key Binding API (V1)
+		fabricModuleRuntimeOnly 'fabric-resource-loader-v0'
+
+		// Fabric Lifecycle Events (V1)
+		fabricModuleRuntimeOnly 'fabric-screen-api-v1'
+
 		// Sodium
 		modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
 	}

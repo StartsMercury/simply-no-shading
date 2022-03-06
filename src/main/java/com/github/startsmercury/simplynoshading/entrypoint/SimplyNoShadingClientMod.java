@@ -9,6 +9,7 @@ import com.github.startsmercury.simplynoshading.client.event.SimplyNoShadingLife
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 
 /**
  * This class contains the method {@link #onInitializeClient()} which is ran
@@ -24,8 +25,12 @@ public class SimplyNoShadingClientMod implements ClientModInitializer {
 	 */
 	@Override
 	public void onInitializeClient() {
-		SimplyNoShadingKeyMappings.registerKeyBindings();
+		final FabricLoader fabricLoader = FabricLoader.getInstance();
 
-		SimplyNoShadingLifecycleEvents.registerLifecycleEvents();
+		if (fabricLoader.isModLoaded("fabric-key-binding-api") || fabricLoader.isModLoaded("fabric-lifecycle-events")) {
+			SimplyNoShadingKeyMappings.registerKeyBindings();
+
+			SimplyNoShadingLifecycleEvents.registerLifecycleEvents();
+		}
 	}
 }
