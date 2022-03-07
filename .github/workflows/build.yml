@@ -62,7 +62,7 @@ jobs:
       - name: build
         run: ./gradlew build
         env:
-          CHANGELOG: ${{ github.event.commits }}.map {|commit| commit.message}
+          CHANGELOG: ${{ github.event.commits[][message] }}
           RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
