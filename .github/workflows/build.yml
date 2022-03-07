@@ -6,6 +6,12 @@ on:
     inputs:
       changelog:
         required: false
+      version-channel:
+        default: alpha
+        options:
+          - alpha
+          - beta
+          - release
 
 jobs:
   bumpVersion:
@@ -65,7 +71,7 @@ jobs:
       - name: build
         run: ./gradlew build
         env:
-          RELEASE_TYPE: alpha
+          RELEASE_TYPE: ${{ github.event.inputs.version-channel || 'alpha' }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
@@ -94,9 +100,9 @@ jobs:
       - name: curseforge
         run: ./gradlew remapJar curseforge
         env:
-          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
+          CHANGELOG: ${{ github.event.inputs.changelog || join(github.event.commits.*.message, '\n') }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          RELEASE_TYPE: alpha
+          RELEASE_TYPE: ${{ github.event.inputs.version-channel || 'alpha' }}
   modrinth:
     needs: bumpVersion
     strategy:
@@ -122,4 +128,4 @@ jobs:
         env:
           CHANGELOG: ${{ github.event.inputs.changelog || join(github.event.commits.*.message, '\n') }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          RELEASE_TYPE: alpha
+          RELEASE_TYPE: ${{ github.event.inputs.version-channel || 'alpha' }}
