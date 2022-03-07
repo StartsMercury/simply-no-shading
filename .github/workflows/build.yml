@@ -115,7 +115,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: modrinth
         run: ./gradlew build modrinth
+        # ${{ github.event.inputs.changelog join(github.event.commits.*.message, '\n') }}
         env:
-          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
+          CHANGELOG: ${{ github.event.inputs.changelog || join(github.event.commits.*.message, '\n') }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
