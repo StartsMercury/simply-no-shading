@@ -2,8 +2,9 @@ import static org.gradle.api.JavaVersion.VERSION_17
 
 plugins {
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
-	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
+	// Minotaur must be applied after Loom
+	id 'com.modrinth.minotaur' version '2.+'
 }
 
 apply from: 'gradle/functions.gradle'
@@ -51,5 +52,5 @@ apply from: 'gradle/java.gradle'
 apply from: 'gradle/processResources.gradle'
 apply from: 'gradle/tasks.gradle'
 
-tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
+// tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
 apply from: 'gradle/publishing.gradle'
