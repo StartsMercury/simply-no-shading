@@ -29,7 +29,7 @@ jobs:
       - name: bumpVersion
         run: ./gradlew bumpVersion
         env:
-          CHANGELOG: ${{ github.event.commits.message }}
+          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
           RELEASE_TYPE: alpha
       - name: commit version bump
         run: |
