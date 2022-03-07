@@ -5,15 +5,15 @@ curseforge {
 
 	project {
 		id = '550997'
-		releaseType = System.env.RELEASE_TYPE ?: 'alpha'
+		changelog = createChangelog()
 		changelogType = 'markdown'
-		changelog = System.env.CHANGELOG ?: 'No changelog provided'
+		releaseType = System.env.RELEASE_TYPE ?: 'alpha'
 
-		addGameVersion minecraft_version
 		addGameVersion 'Fabric'
+		addGameVersion minecraft_version
 
 		mainArtifact remapJar, {
-			displayName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${nextVersion()} for Minecraft ${minecraft_version}"
+			displayName = createVersionName()
 
 			relations {
 				optionalDependency 'fabric-api'
@@ -38,9 +38,17 @@ modrinth {
 	versionType = System.env.RELEASE_TYPE ?: 'alpha'
 	projectId = '9gx5Xvc5'
 	versionNumber = nextVersion()
-	versionName = "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${versionNumber} for Minecraft ${minecraft_version}"
-	changelog = System.env.CHANGELOG ?: 'No changelog provided'
+	versionName = createVersionName()
+	changelog = createChangelog()
 	uploadFile = remapJar
 	gameVersions = [ minecraft_version ]
 	loaders = [ 'fabric' ]
+}
+
+def createChangelog() {
+	return System.env.CHANGELOG?.strip() ?: 'No changelog provided'
+}
+
+def createVersionName() {
+	return "${titleCased System.env.RELEASE_TYPE ?: 'alpha'} ${nextVersion()} for Minecraft ${minecraft_version}"
 }

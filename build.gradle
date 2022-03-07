@@ -16,9 +16,6 @@ archivesBaseName = project.mod_name
 version = "${nextVersion()}+mc${minecraft_version}"
 group = project.mod_group
 
-println(System.env.CHANGELOG)
-println(System.env.CHANGELOG?.class)
-
 apply from: 'gradle/repositories.gradle'
 apply from: 'gradle/configurations.gradle'
 
@@ -53,7 +50,5 @@ apply from: 'gradle/loom.gradle'
 apply from: 'gradle/jar.gradle'
 apply from: 'gradle/java.gradle'
 apply from: 'gradle/processResources.gradle'
-apply from: 'gradle/tasks.gradle'
-
-// tasks.register 'modrinth', com.modrinth.minotaur.TaskModrinthUpload
 apply from: 'gradle/publishing.gradle'
+apply from: 'gradle/tasks.gradle'

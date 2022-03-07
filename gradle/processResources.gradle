@@ -1,7 +1,7 @@
 processResources {
 	inputs.property 'version', mod_version
 
-	filesMatching('fabric.mod.json') {
+	filesMatching 'fabric.mod.json', {
 		expand 'fabric_version': fabric_version,
 		       'loader_version': loader_version,
 		       'minecraft_version': minecraft_version,

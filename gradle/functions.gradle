@@ -1,11 +1,12 @@
 import static java.lang.Character.isWhitespace
 import static java.lang.Character.toTitleCase
+import static java.lang.Long.toHexString
 
 import java.time.Instant
 
 ext {
-	bumpVersion = { int index = releaseTypeOrdinal() ->
-		def nextVersion = nextVersion(index)
+	bumpVersion = { index = releaseTypeOrdinal() ->
+		def nextVersion = nextVersion index
 		def propertiesFile = file 'gradle.properties'
 
 		propertiesFile.text = propertiesFile.text.replaceAll "mod_version(\\s*=\\s*)${mod_version}", "mod_version\$1${nextVersion}"
@@ -13,34 +14,20 @@ ext {
 		return nextVersion
 	}
 
-	fabricApiModule = { final def module, final def version = fabric_version ->
+	fabricApiModule = { module, version = fabric_version ->
 		return fabricApi.module(module, version)
 	}
 	
-	nextVersion = { int index = releaseTypeOrdinal() ->
-		def split = mod_version.split "\\."
+	nextVersion = { index = releaseTypeOrdinal() ->
+		def split = mod_version.split '\\.'
 
-		split[index] = (split[index] as Integer) + 1
+		split[index] = split[index] as Integer + 1
 
-		for (i in (index + 1) ..< split.length) {
+		for (i in index + 1 ..< split.length) {
 			split[i] = 0
 		}
 
 		return split.join('.')
-	}
-
-	nonnegative = { final int i ->
-		return i < 0 ? 0 : i
-	}
-
-	paddedHexString = { final long l ->
-		return padLeft((int) '0', 16, Long.toHexString(l));
-	}
-
-	padLeft = { final int ch = ' ', final int pad, final String s ->
-		final String padding = ch.toString().repeat(nonnegative(pad - s.length()))
-
-		return padding + s;
 	}
 
 	releaseTypeOrdinal = { ->
@@ -54,11 +41,11 @@ ext {
 		}
 	}
 
-	titleCased = { final String text ->
-		final char[] textTitleCased = new char[text.size()]
-		boolean titleCase = true
+	titleCased = { text ->
+		def textTitleCased = new char[text.size()]
+		def titleCase = true
 
-		for (int i = 0; i < text.size(); i++) {
+		for (i in 0 ..< text.size()) {
 			char ch = text.charAt i
 
 			if (!isWhitespace(ch)) {
