@@ -29,7 +29,6 @@ jobs:
       - name: bumpVersion
         run: ./gradlew bumpVersion
         env:
-          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
           RELEASE_TYPE: alpha
       - name: commit version bump
         run: |
@@ -92,6 +91,7 @@ jobs:
       - name: curseforge
         run: ./gradlew remapJar curseforge
         env:
+          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           RELEASE_TYPE: alpha
   modrinth:
@@ -116,6 +116,6 @@ jobs:
       - name: modrinth
         run: ./gradlew build modrinth
         env:
-          CHANGELOG: ${{ github.event.inputs.changelog }}
+          CHANGELOG: ${{ join(github.event.commits.*.message, '\n') }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
