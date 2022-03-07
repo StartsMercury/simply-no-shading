@@ -15,6 +15,7 @@ archivesBaseName = project.mod_name
 version = "${nextVersion()}+mc${minecraft_version}"
 group = project.mod_group
 
+println(System.env.CHANGELOG)
 println(System.env.CHANGELOG?.class)
 
 apply from: 'gradle/repositories.gradle'
