@@ -2,7 +2,7 @@ import static org.gradle.api.JavaVersion.VERSION_17
 
 plugins {
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
-	id 'com.modrinth.minotaur' version '1.2.1'
+	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
 }
 
