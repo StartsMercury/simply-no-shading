@@ -62,6 +62,7 @@ jobs:
       - name: build
         run: ./gradlew build
         env:
+          CHANGELOG: ${{ github.event.commits.message }}
           RELEASE_TYPE: alpha
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
@@ -91,7 +92,6 @@ jobs:
       - name: curseforge
         run: ./gradlew remapJar curseforge
         env:
-          CHANGELOG: ${{ github.event.commits.message }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           RELEASE_TYPE: alpha
   modrinth:
