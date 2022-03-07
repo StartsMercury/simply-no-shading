@@ -1,5 +1,11 @@
 name: build
-on: [pull_request, push, workflow_dispatch]
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+    inputs:
+      changelog:
+        required: false
 
 jobs:
   bumpVersion:
@@ -85,6 +91,7 @@ jobs:
       - name: curseforge
         run: ./gradlew remapJar curseforge
         env:
+          CHANGELOG: ${{ github.event.inputs.message }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           RELEASE_TYPE: alpha
   modrinth:
@@ -109,5 +116,6 @@ jobs:
       - name: modrinth
         run: ./gradlew build modrinth
         env:
+          CHANGELOG: ${{ github.event.inputs.message }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TYPE: alpha
