@@ -91,7 +91,7 @@ jobs:
       - name: curseforge
         run: ./gradlew remapJar curseforge
         env:
-          CHANGELOG: ${{ github.event.commits[].message }}
+          CHANGELOG: ${{ github.event.commits.message }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           RELEASE_TYPE: alpha
   modrinth:
