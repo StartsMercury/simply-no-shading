@@ -12,6 +12,7 @@ on:
           - alpha
           - beta
           - release
+        type: choice
 
 jobs:
   bumpVersion:
