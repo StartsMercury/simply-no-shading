@@ -9,6 +9,9 @@ on:
 
 jobs:
   bumpVersion:
+    concurrency: 
+      group: bumpVersion
+      cancel-in-progress: true
     strategy:
       matrix:
         # Use these Java versions
