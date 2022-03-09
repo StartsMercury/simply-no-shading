@@ -20,11 +20,6 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 @Mixin(BakedQuad.class)
 public class BakedQuadMixin {
 	/**
-	 * @see BakedQuad#isShade()
-	 */
-	private static final String isShade = "Lnet/minecraft/client/renderer/block/model/BakedQuad;isShade()Z";
-
-	/**
 	 * Makes all block model faces require either
 	 * {@link SimplyNoShadingOptions#isShadeAll()} or
 	 * {@link SimplyNoShadingOptions#isShadeBlocks()} to return {@code true} to
@@ -33,7 +28,8 @@ public class BakedQuadMixin {
 	 * @param callback the callback
 	 * @implSpec {@code isShade() && (isShadeAll || isShadeBlocks())}
 	 */
-	@Inject(method = isShade, at = @At("RETURN"), cancellable = true)
+	@Inject(method = "Lnet/minecraft/client/renderer/block/model/BakedQuad;isShade()Z", at = @At("RETURN"),
+			cancellable = true)
 	@SuppressWarnings("resource")
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
 		final SimplyNoShadingOptions options;

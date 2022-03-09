@@ -18,17 +18,6 @@ import net.minecraft.client.Minecraft;
  */
 @Internal
 public class SimplyNoShadingLifecycleEvents {
-	/**
-	 * {@linkplain Event#register(Object) Registers}
-	 * {@linkplain ClientTickEvents#END_CLIENT_TICK tick} listeners that anticipates
-	 * key binding(s) being pressed. This method should only be called once by
-	 * {@link SimplyNoShadingClientMod#onInitializeClient()} after
-	 * {@link SimplyNoShadingKeyMappings#registerKeyBindings()}.
-	 */
-	public static void registerLifecycleEvents() {
-		ClientTickEvents.END_CLIENT_TICK.register(SimplyNoShadingLifecycleEvents::onClientEndTick);
-	}
-
 	private static boolean consumeClick(final KeyMapping keyMapping, final Runnable action) {
 		if (keyMapping.consumeClick()) {
 			action.run();
@@ -54,5 +43,16 @@ public class SimplyNoShadingLifecycleEvents {
 		} else if (cloudsChanged) {
 			((LevelRendererAccessor) client.levelRenderer).setGenerateClouds(true);
 		}
+	}
+
+	/**
+	 * {@linkplain Event#register(Object) Registers}
+	 * {@linkplain ClientTickEvents#END_CLIENT_TICK tick} listeners that anticipates
+	 * key binding(s) being pressed. This method should only be called once by
+	 * {@link SimplyNoShadingClientMod#onInitializeClient()} after
+	 * {@link SimplyNoShadingKeyMappings#registerKeyBindings()}.
+	 */
+	public static void registerLifecycleEvents() {
+		ClientTickEvents.END_CLIENT_TICK.register(SimplyNoShadingLifecycleEvents::onClientEndTick);
 	}
 }
