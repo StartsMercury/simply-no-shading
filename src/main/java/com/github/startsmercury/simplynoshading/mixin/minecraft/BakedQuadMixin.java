@@ -30,11 +30,9 @@ public class BakedQuadMixin {
 	 */
 	@Inject(method = "Lnet/minecraft/client/renderer/block/model/BakedQuad;isShade()Z", at = @At("RETURN"),
 			cancellable = true)
-	@SuppressWarnings("resource")
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
-		final SimplyNoShadingOptions options;
-
-		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
+		@SuppressWarnings("resource")
+		final SimplyNoShadingOptions options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
 		callback.setReturnValue(callback.getReturnValueZ() && (options.isShadeAll() || options.isShadeBlocks()));
 	}

@@ -2,6 +2,9 @@ package com.github.startsmercury.simplynoshading.mixin.sodium;
 
 import static com.github.startsmercury.simplynoshading.client.gui.options.SimplyNoShadingGameOptionPages.shading;
 
+import java.util.List;
+import java.util.ListIterator;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,6 +16,7 @@ import com.github.startsmercury.simplynoshading.client.gui.options.SimplyNoShadi
 
 import me.jellysquid.mods.sodium.client.gui.SodiumOptionsGUI;
 import me.jellysquid.mods.sodium.client.gui.options.OptionPage;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * {@link Mixin mixin} for the class {@link SodiumOptionsGUI}.
@@ -24,7 +28,7 @@ public class SodiumOptionsGUIMixin {
 	 */
 	@Final
 	@Shadow(remap = false)
-	private java.util.List<OptionPage> pages;
+	private List<OptionPage> pages;
 
 	/**
 	 * Adds the custom page 'shading' to the sodium video options screen.
@@ -33,8 +37,17 @@ public class SodiumOptionsGUIMixin {
 	 * @see SimplyNoShadingGameOptionPages#shading()
 	 */
 	@Inject(method = "Lme/jellysquid/mods/sodium/client/gui/SodiumOptionsGUI;<init>(Lnet/minecraft/client/gui/screens/Screen;)V",
-			at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 2))
+			at = @At("RETURN"))
 	private final void addShadingPage(final CallbackInfo callback) {
-		this.pages.add(shading());
+		final ListIterator<OptionPage> pagesIterator = this.pages.listIterator();
+
+		while (pagesIterator.hasNext()) {
+			if (pagesIterator.next().getName() instanceof final TranslatableComponent translatableName &&
+					"sodium.options.pages.quality".equals(translatableName.getKey())) {
+				break;
+			}
+		}
+
+		pagesIterator.add(shading());
 	}
 }

@@ -20,6 +20,8 @@ public class LevelRendererMixin {
 	 * {@link SimplyNoShadingOptions#isShadeClouds()} to return {@code true} to
 	 * shade.
 	 *
+	 * @param shade the raw shade
+	 * @return the expected shade
 	 * @implSpec {@code hasShade() && (isShadeAll || isShadeClouds())}
 	 */
 	@ModifyConstant(
@@ -29,11 +31,9 @@ public class LevelRendererMixin {
 					@Constant(floatValue = 0.7F, ordinal = 1), @Constant(floatValue = 0.7F, ordinal = 2),
 					@Constant(floatValue = 0.8F, ordinal = 0), @Constant(floatValue = 0.8F, ordinal = 1),
 					@Constant(floatValue = 0.8F, ordinal = 2) })
-	@SuppressWarnings("resource")
 	private float changeCloudShade(final float shade) {
-		final SimplyNoShadingOptions options;
-
-		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
+		@SuppressWarnings("resource")
+		final SimplyNoShadingOptions options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
 		return options.isShadeAll() || options.isShadeClouds() ? shade : 1.0F;
 	}

@@ -1,5 +1,8 @@
 package com.github.startsmercury.simplynoshading.mixin.sodium;
 
+import static net.minecraft.core.Direction.DOWN;
+import static net.minecraft.core.Direction.UP;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -27,22 +30,19 @@ public class FluidRendererMixin {
 	 * {@link SimplyNoShadingOptions#isShadeFluids()} to return {@code true} to
 	 * shade.
 	 *
-	 * @param dir the raw shade
+	 * @param target the raw shade
 	 * @return the expected shade
 	 * @implSpec {@code shaded && (isShadeAll || isShadeFluids())}
 	 */
 	@ModifyVariable(
 			method = "Lme/jellysquid/mods/sodium/client/render/pipeline/FluidRenderer;calculateQuadColors(Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;Lnet/minecraft/core/Direction;FLme/jellysquid/mods/sodium/client/model/quad/blender/ColorSampler;Lnet/minecraft/world/level/material/FluidState;)V",
 			at = @At("HEAD"), argsOnly = true)
-	@SuppressWarnings("resource")
 	private final float changeShade(final float target, final ModelQuadView quad, final BlockAndTintGetter world,
 			final BlockPos pos, final LightPipeline lighter, final Direction dir, final float brightness,
 			final ColorSampler<FluidState> colorSampler, final FluidState fluidState) {
-		final SimplyNoShadingOptions options;
+		@SuppressWarnings("resource")
+		final SimplyNoShadingOptions options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
 
-		options = (SimplyNoShadingOptions) Minecraft.getInstance().options;
-
-		return world.getShade(dir == Direction.DOWN ? Direction.UP : dir,
-				options.isShadeAll() || options.isShadeFluids());
+		return world.getShade(dir == DOWN ? UP : dir, options.isShadeAll() || options.isShadeFluids());
 	}
 }

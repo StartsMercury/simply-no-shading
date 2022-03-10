@@ -1,11 +1,10 @@
 package com.github.startsmercury.simplynoshading.entrypoint;
 
+import static com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings.registerKeyBindings;
+import static com.github.startsmercury.simplynoshading.client.event.SimplyNoShadingLifecycleEvents.registerClientTickListeners;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-
-import com.github.startsmercury.simplynoshading.client.SimplyNoShadingKeyMappings;
-import com.github.startsmercury.simplynoshading.client.event.SimplyNoShadingLifecycleEvents;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
@@ -27,10 +26,9 @@ public class SimplyNoShadingClientMod implements ClientModInitializer {
 	public void onInitializeClient() {
 		final FabricLoader fabricLoader = FabricLoader.getInstance();
 
-		if (fabricLoader.isModLoaded("fabric-key-binding-api") || fabricLoader.isModLoaded("fabric-lifecycle-events")) {
-			SimplyNoShadingKeyMappings.registerKeyBindings();
-
-			SimplyNoShadingLifecycleEvents.registerLifecycleEvents();
+		if (fabricLoader.isModLoaded("fabric-key-binding-api") && fabricLoader.isModLoaded("fabric-lifecycle-events")) {
+			registerKeyBindings();
+			registerClientTickListeners();
 		}
 	}
 }
