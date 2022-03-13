@@ -16,10 +16,19 @@ archivesBaseName = project.mod_name
 version = "${nextVersion()}+mc${minecraft_version}"
 group = project.mod_group
 
+ext {
+	bedrockifyVersion = "${bedrockify_version}+mc${minecraft_version}"
+	fabricVersion = "${fabric_version}+${minecraft_version}"
+	sodiumVersion = "mc${minecraft_version}-${sodium_version}"
+}
+
 apply from: 'gradle/repositories.gradle'
 apply from: 'gradle/configurations.gradle'
 
 dependencies {
+	// BedrockIfy
+	modCompileOnly "maven.modrinth:bedrockify:${bedrockifyVersion}"
+
 	// Fabric Key Binding API (V1)
 	fabricModuleCompileOnly 'fabric-key-binding-api-v1'
 
@@ -42,7 +51,7 @@ dependencies {
 	mappings loom.officialMojangMappings()
 
 	// Sodium
-	modCompileOnly "maven.modrinth:sodium:${sodium_version}"
+	modCompileOnly "maven.modrinth:sodium:${sodiumVersion}"
 }
 
 apply from: 'gradle/compatibility.gradle'

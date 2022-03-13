@@ -1,4 +1,17 @@
 dependencies {
+	if (bedrockify_compat) {
+		// BedrockIfy
+		modRuntimeOnly "maven.modrinth:bedrockify:${bedrockifyVersion}"
+
+		// Cloth Config
+		modImplementation "me.shedaniel.cloth:cloth-config-fabric:6.2.57", {
+			exclude group: 'net.fabricmc.fabric-api'
+		}
+
+		// Fabric API
+		modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabricVersion}"
+	}
+	
 	if (fabric_compat) {
 		// Fabric Key Binding API (V1)
 		fabricModuleRuntimeOnly 'fabric-key-binding-api-v1'
@@ -28,7 +41,7 @@ dependencies {
 		fabricModuleRuntimeOnly 'fabric-rendering-fluids-v1'
 
 		// Sodium
-		modRuntimeOnly "maven.modrinth:sodium:${sodium_version}"
+		modRuntimeOnly "maven.modrinth:sodium:${sodiumVersion}"
 
 		// JOML
 		runtimeOnly 'org.joml:joml:1.10.2'

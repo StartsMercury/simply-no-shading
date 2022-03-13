@@ -41,6 +41,7 @@
     "minecraft": ">=${minecraft_version}"
   },
   "suggests": {
+    "bedrockify": ">=${bedrockify_version}",
     "fabric-api": ">=${fabric_version}",
     "modmenu": ">=${modmenu_version}",
     "sodium": ">=${sodium_version}"

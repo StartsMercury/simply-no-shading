@@ -17,27 +17,27 @@ configurations {
 }
 
 dependencies.ext {
-	fabricModuleApi = { final def module, final def version = fabric_version ->
+	fabricModuleApi = { final def module, final def version = fabricVersion ->
 		return dependencies.modApi(fabricApiModule(module, version))
 	}
 	
-	fabricModuleCompileOnly = { final def module, final def version = fabric_version ->
+	fabricModuleCompileOnly = { final def module, final def version = fabricVersion ->
 		return dependencies.modCompileOnly(fabricApiModule(module, version))
 	}
 	
-	fabricModuleImplementation = { final def module, final def version = fabric_version ->
+	fabricModuleImplementation = { final def module, final def version = fabricVersion ->
 		return dependencies.modImplementation(fabricApiModule(module, version))
 	}
 
-	fabricModuleRuntimeOnly = { final def module, final def version = fabric_version ->
+	fabricModuleRuntimeOnly = { final def module, final def version = fabricVersion ->
 		return dependencies.modRuntimeOnly(fabricApiModule(module, version))
 	}
 
-	includeFabricModuleApi = { final def module, final def version = fabric_version ->
+	includeFabricModuleApi = { final def module, final def version = fabricVersion ->
 		return dependencies.includeModApi(fabricApiModule(module, version))
 	}
 
-	includeFabricModuleImplementation = { final def module, final def version = fabric_version ->
+	includeFabricModuleImplementation = { final def module, final def version = fabricVersion ->
 		return dependencies.includeModImplementation(fabricApiModule(module, version))
 	}
 }

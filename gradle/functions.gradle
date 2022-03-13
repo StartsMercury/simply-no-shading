@@ -14,7 +14,7 @@ ext {
 		return nextVersion
 	}
 
-	fabricApiModule = { module, version = fabric_version ->
+	fabricApiModule = { module, version = fabricVersion ->
 		return fabricApi.module(module, version)
 	}
 	

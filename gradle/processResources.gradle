@@ -2,11 +2,12 @@ processResources {
 	inputs.property 'version', mod_version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'fabric_version': fabric_version,
+		expand 'bedrockify_version': bedrockifyVersion,
+		       'fabric_version': fabricVersion,
 		       'loader_version': loader_version,
 		       'minecraft_version': minecraft_version,
 		       'modmenu_version': modmenu_version,
-		       'sodium_version': sodium_version,
+		       'sodium_version': sodiumVersion,
 		       'version': mod_version
 	}
 }
