@@ -1,60 +1,49 @@
-<h1 align=center>Simply No Shading</h1>
+<h1 align="center">Simply No Shading</h1>
 
-<p align=center>
-	<a alt="License: MIT" href="LICENSE">
+<p align="center">
+	<a alt="MIT License" href="LICENSE">
 		<img src="https://img.shields.io/badge/license-MIT-yellow.svg"/></a>
-	<a alt="build" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
-		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x"/>
-	<a alt="Mod loader: Fabric (External link)" href="https://fabricmc.net">
-		<img src="https://img.shields.io/badge/mod%20loader-fabric-d64541"/></a>
-	<a alt="client" href="https://fabricmc.net/wiki/tutorial:side">
+	<a alt="Build Workflow" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
+		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x"/></a>
+	<a alt="FabricMC" href="https://fabricmc.net">
+		<img src="https://img.shields.io/badge/mod%20loader-fabric-1976d2"/></a>
+	<a alt="FabricMC Tutorial Wiki: Side" href="https://fabricmc.net/wiki/tutorial:side">
 		<img src="https://img.shields.io/badge/environment-client-1976d2"/></a>
-	<a alt="channel" href="https://semver.org">
-		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_type']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
-	<a alt="version" href="https://semver.org">
+	<a alt="Version Type" href="https://semver.org">
+		<img src="https://img.shields.io/badge/dynamic/json?label=channel%20&query=$[0]['version_type']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
+	<a alt="Version" href="https://semver.org">
 		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_number']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
-	<a alt="minecraft version" href="https://www.minecraft.net">
-		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></a></p>
+	<a alt="Minecraft Version" href="https://www.minecraft.net">
+		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></p>
 
-This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.
+This mod mimics OptiFine's Internal Shader with Old Lighting OFF by default. Benefits are less lag as this mod is not a shader, stability, and compatibility with other mods. Customizability is also there, toggling certain features, including bindable key mappings to toggle them in-game.
 
----
+<p align="center">
+	<a alt="CurseForge" href="https://www.curseforge.com/minecraft/mc-mods/simply-no-shading">
+		<img src="https://img.shields.io/badge/curseforge-simply--no--shading-e96a41?logo=curseforge"/></a>
+	<a alt="GitHub" href="https://github.com/StartsMercury/simply-no-shading">
+		<img src="https://img.shields.io/badge/github-simply--no--shading-1976d2?logo=github"/></a>
+	<a alt="Modrinth" href="https://github.com/StartsMercury/simply-no-shading">
+		<img src="https://img.shields.io/badge/modrinth-simply--no--shading-5da545?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMSAxMSIgd2lkdGg9IjE0LjY2NyIgaGVpZ2h0PSIxNC42NjciICB4bWxuczp2PSJodHRwczovL3ZlY3RhLmlvL25hbm8iPjxkZWZzPjxjbGlwUGF0aCBpZD0iQSI+PHBhdGggZD0iTTAgMGgxMXYxMUgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNBKSI+PHBhdGggZD0iTTEuMzA5IDcuODU3YTQuNjQgNC42NCAwIDAgMS0uNDYxLTEuMDYzSDBDLjU5MSA5LjIwNiAyLjc5NiAxMSA1LjQyMiAxMWMxLjk4MSAwIDMuNzIyLTEuMDIgNC43MTEtMi41NTZoMGwtLjc1LS4zNDVjLS44NTQgMS4yNjEtMi4zMSAyLjA5Mi0zLjk2MSAyLjA5MmE0Ljc4IDQuNzggMCAwIDEtMy4wMDUtMS4wNTVsMS44MDktMS40NzQuOTg0Ljg0NyAxLjkwNS0xLjAwM0w4LjE3NCA1LjgybC0uMzg0LS43ODYtMS4xMTYuNjM1LS41MTYuNjk0LS42MjYuMjM2LS44NzMtLjM4N2gwbC0uMjEzLS45MS4zNTUtLjU2Ljc4Ny0uMzcuODQ1LS45NTktLjcwMi0uNTEtMS44NzQuNzEzLTEuMzYyIDEuNjUxLjY0NSAxLjA5OC0xLjgzMSAxLjQ5MnptOS42MTQtMS40NEE1LjQ0IDUuNDQgMCAwIDAgMTEgNS41QzExIDIuNDY0IDguNTAxIDAgNS40MjIgMCAyLjc5NiAwIC41OTEgMS43OTQgMCA0LjIwNmguODQ4QzEuNDE5IDIuMjQ1IDMuMjUyLjgwOSA1LjQyMi44MDljMi42MjYgMCA0Ljc1OCAyLjEwMiA0Ljc1OCA0LjY5MSAwIC4xOS0uMDEyLjM3Ni0uMDM0LjU2bC43NzcuMzU3aDB6IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiM1ZGE0MjYiLz48L2c+PC9zdmc+"/></a></p>
 
- - [Configuration](#Configuration)
- - [Compatibility](#Compatibility)
-    - [Incompatiblities](#Incompatiblities)
- - [Images](#Images)
- - [Performance](#Performance)
+<h2 align="center">Settings</h2>
 
-## Configuration
+The settings screen is located in `Options > Video Settings > Shading Settings`. Alternatively with [Mod Menu](https://github.com/TerraformersMC/ModMenu) installed it's at `Mods > Simply No Shading > Configure`.
 
-The screen for configuring this mod can be found `Options > Video Settings > Shading Settings`. However, as you notice, in sodium it is `Options > Video Settings`, Shading tab. Alternatively, if you have modmenu installed, go to `Mods > Simply No Shading > Configure`.
+With [Fabric API](https://github.com/FabricMC/fabric) installed key mappings can be set in `Options > Controls > Key Binds > Shading`.
 
----
+<h2 align="center">Compatibility</h2>
 
-The screen for configuring keys can be found in `Options > Controls > Key Binds`, then scroll down and you'll see the Shading category.
-
-## Compatibility
-
-All resource packs should be compatible, and the mods that are currently known to be compatible are:
+All vanilla resource packs are compatible, and the mods known to be compatible are:
 
  - [Indigo](https://github.com/FabricMC/fabric) - Fabric API's Renderer
  - [Iris](https://github.com/IrisShaders/Iris) with shaders **disabled**
- - LambdaBetterGrass
+ - [LambdaBetterGrass](https://github.com/LambdAurora/LambdaBetterGrass)
  - [Sodium](https://github.com/CaffeineMC/sodium-fabric)
 
-Mods that aren't listed may or may not be compatible, for signs and/or effects of incompatibilities proceed on reading.
+Mods not listed might be compatible and any incompatibilities are planned to be resolved.
 
-### Incompatiblities
-
-When a certain mod is incompatible with this mod common side-effects are:
-
- - Visual features are buggy or doesn't work at all.
- - Crashes, these occur when there are serious incompatibilities needed to be addressed.
-
-Any incompatibilities should be reported to the [issue tracker](https://github.com/StartsMercury/simply-no-shading/issues).
-
-## Images
+<h2 align="center">Images</h2>
 
 <table>
 <tr><th>OFF - Vanilla</th>
@@ -95,9 +84,4 @@ Any incompatibilities should be reported to the [issue tracker](https://github.c
     <td><img alt="ON - No Shading"
              height=144
              src="./images/many_biomes_shadeless.png"
-             width=256/></td></tr>
-</table>
-
-## Performance
-
-Performance shouldn't be affected and if it did, it is negligible.
+             width=256/></td></tr></table>
