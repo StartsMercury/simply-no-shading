@@ -4,7 +4,7 @@
 	<a alt="MIT License" href="LICENSE">
 		<img src="https://img.shields.io/badge/license-MIT-yellow.svg"/></a>
 	<a alt="Build Workflow" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
-		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x"/></a>
+		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=main"/></a>
 	<a alt="FabricMC" href="https://fabricmc.net">
 		<img src="https://img.shields.io/badge/mod%20loader-fabric-1976d2"/></a>
 	<a alt="FabricMC Tutorial Wiki: Side" href="https://fabricmc.net/wiki/tutorial:side">
