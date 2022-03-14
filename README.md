@@ -1,4 +1,20 @@
-# Simply No Shading [![build](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x)](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml)
+<h1 align=center>Simply No Shading</h1>
+
+<p align=center>
+	<a alt="License: MIT" href="LICENSE">
+		<img src="https://img.shields.io/badge/license-MIT-yellow.svg"/></a>
+	<a alt="build" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
+		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=1.18.x"/>
+	<a alt="Mod loader: Fabric (External link)" href="https://fabricmc.net">
+		<img src="https://img.shields.io/badge/mod%20loader-fabric-d64541"/></a>
+	<a alt="client" href="https://fabricmc.net/wiki/tutorial:side">
+		<img src="https://img.shields.io/badge/environment-client-1976d2"/></a>
+	<a alt="channel" href="https://semver.org">
+		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_type']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
+	<a alt="version" href="https://semver.org">
+		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_number']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
+	<a alt="minecraft version" href="https://www.minecraft.net">
+		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></a></p>
 
 This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.
 
