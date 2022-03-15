@@ -45,43 +45,43 @@ Mods not listed might be compatible and any incompatibilities are planned to be 
 
 <h2 align="center">Images</h2>
 
-<table>
+<div align="center"><table>
 <tr><th>OFF - Vanilla</th>
-    <th>ON - Default</th>
-    <th>ON - No Shading</th></tr>
+	<th>ON - Default</th>
+	<th>ON - No Shading</th></tr>
 <tr><td><img alt="OFF - Vanilla"
-             height=144
-             src="./images/frozen_peeks_vanilla.png"
-             width=256/></td>
-    <td><img alt="ON - Default"
-             height=144
-             src="./images/frozen_peeks_default.png"
-             width=256/></td>
-    <td><img alt="ON - No Shading"
-             height=144
-             src="./images/frozen_peeks_shadeless.png"
-             width=256/></td></tr>
+			 height=144
+			 src="./images/frozen_peeks_vanilla.png"
+			 width=256/></td>
+	<td><img alt="ON - Default"
+			 height=144
+			 src="./images/frozen_peeks_default.png"
+			 width=256/></td>
+	<td><img alt="ON - No Shading"
+			 height=144
+			 src="./images/frozen_peeks_shadeless.png"
+			 width=256/></td></tr>
 <tr><td><img alt="OFF - Vanilla"
-             height=144
-             src="./images/lush_caves_vanilla.png"
-             width=256/></td>
-    <td><img alt="ON"
-             height=144
-             src="./images/lush_caves_shadeless.png"
-             width=256/></td>
-    <td><img alt="ON"
-             height=144
-             src="./images/lush_caves_shadeless.png"
-             width=256/></td>
+			 height=144
+			 src="./images/lush_caves_vanilla.png"
+			 width=256/></td>
+	<td><img alt="ON"
+			 height=144
+			 src="./images/lush_caves_shadeless.png"
+			 width=256/></td>
+	<td><img alt="ON"
+			 height=144
+			 src="./images/lush_caves_shadeless.png"
+			 width=256/></td>
 <tr><td><img alt="OFF - Vanilla"
-             height=144
-             src="./images/many_biomes_vanilla.png"
-             width=256/></td>
-    <td><img alt="ON - Default"
-             height=144
-             src="./images/many_biomes_default.png"
-             width=256/></td>
-    <td><img alt="ON - No Shading"
-             height=144
-             src="./images/many_biomes_shadeless.png"
-             width=256/></td></tr></table>
+			 height=144
+			 src="./images/many_biomes_vanilla.png"
+			 width=256/></td>
+	<td><img alt="ON - Default"
+			 height=144
+			 src="./images/many_biomes_default.png"
+			 width=256/></td>
+	<td><img alt="ON - No Shading"
+			 height=144
+			 src="./images/many_biomes_shadeless.png"
+			 width=256/></td></tr></table></div>
