@@ -6,7 +6,7 @@
   "simply-no-shading.key.cycle_shade_fluids": "Cycle Shade Fluids",
   "simply-no-shading.options.pages.shading": "Shading",
   "simply-no-shading.options.shade_all": "Shade All",
-  "simply-no-shading.options.shade_any.tooltip": "Overwritten if Shade All is ON",
+  "simply-no-shading.options.shade_any.tooltip": "Overwritten if Shade All is OFF",
   "simply-no-shading.options.shade_all.tooltip": "Directional shading cheaply imitating directional light",
   "simply-no-shading.options.shade_blocks": "Shade Blocks",
   "simply-no-shading.options.shade_clouds": "Shade Clouds",
