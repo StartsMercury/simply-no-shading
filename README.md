@@ -2,7 +2,7 @@
 
 <p align="center">
 	<a alt="MIT License" href="LICENSE">
-		<img src="https://img.shields.io/badge/license-MIT-yellow.svg"/></a>
+		<img src="https://img.shields.io/github/license/StartsMercury/simply-no-shading"/></a>
 	<a alt="Build Workflow" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
 		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=main"/></a>
 	<a alt="FabricMC" href="https://fabricmc.net">
