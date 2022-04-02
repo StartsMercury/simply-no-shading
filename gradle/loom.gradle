@@ -1,8 +1,0 @@
-loom {
-	accessWidenerPath = file 'src/main/resources/simply-no-shading.accesswidener'
-
-	runConfigs.configureEach {
-		vmArg '-Xmx1G'
-		property 'mixin.debug.export', 'true'
-	}
-}

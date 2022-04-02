@@ -1,5 +1,0 @@
-jar {
-	from 'LICENSE', {
-		rename { "${it}_${archivesBaseName}" }
-	}
-}

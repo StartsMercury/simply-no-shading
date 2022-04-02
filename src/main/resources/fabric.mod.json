@@ -1,49 +1,38 @@
 {
   "schemaVersion": 1,
-  "id": "simply-no-shading",
+  "id": "modid",
   "version": "${version}",
 
-  "name": "Simply No Shading",
-  "description": "This mod, by default, mimics OptiFine's Internal Shader with Old Lighting OFF. The benefit is the absence of lag that is present to any shader, including Internal Shader. You also have the freedom to select which and which not this mod affects and may bind keys to toggle them in-game, though it hasn't yet supported every possible feature.",
+  "name": "Example Mod",
+  "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "StartsMercury"
-  ],
-  "contributors": [
-    "IMS#7902"
+    "Me!"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/simply-no-shading",
-    "sources": "https://github.com/StartsMercury/simply-no-shading",
-    "issues": "https://github.com/StartsMercury/simply-no-shading/issues"
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
-  "license": "MIT",
-  "icon": "assets/simply-no-shading/icon.png",
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
 
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod"
-    ],
-    "modmenu": [
-      "com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingModMenu"
+    "main": [
+      "net.fabricmc.example.ExampleMod"
     ]
   },
-  "accessWidener" : "simply-no-shading.accesswidener",
   "mixins": [
-    "simply-no-shading.minecraft.mixins.json",
-    "simply-no-shading.sodium.mixins.json"
+    "modid.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "java": ">=17",
-    "minecraft": ">=${minecraft_version}"
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
   },
   "suggests": {
-    "bedrockify": ">=${bedrockify_version}",
-    "fabric-api": ">=${fabric_version}",
-    "modmenu": ">=${modmenu_version}",
-    "sodium": ">=${sodium_version}"
+    "another-mod": "*"
   }
 }

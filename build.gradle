@@ -1,63 +1,72 @@
-import static org.gradle.api.JavaVersion.VERSION_17
-
 plugins {
-	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
-	// Minotaur must be applied after Loom
-	id 'com.modrinth.minotaur' version '2.+'
+	id 'maven-publish'
 }
 
-apply from: 'gradle/functions.gradle'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
-sourceCompatibility = VERSION_17
-targetCompatibility = VERSION_17
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
 
-archivesBaseName = project.mod_name
-version = "${nextVersion()}+mc${minecraft_version}"
-group = project.mod_group
-
-ext {
-	bedrockifyVersion = "${bedrockify_version}+mc${minecraft_version}"
-	fabricVersion = "${fabric_version}+${minecraft_version}"
-	sodiumVersion = "mc${minecraft_version}-${sodium_version}"
+repositories {
+	// Add repositories to retrieve artifacts from in here.
+	// You should only use this when depending on other mods because
+	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
+	// for more information about repositories.
 }
-
-apply from: 'gradle/repositories.gradle'
-apply from: 'gradle/configurations.gradle'
 
 dependencies {
-	// BedrockIfy
-	modCompileOnly "maven.modrinth:bedrockify:${bedrockifyVersion}"
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric Key Binding API (V1)
-	fabricModuleCompileOnly 'fabric-key-binding-api-v1'
-
-	// Fabric Lifecycle Events (V1)
-	fabricModuleCompileOnly 'fabric-lifecycle-events-v1'
-
-	// Fabric Loader
-	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-
-	// Iris
-	modCompileOnly 'maven.modrinth:iris:1.18.x-v1.2.1'
-
-	// Minecraft
-	minecraft "com.mojang:minecraft:${minecraft_version}"
-
-	// Mod Menu
-	modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}"
-
-	// Official Mojang Mappings
-	mappings loom.officialMojangMappings()
-
-	// Sodium
-	modCompileOnly "maven.modrinth:sodium:${sodiumVersion}"
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
-apply from: 'gradle/compatibility.gradle'
-apply from: 'gradle/loom.gradle'
-apply from: 'gradle/jar.gradle'
-apply from: 'gradle/java.gradle'
-apply from: 'gradle/processResources.gradle'
-apply from: 'gradle/publishing.gradle'
-apply from: 'gradle/tasks.gradle'
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+	it.options.release = 17
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.archivesBaseName}"}
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}
