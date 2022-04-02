@@ -1,63 +1,47 @@
-import static org.gradle.api.JavaVersion.VERSION_17
-
 plugins {
-	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'fabric-loom' version '0.11-SNAPSHOT'
-	// Minotaur must be applied after Loom
-	id 'com.modrinth.minotaur' version '2.+'
 }
 
-apply from: 'gradle/functions.gradle'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
-sourceCompatibility = VERSION_17
-targetCompatibility = VERSION_17
-
-archivesBaseName = project.mod_name
-version = "${nextVersion()}+mc${minecraft_version}"
 group = project.mod_group
+archivesBaseName = project.mod_name
+version = project.mod_version
 
-ext {
-	bedrockifyVersion = "${bedrockify_version}+mc${minecraft_version}"
-	fabricVersion = "${fabric_version}+${minecraft_version}"
-	sodiumVersion = "mc${minecraft_version}-${sodium_version}"
+repositories {
 }
-
-apply from: 'gradle/repositories.gradle'
-apply from: 'gradle/configurations.gradle'
 
 dependencies {
-	// BedrockIfy
-	modCompileOnly "maven.modrinth:bedrockify:${bedrockifyVersion}"
-
-	// Fabric Key Binding API (V1)
-	fabricModuleCompileOnly 'fabric-key-binding-api-v1'
-
-	// Fabric Lifecycle Events (V1)
-	fabricModuleCompileOnly 'fabric-lifecycle-events-v1'
-
 	// Fabric Loader
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-
-	// Iris
-	modCompileOnly 'maven.modrinth:iris:1.18.x-v1.2.1'
 
 	// Minecraft
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 
-	// Mod Menu
-	modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}"
-
 	// Official Mojang Mappings
 	mappings loom.officialMojangMappings()
-
-	// Sodium
-	modCompileOnly "maven.modrinth:sodium:${sodiumVersion}"
 }
 
-apply from: 'gradle/compatibility.gradle'
-apply from: 'gradle/loom.gradle'
-apply from: 'gradle/jar.gradle'
-apply from: 'gradle/java.gradle'
-apply from: 'gradle/processResources.gradle'
-apply from: 'gradle/publishing.gradle'
-apply from: 'gradle/tasks.gradle'
+processResources {
+	inputs.property 'version', version
+
+	filesMatching 'fabric.mod.json', {
+		expand 'version': version
+	}
+}
+
+java {
+	withSourcesJar()
+}
+
+jar {
+	from 'LICENSE', {
+		rename { "${it}_${project.archivesBaseName}" }
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+	it.options.release = 17
+}
