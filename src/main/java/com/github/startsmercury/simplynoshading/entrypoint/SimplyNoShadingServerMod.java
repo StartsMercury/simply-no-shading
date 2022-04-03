@@ -1,6 +1,7 @@
 package com.github.startsmercury.simplynoshading.entrypoint;
 
 import static com.github.startsmercury.simplynoshading.SimplyNoShading.SERVER_LOGGER;
+import static com.github.startsmercury.simplynoshading.SimplyNoShading.loadServerConfig;
 import static net.fabricmc.api.EnvType.SERVER;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -24,6 +25,8 @@ public final class SimplyNoShadingServerMod implements ClientModInitializer {
 		SERVER_LOGGER.debug("Mod initializing...");
 
 		instance = this;
+
+		loadServerConfig();
 
 		SERVER_LOGGER.info("Mod initialized.");
 		SERVER_LOGGER.warn("Servers are not supported.");
