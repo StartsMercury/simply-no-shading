@@ -17,18 +17,26 @@
 
 	"environment": "client",
 	"entrypoints": {
+		"main": [
+			"com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingMod"
+		],
+		"client": [
+			"com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod"
+		],
+		"server": [
+			"com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingServerMod"
+		]
 	},
 	"mixins": [
-		"simply-no-shading.mixins.json"
+		"simply-no-shading.minecraft.mixins.json"
 	],
 
 	"depends": {
-		"fabricloader": ">=0.13.3",
-		"fabric": "*",
-		"minecraft": "1.18.x",
+		"fabricloader": ">=${loader_version}",
+		"minecraft": ">=${minecraft_version}",
 		"java": ">=17"
 	},
-	"suggests": {
-		"another-mod": "*"
+	"recommends": {
+		"fabric": ">=${fabric_version}"
 	}
 }
