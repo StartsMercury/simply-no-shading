@@ -13,6 +13,9 @@ import com.google.gson.stream.JsonWriter;
 
 import net.fabricmc.api.Environment;
 
+/**
+ * Represents Simply No Shading client configuration.
+ */
 @Environment(CLIENT)
 @JsonAdapter(SimplyNoShadingClientConfig.JsonAdapter.class)
 public interface SimplyNoShadingClientConfig {

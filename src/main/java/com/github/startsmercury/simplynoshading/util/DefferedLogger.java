@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.logging;
+package com.github.startsmercury.simplynoshading.util;
 
 import java.util.function.Supplier;
 
@@ -6,30 +6,65 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 
+/**
+ * Wraps a lazily created logger when first needed. Might be obsolete.
+ */
 public class DefferedLogger implements AutoCloseable, Logger {
+	/**
+	 * Wraps around a logger get statement to be more short and readable.
+	 *
+	 * @return the root logger
+	 */
 	private static Logger getRootLogger() {
 		return LoggerFactory.getLogger(ROOT_LOGGER_NAME);
 	}
 
+	/**
+	 * A single reference shuffled around using less space. Might affect
+	 * readability.
+	 */
 	private Object value;
 
+	/**
+	 * Creates a {@code DefferedLogger} with a class as a name.
+	 *
+	 * @param clazz the class
+	 */
 	public DefferedLogger(final Class<?> clazz) {
 		this(() -> LoggerFactory.getLogger(clazz));
 	}
 
+	/**
+	 * Creates a {@code DefferedLogger} with a name.
+	 *
+	 * @param name the name
+	 */
 	public DefferedLogger(final String name) {
 		this(() -> LoggerFactory.getLogger(name));
 	}
 
+	/**
+	 * Creates a {@code DefferedLogger} with a supplier.
+	 *
+	 * @param supplier the supplier
+	 */
 	public DefferedLogger(final Supplier<? extends Logger> supplier) {
 		this.value = supplier;
 	}
 
+	/**
+	 * Handles the closing of this deffered logger.
+	 */
 	@Override
 	public void close() {
 		this.value = getRootLogger();
 	}
 
+	/**
+	 * Creates and initializes the delegate logger.
+	 *
+	 * @return the delegate logger
+	 */
 	private final Logger createDelegate() {
 		final Logger delegate = this.value instanceof final Supplier<?> supplier &&
 				supplier.get() instanceof final Logger logger ? logger : getRootLogger();
@@ -140,6 +175,11 @@ public class DefferedLogger implements AutoCloseable, Logger {
 		getDelegate().error(arg0, arg1);
 	}
 
+	/**
+	 * Returns the delegate logger or perform its creation if it hadn't yet.
+	 *
+	 * @return the delegate logger
+	 */
 	private final Logger getDelegate() {
 		return this.value instanceof final Logger delegate ? delegate : createDelegate();
 	}
@@ -199,6 +239,11 @@ public class DefferedLogger implements AutoCloseable, Logger {
 		getDelegate().info(arg0, arg1);
 	}
 
+	/**
+	 * Performs operations on the delegate logger when it was first created.
+	 *
+	 * @param delegate the delegate
+	 */
 	protected void initialize(final Logger delegate) {
 	}
 

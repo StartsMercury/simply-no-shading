@@ -13,6 +13,9 @@ import com.google.gson.stream.JsonWriter;
 
 import net.fabricmc.api.Environment;
 
+/**
+ * Represents Simply No Shading server configuration.
+ */
 @Deprecated
 @Environment(SERVER)
 @JsonAdapter(SimplyNoShadingServerConfig.JsonAdapter.class)

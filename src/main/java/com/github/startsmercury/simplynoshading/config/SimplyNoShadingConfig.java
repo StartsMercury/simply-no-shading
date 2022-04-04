@@ -9,6 +9,9 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * Represents Simply No Shading configuration.
+ */
 @Deprecated
 @JsonAdapter(SimplyNoShadingConfig.JsonAdapter.class)
 public interface SimplyNoShadingConfig {
