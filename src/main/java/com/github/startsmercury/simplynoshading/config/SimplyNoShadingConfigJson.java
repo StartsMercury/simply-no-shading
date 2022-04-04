@@ -1,9 +1,10 @@
 package com.github.startsmercury.simplynoshading.config;
 
+import com.github.startsmercury.simplynoshading.util.SimplyNoShadingJsonWrapper;
 import com.google.gson.JsonElement;
 
 @Deprecated
-public class SimplyNoShadingConfigJson extends ConfigJson implements SimplyNoShadingConfig {
+public class SimplyNoShadingConfigJson extends SimplyNoShadingJsonWrapper implements SimplyNoShadingConfig {
 	public SimplyNoShadingConfigJson() {
 	}
 

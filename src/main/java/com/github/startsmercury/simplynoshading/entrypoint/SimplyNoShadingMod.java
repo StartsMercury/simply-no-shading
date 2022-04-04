@@ -10,6 +10,10 @@ public final class SimplyNoShadingMod implements ModInitializer {
 	private static SimplyNoShadingMod instance;
 
 	public static SimplyNoShadingMod getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException("Accessed SimplyNoShadingMod too early");
+		}
+
 		return instance;
 	}
 

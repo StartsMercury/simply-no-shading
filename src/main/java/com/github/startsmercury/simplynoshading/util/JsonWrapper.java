@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.json;
+package com.github.startsmercury.simplynoshading.util;
 
 import java.util.function.Function;
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -30,7 +31,8 @@ public interface SimplyNoShadingClientConfig {
 				// @formatter:on
 				out.endObject();
 			} else {
-				out.jsonValue(configJson.getJson().toString());
+				System.err.println(configJson.getJson());
+				Streams.write(configJson.getJson(), out);
 			}
 		}
 	}

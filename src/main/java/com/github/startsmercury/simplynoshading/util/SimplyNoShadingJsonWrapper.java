@@ -1,14 +1,13 @@
-package com.github.startsmercury.simplynoshading.config;
+package com.github.startsmercury.simplynoshading.util;
 
-import com.github.startsmercury.simplynoshading.json.JsonWrapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-class ConfigJson extends JsonWrapper {
-	public ConfigJson() {
+public class SimplyNoShadingJsonWrapper extends JsonWrapper {
+	public SimplyNoShadingJsonWrapper() {
 	}
 
-	public ConfigJson(final JsonElement json) {
+	public SimplyNoShadingJsonWrapper(final JsonElement json) {
 		super(json);
 	}
 

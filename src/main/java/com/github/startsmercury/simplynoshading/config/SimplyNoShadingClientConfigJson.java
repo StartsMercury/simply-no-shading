@@ -2,6 +2,7 @@ package com.github.startsmercury.simplynoshading.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.github.startsmercury.simplynoshading.util.SimplyNoShadingJsonWrapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -9,7 +10,7 @@ import com.google.gson.JsonPrimitive;
 import net.fabricmc.api.Environment;
 
 @Environment(CLIENT)
-public class SimplyNoShadingClientConfigJson extends ConfigJson implements SimplyNoShadingClientConfig {
+public class SimplyNoShadingClientConfigJson extends SimplyNoShadingJsonWrapper implements SimplyNoShadingClientConfig {
 	public SimplyNoShadingClientConfigJson() {
 	}
 
@@ -19,6 +20,15 @@ public class SimplyNoShadingClientConfigJson extends ConfigJson implements Simpl
 
 	public SimplyNoShadingClientConfigJson(final SimplyNoShadingClientConfig other) {
 		set(other);
+	}
+
+	@Override
+	protected JsonElement createDefaultJson() {
+		final JsonObject defaultJson = new JsonObject();
+
+		defaultJson.addProperty("shadeAll", false);
+
+		return defaultJson;
 	}
 
 	@Override

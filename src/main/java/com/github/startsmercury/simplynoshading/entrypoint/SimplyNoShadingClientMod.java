@@ -12,16 +12,21 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	private static SimplyNoShadingClientMod instance;
 
 	public static SimplyNoShadingClientMod getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException("Accessed SimplyNoShadingClientMod too early");
+		}
+
 		return instance;
 	}
 
 	public SimplyNoShadingClientMod() {
-		CLIENT_LOGGER.debug("Initializer constructed.");
+		CLIENT_LOGGER.debug("Constructing mod initializer...");
+		CLIENT_LOGGER.debug("Mod initializer constructed.");
 	}
 
 	@Override
 	public void onInitializeClient() {
-		CLIENT_LOGGER.debug("Mod initializing...");
+		CLIENT_LOGGER.debug("Initializing mod...");
 
 		instance = this;
 

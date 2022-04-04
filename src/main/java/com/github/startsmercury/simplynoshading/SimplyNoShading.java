@@ -2,9 +2,13 @@ package com.github.startsmercury.simplynoshading;
 
 import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.CREATE_NEW;
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.fabricmc.api.EnvType.SERVER;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -98,72 +102,78 @@ public final class SimplyNoShading {
 		return serverConfig;
 	}
 
-	private static <T> void loadAnyConfig(final Logger logger, final Consumer<? super T> setter, final Path path,
+	private static <T> void loadAnyConfig(final Logger logger, final Path path, final Consumer<? super T> setter,
 			final Class<T> clazz, final Supplier<? extends T> fallback, final Supplier<? extends T> getter) {
-		logger.debug("Config loading...");
+		logger.debug("Loading config...");
 
-		try {
-			setter.accept(GSON.fromJson(newBufferedReader(path), clazz));
+		try (final BufferedReader in = newBufferedReader(path)) {
+			setter.accept(GSON.fromJson(in, clazz));
 
 			logger.info("Config loaded.");
 		} catch (final NoSuchFileException nsfe) {
-			logger.info("Config does not exist, creating one...");
+			setter.accept(fallback.get());
+
+			saveAnyConfig(logger, true, path, getter, clazz);
+		} catch (final IOException ioe) {
+			logger.warn("Unable to load config.", ioe);
+			logger.debug("Loading default config...");
 
 			setter.accept(fallback.get());
 
-			saveAnyConfig(logger, getter, path);
-		} catch (final IOException ioe) {
-			logger.warn("Config loading halted.", ioe);
+			logger.info("Default config loaded.");
 		}
 	}
 
 	@Environment(CLIENT)
 	public static void loadClientConfig() {
-		loadAnyConfig(CLIENT_LOGGER, SimplyNoShading::setClientConfig, CLIENT_CONFIG_PATH,
+		loadAnyConfig(CLIENT_LOGGER, CLIENT_CONFIG_PATH, SimplyNoShading::setClientConfig,
 				SimplyNoShadingClientConfig.class, SimplyNoShadingClientConfigJson::new,
 				SimplyNoShading::getClientConfig);
 	}
 
 	@Deprecated
 	public static void loadConfig() {
-		loadAnyConfig(LOGGER, SimplyNoShading::setConfig, CONFIG_PATH, SimplyNoShadingConfig.class,
+		loadAnyConfig(LOGGER, CONFIG_PATH, SimplyNoShading::setConfig, SimplyNoShadingConfig.class,
 				SimplyNoShadingConfigJson::new, SimplyNoShading::getConfig);
 	}
 
 	@Deprecated
 	@Environment(SERVER)
 	public static void loadServerConfig() {
-		loadAnyConfig(SERVER_LOGGER, SimplyNoShading::setServerConfig, SERVER_CONFIG_PATH,
+		loadAnyConfig(SERVER_LOGGER, SERVER_CONFIG_PATH, SimplyNoShading::setServerConfig,
 				SimplyNoShadingServerConfig.class, SimplyNoShadingServerConfigJson::new,
 				SimplyNoShading::getServerConfig);
 	}
 
-	private static void saveAnyConfig(final Logger logger, final Supplier<?> getter, final Path path) {
-		logger.debug("Config saving...");
+	private static <T> void saveAnyConfig(final Logger logger, final boolean create, final Path path,
+			final Supplier<? extends T> getter, final Class<T> clazz) {
+		logger.debug((create ? "Creating" : "Saving") + " config...");
 
-		try {
-			GSON.toJson(getter.get(), newBufferedWriter(path));
+		try (final BufferedWriter out = newBufferedWriter(path, create ? CREATE_NEW : CREATE)) {
+			GSON.toJson(getter.get(), clazz, out);
 
-			logger.info("Config saved.");
+			logger.info("Config " + (create ? "created" : "saved") + '.');
 		} catch (final IOException ioe) {
-			logger.warn("Config saving halted.", ioe);
+			logger.warn("Unable to " + (create ? "create" : "save") + " config.", ioe);
 		}
 	}
 
 	@Environment(CLIENT)
 	public static void saveClientConfig() {
-		saveAnyConfig(CLIENT_LOGGER, SimplyNoShading::getClientConfig, CLIENT_CONFIG_PATH);
+		saveAnyConfig(CLIENT_LOGGER, false, CLIENT_CONFIG_PATH, SimplyNoShading::getClientConfig,
+				SimplyNoShadingClientConfig.class);
 	}
 
 	@Deprecated
 	public static void saveConfig() {
-		saveAnyConfig(LOGGER, SimplyNoShading::getConfig, CONFIG_PATH);
+		saveAnyConfig(LOGGER, false, CONFIG_PATH, SimplyNoShading::getConfig, SimplyNoShadingConfig.class);
 	}
 
 	@Deprecated
 	@Environment(SERVER)
 	public static void saveServerConfig() {
-		saveAnyConfig(SERVER_LOGGER, SimplyNoShading::getServerConfig, SERVER_CONFIG_PATH);
+		saveAnyConfig(SERVER_LOGGER, false, SERVER_CONFIG_PATH, SimplyNoShading::getServerConfig,
+				SimplyNoShadingServerConfig.class);
 	}
 
 	@Environment(CLIENT)

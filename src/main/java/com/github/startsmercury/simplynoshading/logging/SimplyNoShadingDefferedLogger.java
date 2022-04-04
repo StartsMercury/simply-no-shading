@@ -19,10 +19,12 @@ public final class SimplyNoShadingDefferedLogger extends DefferedLogger {
 
 	@Override
 	public void close() {
+		warn("Closing this logger is not suppported.");
 	}
 
 	@Override
 	protected void initialize(final Logger delegate) {
+		debug("Initializing logger...");
 		info("Logger initialized.");
 	}
 }

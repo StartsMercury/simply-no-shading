@@ -2,13 +2,14 @@ package com.github.startsmercury.simplynoshading.config;
 
 import static net.fabricmc.api.EnvType.SERVER;
 
+import com.github.startsmercury.simplynoshading.util.SimplyNoShadingJsonWrapper;
 import com.google.gson.JsonElement;
 
 import net.fabricmc.api.Environment;
 
 @Deprecated
 @Environment(SERVER)
-public class SimplyNoShadingServerConfigJson extends ConfigJson implements SimplyNoShadingServerConfig {
+public class SimplyNoShadingServerConfigJson extends SimplyNoShadingJsonWrapper implements SimplyNoShadingServerConfig {
 	public SimplyNoShadingServerConfigJson() {
 	}
 

@@ -13,6 +13,10 @@ public final class SimplyNoShadingServerMod implements ClientModInitializer {
 	private static SimplyNoShadingServerMod instance;
 
 	public static SimplyNoShadingServerMod getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException("Accessed SimplyNoShadingServerMod too early");
+		}
+
 		return instance;
 	}
 
