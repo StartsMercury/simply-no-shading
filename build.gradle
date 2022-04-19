@@ -3,11 +3,11 @@ plugins {
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+targetCompatibility = sourceCompatibility
 
-group = project.mod_group
-archivesBaseName = project.mod_name
-version = project.mod_version
+group = mod_group
+archivesBaseName = mod_name
+version = mod_version
 
 repositories {
 }
@@ -37,6 +37,7 @@ processResources {
 
 	filesMatching 'fabric.mod.json', {
 		expand 'loader_version': loader_version,
+		       'java_version': sourceCompatibility,
 		       'fabric_version': fabric_version,
 		       'minecraft_version': minecraft_version,
 		       'version': version
@@ -54,6 +55,5 @@ jar {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+	it.options.release = sourceCompatibility as int
 }
