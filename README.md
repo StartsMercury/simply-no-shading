@@ -17,3 +17,5 @@
 		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_number']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
 	<a alt="Minecraft Version" href="https://www.minecraft.net">
 		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></p>
+
+It does not necessarily mean that this mod won't get updated, as version 4 may still get updates for the newer version of Minecraft.
