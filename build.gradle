@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.11.+'
+	alias libs.plugins.fabric.loom
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -13,33 +13,21 @@ repositories {
 }
 
 dependencies {
-	// Fabric Loader
-	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-
-	// FernFlower
-	runtimeOnly 'org.jboss.windup.decompiler:decompiler-fernflower:5.2.1.Final'
-
-	// Minecraft
-	minecraft "com.mojang:minecraft:${minecraft_version}"
-
-	// Official Mojang Mappings
+	modImplementation libs.fabric.loader
+	// compileOnly fabricApi.module('fabric-renderer-indigo', libs.versions.fabric.api.get())
+	runtimeOnly libs.fernflower
+	minecraft libs.minecraft
 	mappings loom.officialMojangMappings()
-}
-
-loom {
-	runConfigs.configureEach {
-		property 'mixin.debug.export', 'true'
-	}
 }
 
 processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'loader_version': loader_version,
+		expand 'loader_version': libs.versions.fabric.loader,
 		       'java_version': sourceCompatibility,
-		       'fabric_version': fabric_version,
-		       'minecraft_version': minecraft_version,
+		       'fabric_version': libs.versions.fabric.api,
+		       'minecraft_version': libs.versions.minecraft,
 		       'version': version
 	}
 }

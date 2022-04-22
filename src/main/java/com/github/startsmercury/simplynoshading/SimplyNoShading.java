@@ -17,7 +17,6 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.startsmercury.simplynoshading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simplynoshading.config.SimplyNoShadingClientConfigJson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -78,7 +77,7 @@ public final class SimplyNoShading {
 	 * The client configuration for Simply No Shading.
 	 */
 	@Environment(CLIENT)
-	private static SimplyNoShadingClientConfig clientConfig;
+	private static SimplyNoShadingClientConfigJson clientConfig;
 
 	/**
 	 * Returns the client configuration for Simply No Shading
@@ -86,7 +85,7 @@ public final class SimplyNoShading {
 	 * @return the client config
 	 */
 	@Environment(CLIENT)
-	public static SimplyNoShadingClientConfig getClientConfig() {
+	public static SimplyNoShadingClientConfigJson getClientConfig() {
 		if (clientConfig == null) {
 			loadClientConfig();
 		}
@@ -133,7 +132,7 @@ public final class SimplyNoShading {
 	@Environment(CLIENT)
 	public static void loadClientConfig() {
 		loadAnyConfig(CLIENT_LOGGER, CLIENT_CONFIG_PATH, SimplyNoShading::setClientConfig,
-				SimplyNoShadingClientConfig.class, SimplyNoShadingClientConfigJson::new,
+				SimplyNoShadingClientConfigJson.class, SimplyNoShadingClientConfigJson.V0::new,
 				SimplyNoShading::getClientConfig);
 	}
 
@@ -166,7 +165,7 @@ public final class SimplyNoShading {
 	@Environment(CLIENT)
 	public static void saveClientConfig() {
 		saveAnyConfig(CLIENT_LOGGER, false, CLIENT_CONFIG_PATH, SimplyNoShading::getClientConfig,
-				SimplyNoShadingClientConfig.class);
+				SimplyNoShadingClientConfigJson.class);
 	}
 
 	/**
@@ -175,7 +174,7 @@ public final class SimplyNoShading {
 	 * @param clientConfig the new client config
 	 */
 	@Environment(CLIENT)
-	public static void setClientConfig(final SimplyNoShadingClientConfig clientConfig) {
+	public static void setClientConfig(final SimplyNoShadingClientConfigJson clientConfig) {
 		SimplyNoShading.clientConfig = clientConfig;
 	}
 }

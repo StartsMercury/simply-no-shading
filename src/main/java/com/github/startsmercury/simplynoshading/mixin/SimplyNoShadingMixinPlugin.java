@@ -7,30 +7,20 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import net.fabricmc.loader.api.FabricLoader;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-public class CompatibilityMixinPlugin implements IMixinConfigPlugin {
-	private final boolean apply;
-
-	public CompatibilityMixinPlugin() {
-		this(true);
-	}
-
-	protected CompatibilityMixinPlugin(final boolean apply) {
-		this.apply = apply;
-	}
-
-	public CompatibilityMixinPlugin(final String id) {
-		this(FabricLoader.getInstance().isModLoaded(id));
-	}
-
+public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {
 	}
 
 	@Override
 	public List<String> getMixins() {
-		return null;
+		final var mixins = new ObjectArrayList<String>();
+
+		mixins.trim();
+
+		return mixins;
 	}
 
 	@Override
@@ -54,6 +44,6 @@ public class CompatibilityMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
-		return this.apply;
+		return true;
 	}
 }

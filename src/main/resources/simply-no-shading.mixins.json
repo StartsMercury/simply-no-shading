@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.github.startsmercury.simplynoshading.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "com.github.startsmercury.simplynoshading.mixin.SimplyNoShadingMixinPlugin",
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

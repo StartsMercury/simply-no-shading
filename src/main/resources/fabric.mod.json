@@ -22,7 +22,7 @@
 		]
 	},
 	"mixins": [
-		"simply-no-shading.minecraft.mixins.json"
+		"simply-no-shading.mixins.json"
 	],
 
 	"depends": {
