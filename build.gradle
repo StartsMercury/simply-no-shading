@@ -24,10 +24,10 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'loader_version': libs.versions.fabric.loader,
+		expand 'loader_version': libs.versions.fabric.loader.get(),
 		       'java_version': sourceCompatibility,
-		       'fabric_version': libs.versions.fabric.api,
-		       'minecraft_version': libs.versions.minecraft,
+		       'fabric_version': libs.versions.fabric.api.get(),
+		       'minecraft_version': libs.versions.minecraft.get(),
 		       'version': version
 	}
 }

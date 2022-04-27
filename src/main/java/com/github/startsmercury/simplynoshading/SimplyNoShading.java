@@ -17,7 +17,8 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.startsmercury.simplynoshading.config.SimplyNoShadingClientConfigJson;
+import com.github.startsmercury.simplynoshading.config.SimplyNoShadingClientConfig;
+import com.github.startsmercury.simplynoshading.config.SimplyNoShadingMixinConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,26 +26,35 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
- * Collection of identifiers, loggers, paths, and configurations used by Simply
- * No Shading.
+ * Encapsulates Simply No Shading's name spaces, loggers, config, config paths,
+ * and config operations.
  */
 public final class SimplyNoShading {
 	/**
-	 * The identifier of Simply No Shading.
+	 * Name space of Simply No Shading used as logger name and in resource
+	 * locations.
 	 *
 	 * @see #LOGGER
 	 */
 	public static final String MODID = "simply-no-shading";
 
 	/**
-	 * The identifier of Simply No Shading use by the client logger as name.
+	 * Name space of Simply No Shading (Client) used as logger name and in resource
+	 * locations.
 	 *
 	 * @see #CLIENT_LOGGER
 	 */
-	private static final String CLIENT_MODID = MODID + "+client";
+	@Environment(CLIENT)
+	public static final String CLIENT_MODID = MODID + "+client";
 
 	/**
-	 * The logger of Simply No Shading used in client-side environments.
+	 * Name space of Simply No Shading (Mixin) used as logger name and in resource
+	 * locations.
+	 */
+	public static final String MIXIN_MODID = "simply-no-shading";
+
+	/**
+	 * Simply No Shading (Client)'s logger used to print messages.
 	 *
 	 * @see #CLIENT_MODID
 	 */
@@ -52,12 +62,28 @@ public final class SimplyNoShading {
 	public static final Logger CLIENT_LOGGER = LoggerFactory.getLogger(CLIENT_MODID);
 
 	/**
-	 * The path to Simply No Shading client configuration file.
+	 * Simply No Shading (Mixin)'s logger used to print messages.
+	 *
+	 * @see #MIXIN_MODID
+	 */
+	public static final Logger MIXIN_LOGGER = LoggerFactory.getLogger(MIXIN_MODID);
+
+	/**
+	 * Simply No Shading (Client)'s config path.
 	 *
 	 * @see #getClientConfig()
 	 * @see #setClientConfig(SimplyNoShadingClientConfig)
 	 */
+	@Environment(CLIENT)
 	public static final Path CLIENT_CONFIG_PATH;
+
+	/**
+	 * Simply No Shading (Mixin)'s config path.
+	 *
+	 * @see #getClientConfig()
+	 * @see #setClientConfig(SimplyNoShadingClientConfig)
+	 */
+	public static final Path MIXIN_CONFIG_PATH;
 
 	/**
 	 * Simply No Shading configuration file paths' initializer.
@@ -66,6 +92,7 @@ public final class SimplyNoShading {
 		final Path configDir = FabricLoader.getInstance().getConfigDir();
 
 		CLIENT_CONFIG_PATH = configDir.resolve(CLIENT_MODID + ".json");
+		MIXIN_CONFIG_PATH = configDir.resolve(MIXIN_MODID + ".json");
 	}
 
 	/**
@@ -74,18 +101,23 @@ public final class SimplyNoShading {
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	/**
-	 * The client configuration for Simply No Shading.
+	 * Simply No Shading (Client)'s config.
 	 */
 	@Environment(CLIENT)
-	private static SimplyNoShadingClientConfigJson clientConfig;
+	private static SimplyNoShadingClientConfig clientConfig;
 
 	/**
-	 * Returns the client configuration for Simply No Shading
+	 * Simply No Shading (Mixin)'s config.
+	 */
+	private static SimplyNoShadingMixinConfig mixinConfig;
+
+	/**
+	 * Returns Simply No Shading (Client)'s config.
 	 *
 	 * @return the client config
 	 */
 	@Environment(CLIENT)
-	public static SimplyNoShadingClientConfigJson getClientConfig() {
+	public static SimplyNoShadingClientConfig getClientConfig() {
 		if (clientConfig == null) {
 			loadClientConfig();
 		}
@@ -94,7 +126,20 @@ public final class SimplyNoShading {
 	}
 
 	/**
-	 * Generically loads a json parsed object with complete logging and fallback.
+	 * Returns Simply No Shading (Client)'s config.
+	 *
+	 * @return the client config
+	 */
+	public static SimplyNoShadingMixinConfig getMixinConfig() {
+		if (mixinConfig == null) {
+			loadMixinConfig();
+		}
+
+		return mixinConfig;
+	}
+
+	/**
+	 * Loads any config.
 	 *
 	 * @param <T>      the type
 	 * @param logger   the logger
@@ -127,17 +172,24 @@ public final class SimplyNoShading {
 	}
 
 	/**
-	 * Loads the client configuration.
+	 * Loads Simply No Shading (Client)'s config.
 	 */
 	@Environment(CLIENT)
 	public static void loadClientConfig() {
 		loadAnyConfig(CLIENT_LOGGER, CLIENT_CONFIG_PATH, SimplyNoShading::setClientConfig,
-				SimplyNoShadingClientConfigJson.class, SimplyNoShadingClientConfigJson.V0::new,
-				SimplyNoShading::getClientConfig);
+				SimplyNoShadingClientConfig.class, SimplyNoShadingClientConfig::new, SimplyNoShading::getClientConfig);
 	}
 
 	/**
-	 * Generically saves a json parsed object with complete logging.
+	 * Loads Simply No Shading (Mixin)'s config.
+	 */
+	public static void loadMixinConfig() {
+		loadAnyConfig(MIXIN_LOGGER, MIXIN_CONFIG_PATH, SimplyNoShading::setMixinConfig,
+				SimplyNoShadingMixinConfig.class, SimplyNoShadingMixinConfig::new, SimplyNoShading::getMixinConfig);
+	}
+
+	/**
+	 * Saves any config.
 	 *
 	 * @param <T>    the type
 	 * @param logger the logger
@@ -160,21 +212,38 @@ public final class SimplyNoShading {
 	}
 
 	/**
-	 * Saves the client configuration.
+	 * Saves Simply No Shading (Mixin)'s config.
 	 */
 	@Environment(CLIENT)
 	public static void saveClientConfig() {
 		saveAnyConfig(CLIENT_LOGGER, false, CLIENT_CONFIG_PATH, SimplyNoShading::getClientConfig,
-				SimplyNoShadingClientConfigJson.class);
+				SimplyNoShadingClientConfig.class);
 	}
 
 	/**
-	 * Sets the client configuration for Simply No Shading.
+	 * Saves Simply No Shading (Mixin)'s config.
+	 */
+	public static void saveMixinConfig() {
+		saveAnyConfig(MIXIN_LOGGER, false, MIXIN_CONFIG_PATH, SimplyNoShading::getMixinConfig,
+				SimplyNoShadingMixinConfig.class);
+	}
+
+	/**
+	 * Sets Simply No Shading (Client)'s config.
 	 *
 	 * @param clientConfig the new client config
 	 */
 	@Environment(CLIENT)
-	public static void setClientConfig(final SimplyNoShadingClientConfigJson clientConfig) {
+	public static void setClientConfig(final SimplyNoShadingClientConfig clientConfig) {
 		SimplyNoShading.clientConfig = clientConfig;
+	}
+
+	/**
+	 * Sets Simply No Shading (Mixin)'s config.
+	 *
+	 * @param mixinConfig the new mixin config
+	 */
+	public static void setMixinConfig(final SimplyNoShadingMixinConfig mixinConfig) {
+		SimplyNoShading.mixinConfig = mixinConfig;
 	}
 }
