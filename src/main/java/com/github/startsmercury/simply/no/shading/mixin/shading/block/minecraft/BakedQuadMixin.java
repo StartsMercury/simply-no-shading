@@ -1,11 +1,11 @@
-package com.github.startsmercury.simplynoshading.mixin.shading.block.minecraft;
+package com.github.startsmercury.simply.no.shading.mixin.shading.block.minecraft;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.github.startsmercury.simplynoshading.SimplyNoShading;
+import com.github.startsmercury.simply.no.shading.SimplyNoShading;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

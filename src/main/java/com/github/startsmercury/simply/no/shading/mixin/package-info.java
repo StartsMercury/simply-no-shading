@@ -6,6 +6,6 @@
  * usage outside being bytecode transformer is a no-op.
  */
 @Internal
-package com.github.startsmercury.simplynoshading.mixin;
+package com.github.startsmercury.simply.no.shading.mixin;
 
 import org.jetbrains.annotations.ApiStatus.Internal;

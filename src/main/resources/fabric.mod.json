@@ -13,12 +13,12 @@
 	},
 
 	"license": "MIT",
-	"icon": "assets/simplynoshading/icon.png",
+	"icon": "assets/simply-no-shading/icon.png",
 
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.github.startsmercury.simplynoshading.entrypoint.SimplyNoShadingClientMod"
+			"com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod"
 		]
 	},
 	"mixins": [

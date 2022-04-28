@@ -1,7 +1,7 @@
-package com.github.startsmercury.simplynoshading.mixin;
+package com.github.startsmercury.simply.no.shading.mixin;
 
-import static com.github.startsmercury.simplynoshading.SimplyNoShading.MIXIN_LOGGER;
-import static com.github.startsmercury.simplynoshading.SimplyNoShading.getMixinConfig;
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.MIXIN_LOGGER;
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.getMixinConfig;
 
 import java.util.List;
 import java.util.Set;
@@ -68,8 +68,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
-		System.err.println(mixinClassName);
-
 		for (final var excludee : this.excluded) {
 			if (!mixinClassName.startsWith(excludee)) {
 				continue;
@@ -79,7 +77,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 			var startsWithExcludee = false;
 
 			if (mixinClassName.length() == offset || (startsWithExcludee = mixinClassName.charAt(offset) == '.')) {
-				final var message = new StringBuilder("Disabling ").append(mixinClassName);
+				final var message = new StringBuilder("Excluded mixin ").append(mixinClassName);
 
 				if (startsWithExcludee) {
 					message.append(" given it's a member of ").append(excludee);

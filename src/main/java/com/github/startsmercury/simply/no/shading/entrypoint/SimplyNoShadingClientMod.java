@@ -1,7 +1,7 @@
-package com.github.startsmercury.simplynoshading.entrypoint;
+package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import static com.github.startsmercury.simplynoshading.SimplyNoShading.CLIENT_LOGGER;
-import static com.github.startsmercury.simplynoshading.SimplyNoShading.loadClientConfig;
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.CLIENT_LOGGER;
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.loadClientConfig;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import net.fabricmc.api.ClientModInitializer;

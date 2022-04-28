@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading;
+package com.github.startsmercury.simply.no.shading;
 
 import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
@@ -17,8 +17,8 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.startsmercury.simplynoshading.config.SimplyNoShadingClientConfig;
-import com.github.startsmercury.simplynoshading.config.SimplyNoShadingMixinConfig;
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingMixinConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

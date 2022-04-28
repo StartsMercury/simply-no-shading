@@ -1,9 +1,9 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "com.github.startsmercury.simplynoshading.mixin",
+	"package": "com.github.startsmercury.simply.no.shading.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"plugin": "com.github.startsmercury.simplynoshading.mixin.SimplyNoShadingMixinPlugin",
+	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingMixinPlugin",
 	"client": [
 		"shading.block.minecraft.BakedQuadMixin"
 	],

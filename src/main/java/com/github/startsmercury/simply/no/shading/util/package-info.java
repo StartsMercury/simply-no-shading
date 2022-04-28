@@ -3,6 +3,6 @@
  * dependent classes.
  */
 @Internal
-package com.github.startsmercury.simplynoshading.util;
+package com.github.startsmercury.simply.no.shading.util;
 
 import org.jetbrains.annotations.ApiStatus.Internal;

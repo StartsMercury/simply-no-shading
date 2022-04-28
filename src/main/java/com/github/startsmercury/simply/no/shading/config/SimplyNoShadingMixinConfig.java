@@ -1,4 +1,4 @@
-package com.github.startsmercury.simplynoshading.config;
+package com.github.startsmercury.simply.no.shading.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
