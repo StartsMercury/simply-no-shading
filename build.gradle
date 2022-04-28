@@ -2,9 +2,6 @@ plugins {
 	alias libs.plugins.fabric.loom
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = sourceCompatibility
-
 group = mod_group
 archivesBaseName = mod_name
 version = mod_version
@@ -25,7 +22,7 @@ processResources {
 
 	filesMatching 'fabric.mod.json', {
 		expand 'loader_version': libs.versions.fabric.loader.get(),
-		       'java_version': sourceCompatibility,
+		       'java_version': java.toolchain.languageVersion.get(),
 		       'fabric_version': libs.versions.fabric.api.get(),
 		       'minecraft_version': libs.versions.minecraft.get(),
 		       'version': version
@@ -33,6 +30,8 @@ processResources {
 }
 
 java {
+	toolchain.languageVersion = JavaLanguageVersion.of(17)
+
 	withSourcesJar()
 }
 
