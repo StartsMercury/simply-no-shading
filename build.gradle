@@ -50,10 +50,8 @@ jar {
 	}
 }
 
-loom {
-	runConfigs.configureEach {
-		property 'mixin.debug.export', 'true'
-	}
+loom.runConfigs.configureEach {
+	property 'mixin.debug.export', 'true'
 }
 
 tasks.withType(JavaCompile).configureEach {
