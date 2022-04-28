@@ -13,8 +13,8 @@ dependencies {
 	// Fabric Loader
 	modImplementation libs.fabric.loader
 
-	// Fabric Renderer - Indigo
-	// compileOnly fabricApi.module('fabric-renderer-indigo', libs.versions.fabric.api.get())
+	// Fabric Key Binding API (V1)
+	modImplementation fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 
 	// Fernflower
 	runtimeOnly libs.fernflower
@@ -50,10 +50,12 @@ jar {
 	}
 }
 
-loom.runConfigs.configureEach {
-	property 'mixin.debug.export', true
+loom {
+	runConfigs.configureEach {
+		property 'mixin.debug.export', 'true'
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = java.toolchain.languageVersion.get()
+	it.options.release = java.toolchain.languageVersion.get().version
 }
