@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 public class BakedQuadMixin {
 	@Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
-		final var config = SimplyNoShading.getClientConfig();
+		final var config = SimplyNoShading.CLIENT_CONFIG;
 
 		callback.setReturnValue(callback.getReturnValueZ() && (config.shouldShadeAll() || config.shouldShadeBlocks()));
 	}

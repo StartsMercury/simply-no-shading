@@ -1,7 +1,8 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.MIXIN_CONFIG;
 import static com.github.startsmercury.simply.no.shading.SimplyNoShading.MIXIN_LOGGER;
-import static com.github.startsmercury.simply.no.shading.SimplyNoShading.getMixinConfig;
+import static com.github.startsmercury.simply.no.shading.SimplyNoShading.loadMixinConfig;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +20,9 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	public SimplyNoShadingMixinPlugin() {
 		this.excluded = new ObjectOpenHashSet<>();
 
-		for (final var element : getMixinConfig().getExcluded()) {
+		loadMixinConfig();
+
+		for (final var element : MIXIN_CONFIG.getExcluded()) {
 			final var excludee = "com.github.startsmercury.simplynoshading.mixin." + element;
 
 			if (!excludee.matches("\\w+(?:\\w+)*")) {
