@@ -54,7 +54,3 @@ jar {
 loom.runConfigs.configureEach {
 	property 'mixin.debug.export', 'true'
 }
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = java.toolchain.languageVersion.get().version
-}
