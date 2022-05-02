@@ -3,11 +3,13 @@ fabric-api = "0.51.1+1.18.2"
 fabric-loader = "0.14.4"
 fernflower = "5.2.1.Final"
 minecraft = "1.18.2"
+modmenu = "3.2.1"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fernflower = { module = "org.jboss.windup.decompiler:decompiler-fernflower", version.ref = "fernflower" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 
 [plugins]
 fabric-loom = "fabric-loom:0.11.+"

@@ -7,6 +7,7 @@ archivesBaseName = mod_name
 version = mod_version
 
 repositories {
+	maven { url 'https://maven.terraformersmc.com' }
 }
 
 dependencies {
@@ -22,6 +23,9 @@ dependencies {
 
 	// Minecraft
 	minecraft libs.minecraft
+
+	// ModMenu
+	modImplementation libs.modmenu
 
 	// Official Mojang Mappings
 	mappings loom.officialMojangMappings()
