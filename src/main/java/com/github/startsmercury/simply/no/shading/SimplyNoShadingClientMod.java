@@ -1,30 +1,23 @@
 package com.github.startsmercury.simply.no.shading;
 
-import java.util.function.Supplier;
+import static com.github.startsmercury.simply.no.shading.util.Value.mutable;
 
 import com.github.startsmercury.simply.no.shading.api.ClientMod;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
+import com.github.startsmercury.simply.no.shading.impl.SimplyNoShadingFabricClientMod;
+import com.github.startsmercury.simply.no.shading.util.Value;
 
 public interface SimplyNoShadingClientMod extends ClientMod, SimplyNoShadingCommonMod {
-	Supplier<SimplyNoShadingClientMod> INSTANCE = new Supplier<>() {
-		private SimplyNoShadingClientMod value;
+	Value<SimplyNoShadingClientMod> INSTANCE = Value.constant(() -> {
+		final Value.Mutable<SimplyNoShadingClientMod> value = mutable();
 
-		@Override
-		public SimplyNoShadingClientMod get() {
-			return this.value == null ? this.value = resolve() : this.value;
-		}
+		value.whenNull(() -> SimplyNoShadingFabricClientMod.INSTANCE.use(value::set));
+		value.whenNull(() -> {
+			throw new IllegalStateException("Unable to load any instance of SimplyNoShadingClientMod");
+		});
 
-		@SuppressWarnings("unused")
-		private SimplyNoShadingClientMod resolve() {
-			final SimplyNoShadingClientMod value = null;
-
-			if (value == null) {
-				throw new IllegalStateException("Unable to load any instance of SimplyNoShadingClientMod");
-			}
-
-			return value;
-		}
-	};
+		return value.get();
+	});
 
 	static SimplyNoShadingClientMod getInstance() {
 		return INSTANCE.get();

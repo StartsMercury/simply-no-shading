@@ -15,8 +15,7 @@ dependencies {
 	modImplementation libs.fabric.loader
 
 	// Fabric Key Binding API (V1)
-	modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
-	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
+	modImplementation fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 
 	// Fernflower
 	runtimeOnly libs.fernflower

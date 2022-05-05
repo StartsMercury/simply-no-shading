@@ -2,7 +2,7 @@ package com.github.startsmercury.simply.no.shading.api;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
 
-public interface ServerFabricMod extends CommonFabricMod, ServerMod {
+public interface FabricServerMod extends FabricCommonMod, ServerMod {
 	@Override
 	DedicatedServerModInitializer getInitializer();
 }

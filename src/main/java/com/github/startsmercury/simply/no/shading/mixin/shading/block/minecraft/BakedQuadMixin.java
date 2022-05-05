@@ -18,6 +18,6 @@ public class BakedQuadMixin {
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
 		final var config = SimplyNoShading.CLIENT_CONFIG;
 
-		callback.setReturnValue(callback.getReturnValueZ() && (config.shouldShadeAll() || config.shouldShadeBlocks()));
+		callback.setReturnValue(callback.getReturnValueZ() && (config.shouldShade() || config.shouldShadeBlocks()));
 	}
 }

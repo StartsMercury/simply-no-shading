@@ -4,13 +4,13 @@ import java.nio.file.Path;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-public interface CommonFabricMod extends CommonMod {
+public interface FabricCommonMod extends CommonMod {
 	static FabricLoader getFabricLoader() {
 		return FabricLoader.getInstance();
 	}
 
 	@Override
 	default Path getConfigPath() {
-		return getFabricLoader().getConfigDir().resolve(getName() + ".gson");
+		return getFabricLoader().getConfigDir().resolve(getName() + ".json");
 	}
 }

@@ -12,19 +12,23 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private boolean shadeAll = false;
+	private boolean shade = false;
 
 	private boolean shadeBlocks = false;
 
 	public SimplyNoShadingClientConfig set(final SimplyNoShadingClientConfig other) {
-		setShadeAll(other.shadeAll);
+		if (other == null) {
+			return this;
+		}
+
+		setShade(other.shade);
 		setShadeBlocks(other.shadeBlocks);
 
 		return this;
 	}
 
-	public SimplyNoShadingClientConfig setShadeAll(final boolean shadeAll) {
-		this.shadeAll = shadeAll;
+	public SimplyNoShadingClientConfig setShade(final boolean shade) {
+		this.shade = shade;
 
 		return this;
 	}
@@ -35,8 +39,8 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 		return this;
 	}
 
-	public boolean shouldShadeAll() {
-		return this.shadeAll;
+	public boolean shouldShade() {
+		return this.shade;
 	}
 
 	public boolean shouldShadeBlocks() {
