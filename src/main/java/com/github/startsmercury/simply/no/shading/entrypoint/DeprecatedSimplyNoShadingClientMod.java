@@ -17,12 +17,12 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
 @Environment(CLIENT)
-public final class SimplyNoShadingClientMod implements ClientModInitializer {
-	private static SimplyNoShadingClientMod instance;
+public final class DeprecatedSimplyNoShadingClientMod implements ClientModInitializer {
+	private static DeprecatedSimplyNoShadingClientMod instance;
 
 	public static final String KEY_CATEGORY = "simply-no-shading.key.categories.simply-no-shading";
 
-	public static SimplyNoShadingClientMod getInstance() {
+	public static DeprecatedSimplyNoShadingClientMod getInstance() {
 		if (instance == null) {
 			throw new IllegalStateException("Accessed SimplyNoShadingClientMod too early");
 		}
@@ -42,7 +42,7 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 	public final ToggleKeyMapping toggleBlockShadingKey;
 
-	public SimplyNoShadingClientMod() {
+	public DeprecatedSimplyNoShadingClientMod() {
 		CLIENT_LOGGER.debug("Constructing mod initializer...");
 
 		final var unknownValue = InputConstants.UNKNOWN.getValue();
