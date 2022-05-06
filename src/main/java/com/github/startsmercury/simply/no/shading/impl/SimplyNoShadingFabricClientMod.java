@@ -1,7 +1,7 @@
 package com.github.startsmercury.simply.no.shading.impl;
 
-import static com.github.startsmercury.simply.no.shading.util.KeyMappingUtilities.keyMapping;
-import static com.github.startsmercury.simply.no.shading.util.KeyMappingUtilities.toggleKeyMapping;
+import static com.github.startsmercury.simply.no.shading.util.KeyMappingUtils.keyMapping;
+import static com.github.startsmercury.simply.no.shading.util.KeyMappingUtils.toggleKeyMapping;
 import static com.github.startsmercury.simply.no.shading.util.Value.constant;
 import static com.github.startsmercury.simply.no.shading.util.Value.unified;
 import static com.mojang.blaze3d.platform.InputConstants.KEY_F6;
