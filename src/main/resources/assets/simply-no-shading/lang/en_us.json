@@ -1,6 +1,6 @@
 {
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-	"simply-no-shading.key.block_shading": "Block Shading",
-	"simply-no-shading.key.open_settings": "Open Settings",
-	"simply-no-shading.key.shading": "Shading"
+	"simply-no-shading.key.openSettings": "Open Settings",
+	"simply-no-shading.key.toggleBlockShading": "Toggle Block Shading",
+	"simply-no-shading.key.togleShading": "Toggle Shading"
 }
