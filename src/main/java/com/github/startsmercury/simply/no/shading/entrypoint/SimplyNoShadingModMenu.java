@@ -6,10 +6,8 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.minecraft.client.gui.screens.Screen;
 
 public class SimplyNoShadingModMenu implements ModMenuApi {
-	public SimplyNoShadingModMenu() {
-	}
-
 	protected <S extends Screen> S createModConfigScreen(final Screen parent) {
+		
 		return null;
 	}
 

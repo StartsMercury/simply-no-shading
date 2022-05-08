@@ -46,4 +46,8 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 	public boolean shouldShadeBlocks() {
 		return this.shadeBlocks;
 	}
+
+	public boolean wouldShadeBlocks(final boolean shaded) {
+		return shaded && (this.shade || this.shadeBlocks);
+	}
 }
