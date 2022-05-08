@@ -17,6 +17,7 @@ import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientCo
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -117,7 +118,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		whenModLoaded("fabric-key-binding-api-v1", this::registerKeyMappings,
 		    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
 		whenModLoaded("fabric-lifecycle-events-v1", this::registerLifecycleEventListeners,
-		    "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
+		    "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present",
+		    this::registerShutdownHook);
 
 		instance = this;
 
@@ -147,8 +149,17 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 				client.levelRenderer.allChanged();
 			}
 		});
+		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
 
 		LOGGER.info("Registered life cycle event listeners");
+	}
+
+	protected void registerShutdownHook() {
+		LOGGER.debug("Registering shutdown hook...");
+
+		Runtime.getRuntime().addShutdownHook(new Thread(this::saveConfig));
+
+		LOGGER.info("Registered shutdown hook");
 	}
 
 	public void saveConfig() {
@@ -182,10 +193,17 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	}
 
 	protected void whenModLoaded(final String id, final Runnable action, final String message) {
+		whenModLoaded(id, action, message, () -> {});
+	}
+
+	protected void whenModLoaded(final String id, final Runnable action, final String message,
+	    final Runnable fallback) {
 		if (this.fabricLoader.isModLoaded(id)) {
 			action.run();
 		} else {
 			LOGGER.warn(message);
+
+			fallback.run();
 		}
 	}
 }
