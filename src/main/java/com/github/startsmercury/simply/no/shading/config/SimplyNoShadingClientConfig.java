@@ -47,7 +47,19 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 		return this.shadeBlocks;
 	}
 
+	public void toggleBlockShading() {
+		this.shadeBlocks = !this.shadeBlocks;
+	}
+
+	public void toggleShading() {
+		this.shade = !this.shade;
+	}
+
+	public boolean wouldShadeBlocks() {
+		return this.shade || this.shadeBlocks;
+	}
+
 	public boolean wouldShadeBlocks(final boolean shaded) {
-		return shaded && (this.shade || this.shadeBlocks);
+		return shaded && wouldShadeBlocks();
 	}
 }

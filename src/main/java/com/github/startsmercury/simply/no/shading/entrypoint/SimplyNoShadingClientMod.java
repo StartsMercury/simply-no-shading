@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.function.BooleanSupplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientCo
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
@@ -28,6 +30,20 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	private static SimplyNoShadingClientMod instance;
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading+client");
+
+	protected static void consumeClick(final KeyMapping keyMapping, final Runnable action) {
+		if (keyMapping.consumeClick()) {
+			action.run();
+		}
+	}
+
+	protected static boolean consumeClickZ(final KeyMapping keyMapping, final BooleanSupplier action) {
+		if (keyMapping.consumeClick()) {
+			return action.getAsBoolean();
+		}
+
+		return false;
+	}
 
 	public static SimplyNoShadingClientMod getInstance() {
 		if (instance == null) {
@@ -98,8 +114,10 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 		loadConfig();
 
-		whenModLoaded("fabric-key-bindings-api-v1", this::registerKeyMappings,
-		    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-bindings-api-v1') is not present");
+		whenModLoaded("fabric-key-binding-api-v1", this::registerKeyMappings,
+		    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
+		whenModLoaded("fabric-lifecycle-events-v1", this::registerLifecycleEventListeners,
+		    "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
 
 		instance = this;
 
@@ -110,10 +128,27 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.debug("Registering key mappings...");
 
 		KeyBindingHelper.registerKeyBinding(this.openSettingsKey);
-		KeyBindingHelper.registerKeyBinding(this.toggleBlockShadingKey);
 		KeyBindingHelper.registerKeyBinding(this.toggleShadingKey);
+		KeyBindingHelper.registerKeyBinding(this.toggleBlockShadingKey);
 
 		LOGGER.info("Registered key mappings");
+	}
+
+	protected void registerLifecycleEventListeners() {
+		LOGGER.debug("Registering life cycle event listeners...");
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			var allChanged = false;
+
+			allChanged |= consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
+			allChanged |= consumeClickZ(this.toggleShadingKey, this::toggleShading);
+
+			if (allChanged) {
+				client.levelRenderer.allChanged();
+			}
+		});
+
+		LOGGER.info("Registered life cycle event listeners");
 	}
 
 	public void saveConfig() {
@@ -126,6 +161,24 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		} catch (final IOException ioe) {
 			LOGGER.warn("Unable to save config", ioe);
 		}
+	}
+
+	public boolean toggleBlockShading() {
+		final var wouldHaveShadeBlocks = this.config.wouldShadeBlocks();
+
+		this.config.toggleBlockShading();
+
+		LOGGER.debug("Toggled block shading, the new value is " + this.config.shouldShadeBlocks());
+
+		return this.config.wouldShadeBlocks() != wouldHaveShadeBlocks;
+	}
+
+	public boolean toggleShading() {
+		this.config.toggleShading();
+
+		LOGGER.debug("Toggled shading, the new value is " + this.config.shouldShade());
+
+		return true;
 	}
 
 	protected void whenModLoaded(final String id, final Runnable action, final String message) {
