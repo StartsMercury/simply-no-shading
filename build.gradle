@@ -3,7 +3,7 @@ plugins {
 }
 
 group = mod_group
-archivesBaseName = mod_name
+archivesBaseName = "mc${libs.versions.minecraft.get()}-${mod_name}"
 version = mod_version
 
 repositories {
