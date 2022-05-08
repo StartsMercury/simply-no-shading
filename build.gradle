@@ -16,7 +16,7 @@ dependencies {
 
 	// Fabric Key Binding API (V1)
 	modImplementation fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
-	
+
 	// Fabric Lifecycle Events (V1)
 	modImplementation fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 

@@ -19,6 +19,9 @@
 	"entrypoints": {
 		"client": [
 			"com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod"
+		],
+		"modmenu": [
+			"com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingModMenu"
 		]
 	},
 	"mixins": [

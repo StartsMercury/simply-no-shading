@@ -1,4 +1,9 @@
 {
+	"simply-no-shading.options.blockShading": "Block Shading",
+	"simply-no-shading.options.blockShading.tooltip": "Controls block shading, excluding block entities",
+	"simply-no-shading.options.shading": "Shading",
+	"simply-no-shading.options.shading.tooltip": "Controls all shading options available, Set to ON is equivalent all options set to ON",
+	"simply-no-shading.options.shadingTitle": "Shading Settings",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
 	"simply-no-shading.key.openSettings": "Open Settings",
 	"simply-no-shading.key.toggleBlockShading": "Toggle Block Shading",

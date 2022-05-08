@@ -9,11 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
+import com.github.startsmercury.simply.no.shading.screen.ShadingSettingsScreen;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
@@ -21,8 +23,11 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.CycleOption;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
+import net.minecraft.network.chat.TranslatableComponent;
 
 @Environment(CLIENT)
 public final class SimplyNoShadingClientMod implements ClientModInitializer {
@@ -32,9 +37,10 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading+client");
 
-	protected static void consumeClick(final KeyMapping keyMapping, final Runnable action) {
+	protected static void consumeClick(final KeyMapping keyMapping, final Minecraft client,
+	    final Consumer<Minecraft> action) {
 		if (keyMapping.consumeClick()) {
-			action.run();
+			action.accept(client);
 		}
 	}
 
@@ -54,6 +60,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		return instance;
 	}
 
+	public final CycleOption<Boolean> blockShadingOption;
+
 	public final SimplyNoShadingClientConfig config;
 
 	public final Path configPath;
@@ -61,6 +69,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	private final FabricLoader fabricLoader;
 
 	public final KeyMapping openSettingsKey;
+
+	public final CycleOption<Boolean> shadingOption;
 
 	public final ToggleKeyMapping toggleBlockShadingKey;
 
@@ -74,7 +84,14 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		this.openSettingsKey = new KeyMapping("simply-no-shading.key.openSettings", UNKNOWN.getValue(),
 		    CATEGORIES_SIMPLY_NO_SHADING);
 
+		this.blockShadingOption = CycleOption.createOnOff("simply-no-shading.options.blockShading",
+		    new TranslatableComponent("simply-no-shading.options.blockShading.tooltip"),
+		    options -> this.config.shouldShadeBlocks(),
+		    (options, option, blockShading) -> this.config.setShadeBlocks(blockShading));
 		this.configPath = this.fabricLoader.getConfigDir().resolve("simply-no-shading+client.json");
+		this.shadingOption = CycleOption.createOnOff("simply-no-shading.options.shading",
+		    new TranslatableComponent("simply-no-shading.options.shading.tooltip"),
+		    options -> this.config.shouldShade(), (options, option, shading) -> this.config.setShade(shading));
 		this.toggleBlockShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
 		    UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeBlocks);
 		this.toggleShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleShading", UNKNOWN.getValue(),
@@ -126,6 +143,10 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.info("Initialized client mod");
 	}
 
+	protected void openSettings(final Minecraft client) {
+		client.setScreen(new ShadingSettingsScreen(client.screen));
+	}
+
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
 
@@ -148,6 +169,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 			if (allChanged) {
 				client.levelRenderer.allChanged();
 			}
+
+			consumeClick(this.openSettingsKey, client, this::openSettings);
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
 

@@ -1,18 +1,12 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
+import com.github.startsmercury.simply.no.shading.screen.ShadingSettingsScreen;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
-import net.minecraft.client.gui.screens.Screen;
-
 public class SimplyNoShadingModMenu implements ModMenuApi {
-	protected <S extends Screen> S createModConfigScreen(final Screen parent) {
-		
-		return null;
-	}
-
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return this::createModConfigScreen;
+		return ShadingSettingsScreen::new;
 	}
 }
