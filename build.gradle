@@ -37,10 +37,11 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'loader_version': libs.versions.fabric.loader.get(),
+		expand 'loader_version': libs.versions.fabric.loader.get().replace('+', 'x'),
 		       'java_version': java.toolchain.languageVersion.get(),
 		       'fabric_version': libs.versions.fabric.api.get(),
 		       'minecraft_version': libs.versions.minecraft.get(),
+		       'modmenu_version': libs.versions.modmenu.get().replace('+', 'x'),
 		       'version': version
 	}
 }
