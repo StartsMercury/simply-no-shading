@@ -1,5 +1,6 @@
 package com.github.startsmercury.simply.no.shading.screen;
 
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -15,17 +16,24 @@ import net.minecraft.network.chat.TranslatableComponent;
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	private static final Option[] OPTIONS;
 
-	private static final SimplyNoShadingClientMod SIMPLY_NO_SHADING_CLIENT_MOD;
+	private static final SimplyNoShadingClientConfig CLIENT_CONFIG;
+
+	private static final SimplyNoShadingClientMod CLIENT_MOD;
 
 	static {
-		SIMPLY_NO_SHADING_CLIENT_MOD = SimplyNoShadingClientMod.getInstance();
+		CLIENT_MOD = SimplyNoShadingClientMod.getInstance();
 
+		CLIENT_CONFIG = CLIENT_MOD.config;
 		OPTIONS = new Option[] {
-		    SIMPLY_NO_SHADING_CLIENT_MOD.blockShadingOption
+		    CLIENT_MOD.blockShadingOption
 		};
 	}
 
 	private OptionsList list;
+
+	private boolean shouldHaveShade;
+
+	private boolean wouldHaveShadeBlocks;
 
 	public ShadingSettingsScreen(final Screen screen) {
 		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
@@ -34,8 +42,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	@Override
 	protected void init() {
 		this.list = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
+		this.shouldHaveShade = CLIENT_CONFIG.shouldShade();
+		this.wouldHaveShadeBlocks = CLIENT_CONFIG.wouldShadeBlocks();
 
-		this.list.addBig(SIMPLY_NO_SHADING_CLIENT_MOD.shadingOption);
+		this.list.addBig(CLIENT_MOD.shadingOption);
 		this.list.addSmall(OPTIONS);
 
 		addWidget(this.list);
@@ -43,10 +53,19 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		    button -> this.minecraft.setScreen(this.lastScreen)));
 	}
 
+	private boolean isDirty() {
+		return CLIENT_CONFIG.shouldShade() != this.shouldHaveShade
+		    || CLIENT_CONFIG.wouldShadeBlocks() != this.wouldHaveShadeBlocks;
+	}
+
 	@Override
 	@SuppressWarnings("resource")
 	public void removed() {
-		SIMPLY_NO_SHADING_CLIENT_MOD.saveConfig();
+		CLIENT_MOD.saveConfig();
+
+		if (!isDirty()) {
+			return;
+		}
 
 		Minecraft.getInstance().levelRenderer.allChanged();
 	}
