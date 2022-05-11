@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.GSON;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -14,7 +16,6 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingMixinConfig;
-import com.github.startsmercury.simply.no.shading.util.Constants;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -32,7 +33,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		try (final var out = Files.newBufferedWriter(CONFIG_PATH)) {
 			LOGGER.debug("Creating mixin config...");
 
-			Constants.GSON.toJson(mixinConfig, out);
+			GSON.toJson(mixinConfig, out);
 
 			LOGGER.info("Created mixin config");
 		} catch (final IOException ioe) {
@@ -46,7 +47,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		try (var in = Files.newBufferedReader(CONFIG_PATH)) {
 			LOGGER.debug("Loading mixin config...");
 
-			final var mixinConfig = Constants.GSON.fromJson(in, SimplyNoShadingMixinConfig.class);
+			final var mixinConfig = GSON.fromJson(in, SimplyNoShadingMixinConfig.class);
 
 			LOGGER.info("Loaded mixin config");
 

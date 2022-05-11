@@ -1,15 +1,23 @@
 [versions]
+advanced-runtime-resource-packs = "0.5.+"
+enhanced-block-entities = "0.6+1.18.2"
 fabric-api = "0.51.1+1.18.2"
-fabric-loader = "0.14.+"
-fernflower = "5.2.+"
+fabric-loader = "[0.14,1)"
+fernflower = "1.+"
+java = "17.+"
 minecraft = "1.18.2"
-modmenu = "3.2.+"
+modmenu = "[3.1,4)"
+spruceui = "3.3.0+1.17"
 
 [libraries]
+advanced-runtime-resource-packs = { module = "net.devtech:arrp", version.ref = "advanced-runtime-resource-packs" }
+enhanced-block-entities = { module = "maven.modrinth:ebe", version.ref = "enhanced-block-entities" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
-fernflower = { module = "org.jboss.windup.decompiler:decompiler-fernflower", version.ref = "fernflower" }
+fernflower = { module = "org.jetbrains:intellij-fernflower", version.ref = "fernflower" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]
 fabric-loom = "fabric-loom:0.11.+"

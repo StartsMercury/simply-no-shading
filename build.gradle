@@ -1,33 +1,38 @@
+
 plugins {
 	alias libs.plugins.fabric.loom
 }
 
 group = mod_group
-archivesBaseName = "mc${libs.versions.minecraft.get()}-${mod_name}"
-version = mod_version
+archivesBaseName = mod_name
+version = "${libs.versions.minecraft.get()}-${mod_version}"
 
 repositories {
+	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+	maven { url 'https://maven.gegy.dev' }
 	maven { url 'https://maven.terraformersmc.com' }
+	maven { url 'https://storage.googleapis.com/devan-maven' }
 }
 
+apply from: 'runtime.gradle'
 dependencies {
-	// Fabric Loader
-	modImplementation libs.fabric.loader
+	// Enhanced Block Entities
+	modCompileOnly libs.enhanced.block.entities
 
 	// Fabric Key Binding API (V1)
-	modImplementation fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
+	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 
 	// Fabric Lifecycle Events (V1)
-	modImplementation fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
+	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 
-	// Fernflower
-	runtimeOnly libs.fernflower
+	// Fabric Loader
+	modImplementation libs.fabric.loader
 
 	// Minecraft
 	minecraft libs.minecraft
 
 	// ModMenu
-	modImplementation libs.modmenu
+	modCompileOnly libs.modmenu
 
 	// Official Mojang Mappings
 	mappings loom.officialMojangMappings()
@@ -37,17 +42,18 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'loader_version': libs.versions.fabric.loader.get().replace('+', 'x'),
-		       'java_version': java.toolchain.languageVersion.get(),
-		       'fabric_version': libs.versions.fabric.api.get(),
-		       'minecraft_version': libs.versions.minecraft.get(),
-		       'modmenu_version': libs.versions.modmenu.get().replace('+', 'x'),
+		expand 'enhanced_block_entities_version': libVersionRange('enhanced-block-entities'),
+		       'fabric_version': libVersionRange('fabric-api'),
+		       'java_version': libVersionRange('java'),
+		       'loader_version': libVersionRange('fabric-loader'),
+		       'minecraft_version': libVersionRange('minecraft'),
+		       'modmenu_version': libVersionRange('modmenu'),
 		       'version': version
 	}
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(17)
+	toolchain.languageVersion = JavaLanguageVersion.of(libVersion('java'))
 
 	withSourcesJar()
 }
@@ -58,6 +64,80 @@ jar {
 	}
 }
 
-loom.runConfigs.configureEach {
-	property 'mixin.debug.export', 'true'
+def encompass(String string, int left, int right = 0) {
+	return string[left..<string.length() - right]
+}
+
+def libVersion(String name) {
+	final def keys = name.split(/\P{Alnum}+/)
+	def map = libs.versions
+
+	for (key in keys) {
+		map = map[key]
+	}
+
+	final def range = map.get() as String
+	
+	if (range.endsWith('.+'))
+		return encompass(range, 0, 2)
+	else
+		return mavenVersion(range) ?: range
+}
+
+def libVersionRange(String name) {
+	final def keys = name.split(/\P{Alnum}+/)
+	def map = libs.versions
+
+	for (key in keys) {
+		map = map[key]
+	}
+
+	final def range = map.get() as String
+	
+	if (range.endsWith('.+'))
+		return "${encompass range, 0, 2}.x"
+	else
+		return mavenVersionRange(range) ?: range
+}
+
+def mavenVersion(String range) {
+	final def delimiter = range.indexOf ','
+
+	if (delimiter == -1) return '';
+
+	final def lowerBound = range[1 ..< delimiter]
+
+	switch (lowerBound ? range[0] : '') {
+	case '[': case '(': case ']': return lowerBound
+	}
+
+	final def upperBound = encompass range, delimiter + 1, 1
+
+	switch (upperBound ? range[range.length() - 1] : '') {
+	case '[': case '(': case ']': return upperBound
+	}
+
+	return ''
+}
+
+def mavenVersionRange(String range) {
+	final def delimiter = range.indexOf ','
+
+	if (delimiter == -1) return '';
+
+	final def joiner = new StringJoiner(' ')
+	final def lowerBound = range[1 ..< delimiter]
+	final def upperBound = encompass range, delimiter + 1, 1
+	
+	switch (lowerBound ? range[0] : '') {
+	case '[': joiner.add ">=${lowerBound}"; break
+	case '(': case ']': joiner.add ">${lowerBound}"; break
+	}
+	
+	switch (upperBound ? range[range.length() - 1] : '') {
+	case '[': joiner.add "<=${upperBound}"; break
+	case '(': case ']': joiner.add "<${upperBound}"; break
+	}
+
+	return joiner as String
 }

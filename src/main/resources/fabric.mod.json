@@ -30,11 +30,13 @@
 
 	"depends": {
 		"fabricloader": "${loader_version}",
-		"minecraft": ">=${minecraft_version}",
-		"java": ">=${java_version}"
+		"minecraft": "${minecraft_version}",
+		"java": "*"
 	},
 	"recommends": {
-		"fabric": ">=${fabric_version}",
+		"enhancedblockentities": "${enhanced_block_entities_version}",
+		"fabric": "${fabric_version}",
+		"java": "${java_version}",
 		"modmenu": "${modmenu_version}"
 	}
 }

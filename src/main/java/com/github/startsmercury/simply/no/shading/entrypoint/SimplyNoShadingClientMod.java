@@ -1,6 +1,9 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import static com.github.startsmercury.simply.no.shading.util.Constants.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.fabricLoader;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
+import static com.mojang.blaze3d.platform.InputConstants.KEY_F6;
 import static com.mojang.blaze3d.platform.InputConstants.UNKNOWN;
 import static net.fabricmc.api.EnvType.CLIENT;
 
@@ -22,7 +25,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.CycleOption;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -60,42 +62,56 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		return instance;
 	}
 
+	protected static void registerWhenLoaded(final String id, final KeyMapping keyMapping) {
+		runWhenLoaded(id, () -> KeyBindingHelper.registerKeyBinding(keyMapping));
+	}
+
+	public final CycleOption<Boolean> allShadingOption;
+
 	public final CycleOption<Boolean> blockShadingOption;
 
 	public final SimplyNoShadingClientConfig config;
 
 	public final Path configPath;
 
-	private final FabricLoader fabricLoader;
+	public final CycleOption<Boolean> enhancedBlockEntityShadingOption;
 
 	public final KeyMapping openSettingsKey;
 
-	public final CycleOption<Boolean> shadingOption;
+	public final ToggleKeyMapping toggleAllShadingKey;
 
 	public final ToggleKeyMapping toggleBlockShadingKey;
 
-	public final ToggleKeyMapping toggleShadingKey;
+	public final ToggleKeyMapping toggleEnhancedBlockEntityShadingKey;
 
 	public SimplyNoShadingClientMod() {
 		LOGGER.debug("Constructing client mod...");
 
 		this.config = new SimplyNoShadingClientConfig();
-		this.fabricLoader = FabricLoader.getInstance();
+		this.configPath = fabricLoader().getConfigDir().resolve("simply-no-shading+client.json");
 		this.openSettingsKey = new KeyMapping("simply-no-shading.key.openSettings", UNKNOWN.getValue(),
 		    CATEGORIES_SIMPLY_NO_SHADING);
 
+		this.allShadingOption = CycleOption.createOnOff("simply-no-shading.options.allShading",
+		    new TranslatableComponent("simply-no-shading.options.allShading.tooltip"),
+		    options -> this.config.shouldShadeAll(),
+		    (options, option, allShading) -> this.config.setShadeAll(allShading));
 		this.blockShadingOption = CycleOption.createOnOff("simply-no-shading.options.blockShading",
 		    new TranslatableComponent("simply-no-shading.options.blockShading.tooltip"),
 		    options -> this.config.shouldShadeBlocks(),
 		    (options, option, blockShading) -> this.config.setShadeBlocks(blockShading));
-		this.configPath = this.fabricLoader.getConfigDir().resolve("simply-no-shading+client.json");
-		this.shadingOption = CycleOption.createOnOff("simply-no-shading.options.shading",
-		    new TranslatableComponent("simply-no-shading.options.shading.tooltip"),
-		    options -> this.config.shouldShade(), (options, option, shading) -> this.config.setShade(shading));
+		this.enhancedBlockEntityShadingOption = CycleOption.createOnOff(
+		    "simply-no-shading.options.enhancedBlockEntityShading",
+		    new TranslatableComponent("simply-no-shading.options.enhancedBlockEntityShading.tooltip"),
+		    options -> this.config.shouldShadeEnhancedBlockEntities(), (options, option,
+		        enhancedBlockEntityShading) -> this.config.setShadeEnhancedBlockEntities(enhancedBlockEntityShading));
+		this.toggleAllShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleAllShading", KEY_F6,
+		    CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeAll);
 		this.toggleBlockShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
 		    UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeBlocks);
-		this.toggleShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleShading", UNKNOWN.getValue(),
-		    CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShade);
+		this.toggleEnhancedBlockEntityShadingKey = new ToggleKeyMapping(
+		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING,
+		    this.config::shouldShadeEnhancedBlockEntities);
 
 		LOGGER.info("Constructed client mod...");
 	}
@@ -132,9 +148,9 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 		loadConfig();
 
-		whenModLoaded("fabric-key-binding-api-v1", this::registerKeyMappings,
+		runWhenLoaded("fabric-key-binding-api-v1", this::registerKeyMappings, LOGGER,
 		    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
-		whenModLoaded("fabric-lifecycle-events-v1", this::registerLifecycleEventListeners,
+		runWhenLoaded("fabric-lifecycle-events-v1", this::registerLifecycleEventListeners, LOGGER,
 		    "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present",
 		    this::registerShutdownHook);
 
@@ -151,8 +167,9 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.debug("Registering key mappings...");
 
 		KeyBindingHelper.registerKeyBinding(this.openSettingsKey);
-		KeyBindingHelper.registerKeyBinding(this.toggleShadingKey);
+		KeyBindingHelper.registerKeyBinding(this.toggleAllShadingKey);
 		KeyBindingHelper.registerKeyBinding(this.toggleBlockShadingKey);
+		registerWhenLoaded("enhancedblockentities", this.toggleEnhancedBlockEntityShadingKey);
 
 		LOGGER.info("Registered key mappings");
 	}
@@ -163,8 +180,10 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			var allChanged = false;
 
+			allChanged |= consumeClickZ(this.toggleAllShadingKey, this::toggleAllShading);
 			allChanged |= consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
-			allChanged |= consumeClickZ(this.toggleShadingKey, this::toggleShading);
+			allChanged |= consumeClickZ(this.toggleEnhancedBlockEntityShadingKey,
+			    this::toggleEnhancedBlockEntityShading);
 
 			if (allChanged) {
 				client.levelRenderer.allChanged();
@@ -197,6 +216,16 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		}
 	}
 
+	public boolean toggleAllShading() {
+		final var wouldHaveShadeAll = this.config.wouldShadeAll();
+
+		this.config.toggleAllShading();
+
+		LOGGER.debug("Toggled shading, the new value is " + this.config.shouldShadeAll());
+
+		return this.config.wouldShadeAll() != wouldHaveShadeAll;
+	}
+
 	public boolean toggleBlockShading() {
 		final var wouldHaveShadeBlocks = this.config.wouldShadeBlocks();
 
@@ -207,26 +236,13 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		return this.config.wouldShadeBlocks() != wouldHaveShadeBlocks;
 	}
 
-	public boolean toggleShading() {
-		this.config.toggleShading();
+	public boolean toggleEnhancedBlockEntityShading() {
+		final var wouldHaveShadeEnhancedBlockEntities = this.config.wouldShadeEnhancedBlockEntities();
 
-		LOGGER.debug("Toggled shading, the new value is " + this.config.shouldShade());
+		this.config.toggleEnhancedBlockEntityShading();
 
-		return true;
-	}
+		LOGGER.debug("Toggled block shading, the new value is " + this.config.shouldShadeEnhancedBlockEntities());
 
-	protected void whenModLoaded(final String id, final Runnable action, final String message) {
-		whenModLoaded(id, action, message, () -> {});
-	}
-
-	protected void whenModLoaded(final String id, final Runnable action, final String message,
-	    final Runnable fallback) {
-		if (this.fabricLoader.isModLoaded(id)) {
-			action.run();
-		} else {
-			LOGGER.warn(message);
-
-			fallback.run();
-		}
+		return this.config.wouldShadeEnhancedBlockEntities() != wouldHaveShadeEnhancedBlockEntities;
 	}
 }

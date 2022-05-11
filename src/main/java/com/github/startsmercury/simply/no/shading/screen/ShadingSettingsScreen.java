@@ -1,9 +1,12 @@
 package com.github.startsmercury.simply.no.shading.screen;
 
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
+
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.components.Button;
@@ -24,16 +27,25 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		CLIENT_MOD = SimplyNoShadingClientMod.getInstance();
 
 		CLIENT_CONFIG = CLIENT_MOD.config;
-		OPTIONS = new Option[] {
-		    CLIENT_MOD.blockShadingOption
-		};
+		OPTIONS = createOptions();
+	}
+
+	private static Option[] createOptions() {
+		final var optionList = new ReferenceArrayList<>(2);
+
+		optionList.add(CLIENT_MOD.blockShadingOption);
+		runWhenLoaded("enhancedblockentities", () -> optionList.add(CLIENT_MOD.enhancedBlockEntityShadingOption));
+
+		return optionList.toArray(Option[]::new);
 	}
 
 	private OptionsList list;
 
-	private boolean shouldHaveShade;
+	private boolean wouldHaveShadeAll;
 
 	private boolean wouldHaveShadeBlocks;
+
+	private boolean wouldHaveShadeEnhancedBlockEntities;
 
 	public ShadingSettingsScreen(final Screen screen) {
 		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
@@ -42,10 +54,11 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	@Override
 	protected void init() {
 		this.list = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
-		this.shouldHaveShade = CLIENT_CONFIG.shouldShade();
+		this.wouldHaveShadeAll = CLIENT_CONFIG.wouldShadeAll();
 		this.wouldHaveShadeBlocks = CLIENT_CONFIG.wouldShadeBlocks();
+		this.wouldHaveShadeEnhancedBlockEntities = CLIENT_CONFIG.wouldShadeEnhancedBlockEntities();
 
-		this.list.addBig(CLIENT_MOD.shadingOption);
+		this.list.addBig(CLIENT_MOD.allShadingOption);
 		this.list.addSmall(OPTIONS);
 
 		addWidget(this.list);
@@ -54,8 +67,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	private boolean isDirty() {
-		return CLIENT_CONFIG.shouldShade() != this.shouldHaveShade
-		    || CLIENT_CONFIG.wouldShadeBlocks() != this.wouldHaveShadeBlocks;
+		return CLIENT_CONFIG.wouldShadeAll() != this.wouldHaveShadeAll
+		    || CLIENT_CONFIG.wouldShadeBlocks() != this.wouldHaveShadeBlocks
+		    || CLIENT_CONFIG.wouldShadeEnhancedBlockEntities() != this.wouldHaveShadeEnhancedBlockEntities;
 	}
 
 	@Override
