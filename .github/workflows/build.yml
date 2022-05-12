@@ -37,7 +37,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: bumpVersion
-        run: ./gradlew bumpVersion
+        run: ./gradlew build # bumpVersion
         env:
           RELEASE_TYPE: ${{ github.event.inputs.version-channel || 'alpha' }}
       - name: commit version bump
@@ -99,7 +99,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: curseforge
-        run: ./gradlew remapJar curseforge
+        run: ./gradlew remapJar # curseforge
         env:
           CHANGELOG: ${{ github.event.inputs.changelog || join(github.event.commits.*.message, '\n\n') }}
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
@@ -124,7 +124,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: modrinth
-        run: ./gradlew build modrinth
+        run: ./gradlew build # modrinth
         env:
           CHANGELOG: ${{ github.event.inputs.changelog || join(github.event.commits.*.message, '\n\n') }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
