@@ -10,11 +10,11 @@
 	<a alt="FabricMC Tutorial Wiki: Side" href="https://fabricmc.net/wiki/tutorial:side">
 		<img src="https://img.shields.io/badge/environment-client-1976d2"/></a>
 	<a alt="Version Type" href="https://semver.org">
-		<img src="https://img.shields.io/badge/dynamic/json?label=channel%20&query=$[0]['version_type']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
+		<img src="https://img.shields.io/badge/channel-alpha-1976d2"/></a>
 	<a alt="Version" href="https://semver.org">
-		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_number']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
-	<a alt="Minecraft Version" href="https://www.minecraft.net">
-		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></p>
+		<img src="https://img.shields.io/badge/version-4.5.9-1976d2"/></a>
+	<a alt="Minecraft Version" href="https://semver.org">
+		<img src="https://img.shields.io/badge/minecraft-1.18.2-1976d2"/></a></p>
 
 This mod mimics OptiFine's Internal Shader with Old Lighting OFF by default. Benefits are less lag as this mod is not a shader, stability, and compatibility with other mods. Customizability is also there, toggling certain features, including bindable key mappings to toggle them in-game.
 
