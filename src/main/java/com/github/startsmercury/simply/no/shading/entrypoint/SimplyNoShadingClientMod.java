@@ -180,14 +180,12 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.debug("Registering life cycle event listeners...");
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			var allChanged = false;
-
-			allChanged |= consumeClickZ(this.toggleAllShadingKey, this::toggleAllShading);
-			allChanged |= consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
-			allChanged |= consumeClickZ(this.toggleEnhancedBlockEntityShadingKey,
+			final var allShadingChanged = consumeClickZ(this.toggleAllShadingKey, this::toggleAllShading);
+			final var blockShadingChanged = consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
+			final var enhancedBlockEntityShadingChanged = consumeClickZ(this.toggleEnhancedBlockEntityShadingKey,
 			    this::toggleEnhancedBlockEntityShading);
 
-			if (allChanged) {
+			if (allShadingChanged || blockShadingChanged || enhancedBlockEntityShadingChanged) {
 				client.levelRenderer.allChanged();
 			}
 
