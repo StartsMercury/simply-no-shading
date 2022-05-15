@@ -6,10 +6,25 @@
 	"name": "Simply No Shading",
 	"description": "Rewritten!",
 	"authors": [
-		"StartsMercury"
+		{
+			"name": "StartsMercury",
+			"contact": {
+				"homepage": "https://github.com/StartsMercury"
+			}
+		}
+	],
+	"contributors": [
+		{
+			"name": "IMS212",
+			"contact": {
+				"homepage": "https://github.com/IMS212"
+			}
+		}
 	],
 	"contact": {
-		"sources": "https://github.com/StartsMercury/simply-no-shading"
+		"homepage": "https://modrinth.com/mod/simply-no-shading",
+		"sources": "https://github.com/StartsMercury/simply-no-shading",
+		"issues": "https://github.com/StartsMercury/simply-no-shading/issues"
 	},
 
 	"license": "MIT",
@@ -29,14 +44,15 @@
 	],
 
 	"depends": {
-		"fabricloader": "${loader_version}",
-		"minecraft": "${minecraft_version}",
-		"java": "*"
+		"fabricloader": "*",
+		"minecraft": "*",
+		"java": "${java_version}"
 	},
 	"recommends": {
 		"enhancedblockentities": "${enhanced_block_entities_version}",
 		"fabric": "${fabric_version}",
-		"java": "${java_version}",
+		"fabricloader": "${loader_version}",
+		"minecraft": "${minecraft_version}",
 		"modmenu": "${modmenu_version}"
 	}
 }

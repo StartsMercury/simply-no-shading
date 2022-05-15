@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
-import com.github.startsmercury.simply.no.shading.impl.ShadableBakedQuad;
+import com.github.startsmercury.simply.no.shading.impl.Shadable;
 
 import it.unimi.dsi.fastutil.booleans.BooleanUnaryOperator;
 import net.fabricmc.api.EnvType;
@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)
-public abstract class BakedQuadMixin implements ShadableBakedQuad {
+public abstract class BakedQuadMixin implements Shadable {
 	private BooleanUnaryOperator shadeModifier = SimplyNoShadingClientMod.getInstance().config::wouldShadeBlocks;
 
 	@Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)

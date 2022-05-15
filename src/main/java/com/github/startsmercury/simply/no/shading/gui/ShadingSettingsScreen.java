@@ -1,12 +1,12 @@
-package com.github.startsmercury.simply.no.shading.screen;
+package com.github.startsmercury.simply.no.shading.gui;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.util.ObjectCustomArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.components.Button;
@@ -31,7 +31,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	private static Option[] createOptions() {
-		final var optionList = new ReferenceArrayList<>(2);
+		final var optionList = new ObjectCustomArrayList<>(2);
 
 		optionList.add(CLIENT_MOD.blockShadingOption);
 		runWhenLoaded("enhancedblockentities", () -> optionList.add(CLIENT_MOD.enhancedBlockEntityShadingOption));

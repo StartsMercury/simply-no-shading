@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -92,7 +93,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	public List<String> getMixins() {
 		final var mixins = new ObjectArrayList<String>();
 
-		// TODO logic in adding mod dependent or version dependent mixins
+		runWhenLoaded("enhancedblockentities",
+		    () -> mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelMixin"));
 
 		mixins.trim();
 

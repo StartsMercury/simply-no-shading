@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
-import com.github.startsmercury.simply.no.shading.screen.ShadingSettingsScreen;
+import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
@@ -160,7 +160,9 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	}
 
 	protected void openSettings(final Minecraft client) {
-		client.setScreen(new ShadingSettingsScreen(client.screen));
+		if (!(client.screen instanceof ShadingSettingsScreen)) {
+			client.setScreen(new ShadingSettingsScreen(client.screen));
+		}
 	}
 
 	protected void registerKeyMappings() {

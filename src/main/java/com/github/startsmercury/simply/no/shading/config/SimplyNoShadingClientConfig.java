@@ -73,7 +73,7 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 	}
 
 	public boolean wouldShadeAll() {
-		return this.shadeAll || this.shadeBlocks;
+		return this.shadeAll || this.shadeBlocks && this.shadeEnhancedBlockEntities;
 	}
 
 	public boolean wouldShadeAll(final boolean shaded) {
@@ -81,7 +81,7 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 	}
 
 	public boolean wouldShadeBlocks() {
-		return this.shadeAll || this.shadeBlocks && this.shadeEnhancedBlockEntities;
+		return this.shadeAll || this.shadeBlocks;
 	}
 
 	public boolean wouldShadeBlocks(final boolean shaded) {

@@ -1,36 +1,35 @@
-def fabric_api = enhanced_block_entities
-
 dependencies {
 	// Fernflower
-	runtimeOnly libs.fernflower
+	// runtimeOnly libs.intellij.fernflower
 
-	if (enhanced_block_entities) {
+	// Quiltflower
+	runtimeOnly libs.quiltflower
+
+	if (enhancedblockentities.toBoolean()) {
 		// Advanced Runtime Resource Packs
 		modRuntimeOnly libs.advanced.runtime.resource.packs
 
 		// Enhanced Block Entities
-		modRuntimeOnly libs.enhanced.block.entities
+		modRuntimeOnly libs.enhancedblockentities
+
+		// Fabric API
+		modRuntimeOnly libs.fabric.api
 
 		// SpruceUI
 		modRuntimeOnly libs.spruceui
 	}
 
-	if (fabric_api) {
-		// Fabric API
-		modRuntimeOnly libs.fabric.api
-	}
-
-	if (fabric_key_binding_api_v1) {
+	if (fabricKeyBindingApiV1.toBoolean()) {
 		// Fabric Key Binding API (V1)
 		modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 	}
 
-	if (fabric_lifecycle_events_v1) {
+	if (fabricLifecycleEventsV1.toBoolean()) {
 		// Fabric Lifecycle Events (V1)
 		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 	}
 
-	if (modmenu) {
+	if (modmenu.toBoolean()) {
 		// ModMenu
 		modRuntimeOnly libs.modmenu
 	}

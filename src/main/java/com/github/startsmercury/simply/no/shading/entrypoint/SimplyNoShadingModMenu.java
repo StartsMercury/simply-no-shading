@@ -1,6 +1,6 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import com.github.startsmercury.simply.no.shading.screen.ShadingSettingsScreen;
+import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 

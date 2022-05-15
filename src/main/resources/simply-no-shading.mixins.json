@@ -5,7 +5,6 @@
 	"compatibilityLevel": "JAVA_17",
 	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingMixinPlugin",
 	"client": [
-		"shading.block.entity.enhanced.block.entities.DynamicBakedModelMixin",
 		"shading.block.minecraft.BakedQuadMixin"
 	],
 	"injectors": {

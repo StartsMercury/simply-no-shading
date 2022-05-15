@@ -1,23 +1,24 @@
-
 plugins {
 	alias libs.plugins.fabric.loom
+	alias libs.plugins.loom.quiltflower
 }
 
-group = mod_group
-archivesBaseName = mod_name
-version = "${libs.versions.minecraft.get()}-${mod_version}"
+apply from: 'runtime.gradle'
+
+group = modGroup
+archivesBaseName = modName
+version = "${libs.versions.minecraft.get()}-${modVersion}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://maven.gegy.dev' }
+	maven { url 'https://maven.quiltmc.org/repository/release' }
 	maven { url 'https://maven.terraformersmc.com' }
-	maven { url 'https://storage.googleapis.com/devan-maven' }
 }
 
-apply from: 'runtime.gradle'
 dependencies {
 	// Enhanced Block Entities
-	modCompileOnly libs.enhanced.block.entities
+	modCompileOnly libs.enhancedblockentities
 
 	// Fabric Key Binding API (V1)
 	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
@@ -42,7 +43,7 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'enhanced_block_entities_version': libVersionRange('enhanced-block-entities'),
+		expand 'enhanced_block_entities_version': libVersionRange('enhancedblockentities'),
 		       'fabric_version': libVersionRange('fabric-api'),
 		       'java_version': libVersionRange('java'),
 		       'loader_version': libVersionRange('fabric-loader'),
