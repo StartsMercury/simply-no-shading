@@ -26,11 +26,9 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.CycleOption;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ToggleKeyMapping;
-import net.minecraft.network.chat.TranslatableComponent;
 
 @Environment(CLIENT)
 public final class SimplyNoShadingClientMod implements ClientModInitializer {
@@ -73,17 +71,9 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		runWhenLoaded(id, () -> KeyBindingHelper.registerKeyBinding(keyMapping));
 	}
 
-	public final CycleOption<Boolean> allShadingOption;
-
-	public final CycleOption<Boolean> blockShadingOption;
-
-	public final CycleOption<Boolean> cloudShadingOption;
-
 	public final SimplyNoShadingClientConfig config;
 
 	public final Path configPath;
-
-	public final CycleOption<Boolean> enhancedBlockEntityShadingOption;
 
 	public final KeyMapping openSettingsKey;
 
@@ -112,24 +102,6 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		this.toggleEnhancedBlockEntityShadingKey = new ToggleKeyMapping(
 		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING,
 		    this.config::shouldShadeEnhancedBlockEntities);
-
-		this.allShadingOption = CycleOption.createOnOff("simply-no-shading.options.allShading",
-		    new TranslatableComponent("simply-no-shading.options.allShading.tooltip"),
-		    options -> this.config.shouldShadeAll(),
-		    (options, option, allShading) -> this.config.setShadeAll(allShading));
-		this.blockShadingOption = CycleOption.createOnOff("simply-no-shading.options.blockShading",
-		    new TranslatableComponent("simply-no-shading.options.blockShading.tooltip"),
-		    options -> this.config.shouldShadeBlocks(),
-		    (options, option, blockShading) -> this.config.setShadeBlocks(blockShading));
-		this.cloudShadingOption = CycleOption.createOnOff("simply-no-shading.options.cloudShading",
-		    new TranslatableComponent("simply-no-shading.options.cloudShading.tooltip"),
-		    options -> this.config.shouldShadeClouds(),
-		    (options, option, blockShading) -> this.config.setShadeClouds(blockShading));
-		this.enhancedBlockEntityShadingOption = CycleOption.createOnOff(
-		    "simply-no-shading.options.enhancedBlockEntityShading",
-		    new TranslatableComponent("simply-no-shading.options.enhancedBlockEntityShading.tooltip"),
-		    options -> this.config.shouldShadeEnhancedBlockEntities(), (options, option,
-		        enhancedBlockEntityShading) -> this.config.setShadeEnhancedBlockEntities(enhancedBlockEntityShading));
 
 		LOGGER.info("Constructed client mod...");
 	}
