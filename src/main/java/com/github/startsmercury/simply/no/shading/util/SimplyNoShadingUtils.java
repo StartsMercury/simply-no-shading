@@ -2,6 +2,7 @@ package com.github.startsmercury.simply.no.shading.util;
 
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 
 import com.google.gson.Gson;
@@ -9,12 +10,9 @@ import com.google.gson.GsonBuilder;
 
 import net.fabricmc.loader.api.FabricLoader;
 
+@ApiStatus.Experimental
 public final class SimplyNoShadingUtils {
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-	public static FabricLoader fabricLoader() {
-		return FabricLoader.getInstance();
-	}
 
 	public static void run(final Runnable runnable) {
 		runWhenNotNull(runnable, Runnable::run);
@@ -39,7 +37,7 @@ public final class SimplyNoShadingUtils {
 	}
 
 	public static void runWhenLoaded(final String id, final Runnable action, final Runnable fallback) {
-		run(fabricLoader().isModLoaded(id) ? action : fallback);
+		run(FabricLoader.getInstance().isModLoaded(id) ? action : fallback);
 	}
 
 	public static <V> void runWhenNotNull(final V value, final Consumer<V> action) {

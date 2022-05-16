@@ -16,6 +16,8 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 
 	private boolean shadeBlocks = false;
 
+	private boolean shadeClouds = true;
+
 	private boolean shadeEnhancedBlockEntities = true;
 
 	public SimplyNoShadingClientConfig set(final SimplyNoShadingClientConfig other) {
@@ -42,6 +44,12 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 		return this;
 	}
 
+	public SimplyNoShadingClientConfig setShadeClouds(final boolean shadeClouds) {
+		this.shadeClouds = shadeClouds;
+
+		return this;
+	}
+
 	public SimplyNoShadingClientConfig setShadeEnhancedBlockEntities(final boolean shadeEnhancedBlockEntities) {
 		this.shadeEnhancedBlockEntities = shadeEnhancedBlockEntities;
 
@@ -56,6 +64,10 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 		return this.shadeBlocks;
 	}
 
+	public boolean shouldShadeClouds() {
+		return this.shadeClouds;
+	}
+
 	public boolean shouldShadeEnhancedBlockEntities() {
 		return this.shadeEnhancedBlockEntities;
 	}
@@ -68,12 +80,16 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 		return setShadeBlocks(!this.shadeBlocks);
 	}
 
+	public SimplyNoShadingClientConfig toggleCloudShading() {
+		return setShadeBlocks(!this.shadeClouds);
+	}
+
 	public SimplyNoShadingClientConfig toggleEnhancedBlockEntityShading() {
 		return setShadeEnhancedBlockEntities(!this.shadeEnhancedBlockEntities);
 	}
 
 	public boolean wouldShadeAll() {
-		return this.shadeAll || this.shadeBlocks && this.shadeEnhancedBlockEntities;
+		return this.shadeAll || this.shadeBlocks && this.shadeClouds && this.shadeEnhancedBlockEntities;
 	}
 
 	public boolean wouldShadeAll(final boolean shaded) {
@@ -86,6 +102,14 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 
 	public boolean wouldShadeBlocks(final boolean shaded) {
 		return shaded && wouldShadeBlocks();
+	}
+
+	public boolean wouldShadeClouds() {
+		return this.shadeAll || this.shadeClouds;
+	}
+
+	public boolean wouldShadeClouds(final boolean shaded) {
+		return shaded && wouldShadeClouds();
 	}
 
 	public boolean wouldShadeEnhancedBlockEntities() {

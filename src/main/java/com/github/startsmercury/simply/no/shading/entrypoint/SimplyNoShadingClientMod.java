@@ -1,7 +1,6 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.GSON;
-import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.fabricLoader;
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
 import static com.mojang.blaze3d.platform.InputConstants.KEY_F6;
 import static com.mojang.blaze3d.platform.InputConstants.UNKNOWN;
@@ -19,12 +18,14 @@ import org.slf4j.LoggerFactory;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
+import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.CycleOption;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -70,6 +71,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 	public final CycleOption<Boolean> blockShadingOption;
 
+	public final CycleOption<Boolean> cloudShadingOption;
+
 	public final SimplyNoShadingClientConfig config;
 
 	public final Path configPath;
@@ -82,15 +85,27 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 
 	public final ToggleKeyMapping toggleBlockShadingKey;
 
+	public final ToggleKeyMapping toggleCloudShadingKey;
+
 	public final ToggleKeyMapping toggleEnhancedBlockEntityShadingKey;
 
 	public SimplyNoShadingClientMod() {
 		LOGGER.debug("Constructing client mod...");
 
 		this.config = new SimplyNoShadingClientConfig();
-		this.configPath = fabricLoader().getConfigDir().resolve("simply-no-shading+client.json");
+		this.configPath = FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json");
+
 		this.openSettingsKey = new KeyMapping("simply-no-shading.key.openSettings", UNKNOWN.getValue(),
 		    CATEGORIES_SIMPLY_NO_SHADING);
+		this.toggleAllShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleAllShading", KEY_F6,
+		    CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeAll);
+		this.toggleBlockShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		    UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeBlocks);
+		this.toggleCloudShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		    UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeClouds);
+		this.toggleEnhancedBlockEntityShadingKey = new ToggleKeyMapping(
+		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING,
+		    this.config::shouldShadeEnhancedBlockEntities);
 
 		this.allShadingOption = CycleOption.createOnOff("simply-no-shading.options.allShading",
 		    new TranslatableComponent("simply-no-shading.options.allShading.tooltip"),
@@ -100,18 +115,15 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		    new TranslatableComponent("simply-no-shading.options.blockShading.tooltip"),
 		    options -> this.config.shouldShadeBlocks(),
 		    (options, option, blockShading) -> this.config.setShadeBlocks(blockShading));
+		this.cloudShadingOption = CycleOption.createOnOff("simply-no-shading.options.cloudShading",
+		    new TranslatableComponent("simply-no-shading.options.cloudShading.tooltip"),
+		    options -> this.config.shouldShadeClouds(),
+		    (options, option, blockShading) -> this.config.setShadeClouds(blockShading));
 		this.enhancedBlockEntityShadingOption = CycleOption.createOnOff(
 		    "simply-no-shading.options.enhancedBlockEntityShading",
 		    new TranslatableComponent("simply-no-shading.options.enhancedBlockEntityShading.tooltip"),
 		    options -> this.config.shouldShadeEnhancedBlockEntities(), (options, option,
 		        enhancedBlockEntityShading) -> this.config.setShadeEnhancedBlockEntities(enhancedBlockEntityShading));
-		this.toggleAllShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleAllShading", KEY_F6,
-		    CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeAll);
-		this.toggleBlockShadingKey = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
-		    UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING, this.config::shouldShadeBlocks);
-		this.toggleEnhancedBlockEntityShadingKey = new ToggleKeyMapping(
-		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", UNKNOWN.getValue(), CATEGORIES_SIMPLY_NO_SHADING,
-		    this.config::shouldShadeEnhancedBlockEntities);
 
 		LOGGER.info("Constructed client mod...");
 	}
@@ -171,6 +183,7 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		KeyBindingHelper.registerKeyBinding(this.openSettingsKey);
 		KeyBindingHelper.registerKeyBinding(this.toggleAllShadingKey);
 		KeyBindingHelper.registerKeyBinding(this.toggleBlockShadingKey);
+		KeyBindingHelper.registerKeyBinding(this.toggleCloudShadingKey);
 		registerWhenLoaded("enhancedblockentities", this.toggleEnhancedBlockEntityShadingKey);
 
 		LOGGER.info("Registered key mappings");
@@ -182,8 +195,13 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final var allShadingChanged = consumeClickZ(this.toggleAllShadingKey, this::toggleAllShading);
 			final var blockShadingChanged = consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
+			final var cloudShadingChanged = consumeClickZ(this.toggleCloudShadingKey, this::toggleCloudShading);
 			final var enhancedBlockEntityShadingChanged = consumeClickZ(this.toggleEnhancedBlockEntityShadingKey,
 			    this::toggleEnhancedBlockEntityShading);
+
+			if (cloudShadingChanged && client.levelRenderer instanceof final CloudRenderer cloudRenderer) {
+				cloudRenderer.generateClouds();
+			}
 
 			if (allShadingChanged || blockShadingChanged || enhancedBlockEntityShadingChanged) {
 				client.levelRenderer.allChanged();
@@ -234,6 +252,16 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.debug("Toggled block shading, the new value is " + this.config.shouldShadeBlocks());
 
 		return this.config.wouldShadeBlocks() != wouldHaveShadeBlocks;
+	}
+
+	public boolean toggleCloudShading() {
+		final var wouldHaveShadeClouds = this.config.wouldShadeClouds();
+
+		this.config.toggleBlockShading();
+
+		LOGGER.debug("Toggled cloud shading, the new value is " + this.config.shouldShadeClouds());
+
+		return this.config.wouldShadeClouds() != wouldHaveShadeClouds;
 	}
 
 	public boolean toggleEnhancedBlockEntityShading() {
