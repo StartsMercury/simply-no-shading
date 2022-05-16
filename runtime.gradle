@@ -1,7 +1,4 @@
 dependencies {
-	// Fernflower
-	// runtimeOnly libs.intellij.fernflower
-
 	// Quiltflower
 	runtimeOnly libs.quiltflower
 
