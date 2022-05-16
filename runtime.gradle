@@ -2,6 +2,11 @@ dependencies {
 	// Quiltflower
 	runtimeOnly libs.quiltflower
 
+	if (bedrockify.toBoolean()) {
+		// BedrockIfy
+		modRuntimeOnly libs.bedrockify
+	}
+
 	if (enhancedblockentities.toBoolean()) {
 		// Advanced Runtime Resource Packs
 		modRuntimeOnly libs.advanced.runtime.resource.packs
@@ -16,7 +21,7 @@ dependencies {
 		modRuntimeOnly libs.spruceui
 	}
 
-	if (fabricKeyBindingApiV1.toBoolean()) {
+	if (fabricKeyBindingApiV1.toBoolean() || iris.toBoolean()) {
 		// Fabric Key Binding API (V1)
 		modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 	}
@@ -26,9 +31,31 @@ dependencies {
 		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 	}
 
+	if (iris.toBoolean()) {
+		// Fabric Resource Loader (V0)
+		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', libs.versions.fabric.api.get())
+
+		// Iris
+		modRuntimeOnly libs.iris
+	}
+
 	if (modmenu.toBoolean()) {
 		// ModMenu
 		modRuntimeOnly libs.modmenu
+	}
+
+	if (sodium.toBoolean() || iris.toBoolean()) {
+		// Fabric Rendering Data Attachments (V1)
+		modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', libs.versions.fabric.api.get())
+
+		// Fabric Rendering Fluids (V1)
+		modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', libs.versions.fabric.api.get())
+
+		// JOML
+		runtimeOnly libs.joml
+
+		// Sodium
+		modRuntimeOnly libs.sodium
 	}
 }
 

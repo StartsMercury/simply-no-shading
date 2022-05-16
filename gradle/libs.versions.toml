@@ -1,22 +1,30 @@
 [versions]
 advanced-runtime-resource-packs = "0.5.+"
+bedrockify = "1.4.1+mc1.18.2"
 enhancedblockentities = "0.6+1.18.2"
 fabric-api = "0.51.1+1.18.2"
 fabric-loader = "[0.14,1)"
+iris = "[1.18.x-v1.2.1,1.18.x-v2)"
 java = "17.+"
+joml = "[1.10.2,2)"
 minecraft = "1.18.2"
 modmenu = "[3.1,4)"
 quiltflower = "1.+"
+sodium = "[mc1.18.2-0.4.1,mc1.18.2-1)"
 spruceui = "3.3.0+1.17"
 
 [libraries]
 advanced-runtime-resource-packs = { module = "net.devtech:arrp", version.ref = "advanced-runtime-resource-packs" }
+bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
 enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+iris = { module = "maven.modrinth:iris", version.ref = "iris" }
+joml = { module = "org.joml:joml", version.ref = "joml" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 quiltflower = { module = "org.quiltmc:quiltflower", version.ref = "quiltflower" }
+sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]

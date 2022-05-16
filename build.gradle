@@ -11,6 +11,7 @@ version = "${libs.versions.minecraft.get()}-${modVersion}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+	maven { url 'https://jitpack.io' }
 	maven { url 'https://maven.gegy.dev' }
 	maven { url 'https://maven.quiltmc.org/repository/release' }
 	maven { url 'https://maven.terraformersmc.com' }
@@ -30,6 +31,9 @@ dependencies {
 	// Fabric Loader
 	modImplementation libs.fabric.loader
 
+	// Iris
+	modCompileOnly libs.iris
+
 	// Minecraft
 	minecraft libs.minecraft
 
@@ -38,6 +42,9 @@ dependencies {
 
 	// Official Mojang Mappings
 	mappings loom.officialMojangMappings()
+
+	// Sodium
+	modCompileOnly libs.sodium
 }
 
 processResources {
