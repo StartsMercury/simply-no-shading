@@ -27,6 +27,7 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 
 		setShadeAll(other.shadeAll);
 		setShadeBlocks(other.shadeBlocks);
+		setShadeClouds(other.shadeClouds);
 		setShadeEnhancedBlockEntities(other.shadeEnhancedBlockEntities);
 
 		return this;
@@ -81,7 +82,7 @@ public final class SimplyNoShadingClientConfig implements Serializable {
 	}
 
 	public SimplyNoShadingClientConfig toggleCloudShading() {
-		return setShadeBlocks(!this.shadeClouds);
+		return setShadeClouds(!this.shadeClouds);
 	}
 
 	public SimplyNoShadingClientConfig toggleEnhancedBlockEntityShading() {

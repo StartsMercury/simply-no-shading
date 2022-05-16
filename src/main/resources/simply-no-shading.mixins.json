@@ -5,6 +5,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingMixinPlugin",
 	"client": [
+		"core.minecraft.LevelRendererMixin",
 		"shading.block.minecraft.BakedQuadMixin",
 		"shading.cloud.minecraft.LevelRendererMixin"
 	],

@@ -4,10 +4,10 @@ import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUti
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.ObjectCustomArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
@@ -31,9 +31,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	private static Option[] createOptions() {
-		final var optionList = new ObjectCustomArrayList<>(2);
+		final var optionList = new ObjectCustomArrayList<>(3);
 
 		optionList.add(CLIENT_MOD.blockShadingOption);
+		optionList.add(CLIENT_MOD.cloudShadingOption);
 		runWhenLoaded("enhancedblockentities", () -> optionList.add(CLIENT_MOD.enhancedBlockEntityShadingOption));
 
 		return optionList.toArray(Option[]::new);
@@ -41,9 +42,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	private OptionsList list;
 
-	private boolean wouldHaveShadeAll;
-
 	private boolean wouldHaveShadeBlocks;
+
+	private boolean wouldHaveShadeClouds;
 
 	private boolean wouldHaveShadeEnhancedBlockEntities;
 
@@ -51,11 +52,20 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
 	}
 
+	private boolean allChanged() {
+		return CLIENT_CONFIG.wouldShadeBlocks() != this.wouldHaveShadeBlocks
+		    || CLIENT_CONFIG.wouldShadeEnhancedBlockEntities() != this.wouldHaveShadeEnhancedBlockEntities;
+	}
+
+	private boolean cloudsChanged() {
+		return CLIENT_CONFIG.wouldShadeClouds() != this.wouldHaveShadeClouds;
+	}
+
 	@Override
 	protected void init() {
 		this.list = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
-		this.wouldHaveShadeAll = CLIENT_CONFIG.wouldShadeAll();
 		this.wouldHaveShadeBlocks = CLIENT_CONFIG.wouldShadeBlocks();
+		this.wouldHaveShadeClouds = CLIENT_CONFIG.wouldShadeClouds();
 		this.wouldHaveShadeEnhancedBlockEntities = CLIENT_CONFIG.wouldShadeEnhancedBlockEntities();
 
 		this.list.addBig(CLIENT_MOD.allShadingOption);
@@ -66,22 +76,17 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		    button -> this.minecraft.setScreen(this.lastScreen)));
 	}
 
-	private boolean isDirty() {
-		return CLIENT_CONFIG.wouldShadeAll() != this.wouldHaveShadeAll
-		    || CLIENT_CONFIG.wouldShadeBlocks() != this.wouldHaveShadeBlocks
-		    || CLIENT_CONFIG.wouldShadeEnhancedBlockEntities() != this.wouldHaveShadeEnhancedBlockEntities;
-	}
-
 	@Override
-	@SuppressWarnings("resource")
 	public void removed() {
 		CLIENT_MOD.saveConfig();
 
-		if (!isDirty()) {
-			return;
+		if (cloudsChanged() && this.minecraft.levelRenderer instanceof final CloudRenderer cloudRenderer) {
+			cloudRenderer.generateClouds();
 		}
 
-		Minecraft.getInstance().levelRenderer.allChanged();
+		if (allChanged()) {
+			this.minecraft.levelRenderer.allChanged();
+		}
 	}
 
 	@Override

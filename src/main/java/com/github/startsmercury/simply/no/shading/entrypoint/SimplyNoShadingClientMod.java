@@ -47,6 +47,12 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		}
 	}
 
+	protected static void consumeClick(final KeyMapping keyMapping, final Runnable action) {
+		if (keyMapping.consumeClick()) {
+			action.run();
+		}
+	}
+
 	protected static boolean consumeClickZ(final KeyMapping keyMapping, final BooleanSupplier action) {
 		if (keyMapping.consumeClick()) {
 			return action.getAsBoolean();
@@ -193,7 +199,8 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 		LOGGER.debug("Registering life cycle event listeners...");
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			final var allShadingChanged = consumeClickZ(this.toggleAllShadingKey, this::toggleAllShading);
+			consumeClick(this.toggleAllShadingKey, this::toggleAllShading);
+
 			final var blockShadingChanged = consumeClickZ(this.toggleBlockShadingKey, this::toggleBlockShading);
 			final var cloudShadingChanged = consumeClickZ(this.toggleCloudShadingKey, this::toggleCloudShading);
 			final var enhancedBlockEntityShadingChanged = consumeClickZ(this.toggleEnhancedBlockEntityShadingKey,
@@ -203,7 +210,7 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 				cloudRenderer.generateClouds();
 			}
 
-			if (allShadingChanged || blockShadingChanged || enhancedBlockEntityShadingChanged) {
+			if (blockShadingChanged || enhancedBlockEntityShadingChanged) {
 				client.levelRenderer.allChanged();
 			}
 
@@ -257,7 +264,7 @@ public final class SimplyNoShadingClientMod implements ClientModInitializer {
 	public boolean toggleCloudShading() {
 		final var wouldHaveShadeClouds = this.config.wouldShadeClouds();
 
-		this.config.toggleBlockShading();
+		this.config.toggleCloudShading();
 
 		LOGGER.debug("Toggled cloud shading, the new value is " + this.config.shouldShadeClouds());
 

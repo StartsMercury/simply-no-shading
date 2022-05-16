@@ -14,6 +14,7 @@ repositories {
 	maven { url 'https://maven.gegy.dev' }
 	maven { url 'https://maven.quiltmc.org/repository/release' }
 	maven { url 'https://maven.terraformersmc.com' }
+	maven { url 'https://storage.googleapis.com/devan-maven' }
 }
 
 dependencies {
