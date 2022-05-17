@@ -9,7 +9,7 @@ public final class SimplyNoShadingConstants {
 	public static final Gson GSON;
 
 	static {
-		FABRIC = isClassLoaded("com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod");
+		FABRIC = isClassLoaded("net.fabricmc.loader.api.FabricLoader");
 		GSON = new GsonBuilder().setPrettyPrinting().create();
 	}
 
