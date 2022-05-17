@@ -1,11 +1,11 @@
 package com.github.startsmercury.simply.no.shading.impl;
 
-import it.unimi.dsi.fastutil.booleans.BooleanUnaryOperator;
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
 
 public interface Shadable {
-	BooleanUnaryOperator getShadeModifier();
+	ShadingRule getShadingRule();
 
 	boolean isShade();
 
-	void setShadeModifier(BooleanUnaryOperator shadeModifier);
+	void setShadingRule(ShadingRule shadingRule);
 }

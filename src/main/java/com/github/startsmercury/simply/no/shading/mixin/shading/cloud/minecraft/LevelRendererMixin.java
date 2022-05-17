@@ -19,6 +19,6 @@ public class LevelRendererMixin {
 	                    @Constant(floatValue = 0.8F, ordinal = 2)
 					})
 	private final float changeCloudShade(final float shade) {
-		return SimplyNoShadingClientMod.getInstance().config.wouldShadeClouds() ? shade : 1.0F;
+		return SimplyNoShadingClientMod.getInstance().config.cloudShading.wouldShade() ? shade : 1.0F;
 	}
 }

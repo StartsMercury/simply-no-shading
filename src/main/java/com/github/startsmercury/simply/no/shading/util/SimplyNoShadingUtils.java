@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 
 @ApiStatus.Experimental
+@Deprecated
 public final class SimplyNoShadingUtils {
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

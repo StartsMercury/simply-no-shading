@@ -1,123 +1,107 @@
 package com.github.startsmercury.simply.no.shading.config;
 
-import static net.fabricmc.api.EnvType.CLIENT;
+import java.io.IOException;
 
-import java.io.Serial;
-import java.io.Serializable;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 
-import net.fabricmc.api.Environment;
+public class SimplyNoShadingClientConfig {
+	public abstract static class ShadingRule {
+		public static class Impl extends ShadingRule {
+			public Impl(final boolean defaultShade) {
+				super(defaultShade);
+			}
 
-@Environment(CLIENT)
-public final class SimplyNoShadingClientConfig implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
-
-	private boolean shadeAll = false;
-
-	private boolean shadeBlocks = false;
-
-	private boolean shadeClouds = true;
-
-	private boolean shadeEnhancedBlockEntities = true;
-
-	public SimplyNoShadingClientConfig set(final SimplyNoShadingClientConfig other) {
-		if (other == null) {
-			return this;
+			@Override
+			public boolean wouldShade() {
+				return Root.ALL.shouldShade() && shouldShade();
+			}
 		}
 
-		setShadeAll(other.shadeAll);
-		setShadeBlocks(other.shadeBlocks);
-		setShadeClouds(other.shadeClouds);
-		setShadeEnhancedBlockEntities(other.shadeEnhancedBlockEntities);
+		public static class Root extends ShadingRule {
+			public static final Root ALL = new Root();
 
-		return this;
+			public static final Root DUMMY = new Root();
+
+			public Root() {
+				super(false);
+			}
+
+			@Override
+			public boolean wouldShade() {
+				return shouldShade();
+			}
+		}
+
+		public final boolean defaultShade;
+
+		public boolean shade;
+
+		protected ShadingRule(final boolean defaultShade) {
+			this.defaultShade = defaultShade;
+			this.shade = defaultShade;
+		}
+
+		public boolean getDefaultShade() {
+			return this.defaultShade;
+		}
+
+		public void read(final JsonReader in) throws IOException {
+			setShade(in.nextBoolean());
+		}
+
+		public void setShade(final boolean shade) {
+			this.shade = shade;
+		}
+
+		public boolean shouldShade() {
+			return this.shade;
+		}
+
+		public boolean toggleShade() {
+			final var wouldHaveShade = wouldShade();
+
+			setShade(!shouldShade());
+
+			return wouldHaveShade != wouldShade();
+		}
+
+		public abstract boolean wouldShade();
+
+		public boolean wouldShade(final boolean shaded) {
+			return shaded && wouldShade();
+		}
+
+		public void write(final JsonWriter out) throws IOException {
+			out.value(shouldShade());
+		}
 	}
 
-	public SimplyNoShadingClientConfig setShadeAll(final boolean shadeAll) {
-		this.shadeAll = shadeAll;
+	public final ShadingRule allShading = ShadingRule.Root.ALL;
 
-		return this;
+	public final ShadingRule blockShading = new ShadingRule.Impl(false);
+
+	public final ShadingRule cloudShading = new ShadingRule.Impl(true);
+
+	public void read(final JsonReader in) throws IOException {
+		do {
+			final var shadingRule = switch (in.nextName()) {
+			case "allShading" -> this.allShading;
+			case "blockShading" -> this.blockShading;
+			case "cloudShading" -> this.cloudShading;
+			default -> ShadingRule.Root.DUMMY;
+			};
+
+			shadingRule.read(in);
+		} while (in.peek() != JsonToken.END_OBJECT);
 	}
 
-	public SimplyNoShadingClientConfig setShadeBlocks(final boolean shadeBlocks) {
-		this.shadeBlocks = shadeBlocks;
-
-		return this;
-	}
-
-	public SimplyNoShadingClientConfig setShadeClouds(final boolean shadeClouds) {
-		this.shadeClouds = shadeClouds;
-
-		return this;
-	}
-
-	public SimplyNoShadingClientConfig setShadeEnhancedBlockEntities(final boolean shadeEnhancedBlockEntities) {
-		this.shadeEnhancedBlockEntities = shadeEnhancedBlockEntities;
-
-		return this;
-	}
-
-	public boolean shouldShadeAll() {
-		return this.shadeAll;
-	}
-
-	public boolean shouldShadeBlocks() {
-		return this.shadeBlocks;
-	}
-
-	public boolean shouldShadeClouds() {
-		return this.shadeClouds;
-	}
-
-	public boolean shouldShadeEnhancedBlockEntities() {
-		return this.shadeEnhancedBlockEntities;
-	}
-
-	public SimplyNoShadingClientConfig toggleAllShading() {
-		return setShadeAll(!this.shadeAll);
-	}
-
-	public SimplyNoShadingClientConfig toggleBlockShading() {
-		return setShadeBlocks(!this.shadeBlocks);
-	}
-
-	public SimplyNoShadingClientConfig toggleCloudShading() {
-		return setShadeClouds(!this.shadeClouds);
-	}
-
-	public SimplyNoShadingClientConfig toggleEnhancedBlockEntityShading() {
-		return setShadeEnhancedBlockEntities(!this.shadeEnhancedBlockEntities);
-	}
-
-	public boolean wouldShadeAll() {
-		return this.shadeAll || this.shadeBlocks && this.shadeClouds && this.shadeEnhancedBlockEntities;
-	}
-
-	public boolean wouldShadeAll(final boolean shaded) {
-		return shaded && wouldShadeAll();
-	}
-
-	public boolean wouldShadeBlocks() {
-		return this.shadeAll || this.shadeBlocks;
-	}
-
-	public boolean wouldShadeBlocks(final boolean shaded) {
-		return shaded && wouldShadeBlocks();
-	}
-
-	public boolean wouldShadeClouds() {
-		return this.shadeAll || this.shadeClouds;
-	}
-
-	public boolean wouldShadeClouds(final boolean shaded) {
-		return shaded && wouldShadeClouds();
-	}
-
-	public boolean wouldShadeEnhancedBlockEntities() {
-		return this.shadeAll || this.shadeEnhancedBlockEntities;
-	}
-
-	public boolean wouldShadeEnhancedBlockEntities(final boolean shaded) {
-		return shaded && wouldShadeEnhancedBlockEntities();
+	public void write(final JsonWriter out) throws IOException {
+		// @formatter:off
+		out.name("allShading"); this.allShading.write(out);
+		out.name("blockShading"); this.blockShading.write(out);
+		out.name("cloudShading"); this.cloudShading.write(out);
+		// @formatter:on
 	}
 }

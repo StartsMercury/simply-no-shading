@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 import com.github.startsmercury.simply.no.shading.impl.Shadable;
 
 import foundationgames.enhancedblockentities.client.model.DynamicBakedModel;
@@ -19,7 +19,7 @@ public class DynamicBakedModelMixin {
 		final Object next = var12.next();
 
 		if (next instanceof final Shadable nextShadable) {
-			nextShadable.setShadeModifier(SimplyNoShadingClientMod.getInstance().config::wouldShadeEnhancedBlockEntities);
+			nextShadable.setShadingRule(SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading);
 		}
 
 		return next;

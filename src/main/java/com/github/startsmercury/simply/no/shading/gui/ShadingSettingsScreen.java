@@ -1,13 +1,14 @@
 package com.github.startsmercury.simply.no.shading.gui;
 
-import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingUtils.runWhenLoaded;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.FABRIC;
 
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.ObjectCustomArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.CycleOption;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.components.Button;
@@ -31,22 +32,30 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	static {
 		ALL_SHADING_OPTION = CycleOption.createOnOff("simply-no-shading.options.allShading",
 		    new TranslatableComponent("simply-no-shading.options.allShading.tooltip"),
-		    options -> SimplyNoShadingClientMod.getInstance().config.shouldShadeAll(),
-		    (options, option, allShading) -> SimplyNoShadingClientMod.getInstance().config.setShadeAll(allShading));
+		    options -> SimplyNoShadingClientMod.getInstance().config.allShading.shouldShade(), (options, option,
+		        allShading) -> SimplyNoShadingClientMod.getInstance().config.allShading.setShade(allShading));
 		BLOCK_SHADING_OPTION = CycleOption.createOnOff("simply-no-shading.options.blockShading",
 		    new TranslatableComponent("simply-no-shading.options.blockShading.tooltip"),
-		    options -> SimplyNoShadingClientMod.getInstance().config.shouldShadeBlocks(), (options, option,
-		        blockShading) -> SimplyNoShadingClientMod.getInstance().config.setShadeBlocks(blockShading));
+		    options -> SimplyNoShadingClientMod.getInstance().config.blockShading.shouldShade(), (options, option,
+		        blockShading) -> SimplyNoShadingClientMod.getInstance().config.blockShading.setShade(blockShading));
 		CLOUD_SHADING_OPTION = CycleOption.createOnOff("simply-no-shading.options.cloudShading",
 		    new TranslatableComponent("simply-no-shading.options.cloudShading.tooltip"),
-		    options -> SimplyNoShadingClientMod.getInstance().config.shouldShadeClouds(), (options, option,
-		        cloudShading) -> SimplyNoShadingClientMod.getInstance().config.setShadeClouds(cloudShading));
+		    options -> SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade(), (options, option,
+		        cloudShading) -> SimplyNoShadingClientMod.getInstance().config.cloudShading.setShade(cloudShading));
 		ENHANCED_BLOCK_ENTITY_SHADING_OPTION = CycleOption.createOnOff(
 		    "simply-no-shading.options.enhancedblockentityShading",
 		    new TranslatableComponent("simply-no-shading.options.enhancedblockentityShading.tooltip"),
-		    options -> SimplyNoShadingClientMod.getInstance().config.shouldShadeEnhancedBlockEntities(),
-		    (options, option, enhancedblockentityShading) -> SimplyNoShadingClientMod.getInstance().config
-		        .setShadeEnhancedBlockEntities(enhancedblockentityShading));
+		    options -> FABRIC
+		        ? SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading.shouldShade()
+		        : true,
+		    (options, option, enhancedblockentityShading) -> {
+			    if (!FABRIC) {
+				    return;
+			    }
+
+			    SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading
+			        .setShade(enhancedblockentityShading);
+		    });
 
 		OPTIONS = createOptions();
 	}
@@ -56,17 +65,12 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 		optionList.add(BLOCK_SHADING_OPTION);
 		optionList.add(CLOUD_SHADING_OPTION);
-		runWhenLoaded("enhancedblockentities", () -> optionList.add(ENHANCED_BLOCK_ENTITY_SHADING_OPTION));
+
+		if (FABRIC && FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
+			optionList.add(ENHANCED_BLOCK_ENTITY_SHADING_OPTION);
+		}
 
 		return optionList.toArray(Option[]::new);
-	}
-
-	private static SimplyNoShadingClientConfig getClientConfig() {
-		return getClientMod().config;
-	}
-
-	private static SimplyNoShadingClientMod getClientMod() {
-		return SimplyNoShadingClientMod.getInstance();
 	}
 
 	private OptionsList list;
@@ -82,20 +86,29 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	private boolean allChanged() {
-		return getClientConfig().wouldShadeBlocks() != this.wouldHaveShadeBlocks
-		    || getClientConfig().wouldShadeEnhancedBlockEntities() != this.wouldHaveShadeEnhancedBlockEntities;
+		return blocksChanged() || enhancedBlockEntitiesChanged();
+	}
+
+	private boolean blocksChanged() {
+		return SimplyNoShadingClientMod.getInstance().config.blockShading.wouldShade() != this.wouldHaveShadeBlocks;
 	}
 
 	private boolean cloudsChanged() {
-		return getClientConfig().wouldShadeClouds() != this.wouldHaveShadeClouds;
+		return SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade() != this.wouldHaveShadeClouds;
+	}
+
+	private boolean enhancedBlockEntitiesChanged() {
+		return FABRIC && SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading
+		    .wouldShade() != this.wouldHaveShadeEnhancedBlockEntities;
 	}
 
 	@Override
 	protected void init() {
 		this.list = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
-		this.wouldHaveShadeBlocks = getClientConfig().wouldShadeBlocks();
-		this.wouldHaveShadeClouds = getClientConfig().wouldShadeClouds();
-		this.wouldHaveShadeEnhancedBlockEntities = getClientConfig().wouldShadeEnhancedBlockEntities();
+		this.wouldHaveShadeBlocks = SimplyNoShadingClientMod.getInstance().config.blockShading.shouldShade();
+		this.wouldHaveShadeClouds = SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade();
+		this.wouldHaveShadeEnhancedBlockEntities = FABRIC
+		    && SimplyNoShadingFabricClientMod.getInstance().config.blockShading.shouldShade();
 
 		this.list.addBig(ALL_SHADING_OPTION);
 		this.list.addSmall(OPTIONS);
@@ -107,7 +120,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	@Override
 	public void removed() {
-		getClientMod().saveConfig();
+		SimplyNoShadingClientMod.getInstance().saveConfig();
 
 		if (cloudsChanged() && this.minecraft.levelRenderer instanceof final CloudRenderer cloudRenderer) {
 			cloudRenderer.generateClouds();
