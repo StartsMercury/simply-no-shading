@@ -20,7 +20,7 @@ public class SimplyNoShadingClientConfig {
 
 			@Override
 			public boolean wouldShade() {
-				return Root.ALL.shouldShade() && shouldShade();
+				return Root.ALL.shouldShade() || shouldShade();
 			}
 		}
 
