@@ -88,13 +88,22 @@ public class SimplyNoShadingFabricClientMod
 		}
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			toggleShade(this.keyManager.toggleAllShading, this.config.allShading);
+			final var wouldHaveShadeBlocks = this.config.blockShading.wouldShade();
+			final var wouldHaveShadeClouds = this.config.cloudShading.wouldShade();
+			final var wouldHaveShadeEnhancedBlockEntities = this.config.enhancedBlockEntityShading.wouldShade();
+			final var wouldHaveShadeLiquids = this.config.liquidShading.wouldShade();
 
-			final var blockShadingChanged = toggleShade(this.keyManager.toggleBlockShading, this.config.blockShading);
-			final var cloudShadingChanged = toggleShade(this.keyManager.toggleCloudShading, this.config.cloudShading);
-			final var enhancedBlockEntityShadingChanged = toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
-			    this.config.enhancedBlockEntityShading);
-			final var liquidShadingChanged = toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
+			toggleShade(this.keyManager.toggleAllShading, this.config.allShading);
+			toggleShade(this.keyManager.toggleBlockShading, this.config.blockShading);
+			toggleShade(this.keyManager.toggleCloudShading, this.config.cloudShading);
+			toggleShade(this.keyManager.toggleEnhancedBlockEntityShading, this.config.enhancedBlockEntityShading);
+			toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
+
+			final var blockShadingChanged = wouldHaveShadeBlocks != this.config.blockShading.wouldShade();
+			final var cloudShadingChanged = wouldHaveShadeClouds != this.config.cloudShading.wouldShade();
+			final var enhancedBlockEntityShadingChanged = wouldHaveShadeEnhancedBlockEntities != this.config.enhancedBlockEntityShading
+			    .wouldShade();
+			final var liquidShadingChanged = wouldHaveShadeLiquids != this.config.liquidShading.wouldShade();
 
 			if (cloudShadingChanged) {
 				((CloudRenderer) client.levelRenderer).generateClouds();
