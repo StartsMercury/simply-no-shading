@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+	// BedrockIfy
+	modCompileOnly libs.bedrockify
+
 	// Enhanced Block Entities
 	modCompileOnly libs.enhancedblockentities
 

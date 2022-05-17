@@ -1,0 +1,20 @@
+package com.github.startsmercury.simply.no.shading.mixin.shading.liquid.bedrockify;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+
+import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
+
+@Mixin(BedrockBlockShading.class)
+public class BedrockBlockShadingMixin {
+	@Inject(method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), cancellable = true)
+	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
+		if (!SimplyNoShadingClientMod.getInstance().config.liquidShading.wouldShade()) {
+			callback.setReturnValue(1.0F);
+		}
+	}
+}

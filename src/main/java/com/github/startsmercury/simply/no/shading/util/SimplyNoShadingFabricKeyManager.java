@@ -38,7 +38,7 @@ public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 		if (FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
 			register(this.toggleEnhancedBlockEntityShading);
 		}
-		
+
 		register(this.toggleLiquidShading);
 	}
 }
