@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.gui;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.FABRIC;
+import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
@@ -8,6 +9,7 @@ import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.ObjectCustomArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.CycleOption;
 import net.minecraft.client.Option;
@@ -18,6 +20,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TranslatableComponent;
 
+@Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	public static final CycleOption<Boolean> ALL_SHADING_OPTION;
 

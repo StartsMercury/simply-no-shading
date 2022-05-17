@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -15,8 +17,10 @@ import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 
+@Environment(CLIENT)
 public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig, K extends SimplyNoShadingKeyManager> {
 	private static SimplyNoShadingClientMod<?, ?> instance;
 

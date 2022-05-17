@@ -1,11 +1,15 @@
 package com.github.startsmercury.simply.no.shading.util;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.mojang.blaze3d.platform.InputConstants;
 
+import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
+@Environment(CLIENT)
 public abstract class SimplyNoShadingKeyManager {
 	public static final String CATEGORY = "simply-no-shading.key.categories.simply-no-shading";
 

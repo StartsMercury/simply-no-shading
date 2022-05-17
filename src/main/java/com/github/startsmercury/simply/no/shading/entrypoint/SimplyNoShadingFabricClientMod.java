@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.util.function.Consumer;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
@@ -8,12 +10,14 @@ import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 
+@Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod
     extends SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig, SimplyNoShadingFabricKeyManager>
     implements ClientModInitializer {

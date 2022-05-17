@@ -1,11 +1,16 @@
 package com.github.startsmercury.simply.no.shading.config;
 
+import static net.fabricmc.api.EnvType.CLIENT;
+
 import java.io.IOException;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
+import net.fabricmc.api.Environment;
+
+@Environment(CLIENT)
 public class SimplyNoShadingFabricClientConfig extends SimplyNoShadingClientConfig {
 	public final ShadingRule enhancedBlockEntityShading = new ShadingRule.Impl(true);
 
