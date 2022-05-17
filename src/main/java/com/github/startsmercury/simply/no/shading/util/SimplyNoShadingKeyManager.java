@@ -21,6 +21,8 @@ public abstract class SimplyNoShadingKeyManager {
 
 	public final ToggleKeyMapping toggleCloudShading;
 
+	public final ToggleKeyMapping toggleLiquidShading;
+
 	protected SimplyNoShadingKeyManager(final SimplyNoShadingClientConfig config) {
 		this.openSettings = new KeyMapping("simply-no-shading.key.openSettings", InputConstants.UNKNOWN.getValue(),
 		    CATEGORY);
@@ -30,6 +32,8 @@ public abstract class SimplyNoShadingKeyManager {
 		    InputConstants.UNKNOWN.getValue(), CATEGORY, config.blockShading::shouldShade);
 		this.toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
 		    InputConstants.UNKNOWN.getValue(), CATEGORY, config.cloudShading::shouldShade);
+		this.toggleLiquidShading = new ToggleKeyMapping("simply-no-shading.key.toggleLiquidShading",
+		    InputConstants.UNKNOWN.getValue(), CATEGORY, config.liquidShading::shouldShade);
 	}
 
 	protected abstract void register(KeyMapping key);
@@ -39,5 +43,6 @@ public abstract class SimplyNoShadingKeyManager {
 		register(this.toggleAllShading);
 		register(this.toggleBlockShading);
 		register(this.toggleCloudShading);
+		register(this.toggleLiquidShading);
 	}
 }

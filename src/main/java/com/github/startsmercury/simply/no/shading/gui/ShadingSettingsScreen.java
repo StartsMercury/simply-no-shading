@@ -30,6 +30,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	public static final CycleOption<Boolean> ENHANCED_BLOCK_ENTITY_SHADING_OPTION;
 
+	public static final CycleOption<Boolean> LIQUID_SHADING_OPTION;
+
 	private static final Option[] OPTIONS;
 
 	static {
@@ -46,8 +48,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		    options -> SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade(), (options, option,
 		        cloudShading) -> SimplyNoShadingClientMod.getInstance().config.cloudShading.setShade(cloudShading));
 		ENHANCED_BLOCK_ENTITY_SHADING_OPTION = CycleOption.createOnOff(
-		    "simply-no-shading.options.enhancedblockentityShading",
-		    new TranslatableComponent("simply-no-shading.options.enhancedblockentityShading.tooltip"),
+		    "simply-no-shading.options.enhancedBlockEntityShading",
+		    new TranslatableComponent("simply-no-shading.options.enhancedBlockEntityShading.tooltip"),
 		    options -> FABRIC
 		        ? SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading.shouldShade()
 		        : true,
@@ -59,12 +61,16 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 			    SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading
 			        .setShade(enhancedblockentityShading);
 		    });
+		LIQUID_SHADING_OPTION = CycleOption.createOnOff("simply-no-shading.options.liquidShading",
+		    new TranslatableComponent("simply-no-shading.options.liquidShading.tooltip"),
+		    options -> SimplyNoShadingClientMod.getInstance().config.liquidShading.shouldShade(), (options, option,
+		        cloudShading) -> SimplyNoShadingClientMod.getInstance().config.liquidShading.setShade(cloudShading));
 
 		OPTIONS = createOptions();
 	}
 
 	private static Option[] createOptions() {
-		final var optionList = new ObjectCustomArrayList<>(3);
+		final var optionList = new ObjectCustomArrayList<>(4);
 
 		optionList.add(BLOCK_SHADING_OPTION);
 		optionList.add(CLOUD_SHADING_OPTION);
@@ -72,6 +78,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		if (FABRIC && FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
 			optionList.add(ENHANCED_BLOCK_ENTITY_SHADING_OPTION);
 		}
+
+		optionList.add(LIQUID_SHADING_OPTION);
 
 		return optionList.toArray(Option[]::new);
 	}
@@ -84,23 +92,21 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	private boolean wouldHaveShadeEnhancedBlockEntities;
 
+	private boolean wouldHaveShadeLiquids;
+
 	public ShadingSettingsScreen(final Screen screen) {
 		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
 	}
 
-	private boolean allChanged() {
-		return blocksChanged() || enhancedBlockEntitiesChanged();
-	}
-
-	private boolean blocksChanged() {
+	private boolean blockShadingChanged() {
 		return SimplyNoShadingClientMod.getInstance().config.blockShading.wouldShade() != this.wouldHaveShadeBlocks;
 	}
 
-	private boolean cloudsChanged() {
+	private boolean cloudShadingChanged() {
 		return SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade() != this.wouldHaveShadeClouds;
 	}
 
-	private boolean enhancedBlockEntitiesChanged() {
+	private boolean enhancedBlockEntityShadingChanged() {
 		return FABRIC && SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading
 		    .wouldShade() != this.wouldHaveShadeEnhancedBlockEntities;
 	}
@@ -121,15 +127,19 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		    button -> this.minecraft.setScreen(this.lastScreen)));
 	}
 
+	private boolean liquidShadingChanged() {
+		return SimplyNoShadingClientMod.getInstance().config.liquidShading.wouldShade() != this.wouldHaveShadeLiquids;
+	}
+
 	@Override
 	public void removed() {
 		SimplyNoShadingClientMod.getInstance().saveConfig();
 
-		if (cloudsChanged() && this.minecraft.levelRenderer instanceof final CloudRenderer cloudRenderer) {
-			cloudRenderer.generateClouds();
+		if (cloudShadingChanged()) {
+			((CloudRenderer) this.minecraft.levelRenderer).generateClouds();
 		}
 
-		if (allChanged()) {
+		if (blockShadingChanged() || enhancedBlockEntityShadingChanged() || liquidShadingChanged()) {
 			this.minecraft.levelRenderer.allChanged();
 		}
 	}

@@ -89,12 +89,15 @@ public class SimplyNoShadingClientConfig {
 
 	public final ShadingRule cloudShading = new ShadingRule.Impl(true);
 
+	public final ShadingRule liquidShading = new ShadingRule.Impl(false);
+
 	public void read(final JsonReader in) throws IOException {
 		do {
 			final var shadingRule = switch (in.nextName()) {
 			case "allShading" -> this.allShading;
 			case "blockShading" -> this.blockShading;
 			case "cloudShading" -> this.cloudShading;
+			case "liquidShading" -> this.liquidShading;
 			default -> ShadingRule.Root.DUMMY;
 			};
 
@@ -107,6 +110,7 @@ public class SimplyNoShadingClientConfig {
 		out.name("allShading"); this.allShading.write(out);
 		out.name("blockShading"); this.blockShading.write(out);
 		out.name("cloudShading"); this.cloudShading.write(out);
+		out.name("liquidShading"); this.liquidShading.write(out);
 		// @formatter:on
 	}
 }

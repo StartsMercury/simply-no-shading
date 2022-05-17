@@ -5,6 +5,9 @@ dependencies {
 	if (bedrockify.toBoolean()) {
 		// BedrockIfy
 		modRuntimeOnly libs.bedrockify
+
+		// Cloth Config
+		modRuntimeOnly libs.cloth.config
 	}
 
 	if (enhancedblockentities.toBoolean()) {

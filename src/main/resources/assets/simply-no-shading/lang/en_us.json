@@ -7,11 +7,14 @@
 	"simply-no-shading.options.cloudShading.tooltip": "Controls cloud shading",
 	"simply-no-shading.options.enhancedBlockEntityShading": "Enhanced Block Entity Shading",
 	"simply-no-shading.options.enhancedBlockEntityShading.tooltip": "Controls enhanced block entity shading",
+	"simply-no-shading.options.liquidShading": "Liquid Shading",
+	"simply-no-shading.options.liquidShading.tooltip": "Controls liquid shading",
 	"simply-no-shading.options.shadingTitle": "Shading Settings",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
 	"simply-no-shading.key.openSettings": "Open Settings",
 	"simply-no-shading.key.toggleAllShading": "Toggle All Shading",
 	"simply-no-shading.key.toggleBlockShading": "Toggle Block Shading",
 	"simply-no-shading.key.toggleCloudShading": "Toggle Cloud Shading",
-	"simply-no-shading.key.toggleEnhancedBlockEntityShading": "Toggle Enhanced Block Entity Shading"
+	"simply-no-shading.key.toggleEnhancedBlockEntityShading": "Toggle Enhanced Block Entity Shading",
+	"simply-no-shading.key.toggleLiquidShading": "Toggle Liquid Shading"
 }

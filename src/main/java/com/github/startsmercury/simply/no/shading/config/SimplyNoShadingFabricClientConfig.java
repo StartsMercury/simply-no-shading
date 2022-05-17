@@ -22,6 +22,7 @@ public class SimplyNoShadingFabricClientConfig extends SimplyNoShadingClientConf
 			case "blockShading" -> this.blockShading;
 			case "cloudShading" -> this.cloudShading;
 			case "enhancedBlockEntityShading" -> this.enhancedBlockEntityShading;
+			case "liquidShading" -> this.liquidShading;
 			default -> ShadingRule.Root.DUMMY;
 			};
 
@@ -36,6 +37,7 @@ public class SimplyNoShadingFabricClientConfig extends SimplyNoShadingClientConf
 		out.name("blockShading"); this.blockShading.write(out);
 		out.name("cloudShading"); this.cloudShading.write(out);
 		out.name("enhancedBlockEntityShading"); this.enhancedBlockEntityShading.write(out);
+		out.name("liquidShading"); this.liquidShading.write(out);
 		// @formatter:on
 	}
 }

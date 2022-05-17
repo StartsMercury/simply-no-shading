@@ -94,12 +94,13 @@ public class SimplyNoShadingFabricClientMod
 			final var cloudShadingChanged = toggleShade(this.keyManager.toggleCloudShading, this.config.cloudShading);
 			final var enhancedBlockEntityShadingChanged = toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
 			    this.config.enhancedBlockEntityShading);
+			final var liquidShadingChanged = toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
 
-			if (cloudShadingChanged && client.levelRenderer instanceof final CloudRenderer cloudRenderer) {
-				cloudRenderer.generateClouds();
+			if (cloudShadingChanged) {
+				((CloudRenderer) client.levelRenderer).generateClouds();
 			}
 
-			if (blockShadingChanged || enhancedBlockEntityShadingChanged) {
+			if (blockShadingChanged || enhancedBlockEntityShadingChanged || liquidShadingChanged) {
 				client.levelRenderer.allChanged();
 			}
 
