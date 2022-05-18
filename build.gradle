@@ -55,12 +55,15 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'enhanced_block_entities_version': libVersionRange('enhancedblockentities'),
+		expand 'bedrockify_version': libVersionRange('bedrockify'),
+		       'enhanced_block_entities_version': libVersionRange('enhancedblockentities'),
 		       'fabric_version': libVersionRange('fabric-api'),
+		       'iris_version': libVersionRange('iris'),
 		       'java_version': libVersionRange('java'),
 		       'loader_version': libVersionRange('fabric-loader'),
 		       'minecraft_version': libVersionRange('minecraft'),
 		       'modmenu_version': libVersionRange('modmenu'),
+		       'sodium_version': libVersionRange('sodium'),
 		       'version': version
 	}
 }

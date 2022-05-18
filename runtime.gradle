@@ -56,7 +56,7 @@ dependencies {
 
 		// Fabric Rendering Fluids (V1)
 		modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', libs.versions.fabric.api.get())
-
+		
 		// JOML
 		runtimeOnly libs.joml
 
