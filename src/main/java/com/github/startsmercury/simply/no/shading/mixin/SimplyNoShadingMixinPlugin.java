@@ -91,7 +91,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public List<String> getMixins() {
-		final var mixins = new ObjectArrayList<String>();
+		final var mixins = new ObjectArrayList<String>(3);
 
 		if (FABRIC) {
 			if (FabricLoader.getInstance().isModLoaded("bedrockify")) {
@@ -100,6 +100,10 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 			if (FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
 				mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelMixin");
+			}
+
+			if (FabricLoader.getInstance().isModLoaded("sodium")) {
+				mixins.add("shading.liquid.sodium.FluidRendererMixin");
 			}
 		}
 

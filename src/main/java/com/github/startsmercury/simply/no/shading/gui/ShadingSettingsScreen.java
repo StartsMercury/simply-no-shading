@@ -9,6 +9,7 @@ import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.ObjectCustomArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.coderbot.iris.Iris;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.CycleOption;
@@ -118,6 +119,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		this.wouldHaveShadeClouds = SimplyNoShadingClientMod.getInstance().config.cloudShading.shouldShade();
 		this.wouldHaveShadeEnhancedBlockEntities = FABRIC
 		    && SimplyNoShadingFabricClientMod.getInstance().config.blockShading.shouldShade();
+		this.wouldHaveShadeLiquids = SimplyNoShadingClientMod.getInstance().config.liquidShading.wouldShade();
 
 		this.list.addBig(ALL_SHADING_OPTION);
 		this.list.addSmall(OPTIONS);
@@ -134,6 +136,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	@Override
 	public void removed() {
 		SimplyNoShadingClientMod.getInstance().saveConfig();
+
+		if (Iris.getIrisConfig().areShadersEnabled()) {
+			return;
+		}
 
 		if (cloudShadingChanged()) {
 			((CloudRenderer) this.minecraft.levelRenderer).generateClouds();

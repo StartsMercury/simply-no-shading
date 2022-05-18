@@ -2,33 +2,24 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import java.util.function.Consumer;
-
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
+import net.coderbot.iris.Iris;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod
     extends SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig, SimplyNoShadingFabricKeyManager>
     implements ClientModInitializer {
 	private static SimplyNoShadingFabricClientMod instance;
-
-	protected static void consumeClick(final KeyMapping keyMapping, final Minecraft client,
-	    final Consumer<Minecraft> action) {
-		if (keyMapping.consumeClick()) {
-			action.accept(client);
-		}
-	}
 
 	public static SimplyNoShadingFabricClientMod getInstance() {
 		if (instance == null) {
@@ -54,10 +45,14 @@ public class SimplyNoShadingFabricClientMod
 
 	@Override
 	public void onInitializeClient() {
+		LOGGER.debug("Initializing mod...");
+
 		registerKeyMappings();
 		registerLifecycleEventListeners();
 
 		instance = this;
+
+		LOGGER.info("Initialized mod");
 	}
 
 	protected void registerKeyMappings() {
@@ -88,10 +83,18 @@ public class SimplyNoShadingFabricClientMod
 		}
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			final var wouldHaveShadeBlocks = this.config.blockShading.wouldShade();
-			final var wouldHaveShadeClouds = this.config.cloudShading.wouldShade();
-			final var wouldHaveShadeEnhancedBlockEntities = this.config.enhancedBlockEntityShading.wouldShade();
-			final var wouldHaveShadeLiquids = this.config.liquidShading.wouldShade();
+			final var openSettings = this.keyManager.openSettings.consumeClick();
+			final var refresh = !openSettings && !Iris.getIrisConfig().areShadersEnabled();
+
+			if (openSettings) {
+				openSettings(client);
+			}
+
+			final var wouldHaveShadeBlocks = refresh && this.config.blockShading.wouldShade();
+			final var wouldHaveShadeClouds = refresh && this.config.cloudShading.wouldShade();
+			final var wouldHaveShadeEnhancedBlockEntities = refresh
+			    && this.config.enhancedBlockEntityShading.wouldShade();
+			final var wouldHaveShadeLiquids = refresh && this.config.liquidShading.wouldShade();
 
 			toggleShade(this.keyManager.toggleAllShading, this.config.allShading);
 			toggleShade(this.keyManager.toggleBlockShading, this.config.blockShading);
@@ -99,21 +102,21 @@ public class SimplyNoShadingFabricClientMod
 			toggleShade(this.keyManager.toggleEnhancedBlockEntityShading, this.config.enhancedBlockEntityShading);
 			toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
 
-			final var blockShadingChanged = wouldHaveShadeBlocks != this.config.blockShading.wouldShade();
-			final var cloudShadingChanged = wouldHaveShadeClouds != this.config.cloudShading.wouldShade();
-			final var enhancedBlockEntityShadingChanged = wouldHaveShadeEnhancedBlockEntities != this.config.enhancedBlockEntityShading
-			    .wouldShade();
-			final var liquidShadingChanged = wouldHaveShadeLiquids != this.config.liquidShading.wouldShade();
+			if (refresh) {
+				final var blockShadingChanged = wouldHaveShadeBlocks != this.config.blockShading.wouldShade();
+				final var cloudShadingChanged = wouldHaveShadeClouds != this.config.cloudShading.wouldShade();
+				final var enhancedBlockEntityShadingChanged = wouldHaveShadeEnhancedBlockEntities != this.config.enhancedBlockEntityShading
+				    .wouldShade();
+				final var liquidShadingChanged = wouldHaveShadeLiquids != this.config.liquidShading.wouldShade();
 
-			if (cloudShadingChanged) {
-				((CloudRenderer) client.levelRenderer).generateClouds();
+				if (cloudShadingChanged) {
+					((CloudRenderer) client.levelRenderer).generateClouds();
+				}
+
+				if (blockShadingChanged || enhancedBlockEntityShadingChanged || liquidShadingChanged) {
+					client.levelRenderer.allChanged();
+				}
 			}
-
-			if (blockShadingChanged || enhancedBlockEntityShadingChanged || liquidShadingChanged) {
-				client.levelRenderer.allChanged();
-			}
-
-			consumeClick(this.keyManager.openSettings, client, this::openSettings);
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
 

@@ -40,6 +40,9 @@ dependencies {
 
 		// Iris
 		modRuntimeOnly libs.iris
+
+		// JCPP
+		runtimeOnly libs.jcpp
 	}
 
 	if (modmenu.toBoolean()) {
