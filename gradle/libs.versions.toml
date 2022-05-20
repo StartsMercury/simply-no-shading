@@ -11,6 +11,7 @@ jcpp = "[1.4.14,2)"
 joml = "[1.10.2,2)"
 minecraft = "1.18.2"
 modmenu = "[3.1,4)"
+quilt-mappings = "1.18.2+build.+"
 quiltflower = "1.+"
 sodium = "mc1.18.2-0.4.1"
 spruceui = "3.3.0+1.17"
@@ -34,3 +35,4 @@ spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 [plugins]
 fabric-loom = "fabric-loom:0.+"
 loom-quiltflower = "io.github.juuxel.loom-quiltflower:1.+"
+quilt-mappings-on-loom = "org.quiltmc.quilt-mappings-on-loom:4.+"

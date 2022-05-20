@@ -1,0 +1,89 @@
+ext {
+	versions = [:]
+	versionRanges = [:]
+	versionCatalog = extensions.getByType(VersionCatalogsExtension).named 'libs'
+	semversions = [:]
+
+	coerceMavenVersionRange = { String range ->
+		final def delimiter = range.indexOf ','
+
+		if (delimiter == -1) return '';
+
+		final def joiner = new StringJoiner(' ')
+		final def lowerBound = range[1 ..< delimiter]
+		final def upperBound = reduce range, delimiter + 1, 1
+		
+		switch (lowerBound ? range[0] : ' ') {
+		case '[': joiner.add ">=${lowerBound}"; break
+		case '(': case ']': joiner.add ">${lowerBound}"; break
+		}
+
+		switch (upperBound ? range[range.length() - 1] : ' ') {
+		case ']': joiner.add "<=${upperBound}"; break
+		case ')': case '[': joiner.add "<${upperBound}"; break
+		}
+
+		return joiner as String
+	}
+
+	coerceVersionRange = { String range ->
+		if (range.endsWith('.+'))
+			return "${reduce range, 0, 2}.x"
+		else
+			return coerceMavenVersionRange(range) ?: range ?: '0'
+	}
+
+	collapseMavenVersionRange = { String range ->
+		final def delimiter = range.indexOf ','
+
+		if (delimiter == -1) return '';
+
+		final def lowerBound = range[1 ..< delimiter]
+
+		switch (lowerBound ? range[0] : '') {
+		case '[': case '(': case ']': return lowerBound
+		}
+
+		final def upperBound = reduce range, delimiter + 1, 1
+
+		switch (upperBound ? range[range.length() - 1] : '') {
+		case '[': case '(': case ']': return upperBound
+		}
+
+		return ''
+	}
+
+	collapseVersionRange = { String range ->
+		if (range.endsWith('.+'))
+			return reduce(range, 0, 2)
+		else
+			return collapseMavenVersionRange(range) ?: range
+	}
+
+	reduce = { String string, int left, int right = 0 ->
+		return string[left ..< string.length() - right]
+	}
+}
+
+versionCatalog.versionAliases.each {
+	final def versionConstraint = versionCatalog.findVersion(it).get()
+	final def versionRange = versionConstraint.requiredVersion
+
+	traversed(versions, it, collapseVersionRange(versionRange))
+	traversed(versionRanges, it, versionRange)
+	traversed(semversions, it, coerceVersionRange(versionRange))
+}
+
+def traversed(Map map, String alias, value) {
+	final def keys = alias.split(/\P{Alnum}+/)
+
+	if (keys.length == 0) return map
+
+	for (i in 0 ..< keys.length - 1) {
+		map = map.computeIfAbsent(keys[i], key -> [:])
+	}
+
+	map[keys[keys.length - 1]] = value
+
+	return map
+}
