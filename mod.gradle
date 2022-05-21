@@ -1,7 +1,6 @@
+apply from: 'versionCatalog.gradle'
+
 ext {
-	versions = [:]
-	versionRanges = [:]
-	versionCatalog = extensions.getByType(VersionCatalogsExtension).named 'libs'
 	semversions = [:]
 
 	coerceMavenVersionRange = { String range ->
@@ -33,35 +32,30 @@ ext {
 			return coerceMavenVersionRange(range) ?: range ?: '0'
 	}
 
-	collapseMavenVersionRange = { String range ->
-		final def delimiter = range.indexOf ','
+	minecraftTag = {
+		final def range = versionRanges.minecraft
 
-		if (delimiter == -1) return '';
+		if (!range.endsWith('.+')) {
+			final def delimiter = range.indexOf ','
 
-		final def lowerBound = range[1 ..< delimiter]
+			if (delimiter == -1) return range ? "+mc${range}" : ''
 
-		switch (lowerBound ? range[0] : '') {
-		case '[': case '(': case ']': return lowerBound
+			final def joiner = new StringJoiner('-to-', '+mc', '')
+			final def lowerBound = range[1 ..< delimiter]
+			final def upperBound = reduce range, delimiter + 1, 1
+
+			switch (lowerBound ? range[0] : '') {
+			case '[': case '(': case ']': joiner.add lowerBound
+			}
+
+			switch (upperBound ? range[range.length() - 1] : '') {
+			case '[': case '(': case ']': joiner.add upperBound
+			}
+
+			return joiner.length() ? joiner.toString() : range ? "+mc${range}" : ''
+		} else {
+			return "+mc${reduce range, 0, 2}.x"
 		}
-
-		final def upperBound = reduce range, delimiter + 1, 1
-
-		switch (upperBound ? range[range.length() - 1] : '') {
-		case '[': case '(': case ']': return upperBound
-		}
-
-		return ''
-	}
-
-	collapseVersionRange = { String range ->
-		if (range.endsWith('.+'))
-			return reduce(range, 0, 2)
-		else
-			return collapseMavenVersionRange(range) ?: range
-	}
-
-	reduce = { String string, int left, int right = 0 ->
-		return string[left ..< string.length() - right]
 	}
 }
 
@@ -69,8 +63,6 @@ versionCatalog.versionAliases.each {
 	final def versionConstraint = versionCatalog.findVersion(it).get()
 	final def versionRange = versionConstraint.requiredVersion
 
-	traversed(versions, it, collapseVersionRange(versionRange))
-	traversed(versionRanges, it, versionRange)
 	traversed(semversions, it, coerceVersionRange(versionRange))
 }
 

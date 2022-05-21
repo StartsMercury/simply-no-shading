@@ -4,12 +4,12 @@ plugins {
 	alias libs.plugins.quilt.mappings.on.loom
 }
 
+apply from: 'mod.gradle'
 apply from: 'runtime.gradle'
-apply from: 'versioning.gradle'
 
 group = modGroup
 archivesBaseName = modName
-version = "${modVersion}+mc${libs.versions.minecraft.get()}"
+version = "${modVersion}${minecraftTag()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
