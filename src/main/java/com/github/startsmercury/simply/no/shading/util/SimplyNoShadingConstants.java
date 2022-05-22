@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public final class SimplyNoShadingConstants {
+	@Deprecated(forRemoval = true)
 	public static final boolean FABRIC;
 
 	public static final Gson GSON;
@@ -13,6 +14,7 @@ public final class SimplyNoShadingConstants {
 		GSON = new GsonBuilder().setPrettyPrinting().create();
 	}
 
+	@Deprecated(forRemoval = true)
 	private static boolean isClassLoaded(final String className) {
 		try {
 			Class.forName(className);

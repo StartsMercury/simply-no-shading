@@ -1,0 +1,22 @@
+apply from: 'mod.gradle'
+
+ext.fabricSemversions = { ->
+	def properties = new Properties()
+
+	versionCatalog.versionAliases.each {
+		final def versionConstraint = versionCatalog.findVersion(it).get()
+		final def versionRange = versionConstraint.requiredVersion
+
+		properties."${it.replace '.', '_'}_version" = coerceVersionRange(versionRange)
+	}
+
+	return properties
+}
+
+processResources {
+	inputs.property 'version', version
+
+	filesMatching 'fabric.mod.json', {
+		expand(['version': version] + fabricSemversions())
+	}
+}

@@ -50,9 +50,9 @@
 	},
 	"recommends": {
 		"bedrockify": "${bedrockify_version}",
-		"enhancedblockentities": "${enhanced_block_entities_version}",
-		"fabric": "${fabric_version}",
-		"fabricloader": "${loader_version}",
+		"enhancedblockentities": "${enhancedblockentities_version}",
+		"fabric": "${fabric_api_version}",
+		"fabricloader": "${fabric_loader_version}",
 		"iris": "${iris_version}",
 		"sodium": "${sodium_version}",
 		"minecraft": "${minecraft_version}",

@@ -4,7 +4,7 @@ plugins {
 	alias libs.plugins.quilt.mappings.on.loom
 }
 
-apply from: 'mod.gradle'
+apply from: 'fabricMod.gradle'
 apply from: 'runtime.gradle'
 
 group = modGroup
@@ -55,14 +55,6 @@ dependencies {
 
 	// Sodium
 	modCompileOnly libs.sodium
-}
-
-processResources {
-	inputs.property 'version', version
-
-	filesMatching 'fabric.mod.json', {
-		expand(['version': version] + semversions)
-	}
 }
 
 java {

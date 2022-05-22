@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
+import static java.nio.file.Files.newBufferedWriter;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.io.IOException;
@@ -14,11 +16,10 @@ import org.slf4j.LoggerFactory;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 
 @Environment(CLIENT)
 public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig, K extends SimplyNoShadingKeyManager> {
@@ -52,13 +53,8 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public void createConfig() {
 		LOGGER.debug("Creating config...");
 
-		try (final var buffer = Files.newBufferedWriter(this.configPath);
-		     final var out = new JsonWriter(buffer)) {
-			out.beginObject();
-
-			this.config.write(out);
-
-			out.endObject();
+		try (final var out = newBufferedWriter(this.configPath)) {
+			GSON.toJson(this.config, out);
 
 			LOGGER.info("Created config");
 		} catch (final IOException ioe) {
@@ -66,16 +62,24 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 		}
 	}
 
+	private Screen createSettingsScreen(final Minecraft client) {
+		LOGGER.debug("Creating settings screen...");
+
+		final var settingsScreen = createSettingsScreen(client.screen, this.config);
+
+		LOGGER.info("Created settings screen");
+		return settingsScreen;
+	}
+
+	protected Screen createSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+		return new ShadingSettingsScreen(screen, this.config);
+	}
+
 	public void loadConfig() {
-		try (final var buffer = Files.newBufferedReader(this.configPath);
-		     final var in = new JsonReader(buffer)) {
+		try (final var in = Files.newBufferedReader(this.configPath)) {
 			LOGGER.debug("Loading config...");
 
-			in.beginObject();
-
-			this.config.read(in);
-
-			in.endObject();
+			this.config.copyFrom(GSON.fromJson(in, this.config.getClass()));
 
 			LOGGER.info("Loaded config");
 		} catch (final NoSuchFileException nsfe) {
@@ -87,9 +91,17 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 		}
 	}
 
-	protected void openSettings(final Minecraft client) {
+	protected void openSettingsScreen(final Minecraft client) {
+		LOGGER.debug("Opening settings screen...");
+
 		if (!(client.screen instanceof ShadingSettingsScreen)) {
-			client.setScreen(new ShadingSettingsScreen(client.screen));
+			final var settingsScreen = createSettingsScreen(client);
+
+			client.setScreen(settingsScreen);
+
+			LOGGER.info("Opened settings screen");
+		} else {
+			LOGGER.warn("Unable to open settings screen as it's already open!");
 		}
 	}
 
@@ -104,13 +116,8 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public void saveConfig() {
 		LOGGER.debug("Saving config...");
 
-		try (final var buffer = Files.newBufferedWriter(this.configPath);
-		     final var out = new JsonWriter(buffer)) {
-			out.beginObject();
-
-			this.config.write(out);
-
-			out.endObject();
+		try (final var out = newBufferedWriter(this.configPath)) {
+			GSON.toJson(this.config, out);
 
 			LOGGER.info("Saved config");
 		} catch (final IOException ioe) {

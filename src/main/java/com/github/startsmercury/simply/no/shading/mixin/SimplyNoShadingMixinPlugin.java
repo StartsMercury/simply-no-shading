@@ -109,6 +109,12 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 		mixins.trim();
 
+		LOGGER.info("Included mixins: ");
+		mixins.forEach(mixin -> {
+			LOGGER.info("    " + mixin);
+		});
+		LOGGER.info("Above mixins were added due to their target mod being present");
+
 		return mixins;
 	}
 
@@ -148,7 +154,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 					message.append(" given it's a member of ").append(excludee);
 				}
 
-				LOGGER.debug(message.toString());
+				LOGGER.info(message.toString());
 
 				return false;
 			}

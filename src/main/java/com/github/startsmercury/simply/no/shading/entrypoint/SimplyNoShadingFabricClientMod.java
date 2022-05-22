@@ -2,9 +2,10 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
-import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
+import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
 import net.coderbot.iris.Iris;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.Screen;
 
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod
@@ -29,18 +31,21 @@ public class SimplyNoShadingFabricClientMod
 		return instance;
 	}
 
-	protected static boolean toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
+	protected static void toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
 		if (keyMapping.consumeClick()) {
-			return shadingRule.toggleShade();
+			shadingRule.toggleShade();
 		}
-
-		return false;
 	}
 
 	public SimplyNoShadingFabricClientMod() {
 		super(new SimplyNoShadingFabricClientConfig(),
 		    FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
 		    SimplyNoShadingFabricKeyManager::new);
+	}
+
+	@Override
+	protected Screen createSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+		return new FabricShadingSettingsScreen(screen, config);
 	}
 
 	@Override
@@ -84,17 +89,14 @@ public class SimplyNoShadingFabricClientMod
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final var openSettings = this.keyManager.openSettings.consumeClick();
-			final var refresh = !openSettings && !Iris.getIrisConfig().areShadersEnabled();
+			final var refresh = !openSettings
+			    && (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled());
 
 			if (openSettings) {
-				openSettings(client);
+				openSettingsScreen(client);
 			}
 
-			final var wouldHaveShadeBlocks = refresh && this.config.blockShading.wouldShade();
-			final var wouldHaveShadeClouds = refresh && this.config.cloudShading.wouldShade();
-			final var wouldHaveShadeEnhancedBlockEntities = refresh
-			    && this.config.enhancedBlockEntityShading.wouldShade();
-			final var wouldHaveShadeLiquids = refresh && this.config.liquidShading.wouldShade();
+			final var observation = this.config.observe();
 
 			toggleShade(this.keyManager.toggleAllShading, this.config.allShading);
 			toggleShade(this.keyManager.toggleBlockShading, this.config.blockShading);
@@ -103,19 +105,7 @@ public class SimplyNoShadingFabricClientMod
 			toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
 
 			if (refresh) {
-				final var blockShadingChanged = wouldHaveShadeBlocks != this.config.blockShading.wouldShade();
-				final var cloudShadingChanged = wouldHaveShadeClouds != this.config.cloudShading.wouldShade();
-				final var enhancedBlockEntityShadingChanged = wouldHaveShadeEnhancedBlockEntities != this.config.enhancedBlockEntityShading
-				    .wouldShade();
-				final var liquidShadingChanged = wouldHaveShadeLiquids != this.config.liquidShading.wouldShade();
-
-				if (cloudShadingChanged) {
-					((CloudRenderer) client.levelRenderer).generateClouds();
-				}
-
-				if (blockShadingChanged || enhancedBlockEntityShadingChanged || liquidShadingChanged) {
-					client.levelRenderer.allChanged();
-				}
+				observation.consume(client);
 			}
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
