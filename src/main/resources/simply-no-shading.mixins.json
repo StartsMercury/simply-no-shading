@@ -3,7 +3,7 @@
 	"minVersion": "0.8",
 	"package": "com.github.startsmercury.simply.no.shading.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingMixinPlugin",
+	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingFabricMixinPlugin",
 	"client": [
 		"core.minecraft.LevelRendererMixin",
 		"shading.block.minecraft.BakedQuadMixin",

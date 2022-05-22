@@ -1,6 +1,5 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
-import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.FABRIC;
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
 
 import java.io.IOException;
@@ -93,27 +92,19 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	public List<String> getMixins() {
 		final var mixins = new ObjectArrayList<String>(3);
 
-		if (FABRIC) {
-			if (FabricLoader.getInstance().isModLoaded("bedrockify")) {
-				mixins.add("shading.liquid.bedrockify.BedrockBlockShadingMixin");
-			}
-
-			if (FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
-				mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelMixin");
-			}
-
-			if (FabricLoader.getInstance().isModLoaded("sodium")) {
-				mixins.add("shading.liquid.sodium.FluidRendererMixin");
-			}
-		}
+		includeMixins(mixins);
 
 		mixins.trim();
 
-		LOGGER.info("Included mixins: ");
-		mixins.forEach(mixin -> {
-			LOGGER.info("    " + mixin);
-		});
-		LOGGER.info("Above mixins were added due to their target mod being present");
+		switch (mixins.size()) {
+		case 0 -> {}
+		case 1 -> LOGGER.info("Included mixin '" + mixins.get(0) + "' due to their target mod being present");
+		default -> {
+			LOGGER.info("Included mixins: ");
+			mixins.forEach(mixin -> LOGGER.info("    " + mixin));
+			LOGGER.info("Above mixins were added due to their target mod being present");
+		}
+		}
 
 		return mixins;
 	}
@@ -121,6 +112,9 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public String getRefMapperConfig() {
 		return null;
+	}
+
+	protected void includeMixins(final List<String> mixins) {
 	}
 
 	@Override
