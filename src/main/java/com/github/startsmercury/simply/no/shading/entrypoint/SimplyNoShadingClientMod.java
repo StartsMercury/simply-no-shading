@@ -25,7 +25,7 @@ import net.minecraft.client.gui.screens.Screen;
 public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig, K extends SimplyNoShadingKeyManager> {
 	private static SimplyNoShadingClientMod<?, ?> instance;
 
-	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading+client");
+	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
 
 	public static SimplyNoShadingClientMod<?, ?> getInstance() {
 		if (instance == null) {

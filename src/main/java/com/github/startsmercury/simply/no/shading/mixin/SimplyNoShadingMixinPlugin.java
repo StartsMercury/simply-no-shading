@@ -25,7 +25,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir()
 	    .resolve("simply-no-shading+mixin.json");
 
-	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading+mixin");
+	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/mixin");
 
 	private static SimplyNoShadingMixinConfig createMixinConfig() {
 		final var mixinConfig = new SimplyNoShadingMixinConfig();
