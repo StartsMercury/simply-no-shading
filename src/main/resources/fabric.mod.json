@@ -14,12 +14,8 @@
 		}
 	],
 	"contributors": [
-		{
-			"name": "IMS212",
-			"contact": {
-				"homepage": "https://github.com/IMS212"
-			}
-		}
+		"IMS212",
+		"PepperCode1"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/simply-no-shading",

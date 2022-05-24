@@ -35,6 +35,9 @@ dependencies {
 	// Fabric Lifecycle Events (V1)
 	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versionRanges.fabric.api)
 
+	// Fabric Renderer API (V1)
+	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
+
 	// Fabric Loader
 	modImplementation libs.fabric.loader
 

@@ -34,6 +34,11 @@ dependencies {
 		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 	}
 
+	if (fabricRendererAp1V1.toBoolean()) {
+		// Fabric Renderer API (V1)
+		modRuntimeOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
+	}
+
 	if (iris.toBoolean()) {
 		// Fabric Resource Loader (V0)
 		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', libs.versions.fabric.api.get())
