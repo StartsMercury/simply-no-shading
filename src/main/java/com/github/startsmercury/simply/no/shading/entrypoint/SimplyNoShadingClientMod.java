@@ -5,6 +5,7 @@ import static java.nio.file.Files.newBufferedWriter;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -13,16 +14,18 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.startsmercury.simply.no.shading.config.ShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
+import com.google.gson.reflect.TypeToken;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 
 @Environment(CLIENT)
-public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig, K extends SimplyNoShadingKeyManager> {
+public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig<? extends ShadingRules>, K extends SimplyNoShadingKeyManager> {
 	private static SimplyNoShadingClientMod<?, ?> instance;
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
@@ -71,15 +74,19 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 		return settingsScreen;
 	}
 
-	protected Screen createSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+	protected Screen createSettingsScreen(final Screen screen, final C config) {
 		return new ShadingSettingsScreen(screen, this.config);
+	}
+
+	protected Type getConfigType() {
+		return TypeToken.getParameterized(this.config.getClass(), this.config.shadingRules.getClass()).getType();
 	}
 
 	public void loadConfig() {
 		try (final var in = Files.newBufferedReader(this.configPath)) {
 			LOGGER.debug("Loading config...");
 
-			this.config.copyFrom(GSON.fromJson(in, this.config.getClass()));
+			this.config.copyFrom(GSON.fromJson(in, getConfigType()));
 
 			LOGGER.info("Loaded config");
 		} catch (final NoSuchFileException nsfe) {

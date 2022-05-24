@@ -11,7 +11,7 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 	@Override
 	protected void includeMixins(final List<String> mixins) {
 		final var fabricLoader = FabricLoader.getInstance();
-		
+
 		if (fabricLoader.isModLoaded("bedrockify")) {
 			mixins.add("shading.liquid.bedrockify.BedrockBlockShadingMixin");
 		}

@@ -15,12 +15,12 @@ import net.minecraft.client.ToggleKeyMapping;
 public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 	public final ToggleKeyMapping toggleEnhancedBlockEntityShading;
 
-	public SimplyNoShadingFabricKeyManager(final SimplyNoShadingFabricClientConfig config) {
+	public SimplyNoShadingFabricKeyManager(final SimplyNoShadingFabricClientConfig<?> config) {
 		super(config);
 
 		this.toggleEnhancedBlockEntityShading = new ToggleKeyMapping(
 		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", InputConstants.UNKNOWN.getValue(), CATEGORY,
-		    config.enhancedBlockEntityShading::shouldShade);
+		    config.shadingRules.enhancedBlockEntities::shouldShade);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
+import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.github.startsmercury.simply.no.shading.impl.Shadable;
 
@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)
 public abstract class BakedQuadMixin implements Shadable {
-	private ShadingRule shadingRule = SimplyNoShadingClientMod.getInstance().config.blockShading;
+	private ShadingRule shadingRule = SimplyNoShadingClientMod.getInstance().config.shadingRules.blocks;
 
 	@Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {

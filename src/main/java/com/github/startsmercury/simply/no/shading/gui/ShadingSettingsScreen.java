@@ -6,8 +6,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -25,12 +25,12 @@ import net.minecraft.network.chat.TranslatableComponent;
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {
-		return CycleOption.createOnOff("simply-no-shading.options." + name,
-		    new TranslatableComponent("simply-no-shading.options." + name + ".tooltip"),
+		return CycleOption.createOnOff("simply-no-shading.options.shadingRule." + name,
+		    new TranslatableComponent("simply-no-shading.options.shadingRule." + name + ".tooltip"),
 		    options -> shadingRule.shouldShade(), (options, option, allShading) -> shadingRule.setShade(allShading));
 	}
 
-	private final SimplyNoShadingClientConfig config;
+	private final SimplyNoShadingClientConfig<?> config;
 
 	private OptionsList list;
 
@@ -40,14 +40,14 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		this(screen, SimplyNoShadingClientMod.getInstance().config);
 	}
 
-	public ShadingSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+	public ShadingSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig<?> config) {
 		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
 
 		this.config = config;
 	}
 
 	protected void addOptions() {
-		final var iterator = this.config.getShadingRules().entrySet().iterator();
+		final var iterator = this.config.shadingRules.iterator();
 
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
@@ -68,7 +68,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	protected boolean applyOption(final String name) {
 		return switch (name) {
-		case "allShading" -> false;
+		case "all" -> false;
 		default -> true;
 		};
 	}
@@ -78,12 +78,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		LOGGER.debug("Initializing settings screen...");
 
 		this.list = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
-		this.observation = SimplyNoShadingClientMod.getInstance().config.observe();
+		this.observation = this.config.observe();
 
-		this.list.addBig(CycleOption.createOnOff("simply-no-shading.options.allShading",
-		    new TranslatableComponent("simply-no-shading.options.allShading.tooltip"),
-		    options -> SimplyNoShadingClientMod.getInstance().config.allShading.shouldShade(), (options, option,
-		        allShading) -> SimplyNoShadingClientMod.getInstance().config.allShading.setShade(allShading)));
+		this.list.addBig(createOption("all", this.config.shadingRules.all));
 
 		addOptions();
 
@@ -122,7 +119,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		SimplyNoShadingClientMod.getInstance().saveConfig();
 
 		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled()) {
-			this.observation.consume(this.minecraft);
+			this.observation.react(this.minecraft);
 		}
 
 		LOGGER.info("Removed settings screen");

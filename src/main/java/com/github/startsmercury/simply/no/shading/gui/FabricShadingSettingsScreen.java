@@ -2,7 +2,7 @@ package com.github.startsmercury.simply.no.shading.gui;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
+import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,14 +14,14 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 		super(screen);
 	}
 
-	public FabricShadingSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+	public FabricShadingSettingsScreen(final Screen screen, final SimplyNoShadingFabricClientConfig<?> config) {
 		super(screen, config);
 	}
 
 	@Override
 	protected boolean applyOption(final String name) {
 		return switch (name) {
-		case "enhancedBlockEntityShading" -> FabricLoader.getInstance().isModLoaded("enhancedblockentities");
+		case "enhancedBlockEntities" -> FabricLoader.getInstance().isModLoaded("enhancedblockentities");
 		default -> super.applyOption(name);
 		};
 	}

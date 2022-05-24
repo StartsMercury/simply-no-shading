@@ -13,7 +13,7 @@ import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockS
 public class BedrockBlockShadingMixin {
 	@Inject(method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
-		if (!SimplyNoShadingClientMod.getInstance().config.liquidShading.wouldShade()) {
+		if (!SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade()) {
 			callback.setReturnValue(1.0F);
 		}
 	}

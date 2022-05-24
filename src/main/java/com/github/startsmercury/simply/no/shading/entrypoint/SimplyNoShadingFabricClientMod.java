@@ -2,8 +2,8 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
-import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig.ShadingRule;
+import com.github.startsmercury.simply.no.shading.config.FabricShadingRules;
+import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
@@ -18,8 +18,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 
 @Environment(CLIENT)
-public class SimplyNoShadingFabricClientMod
-    extends SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig, SimplyNoShadingFabricKeyManager>
+public class SimplyNoShadingFabricClientMod extends
+    SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig<FabricShadingRules>, SimplyNoShadingFabricKeyManager>
     implements ClientModInitializer {
 	private static SimplyNoShadingFabricClientMod instance;
 
@@ -38,13 +38,14 @@ public class SimplyNoShadingFabricClientMod
 	}
 
 	public SimplyNoShadingFabricClientMod() {
-		super(new SimplyNoShadingFabricClientConfig(),
+		super(new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules()),
 		    FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
 		    SimplyNoShadingFabricKeyManager::new);
 	}
 
 	@Override
-	protected Screen createSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig config) {
+	protected Screen createSettingsScreen(final Screen screen,
+	    final SimplyNoShadingFabricClientConfig<FabricShadingRules> config) {
 		return new FabricShadingSettingsScreen(screen, config);
 	}
 
@@ -98,14 +99,15 @@ public class SimplyNoShadingFabricClientMod
 
 			final var observation = this.config.observe();
 
-			toggleShade(this.keyManager.toggleAllShading, this.config.allShading);
-			toggleShade(this.keyManager.toggleBlockShading, this.config.blockShading);
-			toggleShade(this.keyManager.toggleCloudShading, this.config.cloudShading);
-			toggleShade(this.keyManager.toggleEnhancedBlockEntityShading, this.config.enhancedBlockEntityShading);
-			toggleShade(this.keyManager.toggleLiquidShading, this.config.liquidShading);
+			toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all);
+			toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks);
+			toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds);
+			toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
+			    this.config.shadingRules.enhancedBlockEntities);
+			toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
 
 			if (refresh) {
-				observation.consume(client);
+				observation.react(client);
 			}
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());

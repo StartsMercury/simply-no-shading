@@ -19,7 +19,8 @@ public class DynamicBakedModelMixin {
 		final Object next = var12.next();
 
 		if (next instanceof final Shadable nextShadable) {
-			nextShadable.setShadingRule(SimplyNoShadingFabricClientMod.getInstance().config.enhancedBlockEntityShading);
+			nextShadable
+			    .setShadingRule(SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.enhancedBlockEntities);
 		}
 
 		return next;

@@ -5,35 +5,17 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import net.fabricmc.api.Environment;
 
 @Environment(CLIENT)
-public class SimplyNoShadingFabricClientConfig extends SimplyNoShadingClientConfig {
-	public class Observation<T extends SimplyNoShadingFabricClientConfig>
-	    extends SimplyNoShadingClientConfig.Observation<T> {
-		@Override
-		public boolean rebuildChunks() {
-			return super.rebuildChunks() || this.past.enhancedBlockEntityShading
-			    .wouldEquals(SimplyNoShadingFabricClientConfig.this.enhancedBlockEntityShading);
-		}
+public class SimplyNoShadingFabricClientConfig<R extends FabricShadingRules> extends SimplyNoShadingClientConfig<R> {
+	public SimplyNoShadingFabricClientConfig(final R shadingRules) {
+		super(shadingRules);
 	}
 
-	public final ShadingRule enhancedBlockEntityShading;
-
-	public SimplyNoShadingFabricClientConfig() {
-		this.enhancedBlockEntityShading = new ShadingRule.Child(this.allShading, true);
-	}
-
-	public SimplyNoShadingFabricClientConfig(final SimplyNoShadingClientConfig other) {
-		this();
-
-		copyFrom(other);
+	public SimplyNoShadingFabricClientConfig(final SimplyNoShadingClientConfig<R> other) {
+		super(other);
 	}
 
 	@Override
-	public SimplyNoShadingFabricClientConfig copy() {
-		return new SimplyNoShadingFabricClientConfig(this);
-	}
-
-	@Override
-	public Observation<? extends SimplyNoShadingFabricClientConfig> observe() {
-		return new Observation<>();
+	public SimplyNoShadingFabricClientConfig<R> copy() {
+		return new SimplyNoShadingFabricClientConfig<>(this);
 	}
 }
