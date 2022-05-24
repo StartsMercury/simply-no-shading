@@ -8,20 +8,30 @@ import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 public class Values<T> implements Iterable<Entry<String, T>> {
-	private final transient Reference2ReferenceOpenHashMap<String, T> values;
+	private final transient Reference2ReferenceMap<String, T> values;
 
 	private final transient Reference2ReferenceMap<String, T> valuesView;
 
 	protected Values() {
-		this(16);
+		this(16, false);
+	}
+
+	protected Values(final boolean ordered) {
+		this(16, ordered);
 	}
 
 	protected Values(final int expected) {
-		this.values = new Reference2ReferenceOpenHashMap<>(expected);
+		this(expected, false);
+	}
+
+	protected Values(final int expected, final boolean ordered) {
+		this.values = ordered ? new Reference2ReferenceLinkedOpenHashMap<>()
+		    : new Reference2ReferenceOpenHashMap<>(expected);
 		this.valuesView = unmodifiable(this.values);
 	}
 
@@ -86,7 +96,7 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 		return this.valuesView;
 	}
 
-	protected final T register(final String name, final T value) {
+	protected final <U extends T> U register(final String name, final U value) {
 		if (this.values.putIfAbsent(name, value) != null) {
 			throw new IllegalStateException('\'' + name + "' is already registered");
 		} else {
@@ -104,6 +114,10 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	public final void trim() {
-		this.values.trim();
+		if (this.values instanceof final Reference2ReferenceOpenHashMap<String, T> values) {
+			values.trim();
+		} else if (this.values instanceof final Reference2ReferenceLinkedOpenHashMap<String, T> values) {
+			values.trim();
+		}
 	}
 }
