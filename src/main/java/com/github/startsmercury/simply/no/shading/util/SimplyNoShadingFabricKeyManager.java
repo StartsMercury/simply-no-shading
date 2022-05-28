@@ -6,9 +6,6 @@ import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricCl
 import com.mojang.blaze3d.platform.InputConstants;
 
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
 @Environment(CLIENT)
@@ -18,27 +15,8 @@ public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 	public SimplyNoShadingFabricKeyManager(final SimplyNoShadingFabricClientConfig<?> config) {
 		super(config);
 
-		this.toggleEnhancedBlockEntityShading = new ToggleKeyMapping(
-		    "simply-no-shading.key.toggleEnhancedBlockEntityShading", InputConstants.UNKNOWN.getValue(), CATEGORY,
-		    config.shadingRules.enhancedBlockEntities::shouldShade);
-	}
-
-	@Override
-	protected void register(final KeyMapping key) {
-		KeyBindingHelper.registerKeyBinding(key);
-	}
-
-	@Override
-	public void registerAll() {
-		register(this.openSettings);
-		register(this.toggleAllShading);
-		register(this.toggleBlockShading);
-		register(this.toggleCloudShading);
-
-		if (FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
-			register(this.toggleEnhancedBlockEntityShading);
-		}
-
-		register(this.toggleLiquidShading);
+		this.toggleEnhancedBlockEntityShading = register("toggleEnhancedBlockEntityShading",
+		    new ToggleKeyMapping("simply-no-shading.key.toggleEnhancedBlockEntityShading",
+		        InputConstants.UNKNOWN.getValue(), CATEGORY, config.shadingRules.enhancedBlockEntities::shouldShade));
 	}
 }

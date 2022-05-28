@@ -13,6 +13,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
@@ -64,14 +65,17 @@ public class SimplyNoShadingFabricClientMod extends
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
 
-		if (!FabricLoader.getInstance().isModLoaded("fabric-key-binding-api-v1")) {
+		final var fabricLoader = FabricLoader.getInstance();
+
+		if (!fabricLoader.isModLoaded("fabric-key-binding-api-v1")) {
 			LOGGER.warn(
 			    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
 
 			return;
 		}
 
-		this.keyManager.registerAll();
+		this.keyManager.register((name, keyMapping) -> fabricLoader.isModLoaded(name),
+		    KeyBindingHelper::registerKeyBinding);
 
 		LOGGER.info("Registered key mappings");
 	}
