@@ -33,5 +33,5 @@ sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]
-fabric-loom = "fabric-loom:0.+"
+fabric-loom = "fabric-loom:[0.9,1)"
 loom-quiltflower = "io.github.juuxel.loom-quiltflower:1.+"
