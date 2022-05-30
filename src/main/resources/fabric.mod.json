@@ -36,7 +36,8 @@
 		]
 	},
 	"mixins": [
-		"simply-no-shading.mixins.json"
+		"simply-no-shading.mixins.json",
+		"simply-no-shading+fabric.mixins.json"
 	],
 
 	"depends": {

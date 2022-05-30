@@ -13,19 +13,19 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 		final var fabricLoader = FabricLoader.getInstance();
 
 		if (fabricLoader.isModLoaded("bedrockify")) {
-			mixins.add("shading.liquid.bedrockify.BedrockBlockShadingMixin");
+			mixins.add("shading.liquid.bedrockify.BedrockBlockShadingFabricMixin");
 		}
 
 		if (fabricLoader.isModLoaded("enhancedblockentities")) {
-			mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelMixin");
+			mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelFabricMixin");
 		}
 
 		if (fabricLoader.isModLoaded("fabric-renderer-api-v1")) {
-			mixins.add("shading.frapi.models.fabric.renderer.api.v1.ClientLevelMixin");
+			mixins.add("shading.frapi.models.fabric.renderer.api.v1.ClientLevelFabricMixin");
 		}
 
 		if (fabricLoader.isModLoaded("sodium")) {
-			mixins.add("shading.liquid.sodium.FluidRendererMixin");
+			mixins.add("shading.liquid.sodium.FluidRendererFabricMixin");
 		}
 	}
 }

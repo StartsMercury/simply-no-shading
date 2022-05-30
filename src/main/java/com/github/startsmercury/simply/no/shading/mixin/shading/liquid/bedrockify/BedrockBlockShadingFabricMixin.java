@@ -10,7 +10,7 @@ import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClie
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 
 @Mixin(BedrockBlockShading.class)
-public class BedrockBlockShadingMixin {
+public class BedrockBlockShadingFabricMixin {
 	@Inject(method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
 		if (!SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade()) {

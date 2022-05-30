@@ -12,7 +12,7 @@ import com.github.startsmercury.simply.no.shading.impl.Shadable;
 import foundationgames.enhancedblockentities.client.model.DynamicBakedModel;
 
 @Mixin(DynamicBakedModel.class)
-public class DynamicBakedModelMixin {
+public class DynamicBakedModelFabricMixin {
 	@Redirect(method = "emitBlockQuads",
 	          at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;"))
 	private final Object initEmittedBlockQuads(final Iterator<?> var12) {
