@@ -14,7 +14,7 @@ public class LiquidBlockRendererMixin {
 	           at = @At(value = "INVOKE",
 	                    target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),
 	           index = 1)
-	private final boolean changeShade(final boolean shaded) {
-		return SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade(shaded);
+	private final boolean changeShade(final boolean shade) {
+		return SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade(shade);
 	}
 }

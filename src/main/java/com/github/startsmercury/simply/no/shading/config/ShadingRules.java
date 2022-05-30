@@ -2,28 +2,34 @@ package com.github.startsmercury.simply.no.shading.config;
 
 import static com.github.startsmercury.simply.no.shading.config.ShadingRule.DUMMY;
 import static com.google.gson.stream.JsonToken.BOOLEAN;
+import static com.google.gson.stream.JsonToken.NULL;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.io.IOException;
 
+import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
 import com.github.startsmercury.simply.no.shading.util.Observable;
 import com.github.startsmercury.simply.no.shading.util.Values;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
 
 @Environment(CLIENT)
-@JsonAdapter(ShadingRules.JsonAdapter.class)
 public class ShadingRules extends Values<ShadingRule> implements Copyable<ShadingRules>, Observable<ShadingRules> {
 	public static class JsonAdapter extends TypeAdapter<ShadingRules> {
 		@Override
 		public ShadingRules read(final JsonReader in) throws IOException {
+			if (in.peek() == NULL) {
+				return null;
+			}
+
 			final var shadingRules = new ShadingRules();
 
 			in.beginObject();
@@ -66,7 +72,10 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		}
 	}
 
-	public static class Observation<T extends ShadingRules> extends Observable.Observation<T, Minecraft> {
+	public static class Observation<T extends ShadingRules> extends Observable.Observation<T, Context> {
+		public static record Context(Minecraft client, boolean smartReload) {
+		}
+
 		public Observation(final T point) {
 			super(point);
 		}
@@ -75,23 +84,53 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 			super(past, present);
 		}
 
-		@Override
-		public void react(final Minecraft client) {
-			if (rebuildChunks()) {
-				client.levelRenderer.allChanged();
-			}
-
-			if (rebuildClouds()) {
-				((CloudRenderer) client.levelRenderer).generateClouds();
+		protected void evaluate(final boolean smartReload, final Player player, final boolean rebuiltChunks) {
+			if (player != null && smartReload && rebuiltChunks) {
+				player.displayClientMessage(
+				    new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload"), true);
 			}
 		}
 
-		public boolean rebuildChunks() {
+		@Override
+		public void react(final Context context) {
+			final var client = context.client();
+			final var smartReload = context.smartReload();
+
+			final var rebuiltChunks = rebuildChunks(client, smartReload);
+
+			evaluate(smartReload, client.player, rebuiltChunks);
+		}
+
+		protected boolean rebuildBlocks(final Minecraft client, final boolean smartReload) {
+			if (!smartReload || shouldRebuildBlocks()) {
+				client.levelRenderer.allChanged();
+
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		protected boolean rebuildChunks(final Minecraft client, final boolean smartReload) {
+			return rebuildBlocks(client, smartReload) | rebuildClouds(client, smartReload);
+		}
+
+		protected boolean rebuildClouds(final Minecraft client, final boolean smartReload) {
+			if (!smartReload || shouldRebuildClouds()) {
+				((CloudRenderer) client.levelRenderer).generateClouds();
+
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public boolean shouldRebuildBlocks() {
 			return !this.past.blocks.wouldEquals(this.present.blocks)
 			    || !this.past.liquids.wouldEquals(this.present.liquids);
 		}
 
-		public boolean rebuildClouds() {
+		public boolean shouldRebuildClouds() {
 			return !this.past.clouds.wouldEquals(this.present.clouds);
 		}
 	}

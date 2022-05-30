@@ -12,13 +12,13 @@ import net.minecraft.client.multiplayer.ClientLevel;
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin {
 	@ModifyVariable(method = "getShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), argsOnly = true)
-	private final boolean changeShaded(final boolean shaded) {
+	private final boolean changeShade(final boolean shade) {
 		final var shadingRules = SimplyNoShadingFabricClientMod.getInstance().config.shadingRules;
 
 		final var wouldBlocksShade = shadingRules.blocks.wouldShade();
 		final var wouldEnhancedBlockEntitiesShade = FabricLoader.getInstance().isModLoaded("enhancedblockentities")
 		    && shadingRules.enhancedBlockEntities.wouldShade();
 
-		return shaded && (wouldBlocksShade || wouldEnhancedBlockEntitiesShade);
+		return shade && (wouldBlocksShade || wouldEnhancedBlockEntitiesShade);
 	}
 }

@@ -50,6 +50,8 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 		this.configPath = configPath;
 		this.keyManager = keyManagerProvider.apply(this.config);
 
+		loadConfig();
+
 		instance = this;
 	}
 

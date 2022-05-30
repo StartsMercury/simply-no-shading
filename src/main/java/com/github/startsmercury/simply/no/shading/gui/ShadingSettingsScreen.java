@@ -25,8 +25,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {
-		return CycleOption.createOnOff("simply-no-shading.options.shadingRule." + name,
-		    new TranslatableComponent("simply-no-shading.options.shadingRule." + name + ".tooltip"),
+		return CycleOption.createOnOff("simply-no-shading.option.shadingRule." + name,
+		    new TranslatableComponent("simply-no-shading.option.shadingRule." + name + ".tooltip"),
 		    options -> shadingRule.shouldShade(), (options, option, allShading) -> shadingRule.setShade(allShading));
 	}
 

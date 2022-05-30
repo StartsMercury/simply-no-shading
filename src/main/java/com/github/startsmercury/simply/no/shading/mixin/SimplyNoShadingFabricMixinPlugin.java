@@ -20,6 +20,10 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 			mixins.add("shading.enhanced.block.entity.enhancedblockentities.DynamicBakedModelMixin");
 		}
 
+		if (fabricLoader.isModLoaded("fabric-renderer-api-v1")) {
+			mixins.add("shading.frapi.models.fabric.renderer.api.v1.ClientLevelMixin");
+		}
+
 		if (fabricLoader.isModLoaded("sodium")) {
 			mixins.add("shading.liquid.sodium.FluidRendererMixin");
 		}

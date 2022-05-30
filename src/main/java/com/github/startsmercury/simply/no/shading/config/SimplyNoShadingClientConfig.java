@@ -2,6 +2,7 @@ package com.github.startsmercury.simply.no.shading.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
 import com.github.startsmercury.simply.no.shading.util.Observable;
 
@@ -23,11 +24,14 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 		@Override
 		public void react(final Minecraft context) {
-			this.present.shadingRules.observe(this.past.shadingRules).react(context);
+			this.present.shadingRules.observe(this.past.shadingRules)
+			    .react(new Context(context, this.present.smartReload));
 		}
 	}
 
 	public final R shadingRules;
+
+	public boolean smartReload;
 
 	public SimplyNoShadingClientConfig(final R shadingRules) {
 		this.shadingRules = shadingRules;

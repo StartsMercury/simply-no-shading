@@ -16,8 +16,8 @@ public class FabricShadingRules extends ShadingRules {
 		}
 
 		@Override
-		public boolean rebuildChunks() {
-			return super.rebuildChunks()
+		public boolean shouldRebuildBlocks() {
+			return super.shouldRebuildBlocks()
 			    || !this.past.enhancedBlockEntities.wouldEquals(this.present.enhancedBlockEntities);
 		}
 	}

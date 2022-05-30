@@ -8,6 +8,7 @@
 		"core.minecraft.LevelRendererMixin",
 		"shading.block.minecraft.BakedQuadMixin",
 		"shading.cloud.minecraft.LevelRendererMixin",
+		"shading.cloud.minecraft.LevelRendererFabricMixin",
 		"shading.liquid.minecraft.LiquidBlockRendererMixin"
 	],
 	"injectors": {
