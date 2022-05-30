@@ -64,6 +64,10 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	private final ObjectOpenHashSet<String> excludedCached;
 
 	public SimplyNoShadingMixinPlugin() {
+		this(true);
+	}
+
+	protected SimplyNoShadingMixinPlugin(final boolean log) {
 		LOGGER.debug("Constructing mixin plugin...");
 
 		this.excludedCached = new ObjectOpenHashSet<>();
@@ -81,7 +85,9 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 		this.excludedCached.trim();
 
-		LOGGER.info("Constructed mixin plugin");
+		if (log) {
+			LOGGER.info("Constructed mixin plugin");
+		}
 	}
 
 	@Override

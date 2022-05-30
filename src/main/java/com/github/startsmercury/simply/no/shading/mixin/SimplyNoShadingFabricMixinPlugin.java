@@ -6,6 +6,17 @@ import net.fabricmc.loader.api.FabricLoader;
 
 public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin {
 	public SimplyNoShadingFabricMixinPlugin() {
+		super(false);
+
+		LOGGER.info("Constructed mixin plugin");
+	}
+
+	protected SimplyNoShadingFabricMixinPlugin(final boolean log) {
+		super(false);
+
+		if (log) {
+			LOGGER.info("Constructed mixin plugin");
+		}
 	}
 
 	@Override
