@@ -2,7 +2,9 @@ package com.github.startsmercury.simply.no.shading.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import net.coderbot.iris.Iris;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 
 @Environment(CLIENT)
 public class FabricShadingRules extends ShadingRules {
@@ -13,6 +15,12 @@ public class FabricShadingRules extends ShadingRules {
 
 		public Observation(final T past, final T present) {
 			super(past, present);
+		}
+
+		@Override
+		protected boolean shouldRebuild() {
+			return super.shouldRebuild()
+			    && (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled());
 		}
 
 		@Override

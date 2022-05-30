@@ -14,7 +14,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 
 	private final boolean defaultShade;
 
-	private final ShadingRule parent;
+	private final transient ShadingRule parent;
 
 	private boolean shade;
 
@@ -78,6 +78,10 @@ public class ShadingRule implements Copyable<ShadingRule> {
 
 	public boolean hasParent() {
 		return getParent() != null;
+	}
+
+	public void resetShade() {
+		setShade(getDefaultShade());
 	}
 
 	public void setShade(final boolean shade) {

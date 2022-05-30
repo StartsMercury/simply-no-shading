@@ -1,12 +1,12 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
+import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.function.Function;
@@ -18,6 +18,8 @@ import com.github.startsmercury.simply.no.shading.config.ShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 
 import net.fabricmc.api.Environment;
@@ -58,8 +60,13 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public void createConfig() {
 		LOGGER.debug("Creating config...");
 
-		try (final var out = newBufferedWriter(this.configPath)) {
-			GSON.toJson(this.config, out);
+		final var configJson = new JsonObject();
+
+		this.config.write(configJson);
+
+		try (final var buffer = newBufferedWriter(this.configPath);
+		     final var out = GSON.newJsonWriter(buffer)) {
+			Streams.write(configJson, out);
 
 			LOGGER.info("Created config");
 		} catch (final IOException ioe) {
@@ -85,10 +92,11 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	public void loadConfig() {
-		try (final var in = Files.newBufferedReader(this.configPath)) {
+		try (final var buffer = newBufferedReader(this.configPath);
+		     var in = GSON.newJsonReader(buffer)) {
 			LOGGER.debug("Loading config...");
 
-			this.config.copyFrom(GSON.fromJson(in, getConfigType()));
+			this.config.read(Streams.parse(in));
 
 			LOGGER.info("Loaded config");
 		} catch (final NoSuchFileException nsfe) {
@@ -125,8 +133,21 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public void saveConfig() {
 		LOGGER.debug("Saving config...");
 
-		try (final var out = newBufferedWriter(this.configPath)) {
-			GSON.toJson(this.config, out);
+		final JsonObject configJson;
+
+		try (final var reader = newBufferedReader(this.configPath);
+		     var in = GSON.newJsonReader(reader)) {
+			configJson = Streams.parse(in) instanceof final JsonObject object ? object : new JsonObject();
+		} catch (final IOException ioe) {
+			LOGGER.warn("Unable to save config", ioe);
+			return;
+		}
+
+		this.config.write(configJson);
+
+		try (final var writer = newBufferedWriter(this.configPath);
+		     final var out = GSON.newJsonWriter(writer)) {
+			Streams.write(configJson, out);
 
 			LOGGER.info("Saved config");
 		} catch (final IOException ioe) {

@@ -1,80 +1,27 @@
 package com.github.startsmercury.simply.no.shading.config;
 
 import static com.github.startsmercury.simply.no.shading.config.ShadingRule.DUMMY;
-import static com.google.gson.stream.JsonToken.BOOLEAN;
-import static com.google.gson.stream.JsonToken.NULL;
 import static net.fabricmc.api.EnvType.CLIENT;
-
-import java.io.IOException;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
 import com.github.startsmercury.simply.no.shading.util.Observable;
 import com.github.startsmercury.simply.no.shading.util.Values;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.player.Player;
 
 @Environment(CLIENT)
 public class ShadingRules extends Values<ShadingRule> implements Copyable<ShadingRules>, Observable<ShadingRules> {
-	public static class JsonAdapter extends TypeAdapter<ShadingRules> {
-		@Override
-		public ShadingRules read(final JsonReader in) throws IOException {
-			if (in.peek() == NULL) {
-				return null;
-			}
-
-			final var shadingRules = new ShadingRules();
-
-			in.beginObject();
-
-			while (switch (in.peek()) {
-			case END_DOCUMENT, END_OBJECT -> false;
-			default -> true;
-			}) {
-				final var name = in.nextName();
-				final var shadingRule = shadingRules.getOrDefault(name, DUMMY);
-
-				if (in.peek() == BOOLEAN) {
-					final var shade = in.nextBoolean();
-
-					shadingRule.setShade(shade);
-				} else {
-					in.skipValue();
-				}
-			}
-
-			in.endObject();
-
-			return shadingRules;
-		}
-
-		@Override
-		public void write(final JsonWriter out, final ShadingRules shadingRules) throws IOException {
-			out.beginObject();
-
-			for (final var shadingRuleEntry : shadingRules.mapView().entrySet()) {
-				final var name = shadingRuleEntry.getKey();
-				final var shadingRule = shadingRuleEntry.getValue();
-				final var shade = shadingRule.shouldShade();
-
-				out.name(name);
-				out.value(shade);
-			}
-
-			out.endObject();
-		}
-	}
-
 	public static class Observation<T extends ShadingRules> extends Observable.Observation<T, Context> {
 		public static record Context(Minecraft client, boolean smartReload) {
 		}
+
+		private boolean smartlyRebuiltChunks;
 
 		public Observation(final T point) {
 			super(point);
@@ -84,25 +31,16 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 			super(past, present);
 		}
 
-		protected void evaluate(final boolean smartReload, final Player player, final boolean rebuiltChunks) {
-			if (player != null && smartReload && rebuiltChunks) {
-				player.displayClientMessage(
-				    new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload"), true);
-			}
-		}
-
 		@Override
 		public void react(final Context context) {
 			final var client = context.client();
 			final var smartReload = context.smartReload();
 
-			final var rebuiltChunks = rebuildChunks(client, smartReload);
-
-			evaluate(smartReload, client.player, rebuiltChunks);
+			this.smartlyRebuiltChunks = !rebuildChunks(client, smartReload) && smartReload;
 		}
 
 		protected boolean rebuildBlocks(final Minecraft client, final boolean smartReload) {
-			if (!smartReload || shouldRebuildBlocks()) {
+			if (!smartReload || shouldRebuild() && shouldRebuildBlocks()) {
 				client.levelRenderer.allChanged();
 
 				return true;
@@ -116,13 +54,17 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		}
 
 		protected boolean rebuildClouds(final Minecraft client, final boolean smartReload) {
-			if (!smartReload || shouldRebuildClouds()) {
+			if (!smartReload || shouldRebuild() && shouldRebuildClouds()) {
 				((CloudRenderer) client.levelRenderer).generateClouds();
 
 				return true;
 			} else {
 				return false;
 			}
+		}
+
+		protected boolean shouldRebuild() {
+			return true;
 		}
 
 		public boolean shouldRebuildBlocks() {
@@ -132,6 +74,10 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 		public boolean shouldRebuildClouds() {
 			return !this.past.clouds.wouldEquals(this.present.clouds);
+		}
+
+		public boolean smartlyRebuiltChunks() {
+			return this.smartlyRebuiltChunks;
 		}
 	}
 
@@ -193,5 +139,42 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 	@Override
 	public Observation<? extends ShadingRules> observe(final ShadingRules past) {
 		return new Observation<>(past, this);
+	}
+
+	public void read(final JsonElement in) {
+		if (!(in instanceof final JsonObject object)) {
+			reset();
+			return;
+		}
+
+		read(object);
+	}
+
+	public void read(final JsonObject in) {
+		if (in == null) {
+			reset();
+			return;
+		}
+
+		forEach((name, shadingRule) -> {
+			if (!(in.get(name) instanceof final JsonPrimitive primitive)) {
+				return;
+			}
+
+			if (!primitive.isBoolean()) {
+				shadingRule.resetShade();
+				return;
+			}
+
+			shadingRule.setShade(primitive.getAsBoolean());
+		});
+	}
+
+	public void reset() {
+		forEach((name, shadingRule) -> shadingRule.resetShade());
+	}
+
+	public void write(final JsonObject out) {
+		forEach((name, shadingRule) -> out.addProperty(name, shadingRule.shouldShade()));
 	}
 }

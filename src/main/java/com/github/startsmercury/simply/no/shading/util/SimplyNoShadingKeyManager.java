@@ -3,9 +3,6 @@ package com.github.startsmercury.simply.no.shading.util;
 import static java.lang.Math.max;
 import static net.fabricmc.api.EnvType.CLIENT;
 
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.mojang.blaze3d.platform.InputConstants;
 
@@ -50,12 +47,18 @@ public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
 		this(5, config);
 	}
 
-	public void register(final BiPredicate<? super String, ? super KeyMapping> filter,
-	    final Consumer<? super KeyMapping> registry) {
+	public void register() {
 		forEach((name, keyMapping) -> {
-			if (filter.test(name, keyMapping)) {
-				registry.accept(keyMapping);
+			if (shouldRegister(name, keyMapping)) {
+				register(keyMapping);
 			}
 		});
+	}
+
+	protected void register(final KeyMapping keyMapping) {
+	}
+
+	protected boolean shouldRegister(final String name, final KeyMapping keyMapping) {
+		return true;
 	}
 }

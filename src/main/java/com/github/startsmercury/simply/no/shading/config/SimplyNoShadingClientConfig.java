@@ -5,6 +5,9 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
 import com.github.startsmercury.simply.no.shading.util.Observable;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -14,6 +17,8 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
     implements Copyable<SimplyNoShadingClientConfig<?>>, Observable<SimplyNoShadingClientConfig<R>> {
 	public static class Observation<T extends SimplyNoShadingClientConfig<?>>
 	    extends Observable.Observation<T, Minecraft> {
+		private boolean smartlyRebuiltChunks;
+
 		public Observation(final T point) {
 			super(point);
 		}
@@ -24,8 +29,14 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 		@Override
 		public void react(final Minecraft context) {
-			this.present.shadingRules.observe(this.past.shadingRules)
-			    .react(new Context(context, this.present.smartReload));
+			final var shadingRulesObservation = this.present.shadingRules.observe(this.past.shadingRules);
+			shadingRulesObservation.react(new Context(context, this.present.smartReload));
+
+			this.smartlyRebuiltChunks = shadingRulesObservation.smartlyRebuiltChunks();
+		}
+
+		public boolean smartlyRebuiltChunks() {
+			return this.smartlyRebuiltChunks;
 		}
 	}
 
@@ -35,6 +46,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	public SimplyNoShadingClientConfig(final R shadingRules) {
 		this.shadingRules = shadingRules;
+		this.smartReload = true;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,5 +77,38 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	@Override
 	public Observation<? extends SimplyNoShadingClientConfig<R>> observe(final SimplyNoShadingClientConfig<R> past) {
 		return new Observation<>(past, this);
+	}
+
+	public void read(final JsonElement in) {
+		if (!(in instanceof final JsonObject object)) {
+			reset();
+			return;
+		}
+
+		read(object);
+	}
+
+	public void read(final JsonObject in) {
+		if (in == null) {
+			reset();
+			return;
+		}
+
+		this.smartReload = !in.has("smartReload") || !(in.get("smartReload") instanceof final JsonPrimitive primitive)
+		    || !primitive.isBoolean() || primitive.getAsBoolean();
+	}
+
+	public void reset() {
+		this.shadingRules.reset();
+		this.smartReload = true;
+	}
+
+	public void write(final JsonObject out) {
+		final var shadingRulesJson = out.has("shadingRules")
+		    && out.get("shadingRules") instanceof final JsonObject object ? object : new JsonObject();
+		this.shadingRules.write(shadingRulesJson);
+		out.add("shadingRules", shadingRulesJson);
+
+		out.addProperty("smartReload", this.smartReload);
 	}
 }

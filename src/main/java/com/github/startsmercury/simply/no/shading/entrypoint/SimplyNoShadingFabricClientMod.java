@@ -8,15 +8,16 @@ import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricCl
 import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
-import net.coderbot.iris.Iris;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.EndTick;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
 
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod extends
@@ -32,9 +33,13 @@ public class SimplyNoShadingFabricClientMod extends
 		return instance;
 	}
 
-	protected static void toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
+	protected static boolean toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
 		if (keyMapping.consumeClick()) {
 			shadingRule.toggleShade();
+
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -74,8 +79,7 @@ public class SimplyNoShadingFabricClientMod extends
 			return;
 		}
 
-		this.keyManager.register((name, keyMapping) -> fabricLoader.isModLoaded(name),
-		    KeyBindingHelper::registerKeyBinding);
+		this.keyManager.register();
 
 		LOGGER.info("Registered key mappings");
 	}
@@ -92,26 +96,49 @@ public class SimplyNoShadingFabricClientMod extends
 			return;
 		}
 
+		ClientTickEvents.END_CLIENT_TICK.register(new EndTick() {
+			private boolean windowWasActive;
+
+			@Override
+			public void onEndTick(final Minecraft client) {
+				final var windowActive = client.isWindowActive();
+
+				if (this.windowWasActive == windowActive) {
+					return;
+				}
+
+				if (windowActive) {
+					loadConfig();
+				} else {
+					saveConfig();
+				}
+
+				this.windowWasActive = windowActive;
+			}
+		});
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final var openSettings = this.keyManager.openSettings.consumeClick();
-			final var refresh = !openSettings
-			    && (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled());
 
 			if (openSettings) {
 				openSettingsScreen(client);
 			}
 
-			final var observation = this.config.observe();
+			final var observation = !openSettings ? this.config.observe() : null;
 
-			toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all);
-			toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks);
-			toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds);
-			toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
-			    this.config.shadingRules.enhancedBlockEntities);
-			toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
+			final var toggled = toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all)
+			    | toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks)
+			    | toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds)
+			    | toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
+			        this.config.shadingRules.enhancedBlockEntities)
+			    | toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
 
-			if (refresh) {
+			if (toggled && !openSettings) {
 				observation.react(client);
+
+				if (observation.smartlyRebuiltChunks() && client.player != null) {
+					client.player.displayClientMessage(
+					    new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload"), true);
+				}
 			}
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
