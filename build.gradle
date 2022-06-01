@@ -43,20 +43,24 @@ dependencies {
 	// Iris
 	modCompileOnly libs.iris
 
-	// Minecraft
-	minecraft libs.minecraft
-
-	// ModMenu
-	modCompileOnly libs.modmenu
-
 	// Layered Mappings
 	mappings loom.layered {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-${versions.minecraft}:${versions.parchment}@zip"
 	}
 
+	// Minecraft
+	minecraft libs.minecraft
+
+	// ModMenu
+	modCompileOnly libs.modmenu
+
 	// Sodium
 	modCompileOnly libs.sodium
+
+	// SpruceUI
+	include libs.spruceui
+	modApi libs.spruceui
 }
 
 java {

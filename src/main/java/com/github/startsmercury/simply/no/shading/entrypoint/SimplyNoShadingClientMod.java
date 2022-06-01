@@ -83,8 +83,8 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 		return settingsScreen;
 	}
 
-	protected Screen createSettingsScreen(final Screen screen, final C config) {
-		return new ShadingSettingsScreen(screen, this.config);
+	protected Screen createSettingsScreen(final Screen parent, final C config) {
+		return new ShadingSettingsScreen(parent, this.config);
 	}
 
 	protected Type getConfigType() {

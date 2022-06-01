@@ -44,9 +44,12 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	public boolean smartReload;
 
+	public boolean smartReloadMessage;
+
 	public SimplyNoShadingClientConfig(final R shadingRules) {
 		this.shadingRules = shadingRules;
 		this.smartReload = true;
+		this.smartReloadMessage = true;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,6 +70,18 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	@Override
 	public void copyTo(final SimplyNoShadingClientConfig<?> other) {
 		this.shadingRules.copyTo(other.shadingRules);
+	}
+
+	public final R getShadingRules() {
+		return this.shadingRules;
+	}
+
+	public final boolean isSmartReload() {
+		return this.smartReload;
+	}
+
+	public final boolean isSmartReloadMessage() {
+		return this.smartReloadMessage;
 	}
 
 	@Override
@@ -101,6 +116,14 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	public void reset() {
 		this.shadingRules.reset();
 		this.smartReload = true;
+	}
+
+	public final void setSmartReload(final boolean smartReload) {
+		this.smartReload = smartReload;
+	}
+
+	public final void setSmartReloadMessage(final boolean smartReloadMessage) {
+		this.smartReloadMessage = smartReloadMessage;
 	}
 
 	public void write(final JsonObject out) {

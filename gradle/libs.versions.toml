@@ -14,7 +14,7 @@ modmenu = "3.2.2"
 parchment = "2022.05.22"
 quiltflower = "1.+"
 sodium = "mc1.18.2-0.4.1"
-spruceui = "3.3.0+1.17"
+spruceui = "3.3.3+1.18"
 
 [libraries]
 advanced-runtime-resource-packs = { module = "net.devtech:arrp", version.ref = "advanced-runtime-resource-packs" }

@@ -6,6 +6,7 @@ import com.github.startsmercury.simply.no.shading.config.FabricShadingRules;
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
+import com.github.startsmercury.simply.no.shading.gui.SimplyNoShadingFabricSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -50,9 +51,10 @@ public class SimplyNoShadingFabricClientMod extends
 	}
 
 	@Override
-	protected Screen createSettingsScreen(final Screen screen,
+	protected Screen createSettingsScreen(final Screen parent,
 	    final SimplyNoShadingFabricClientConfig<FabricShadingRules> config) {
-		return new FabricShadingSettingsScreen(screen, config);
+		return FabricLoader.getInstance().isModLoaded("spruceui") ? new SimplyNoShadingFabricSettingsScreen(parent)
+		    : new FabricShadingSettingsScreen(parent, config);
 	}
 
 	@Override
@@ -124,7 +126,6 @@ public class SimplyNoShadingFabricClientMod extends
 			}
 
 			final var observation = !openSettings ? this.config.observe() : null;
-
 			final var toggled = toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all)
 			    | toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks)
 			    | toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds)
@@ -132,14 +133,18 @@ public class SimplyNoShadingFabricClientMod extends
 			        this.config.shadingRules.enhancedBlockEntities)
 			    | toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
 
-			if (toggled && !openSettings) {
-				observation.react(client);
-
-				if (observation.smartlyRebuiltChunks() && client.player != null) {
-					client.player.displayClientMessage(
-					    new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload"), true);
-				}
+			if (!toggled || openSettings) {
+				return;
 			}
+
+			observation.react(client);
+
+			if (!this.config.smartReloadMessage || !observation.smartlyRebuiltChunks() || client.player == null) {
+				return;
+			}
+
+			client.player.displayClientMessage(
+			    new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload"), true);
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
 

@@ -19,9 +19,6 @@ dependencies {
 
 		// Fabric API
 		modRuntimeOnly libs.fabric.api
-
-		// SpruceUI
-		modRuntimeOnly libs.spruceui
 	}
 
 	if (fabricKeyBindingApiV1.toBoolean() || iris.toBoolean()) {
