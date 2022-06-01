@@ -37,7 +37,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param name
 	 * @param shadingRule
-	 * @return
+	 * @return a new shading option
+	 * @since 5.0.0
 	 */
 	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {
 		return CycleOption.createOnOff("simply-no-shading.option.shadingRule." + name,
@@ -65,6 +66,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * screen.
 	 *
 	 * @param parent the parent screen
+	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent) {
 		this(parent, SimplyNoShadingClientMod.getInstance().config);
@@ -76,6 +78,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
+	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
 		super(parent, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
@@ -85,6 +88,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * Adds all the options.
+	 *
+	 * @since 5.0.0
 	 */
 	protected void addOptions() {
 		final var iterator = this.config.shadingRules.iterator();
@@ -111,6 +116,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param name the option name
 	 * @return a {@code boolean} value
+	 * @since 5.0.0
 	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
@@ -121,6 +127,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
 	 */
 	@Override
 	protected void init() {
@@ -147,6 +155,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * @param iterator the name to rule entry iterator
 	 * @return the next application option
 	 * @see #applyOption(String)
+	 * @since 5.0.0
 	 */
 	private Entry<String, ShadingRule> nextOption(final Iterator<Entry<String, ShadingRule>> iterator) {
 		while (iterator.hasNext()) {
@@ -162,6 +171,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
 	 */
 	@Override
 	public void onClose() {
@@ -174,6 +185,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
 	 */
 	@Override
 	public void removed() {
@@ -190,6 +203,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {

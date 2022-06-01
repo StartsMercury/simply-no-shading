@@ -16,6 +16,8 @@ import net.fabricmc.api.Environment;
 public interface CloudRenderer {
 	/**
 	 * Generate the clouds.
+	 *
+	 * @since 5.0.0
 	 */
 	void generateClouds();
 }

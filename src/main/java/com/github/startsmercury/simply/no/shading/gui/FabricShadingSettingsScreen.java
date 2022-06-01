@@ -22,6 +22,7 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 	 * screen.
 	 *
 	 * @param parent the parent screen
+	 * @since 5.0.0
 	 */
 	public FabricShadingSettingsScreen(final Screen screen) {
 		super(screen);
@@ -33,6 +34,7 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
+	 * @since 5.0.0
 	 */
 	public FabricShadingSettingsScreen(final Screen screen, final SimplyNoShadingFabricClientConfig<?> config) {
 		super(screen, config);
@@ -40,6 +42,8 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
 	 */
 	@Override
 	protected boolean applyOption(final String name) {

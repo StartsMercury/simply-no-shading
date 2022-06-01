@@ -19,11 +19,13 @@ import net.fabricmc.api.Environment;
 public interface Shadable {
 	/**
 	 * @return the current shading rule
+	 * @since 5.0.0
 	 */
 	ShadingRule getShadingRule();
 
 	/**
 	 * @return the shade with the shading rule applied
+	 * @since 5.0.0
 	 */
 	boolean isShade();
 
@@ -31,6 +33,7 @@ public interface Shadable {
 	 * Sets the current shading rule to a new one.
 	 *
 	 * @param shadingRule the new shading rule
+	 * @since 5.0.0
 	 */
 	void setShadingRule(ShadingRule shadingRule);
 }
