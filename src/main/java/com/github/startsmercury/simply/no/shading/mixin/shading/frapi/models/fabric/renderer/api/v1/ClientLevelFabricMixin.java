@@ -9,8 +9,19 @@ import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabr
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.multiplayer.ClientLevel;
 
+/**
+ * {@code ClientLevel} mixin class.
+ *
+ * @since 5.0.0
+ */
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelFabricMixin {
+	/**
+	 * Modifies the shade whenever FRAPI support is needed.
+	 *
+	 * @param shade the original shade
+	 * @return the modified shade
+	 */
 	@ModifyVariable(method = "getShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), argsOnly = true)
 	private final boolean changeShade(final boolean shade) {
 		final var shadingRules = SimplyNoShadingFabricClientMod.getInstance().config.shadingRules;

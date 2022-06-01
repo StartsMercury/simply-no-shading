@@ -14,25 +14,49 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 
+/**
+ * {@code BakedQuad} mixin class.
+ *
+ * @since 5.0.0
+ */
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)
 public abstract class BakedQuadMixin implements Shadable {
+	/**
+	 * The shading rule.
+	 */
 	private ShadingRule shadingRule = SimplyNoShadingClientMod.getInstance().config.shadingRules.blocks;
 
+	/**
+	 * Changes the returned shade by applying the {@link #shadingRule}.
+	 *
+	 * @param callback the callback
+	 */
 	@Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
 		callback.setReturnValue(this.shadingRule.wouldShade(callback.getReturnValueZ()));
 	}
 
+	/**
+	 * @return the shading rule
+	 */
 	@Override
 	public ShadingRule getShadingRule() {
 		return this.shadingRule;
 	}
 
+	/**
+	 * @return the shade with the shading rule applied
+	 */
 	@Override
 	@Shadow
 	public abstract boolean isShade();
 
+	/**
+	 * Sets the shading rule to a new value.
+	 *
+	 * @param shadingRule the new shading rule
+	 */
 	@Override
 	public void setShadingRule(final ShadingRule shadingRule) {
 		this.shadingRule = shadingRule;

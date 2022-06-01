@@ -8,8 +8,17 @@ import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClie
 
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 
+/**
+ * {@code LiquidBlockRenderer} mixin class.
+ */
 @Mixin(value = LiquidBlockRenderer.class, priority = 999)
 public class LiquidBlockRendererMixin {
+	/**
+	 * Modifies the liquid shade.
+	 *
+	 * @param shade the original shade
+	 * @return the modified shade.
+	 */
 	@ModifyArg(method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/material/FluidState;)Z",
 	           at = @At(value = "INVOKE",
 	                    target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),

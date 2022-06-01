@@ -11,8 +11,26 @@ import com.mojang.math.Matrix4f;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.LevelRenderer;
 
+/**
+ * {@code LevelRenderer} mixin class.
+ *
+ * @since 5.0.0
+ */
 @Mixin(LevelRenderer.class)
 public class LevelRendererFabricMixin {
+	/**
+	 * Modifies a certain variable to hold clouds when in a
+	 * {@link FabricLoader#isDevelopmentEnvironment() development environment}.
+	 *
+	 * @param i                the variable being modifed
+	 * @param poseStack        the pose stack
+	 * @param projectionMatrix the projection matrix
+	 * @param partialTick      the partial tick
+	 * @param camX             the camera x position
+	 * @param camY             the camera y position
+	 * @param camZ             the camera z position
+	 * @return modified variable {@code i}
+	 */
 	@ApiStatus.Experimental
 	@ModifyVariable(method = "renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V",
 	                at = @At(value = "STORE", ordinal = 0), name = "i")

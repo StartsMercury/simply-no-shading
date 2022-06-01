@@ -7,11 +7,22 @@ import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
+/**
+ * {@code LevelRenderer} mixin class.
+ *
+ * @since 5.0.0
+ */
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin implements CloudRenderer {
+	/**
+	 * Generate clouds.
+	 */
 	@Shadow
 	private boolean generateClouds;
 
+	/**
+	 * Sets {@link #generateClouds} to {@code true}.
+	 */
 	@Override
 	public void generateClouds() {
 		this.generateClouds = true;
