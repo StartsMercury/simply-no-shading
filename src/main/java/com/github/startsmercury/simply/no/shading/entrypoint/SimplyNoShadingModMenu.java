@@ -7,7 +7,20 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 
 import net.fabricmc.loader.api.FabricLoader;
 
+/**
+ * Provides support for {@link ModMenuApi modmenu}.
+ *
+ * In {@code fabric.mod.json}, the entrypoint is defined with {@code modmenu}
+ * key.
+ *
+ * @since 5.0.0
+ */
 public class SimplyNoShadingModMenu implements ModMenuApi {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return parent -> FabricLoader.getInstance().isModLoaded("spruceui")

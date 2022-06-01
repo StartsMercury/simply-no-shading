@@ -3,7 +3,6 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.github.startsmercury.simply.no.shading.config.FabricShadingRules;
-import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.gui.SimplyNoShadingFabricSettingsScreen;
@@ -15,17 +14,31 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.EndTick;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TranslatableComponent;
 
+/**
+ * Simply No Shading {@link ClientModInitializer fabric client mod initializer}.
+ *
+ * @since 5.0.0
+ */
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod extends
     SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig<FabricShadingRules>, SimplyNoShadingFabricKeyManager>
     implements ClientModInitializer {
+	/**
+	 * The initialized instance.
+	 */
 	private static SimplyNoShadingFabricClientMod instance;
 
+	/**
+	 * Returns the initialized instance, throws {@link IllegalStateException} if
+	 * there is none.
+	 *
+	 * @return the initialized instance
+	 * @since 5.0.0
+	 */
 	public static SimplyNoShadingFabricClientMod getInstance() {
 		if (instance == null) {
 			throw new IllegalStateException("Accessed too early!");
@@ -34,29 +47,33 @@ public class SimplyNoShadingFabricClientMod extends
 		return instance;
 	}
 
-	protected static boolean toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
-		if (keyMapping.consumeClick()) {
-			shadingRule.toggleShade();
-
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	/**
+	 * Creates a new instance of {@code SimplyNoShadingFabricClientMod}.
+	 *
+	 * @since 5.0.0
+	 */
 	public SimplyNoShadingFabricClientMod() {
 		super(new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules()),
 		    FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
 		    SimplyNoShadingFabricKeyManager::new);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
-	protected Screen createSettingsScreen(final Screen parent,
-	    final SimplyNoShadingFabricClientConfig<FabricShadingRules> config) {
+	protected Screen createSettingsScreen(final Screen parent) {
 		return FabricLoader.getInstance().isModLoaded("spruceui") ? new SimplyNoShadingFabricSettingsScreen(parent)
-		    : new FabricShadingSettingsScreen(parent, config);
+		    : new FabricShadingSettingsScreen(parent, this.config);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public void onInitializeClient() {
 		LOGGER.debug("Initializing mod...");
@@ -69,6 +86,11 @@ public class SimplyNoShadingFabricClientMod extends
 		LOGGER.info("Initialized mod");
 	}
 
+	/**
+	 * Registers key mappings.
+	 *
+	 * @since 5.0.0
+	 */
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
 
@@ -86,6 +108,11 @@ public class SimplyNoShadingFabricClientMod extends
 		LOGGER.info("Registered key mappings");
 	}
 
+	/**
+	 * Register lifecycle event listeners.
+	 *
+	 * @since 5.0.0
+	 */
 	protected void registerLifecycleEventListeners() {
 		LOGGER.debug("Registering life cycle event listeners...");
 
