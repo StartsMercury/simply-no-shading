@@ -1,4 +1,4 @@
 /**
- * Contains configuration classes for Simply No Shading.
+ * Contains classes related to configuring Simply No Shading.
  */
 package com.github.startsmercury.simply.no.shading.config;
