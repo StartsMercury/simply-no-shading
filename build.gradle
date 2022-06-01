@@ -65,7 +65,8 @@ dependencies {
 
 java {
 	toolchain.languageVersion = JavaLanguageVersion.of(versions.java)
-
+	
+	withJavadocJar()
 	withSourcesJar()
 }
 
