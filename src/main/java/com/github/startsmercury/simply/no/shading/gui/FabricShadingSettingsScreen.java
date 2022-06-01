@@ -2,22 +2,45 @@ package com.github.startsmercury.simply.no.shading.gui;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.github.startsmercury.simply.no.shading.config.FabricShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 
+/**
+ * The fabric shading settings screen covering the {@link FabricShadingRules
+ * shading rules} in the {@link SimplyNoShadingFabricClientConfig config}.
+ *
+ * @since 5.0.0
+ */
 @Environment(CLIENT)
 public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
+	/**
+	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
+	 * screen.
+	 *
+	 * @param parent the parent screen
+	 */
 	public FabricShadingSettingsScreen(final Screen screen) {
 		super(screen);
 	}
 
+	/**
+	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
+	 * screen and the config.
+	 *
+	 * @param parent the parent screen
+	 * @param config the config
+	 */
 	public FabricShadingSettingsScreen(final Screen screen, final SimplyNoShadingFabricClientConfig<?> config) {
 		super(screen, config);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean applyOption(final String name) {
 		return switch (name) {

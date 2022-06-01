@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
+import com.github.startsmercury.simply.no.shading.config.ShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,30 +23,69 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TranslatableComponent;
 
+/**
+ * The shading settings screen covering the {@link ShadingRules shading rules}
+ * in the {@link SimplyNoShadingClientConfig config}.
+ *
+ * @since 5.0.0
+ */
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
+	/**
+	 * Creates a new option given the name, and the {@link ShadingRule shading
+	 * rule}.
+	 *
+	 * @param name
+	 * @param shadingRule
+	 * @return
+	 */
 	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {
 		return CycleOption.createOnOff("simply-no-shading.option.shadingRule." + name,
 		    new TranslatableComponent("simply-no-shading.option.shadingRule." + name + ".tooltip"),
 		    options -> shadingRule.shouldShade(), (options, option, allShading) -> shadingRule.setShade(allShading));
 	}
 
+	/**
+	 * The config.
+	 */
 	private final SimplyNoShadingClientConfig<?> config;
 
+	/**
+	 * The list containing the options.
+	 */
 	private OptionsList list;
 
+	/**
+	 * The observation of changes to the config.
+	 */
 	private SimplyNoShadingClientConfig.Observation<?> observation;
 
-	public ShadingSettingsScreen(final Screen screen) {
-		this(screen, SimplyNoShadingClientMod.getInstance().config);
+	/**
+	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
+	 * screen.
+	 *
+	 * @param parent the parent screen
+	 */
+	public ShadingSettingsScreen(final Screen parent) {
+		this(parent, SimplyNoShadingClientMod.getInstance().config);
 	}
 
-	public ShadingSettingsScreen(final Screen screen, final SimplyNoShadingClientConfig<?> config) {
-		super(screen, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
+	/**
+	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
+	 * screen and the config.
+	 *
+	 * @param parent the parent screen
+	 * @param config the config
+	 */
+	public ShadingSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
+		super(parent, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
 
 		this.config = config;
 	}
 
+	/**
+	 * Adds all the options.
+	 */
 	protected void addOptions() {
 		final var iterator = this.config.shadingRules.iterator();
 
@@ -66,6 +106,12 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		}
 	}
 
+	/**
+	 * Filters out which options with a given name are applied.
+	 *
+	 * @param name the option name
+	 * @return a {@code boolean} value
+	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
 		case "all" -> false;
@@ -73,6 +119,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		};
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void init() {
 		LOGGER.debug("Initializing settings screen...");
@@ -91,6 +140,14 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		LOGGER.debug("Initialized settings screen");
 	}
 
+	/**
+	 * Searches for the next applicable option, returns {@code null} if there is
+	 * none.
+	 *
+	 * @param iterator the name to rule entry iterator
+	 * @return the next application option
+	 * @see #applyOption(String)
+	 */
 	private Entry<String, ShadingRule> nextOption(final Iterator<Entry<String, ShadingRule>> iterator) {
 		while (iterator.hasNext()) {
 			final var entry = iterator.next();
@@ -103,6 +160,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onClose() {
 		LOGGER.debug("Closing settings screen...");
@@ -112,6 +172,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		LOGGER.info("Closed settings screen");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removed() {
 		LOGGER.debug("Removing settings screen...");
@@ -125,6 +188,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		LOGGER.info("Removed settings screen");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
 		renderBackground(poseStack);
