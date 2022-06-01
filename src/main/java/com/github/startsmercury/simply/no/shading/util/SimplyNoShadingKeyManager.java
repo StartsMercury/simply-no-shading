@@ -1,6 +1,5 @@
 package com.github.startsmercury.simply.no.shading.util;
 
-import static java.lang.Math.max;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
@@ -10,23 +9,62 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
+/**
+ * Simply No Shading key manager.
+ *
+ * @since 5.0.0
+ */
 @Environment(CLIENT)
 public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
+	/**
+	 * Simply No Shading key category.
+	 *
+	 * @since 5.0.0
+	 */
 	public static final String CATEGORY = "simply-no-shading.key.categories.simply-no-shading";
 
+	/**
+	 * Open settings key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final KeyMapping openSettings;
 
+	/**
+	 * Toggle all shading key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final ToggleKeyMapping toggleAllShading;
 
+	/**
+	 * Toggle block shading key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final ToggleKeyMapping toggleBlockShading;
 
+	/**
+	 * Toggle cloud shading key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final ToggleKeyMapping toggleCloudShading;
 
+	/**
+	 * Toggle liquid shading key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final ToggleKeyMapping toggleLiquidShading;
 
-	protected SimplyNoShadingKeyManager(final int expected, final SimplyNoShadingClientConfig<?> config) {
-		super(max(expected, 5));
-
+	/**
+	 * Create a new instance of {@code SimplyNoShadingKeyManager} with a config.
+	 *
+	 * @param config the config
+	 * @since 5.0.0
+	 */
+	protected SimplyNoShadingKeyManager(final SimplyNoShadingClientConfig<?> config) {
 		this.openSettings = register("openSettings",
 		    new KeyMapping("simply-no-shading.key.openSettings", InputConstants.UNKNOWN.getValue(), CATEGORY));
 		this.toggleAllShading = register("toggleAllShading",
@@ -43,10 +81,11 @@ public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
 		        CATEGORY, config.shadingRules.liquids::shouldShade));
 	}
 
-	public SimplyNoShadingKeyManager(final SimplyNoShadingClientConfig<?> config) {
-		this(5, config);
-	}
-
+	/**
+	 * Registers all key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public void register() {
 		forEach((name, keyMapping) -> {
 			if (shouldRegister(name, keyMapping)) {
@@ -55,9 +94,22 @@ public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
 		});
 	}
 
+	/**
+	 * Registers a key mapping.
+	 *
+	 * @param keyMapping the key mapping
+	 */
 	protected void register(final KeyMapping keyMapping) {
 	}
 
+	/**
+	 * Filters which key mapping should be applied given the name and the key
+	 * mapping.
+	 *
+	 * @param name       the name
+	 * @param keyMapping the key mapping
+	 * @return a {@code boolean} value
+	 */
 	protected boolean shouldRegister(final String name, final KeyMapping keyMapping) {
 		return true;
 	}

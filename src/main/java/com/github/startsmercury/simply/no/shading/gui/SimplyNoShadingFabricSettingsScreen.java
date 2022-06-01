@@ -40,7 +40,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @param name
 	 * @param shadingRule
 	 * @return a new shading option
-	 * @since 5.0.0
 	 */
 	protected static SpruceBooleanOption createOption(final String name, final ShadingRule shadingRule) {
 		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name, shadingRule::shouldShade,
@@ -96,8 +95,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * Adds all the advance options.
-	 *
-	 * @since 5.0.0
 	 */
 	protected void addAdvanceOptions() {
 		this.optionsWidget
@@ -117,7 +114,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @see #addShadingOptions()
 	 * @see #addAdvanceOptions()
-	 * @since 5.0.0
 	 */
 	protected void addOptions() {
 		addShadingOptions();
@@ -126,8 +122,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * Adds all the {@link ShadingRule shading} options.
-	 *
-	 * @since 5.0.0
 	 */
 	protected void addShadingOptions() {
 		final var iterator = this.config.shadingRules.iterator();
@@ -157,7 +151,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @param name the option name
 	 * @return a {@code boolean} value
-	 * @since 5.0.0
 	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
@@ -169,8 +162,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	protected void init() {
@@ -195,7 +186,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @param iterator the name to rule entry iterator
 	 * @return the next application option
 	 * @see #applyOption(String)
-	 * @since 5.0.0
 	 */
 	private Entry<String, ShadingRule> nextOption(final Iterator<Entry<String, ShadingRule>> iterator) {
 		while (iterator.hasNext()) {

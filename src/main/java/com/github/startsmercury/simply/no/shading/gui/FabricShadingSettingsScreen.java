@@ -42,8 +42,6 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	protected boolean applyOption(final String name) {

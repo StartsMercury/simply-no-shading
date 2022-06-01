@@ -90,12 +90,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 	public final ShadingRule liquids;
 
 	public ShadingRules() {
-		this(4);
-	}
-
-	protected ShadingRules(final int expected) {
-		super(expected);
-
 		this.all = register("all", new ShadingRule(false));
 		this.blocks = register("blocks", new ShadingRule(this.all, false));
 		this.clouds = register("clouds", new ShadingRule(this.all, true));

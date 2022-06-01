@@ -60,8 +60,6 @@ public class SimplyNoShadingFabricClientMod extends
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	protected Screen createSettingsScreen(final Screen parent) {
@@ -88,8 +86,6 @@ public class SimplyNoShadingFabricClientMod extends
 
 	/**
 	 * Registers key mappings.
-	 *
-	 * @since 5.0.0
 	 */
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
@@ -110,8 +106,6 @@ public class SimplyNoShadingFabricClientMod extends
 
 	/**
 	 * Register lifecycle event listeners.
-	 *
-	 * @since 5.0.0
 	 */
 	protected void registerLifecycleEventListeners() {
 		LOGGER.debug("Registering life cycle event listeners...");

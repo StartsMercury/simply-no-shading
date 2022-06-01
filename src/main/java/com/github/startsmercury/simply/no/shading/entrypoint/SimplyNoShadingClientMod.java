@@ -44,6 +44,8 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 	/**
 	 * The logger.
+	 *
+	 * @since 5.0.0
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
 
@@ -66,7 +68,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @param keyMapping  the key mapping
 	 * @param shadingRule the shading rule
 	 * @return {@code true} if there was a consumed click; {@code false} otherwise
-	 * @since 5.0.0
 	 */
 	protected static boolean toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
 		if (keyMapping.consumeClick()) {
@@ -80,16 +81,22 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 	/**
 	 * The config.
+	 *
+	 * @since 5.0.0
 	 */
 	public final C config;
 
 	/**
 	 * The config path.
+	 *
+	 * @since 5.0.0
 	 */
 	public final Path configPath;
 
 	/**
 	 * The key manager.
+	 *
+	 * @since 5.0.0
 	 */
 	public final K keyManager;
 
@@ -141,7 +148,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @param client the client
 	 * @return the settings screen
 	 * @see #createSettingsScreen(Screen)
-	 * @since 5.0.0
 	 */
 	private Screen createSettingsScreen(final Minecraft client) {
 		LOGGER.debug("Creating settings screen...");
@@ -157,7 +163,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 *
 	 * @param parent the parent screen
 	 * @return the settings screen
-	 * @since 5.0.0
 	 */
 	protected Screen createSettingsScreen(final Screen parent) {
 		return new ShadingSettingsScreen(parent, this.config);
@@ -165,7 +170,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 	/**
 	 * @return the config type.
-	 * @since 5.0.0
 	 */
 	protected Type getConfigType() {
 		return TypeToken.getParameterized(this.config.getClass(), this.config.shadingRules.getClass()).getType();
@@ -201,7 +205,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 *
 	 * @param client the client
 	 * @see #createSettingsScreen(Screen)
-	 * @since 5.0.0
 	 */
 	protected void openSettingsScreen(final Minecraft client) {
 		LOGGER.debug("Opening settings screen...");
@@ -219,8 +222,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 	/**
 	 * Registers a shutdown hook to {@link #saveConfig() save the config}.
-	 *
-	 * @since 5.0.0
 	 */
 	protected void registerShutdownHook() {
 		LOGGER.debug("Registering shutdown hook...");

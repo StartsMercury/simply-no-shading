@@ -11,10 +11,27 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
+/**
+ * Simply No Shading fabric key manager.
+ *
+ * @since 5.0.0
+ */
 @Environment(CLIENT)
 public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
+	/**
+	 * Toggle enhanced block entity shading key mapping.
+	 *
+	 * @since 5.0.0
+	 */
 	public final ToggleKeyMapping toggleEnhancedBlockEntityShading;
 
+	/**
+	 * Create a new instance of {@code SimplyNoShadingFabricKeyManager} with a
+	 * config.
+	 *
+	 * @param config the config
+	 * @since 5.0.0
+	 */
 	public SimplyNoShadingFabricKeyManager(final SimplyNoShadingFabricClientConfig<?> config) {
 		super(config);
 
@@ -23,11 +40,17 @@ public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 		        InputConstants.UNKNOWN.getValue(), CATEGORY, config.shadingRules.enhancedBlockEntities::shouldShade));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void register(final KeyMapping keyMapping) {
 		KeyBindingHelper.registerKeyBinding(keyMapping);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean shouldRegister(final String name, final KeyMapping keyMapping) {
 		return switch (name) {

@@ -33,12 +33,6 @@ public class FabricShadingRules extends ShadingRules {
 	public final ShadingRule enhancedBlockEntities;
 
 	public FabricShadingRules() {
-		this(5);
-	}
-
-	protected FabricShadingRules(final int expected) {
-		super(expected);
-
 		this.enhancedBlockEntities = register("enhancedBlockEntities", new ShadingRule(this.all, true));
 	}
 
