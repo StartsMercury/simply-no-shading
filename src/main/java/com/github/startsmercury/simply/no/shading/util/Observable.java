@@ -20,7 +20,7 @@ public interface Observable<T extends Observable<T>> {
 	public abstract class Observation<T, C> {
 		/**
 		 * The past.
-		 * 
+		 *
 		 * @since 5.0.0
 		 */
 		public final T past;
@@ -33,7 +33,7 @@ public interface Observable<T extends Observable<T>> {
 		public final T present;
 
 		/**
-		 * Creates a new instance of {@link Observation} with the past and present.
+		 * Creates a new instance of {@link Observation} with the a reference point.
 		 *
 		 * @param past the past
 		 * @since 5.0.0
