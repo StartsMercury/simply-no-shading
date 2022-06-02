@@ -24,8 +24,8 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 	 * @param parent the parent screen
 	 * @since 5.0.0
 	 */
-	public FabricShadingSettingsScreen(final Screen screen) {
-		super(screen);
+	public FabricShadingSettingsScreen(final Screen parent) {
+		super(parent);
 	}
 
 	/**
@@ -36,8 +36,8 @@ public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 	 * @param config the config
 	 * @since 5.0.0
 	 */
-	public FabricShadingSettingsScreen(final Screen screen, final SimplyNoShadingFabricClientConfig<?> config) {
-		super(screen, config);
+	public FabricShadingSettingsScreen(final Screen parent, final SimplyNoShadingFabricClientConfig<?> config) {
+		super(parent, config);
 	}
 
 	/**

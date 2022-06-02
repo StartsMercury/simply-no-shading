@@ -35,8 +35,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * Creates a new option given the name, and the {@link ShadingRule shading
 	 * rule}.
 	 *
-	 * @param name
-	 * @param shadingRule
+	 * @param name        the name
+	 * @param shadingRule the shading rule
 	 * @return a new shading option
 	 */
 	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {

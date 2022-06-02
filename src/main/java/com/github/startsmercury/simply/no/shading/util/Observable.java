@@ -6,7 +6,7 @@ package com.github.startsmercury.simply.no.shading.util;
  *
  * @since 5.0.0
  *
- * @param <T>
+ * @param <T> the observed type
  */
 public interface Observable<T extends Observable<T>> {
 	/**
@@ -35,7 +35,7 @@ public interface Observable<T extends Observable<T>> {
 		/**
 		 * Creates a new instance of {@link Observation} with the a reference point.
 		 *
-		 * @param past the past
+		 * @param point the reference point
 		 * @since 5.0.0
 		 */
 		@SuppressWarnings("unchecked")

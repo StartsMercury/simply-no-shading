@@ -54,7 +54,7 @@ public final class SimplyNoShadingMixinConfig implements Serializable {
 	/**
 	 * Copies the exclusion set from a different collection.
 	 *
-	 * @param other the other collection
+	 * @param excluded the other collection
 	 * @return itself
 	 * @since 5.0.0
 	 */

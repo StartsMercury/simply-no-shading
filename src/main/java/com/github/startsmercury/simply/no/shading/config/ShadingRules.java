@@ -48,7 +48,7 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		/**
 		 * Creates a new instance of {@link Observation} with the a reference point.
 		 *
-		 * @param past the past
+		 * @param point the reference point
 		 * @since 5.0.0
 		 */
 		public Observation(final T point) {

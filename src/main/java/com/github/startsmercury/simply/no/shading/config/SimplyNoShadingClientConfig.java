@@ -37,7 +37,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 		/**
 		 * Creates a new instance of {@link Observation} with the a reference point.
 		 *
-		 * @param past the past
+		 * @param point the reference point
 		 * @since 5.0.0
 		 */
 		public Observation(final T point) {
@@ -113,7 +113,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	/**
 	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
 	 *
-	 * @param shadingRules the shading rules
+	 * @param other the other config
 	 * @since 5.0.0
 	 */
 	@SuppressWarnings("unchecked")
