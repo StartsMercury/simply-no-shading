@@ -21,12 +21,32 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.fabricmc.loader.api.FabricLoader;
 
+/**
+ * Simply No Shading {@link IMixinConfigPlugin mixin plugin}.
+ *
+ * @since 5.0.0
+ */
 public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
+	/**
+	 * The config path.
+	 *
+	 * @since 5.0.0
+	 */
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir()
 	    .resolve("simply-no-shading+mixin.json");
 
+	/**
+	 * The logger.
+	 *
+	 * @since 5.0.0
+	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/mixin");
 
+	/**
+	 * Creates the mixin config in disk.
+	 *
+	 * @return the mixin config
+	 */
 	private static SimplyNoShadingMixinConfig createMixinConfig() {
 		final var mixinConfig = new SimplyNoShadingMixinConfig();
 
@@ -43,6 +63,11 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		return mixinConfig;
 	}
 
+	/**
+	 * Loads the mixin config from disk.
+	 *
+	 * @return the mixin config
+	 */
 	protected static SimplyNoShadingMixinConfig loadMixinConfig() {
 		try (var in = Files.newBufferedReader(CONFIG_PATH)) {
 			LOGGER.debug("Loading mixin config...");
@@ -61,12 +86,26 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		}
 	}
 
+	/**
+	 * Excluded cache.
+	 */
 	private final ObjectOpenHashSet<String> excludedCached;
 
+	/**
+	 * Creates a new instance of {@code SimplyNoShadingMixinPlugin}.
+	 *
+	 * @since 5.0.0
+	 */
 	public SimplyNoShadingMixinPlugin() {
 		this(true);
 	}
 
+	/**
+	 * Creates a new instance of {@code SimplyNoShadingMixinPlugin}.
+	 *
+	 * @param log should log post construction
+	 * @since 5.0.0
+	 */
 	protected SimplyNoShadingMixinPlugin(final boolean log) {
 		LOGGER.debug("Constructing mixin plugin...");
 
@@ -90,10 +129,19 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {
 	}
 
+	/**
+	 * @return the additional mixins
+	 * @since 5.0.0
+	 */
 	@Override
 	public List<String> getMixins() {
 		final var mixins = new ObjectArrayList<String>(3);
@@ -115,28 +163,60 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		return mixins;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public String getRefMapperConfig() {
 		return null;
 	}
 
+	/**
+	 * Includes additional mixins.
+	 *
+	 * @param mixins the mixin list
+	 */
 	protected void includeMixins(final List<String> mixins) {
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public void onLoad(final String mixinPackage) {
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public void postApply(final String targetClassName, final ClassNode targetClass, final String mixinClassName,
 	    final IMixinInfo mixinInfo) {
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 5.0.0
+	 */
 	@Override
 	public void preApply(final String targetClassName, final ClassNode targetClass, final String mixinClassName,
 	    final IMixinInfo mixinInfo) {
 	}
 
+	/**
+	 * Filters whether a specific mixin class should be appliead given the name and
+	 * the target class name.
+	 *
+	 * @return a {@code boolean} value
+	 * @since 5.0.0
+	 */
 	@Override
 	public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
 		for (final var excludee : this.excludedCached) {
