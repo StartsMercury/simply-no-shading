@@ -13,7 +13,7 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMaps;
 
 /**
- * The abstract class {@code IterableObject} represents a container of named
+ * The abstract class {@code MultiValuedContainer} represents a container of named
  * values. By default values are directly accessed by using {@link #get(String)}
  * or {@link #getOrDefault(String, Object)}.
  * <p>
