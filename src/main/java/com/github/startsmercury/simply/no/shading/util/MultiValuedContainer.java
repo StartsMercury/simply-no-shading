@@ -13,37 +13,38 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMaps;
 
 /**
- * <b>Renamed to {@link MultiValuedContainer}</b>
- * 
- * Represents a retrievable collection of elements.
+ * The abstract class {@code IterableObject} represents a container of named
+ * values. By default values are directly accessed by using {@link #get(String)}
+ * or {@link #getOrDefault(String, Object)}.
+ * <p>
+ * Implementations are required to register their values through
+ * {@link #register(String, Object)}, or by a custom procedure indirectly using
+ * it.
  *
- * @param <T> the element type
+ * @param <T> the value type
  * @since 5.0.0
  */
-@Deprecated(forRemoval = true)
-public class Values<T> implements Iterable<Entry<String, T>> {
+public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, T>> {
 	/**
-	 * The values.
+	 * The values stores the named values.
 	 */
 	private final transient Object2ReferenceRBTreeMap<String, T> values;
 
 	/**
-	 * The values view.
+	 * This is a read-only view of {@link #values}.
 	 */
 	private final transient Object2ReferenceSortedMap<String, T> valuesView;
 
 	/**
-	 * Creates a new instance of {@code Values}
-	 *
-	 * @since 5.0.0
+	 * Constructs a new MultiValuedContainer.
 	 */
-	protected Values() {
+	protected MultiValuedContainer() {
 		this.values = new Object2ReferenceRBTreeMap<>();
 		this.valuesView = Object2ReferenceSortedMaps.unmodifiable(this.values);
 	}
 
 	/**
-	 * Collects the values to a map.
+	 * Stores a shallow copy of the contained values to a map.
 	 *
 	 * @return the map
 	 * @since 5.0.0
@@ -53,7 +54,7 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
-	 * Collects the values to a map.
+	 * Stores a shallow copy of the contained values to a map.
 	 *
 	 * @param <M> the map type
 	 * @param map the map
@@ -71,10 +72,12 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
-	 * Checks if it contains an element with the given name.
+	 * Returns {@code true} if this {@code MultiValuedContainer} contains a value
+	 * for the specified name.
 	 *
 	 * @param name the name
-	 * @return a {@code boolean} value
+	 * @return {@code true} if this {@code MultiValuedContainer} contains a value
+	 *         for the specified name
 	 * @since 5.0.0
 	 */
 	public final boolean contains(final String name) {
@@ -83,14 +86,12 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj instanceof final Values<?> other) {
+		} else if (obj instanceof final MultiValuedContainer<?> other) {
 			return this.values.equals(other.values);
 		} else {
 			return false;
@@ -98,6 +99,10 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
+	 * Performs the given action for each named value until all entries have been
+	 * processed or the action throws an exception. Exceptions thrown by the action
+	 * are relayed to the caller.
+	 *
 	 * @param action the action
 	 * @since 5.0.0
 	 */
@@ -106,9 +111,10 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
+	 * <b>Deprecated.</b> <i>It is recommended to use {@link #forEach(BiConsumer)},
+	 * instead of directly using this method</i>
+	 * <p>
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Deprecated
 	@Override
@@ -117,17 +123,24 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
+	 * Returns the value with the given name, or {@code null} if it is not assigned
+	 * with any.
+	 *
 	 * @param name the name
-	 * @return the element with the given name
+	 * @return the value with the given name, or {@code null} if it is not assigned
+	 *         with any
 	 */
 	public final T get(final String name) {
 		return this.values.get(name);
 	}
 
 	/**
-	 * @param name         the name
-	 * @param defaultValue the default value
-	 * @return the element with the given name or the defaul value if none
+	 * Returns the value with the given name, or {@code defaultValue} if it is not
+	 * assigned with any.
+	 *
+	 * @param name the name
+	 * @return the value with the given name, or {@code defaultValue} if it is not
+	 *         assigned with any
 	 */
 	public final T getOrDefault(final String name, final T defaultValue) {
 		return this.values.getOrDefault(name, defaultValue);
@@ -135,8 +148,6 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public int hashCode() {
@@ -144,9 +155,11 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
-	 * Checks if this object is empty.
+	 * Returns {@code true} if this {@code MultiValuedContainer} contains no
+	 * elements.
 	 *
-	 * @return a {@code boolean} value
+	 * @return {@code true} if this {@code MultiValuedContainer} contains no
+	 *         elements
 	 * @since 5.0.0
 	 */
 	public final boolean isEmpty() {
@@ -155,8 +168,6 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Iterator<Entry<String, T>> iterator() {
@@ -164,7 +175,9 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
-	 * @return the map view
+	 * Returns a map view of the contained elements.
+	 *
+	 * @return a map view of the contained elements
 	 * @since 5.0.0
 	 */
 	public final Object2ReferenceSortedMap<String, T> mapView() {
@@ -172,23 +185,28 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	}
 
 	/**
-	 * Registers an element.
+	 * Registers a new named value. If this previously contained a value with the
+	 * exact name, {@link IllegalStateException} is thrown.
 	 *
-	 * @param <U>   the element type
+	 * @param <U>   the value type
 	 * @param name  the name
 	 * @param value the value
-	 * @return the element
+	 * @return the value
+	 * @throws IllegalStateException if an attempt was made to assign a new value to
+	 *                               a taken name
 	 */
 	protected final <U extends T> U register(final String name, final U value) {
 		if (this.values.putIfAbsent(name, value) != null) {
-			throw new IllegalStateException('\'' + name + "' is already registered");
+			throw new IllegalStateException('\'' + name + "' is already assigned with the value: " + value);
 		} else {
 			return value;
 		}
 	}
 
 	/**
-	 * @return the size
+	 * Returns the number of named values in this {@code MultiValuedContainer}.
+	 *
+	 * @return the number of named values
 	 * @since 5.0.0
 	 */
 	public final int size() {
@@ -197,8 +215,6 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public String toString() {
