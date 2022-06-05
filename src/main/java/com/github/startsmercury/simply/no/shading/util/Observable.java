@@ -1,8 +1,24 @@
 package com.github.startsmercury.simply.no.shading.util;
 
 /**
- * Represents an object that can create {@link Observation observations} to
- * detect changes.
+ * An {@code Observable} represents an object who's changes are observed. An
+ * Observation can be created using {@link #observe()} or
+ * {@link #observe(Observable)} when a specific past is preferred as reference.
+ * <blockquote>
+ *
+ * <pre>
+ * // create an observation at this point in time as reference.
+ * var observation = observable.observe();
+ *
+ * // do something with local variable 'observable'...
+ *
+ * // react to changes
+ * // the context type is optional depending on the implementation
+ * observation.react(context)
+ *
+ * </pre>
+ *
+ * </blockquote>
  *
  * @since 5.0.0
  *
@@ -10,8 +26,8 @@ package com.github.startsmercury.simply.no.shading.util;
  */
 public interface Observable<T extends Observable<T>> {
 	/**
-	 * Represents an observed changed between the past and the present state of an
-	 * object.
+	 * The {@code Observation} class represents the observed changes between the
+	 * past and the present state of an object.
 	 *
 	 * @param <T> the observed type
 	 * @param <C> the context type
@@ -20,41 +36,38 @@ public interface Observable<T extends Observable<T>> {
 	public abstract class Observation<T, C> {
 		/**
 		 * The past.
-		 *
-		 * @since 5.0.0
 		 */
 		public final T past;
 
 		/**
 		 * the present.
-		 *
-		 * @since 5.0.0
 		 */
 		public final T present;
 
 		/**
-		 * Creates a new instance of {@link Observation} with the a reference point.
+		 * Creates a new observation using the "copy" of the present as the past.
+		 * Providing a present state that is not an instance of {@link Copyable} will
+		 * throw an {@link IllegalArgumentException}.
 		 *
-		 * @param point the reference point
-		 * @since 5.0.0
+		 * @param present the present
+		 * @throw IllegalArgumentException if construction is unable to copy the present
 		 */
 		@SuppressWarnings("unchecked")
-		public Observation(final T point) {
-			if (point instanceof final Copyable<?> copyable) {
+		public Observation(final T present) {
+			if (present instanceof final Copyable<?> copyable) {
 				this.past = (T) copyable.copy();
 			} else {
 				throw new IllegalArgumentException("expected an instance of Copyable");
 			}
 
-			this.present = point;
+			this.present = present;
 		}
 
 		/**
-		 * Creates a new instance of {@link Observation} with the past and present.
+		 * Creates a new observation with complete information.
 		 *
 		 * @param past    the past
 		 * @param present the present
-		 * @since 5.0.0
 		 */
 		public Observation(final T past, final T present) {
 			this.past = past;
@@ -62,7 +75,7 @@ public interface Observable<T extends Observable<T>> {
 		}
 
 		/**
-		 * Reacts to the changes.
+		 * Reacts to the changes between the past and the present.
 		 *
 		 * @param context the context
 		 * @since 5.0.0
@@ -71,19 +84,18 @@ public interface Observable<T extends Observable<T>> {
 	}
 
 	/**
-	 * Creates an observation with a "copy" of this object.
+	 * Creates an observation with a "copy" of this object at this point in time as
+	 * reference.
 	 *
 	 * @return the observation
-	 * @since 5.0.0
 	 */
 	Observation<? extends T, ?> observe();
 
 	/**
-	 * Creates an observation with a distinct past.
+	 * Creates an observation with a provided point of the past as reference.
 	 *
 	 * @param past the past
 	 * @return the observation
-	 * @since 5.0.0
 	 */
 	Observation<? extends T, ?> observe(T past);
 }
