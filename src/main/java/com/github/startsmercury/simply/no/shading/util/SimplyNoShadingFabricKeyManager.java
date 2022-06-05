@@ -12,7 +12,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
 /**
- * Simply No Shading fabric key manager.
+ * The {@code SimplyNoShadingFabricKeyManager} class represents the key manager
+ * for the fabric version of the mod Simply No Shading.
  *
  * @since 5.0.0
  */
@@ -20,17 +21,13 @@ import net.minecraft.client.ToggleKeyMapping;
 public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 	/**
 	 * Toggle enhanced block entity shading key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ToggleKeyMapping toggleEnhancedBlockEntityShading;
 
 	/**
-	 * Create a new instance of {@code SimplyNoShadingFabricKeyManager} with a
-	 * config.
+	 * Create a key manager from a given config.
 	 *
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricKeyManager(final SimplyNoShadingFabricClientConfig<?> config) {
 		super(config);

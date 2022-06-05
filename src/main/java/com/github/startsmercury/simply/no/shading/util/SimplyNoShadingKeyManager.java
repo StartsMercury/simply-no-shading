@@ -10,59 +10,47 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
 /**
- * Simply No Shading key manager.
+ * The {@code SimplyNoShadingKeyManager} class represents the key manager of the mod
+ * Simply No Shading.
  *
  * @since 5.0.0
  */
 @Environment(CLIENT)
-public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
+public class SimplyNoShadingKeyManager extends MultiValuedContainer<KeyMapping> {
 	/**
 	 * Simply No Shading key category.
-	 *
-	 * @since 5.0.0
 	 */
 	public static final String CATEGORY = "simply-no-shading.key.categories.simply-no-shading";
 
 	/**
 	 * Open settings key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final KeyMapping openSettings;
 
 	/**
 	 * Toggle all shading key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ToggleKeyMapping toggleAllShading;
 
 	/**
 	 * Toggle block shading key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ToggleKeyMapping toggleBlockShading;
 
 	/**
 	 * Toggle cloud shading key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ToggleKeyMapping toggleCloudShading;
 
 	/**
 	 * Toggle liquid shading key mapping.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ToggleKeyMapping toggleLiquidShading;
 
 	/**
-	 * Create a new instance of {@code SimplyNoShadingKeyManager} with a config.
+	 * Create a key manager from a given config.
 	 *
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	protected SimplyNoShadingKeyManager(final SimplyNoShadingClientConfig<?> config) {
 		this.openSettings = register("openSettings",
@@ -82,7 +70,7 @@ public class SimplyNoShadingKeyManager extends Values<KeyMapping> {
 	}
 
 	/**
-	 * Registers all key mapping.
+	 * Register all key mapping.
 	 *
 	 * @since 5.0.0
 	 */
