@@ -9,17 +9,19 @@ import com.github.startsmercury.simply.no.shading.util.Copyable;
 import net.fabricmc.api.Environment;
 
 /**
- * A shading rule modifies the shade of the target shade.
+ * The {@code ShadingRule} class represents a toggle for shading. The toggled
+ * state can be accessed, changed, and cycled using {@link #shouldShade()},
+ * {@link #setShade(boolean)}, and {@link #toggleShade()} respectively.
+ * <p>
+ * To implement the toggling behavior (example is by using mixins)
+ * {@link #wouldShade()} or {@link #wouldShade(boolean)} would be sufficient.
  *
- * @see #wouldShade(boolean)
  * @since 5.0.0
  */
 @Environment(CLIENT)
 public class ShadingRule implements Copyable<ShadingRule> {
 	/**
 	 * A dummy instance of {@code ShadingRule}.
-	 *
-	 * @since 5.0.0
 	 */
 	public static final ShadingRule DUMMY = new ShadingRule(false);
 
@@ -39,7 +41,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	private boolean shade;
 
 	/**
-	 * Creates an instance of {@code ShadingRule}.
+	 * Creates a new {@code ShadingRule}.
 	 *
 	 * @param defaultShade the default shade
 	 */
@@ -48,7 +50,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * Creates an instance of {@code ShadingRule} with a parent.
+	 * Creates a new {@code ShadingRule} with a parent.
 	 *
 	 * @param parent       the parent
 	 * @param defaultShade the default shade
@@ -60,9 +62,9 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * <b>This functionality is not supported</b><br>
-	 *
-	 * @since 5.0.0
+	 * <b>Deprecated.</b> <i>This operation is not supported.</i>
+	 * <p>
+	 * {@inheritDoc}
 	 */
 	@Deprecated
 	@Override
@@ -71,10 +73,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * Copies from another object.
-	 *
-	 * @param other the other object
-	 * @since 5.0.0
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void copyFrom(final ShadingRule other) {
@@ -82,10 +81,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * Copies into another object.
-	 *
-	 * @param other the other object
-	 * @since 5.0.0
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void copyTo(final ShadingRule other) {
@@ -94,8 +90,6 @@ public class ShadingRule implements Copyable<ShadingRule> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public boolean equals(final Object obj) {
@@ -121,6 +115,8 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
+	 * Returns the default shade.
+	 *
 	 * @return the default shade
 	 * @since 5.0.0
 	 */
@@ -129,6 +125,8 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
+	 * Returns the parent.
+	 *
 	 * @return the parent
 	 * @since 5.0.0
 	 */
@@ -138,8 +136,6 @@ public class ShadingRule implements Copyable<ShadingRule> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public int hashCode() {
@@ -147,9 +143,9 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * Checks if this shading rule has a parent.
+	 * Returns {@code true} if this shading rule has a parent.
 	 *
-	 * @return a {@code boolean} value
+	 * @return {@code true} if this shading rule has a parent
 	 * @since 5.0.0
 	 */
 	public boolean hasParent() {
@@ -176,6 +172,8 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
+	 * Returns the shade.
+	 *
 	 * @return the shade
 	 * @since 5.0.0
 	 */
@@ -194,8 +192,6 @@ public class ShadingRule implements Copyable<ShadingRule> {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public String toString() {
@@ -208,8 +204,12 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
+	 * Returns {@code true} if the value returned from the two objects'
+	 * {@link #wouldShade()} are equal.
+	 *
 	 * @param other the other shading rule
-	 * @return would shade
+	 * @return {@code true} if the value returned from the two objects'
+	 *         {@link #wouldShade()} are equal
 	 * @since 5.0.0
 	 */
 	public boolean wouldEquals(final ShadingRule other) {
@@ -217,7 +217,11 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * @return would shade
+	 * Returns the same value when using {@link #wouldShade(boolean)
+	 * wouldShade(true)}.
+	 *
+	 * @return the same value when using {@link #wouldShade(boolean)
+	 *         wouldShade(true)}
 	 * @since 5.0.0
 	 */
 	public boolean wouldShade() {
@@ -228,8 +232,9 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
-	 * @param shaded the shaded state
-	 * @return the modified shaded state
+	 * Returns the modified shade.
+	 *
+	 * @return the modified shade
 	 * @since 5.0.0
 	 */
 	public boolean wouldShade(final boolean shaded) {
