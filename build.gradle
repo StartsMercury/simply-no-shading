@@ -6,9 +6,8 @@ plugins {
 apply from: 'fabricMod.gradle'
 apply from: 'runtime.gradle'
 
-group = modGroup
-archivesBaseName = modName
-version = "${modVersion}${minecraftTag()}"
+version = "fabric${minecraftTag '-mc'}-${modVersion}"
+modVersion = "${modVersion}+${minecraftTag()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
