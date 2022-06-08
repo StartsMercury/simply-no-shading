@@ -1,8 +1,12 @@
+import java.nio.file.Files
+
+loadRuntimeProperties()
+
 dependencies {
 	// Quiltflower
 	runtimeOnly libs.quiltflower
 
-	if (bedrockify.toBoolean()) {
+	if (bedrockify) {
 		// BedrockIfy
 		modRuntimeOnly libs.bedrockify
 
@@ -10,7 +14,7 @@ dependencies {
 		modRuntimeOnly libs.cloth.config
 	}
 
-	if (enhancedblockentities.toBoolean()) {
+	if (enhancedblockentities) {
 		// Advanced Runtime Resource Packs
 		modRuntimeOnly libs.advanced.runtime.resource.packs
 
@@ -21,22 +25,22 @@ dependencies {
 		modRuntimeOnly libs.fabric.api
 	}
 
-	if (fabricKeyBindingApiV1.toBoolean() || iris.toBoolean()) {
+	if (fabricKeyBindingApiV1 || iris) {
 		// Fabric Key Binding API (V1)
 		modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 	}
 
-	if (fabricLifecycleEventsV1.toBoolean()) {
+	if (fabricLifecycleEventsV1) {
 		// Fabric Lifecycle Events (V1)
 		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 	}
 
-	if (fabricRendererApiV1.toBoolean()) {
+	if (fabricRendererApiV1) {
 		// Fabric Renderer API (V1)
 		modRuntimeOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
 	}
 
-	if (iris.toBoolean()) {
+	if (iris) {
 		// Fabric Resource Loader (V0)
 		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', libs.versions.fabric.api.get())
 
@@ -47,12 +51,12 @@ dependencies {
 		runtimeOnly libs.jcpp
 	}
 
-	if (modmenu.toBoolean()) {
+	if (modmenu) {
 		// ModMenu
 		modRuntimeOnly libs.modmenu
 	}
 
-	if (sodium.toBoolean() || iris.toBoolean()) {
+	if (sodium || iris) {
 		// Fabric Rendering Data Attachments (V1)
 		modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', libs.versions.fabric.api.get())
 
@@ -69,4 +73,29 @@ dependencies {
 
 loom.runConfigs.configureEach {
 	property 'mixin.debug.export', 'true'
+}
+
+def loadRuntimeProperties() {
+	ext {
+		bedrockify = false
+		enhancedblockentities = false
+		fabricKeyBindingApiV1 = true
+		fabricLifecycleEventsV1 = true
+		fabricRendererApiV1 = true
+		iris = false
+		modmenu = true
+		sodium = false
+	}
+
+	final Properties runtimeProperties = new Properties();
+
+	try (final def reader = Files.newBufferedReader(file('runtime.properties').toPath())) {
+		runtimeProperties.load(reader);
+	} catch (final IOException ioe) {
+		throw new UncheckedIOException(ioe);
+	}
+
+	runtimeProperties.each {
+		ext[it.key] = it.value.toBoolean()
+	}
 }

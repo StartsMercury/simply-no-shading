@@ -33,3 +33,6 @@ bin/
 
 run/
 /.apt_generated/
+
+# custom
+runtime.properties
