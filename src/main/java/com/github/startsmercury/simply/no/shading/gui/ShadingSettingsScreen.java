@@ -38,7 +38,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param name        the name
 	 * @param shadingRule the shading rule
-	 * @return
 	 * @return a new shading option
 	 */
 	protected static OptionInstance<Boolean> createOption(final String name, final ShadingRule shadingRule) {

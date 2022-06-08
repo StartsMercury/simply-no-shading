@@ -234,6 +234,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	/**
 	 * Returns the modified shade.
 	 *
+	 * @param shaded the raw shade
 	 * @return the modified shade
 	 * @since 5.0.0
 	 */
