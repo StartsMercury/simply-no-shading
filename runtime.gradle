@@ -91,6 +91,7 @@ def loadRuntimeProperties() {
 
 	try (final def reader = Files.newBufferedReader(file('runtime.properties').toPath())) {
 		runtimeProperties.load(reader);
+	} catch (final NoSuchFileException nsfe) {
 	} catch (final IOException ioe) {
 		throw new UncheckedIOException(ioe);
 	}
