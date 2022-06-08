@@ -6,8 +6,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.impl.CloudRenderer;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
+import com.github.startsmercury.simply.no.shading.util.MultiValuedContainer;
 import com.github.startsmercury.simply.no.shading.util.Observable;
-import com.github.startsmercury.simply.no.shading.util.Values;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -16,22 +16,25 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 
 /**
- * Represents a collection of shading rules.
+ * The {@code ShadingRules} class represents a collection of named shading
+ * rules.
  *
  * @since 5.0.0
  */
 @Environment(CLIENT)
-public class ShadingRules extends Values<ShadingRule> implements Copyable<ShadingRules>, Observable<ShadingRules> {
+public class ShadingRules extends MultiValuedContainer<ShadingRule>
+    implements Copyable<ShadingRules>, Observable<ShadingRules> {
 	/**
-	 * Observed change to {@link ShadingRules}.
+	 * The {@code Observation} class represents the observed changes between the
+	 * past and the present state of a {@code ShadingRules} object.
 	 *
-	 * @param <T> the shading rule type
+	 * @param <T> the observed type
 	 * @since 5.0.0
 	 */
 	public static class Observation<T extends ShadingRules> extends Observable.Observation<T, Context> {
 		/**
-		 * {@link Observation Observation's} {@link Observation#react(Context) react}
-		 * context.
+		 * The {@code Context} class represents the context object used by the enclosing
+		 * {@code Observation} class.
 		 *
 		 * @param client      the client
 		 * @param smartReload was smartReload active
@@ -46,21 +49,22 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		private boolean smartlyRebuiltChunks;
 
 		/**
-		 * Creates a new instance of {@link Observation} with the a reference point.
+		 * Creates a new observation using the "copy" of the present as the past.
+		 * Providing a present state that is not an instance of {@link Copyable} will
+		 * throw an {@link IllegalArgumentException}.
 		 *
-		 * @param point the reference point
-		 * @since 5.0.0
+		 * @param present the present
+		 * @throw IllegalArgumentException if construction is unable to copy the present
 		 */
 		public Observation(final T point) {
 			super(point);
 		}
 
 		/**
-		 * Creates a new instance of {@link Observation} with the past and present.
+		 * Creates a new observation with complete information.
 		 *
 		 * @param past    the past
 		 * @param present the present
-		 * @since 5.0.0
 		 */
 		public Observation(final T past, final T present) {
 			super(past, present);
@@ -68,8 +72,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 		/**
 		 * {@inheritDoc}
-		 *
-		 * @since 5.0.0
 		 */
 		@Override
 		public void react(final Context context) {
@@ -111,7 +113,7 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		 * Rebuild clouds when necessary.
 		 *
 		 * @param client      the client
-		 * @param smartReload was smartREload active
+		 * @param smartReload was smartReload active
 		 * @return whether a rebuild occurred
 		 */
 		protected boolean rebuildClouds(final Minecraft client, final boolean smartReload) {
@@ -125,18 +127,18 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		}
 
 		/**
-		 * {@code AND} composed check whether a rebuild is necessary.
+		 * Returns {@code true} if rebuilds are to performed.
 		 *
-		 * @return a {@code boolean} value
+		 * @return {@code true} if rebuilds are to performed
 		 */
 		protected boolean shouldRebuild() {
 			return true;
 		}
 
 		/**
-		 * Checks whether block rebuild is necessary.
+		 * Returns {@code true} if blocks are to be rebuilt.
 		 *
-		 * @return a {@code boolean} value
+		 * @return {@code true} if blocks are to be rebuilt
 		 * @since 5.0.0
 		 */
 		public boolean shouldRebuildBlocks() {
@@ -145,9 +147,9 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		}
 
 		/**
-		 * Checks whether clouds rebuild is necessary.
+		 * Returns {@code true} if clouds are to be rebuilt.
 		 *
-		 * @return a {@code boolean} value
+		 * @return {@code true} if clouds are to be rebuilt
 		 * @since 5.0.0
 		 */
 		public boolean shouldRebuildClouds() {
@@ -155,7 +157,9 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 		}
 
 		/**
-		 * @return whether chunks were rebuilt smartly
+		 * Returns {@code true} if chunks were rebuilt smartly.
+		 *
+		 * @return {@code true} if chunks were rebuilt smartly
 		 * @since 5.0.0
 		 */
 		public boolean smartlyRebuiltChunks() {
@@ -164,37 +168,27 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 	}
 
 	/**
-	 * All shading, is the parent of the other shading rules.
-	 *
-	 * @since 5.0.0
+	 * All shading, acts as the parent of the all other shading rules.
 	 */
 	public final ShadingRule all;
 
 	/**
 	 * Block shading.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ShadingRule blocks;
 
 	/**
 	 * Cloud shading.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ShadingRule clouds;
 
 	/**
 	 * Liquid shading.
-	 *
-	 * @since 5.0.0
 	 */
 	public final ShadingRule liquids;
 
 	/**
-	 * Creates an instance of {@code ShadingRules}.
-	 *
-	 * @since 5.0.0
+	 * Creates a new {@code ShadingRules}.
 	 */
 	public ShadingRules() {
 		this.all = register("all", new ShadingRule(false));
@@ -204,11 +198,10 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 	}
 
 	/**
-	 * Creates an instance of {@code ShadingRules} by copying from the other
+	 * Creates a new {@code ShadingRules} by copying from the another
 	 * {@code ShadingRules}.
 	 *
 	 * @param other the other shading rule
-	 * @since 5.0.0
 	 */
 	public ShadingRules(final ShadingRules other) {
 		this();
@@ -218,8 +211,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public ShadingRules copy() {
@@ -228,8 +219,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void copyFrom(final ShadingRules other) {
@@ -242,8 +231,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void copyTo(final ShadingRules other) {
@@ -256,8 +243,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Observation<? extends ShadingRules> observe() {
@@ -266,8 +251,6 @@ public class ShadingRules extends Values<ShadingRule> implements Copyable<Shadin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Observation<? extends ShadingRules> observe(final ShadingRules past) {
