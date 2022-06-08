@@ -50,7 +50,8 @@ public interface Observable<T extends Observable<T>> {
 		 * throw an {@link IllegalArgumentException}.
 		 *
 		 * @param present the present
-		 * @throw IllegalArgumentException if construction is unable to copy the present
+		 * @throws IllegalArgumentException if construction is unable to copy the
+		 *                                  present
 		 */
 		@SuppressWarnings("unchecked")
 		public Observation(final T present) {

@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMaps;
 
 /**
  * <b>Renamed to {@link MultiValuedContainer}</b>
- * 
+ *
  * Represents a retrievable collection of elements.
  *
  * @param <T> the element type

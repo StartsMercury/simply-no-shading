@@ -10,8 +10,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 
 /**
- * The {@code SimplyNoShadingKeyManager} class represents the key manager of the mod
- * Simply No Shading.
+ * The {@code SimplyNoShadingKeyManager} class represents the key manager of the
+ * mod Simply No Shading.
  *
  * @since 5.0.0
  */
