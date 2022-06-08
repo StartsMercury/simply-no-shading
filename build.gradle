@@ -59,8 +59,8 @@ dependencies {
 	modCompileOnly libs.sodium
 
 	// SpruceUI
+	modImplementation libs.spruceui
 	include libs.spruceui
-	modApi libs.spruceui
 }
 
 java {
