@@ -13,9 +13,9 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMaps;
 
 /**
- * The abstract class {@code MultiValuedContainer} represents a container of named
- * values. By default values are directly accessed by using {@link #get(String)}
- * or {@link #getOrDefault(String, Object)}.
+ * The abstract class {@code MultiValuedContainer} represents a container of
+ * named values. By default values are directly accessed by using
+ * {@link #get(String)} or {@link #getOrDefault(String, Object)}.
  * <p>
  * Implementations are required to register their values through
  * {@link #register(String, Object)}, or by a custom procedure indirectly using
@@ -138,7 +138,8 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 * Returns the value with the given name, or {@code defaultValue} if it is not
 	 * assigned with any.
 	 *
-	 * @param name the name
+	 * @param name         the name
+	 * @param defaultValue the default value
 	 * @return the value with the given name, or {@code defaultValue} if it is not
 	 *         assigned with any
 	 */
