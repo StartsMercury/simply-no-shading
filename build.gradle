@@ -29,13 +29,13 @@ dependencies {
 	modCompileOnly libs.enhancedblockentities
 
 	// Fabric Key Binding API (V1)
-	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', versions.fabric.api)
 
 	// Fabric Lifecycle Events (V1)
-	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versions.fabric.api)
 
 	// Fabric Renderer API (V1)
-	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versions.fabric.api)
 
 	// Fabric Loader
 	modImplementation libs.fabric.loader
@@ -46,7 +46,8 @@ dependencies {
 	// Layered Mappings
 	mappings loom.layered {
 		officialMojangMappings()
-		parchment "org.parchmentmc.data:parchment-${versions.minecraft}:${versions.parchment}@zip"
+		// Uncomment when its available
+		// parchment "org.parchmentmc.data:parchment-${versions.minecraft}:${versions.parchment}@zip"
 	}
 
 	// Minecraft
