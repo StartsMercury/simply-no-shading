@@ -3,18 +3,17 @@ advanced-runtime-resource-packs = "0.5.5"
 bedrockify = "1.4.1+mc1.18.2"
 cloth-config = "6.2.57"
 enhancedblockentities = "0.6+1.18.2"
-fabric-api = "0.55.2+1.19"
+fabric-api = "0.55.1+1.18.2"
 fabric-loader = "[0.14,1)"
-glsl-transformer = "0.25.2"
-iris = "1.19.x-v1.2.5"
+iris = "1.18.x-v1.2.5"
 java = "17.+"
 jcpp = "1.4.14"
-joml = "1.10.4"
-minecraft = "1.19"
-modmenu = "4.0.0"
+joml = "1.10.2"
+minecraft = "1.18.2"
+modmenu = "3.2.2"
 parchment = "2022.05.22"
 quiltflower = "1.+"
-sodium = "mc1.19-0.4.2"
+sodium = "mc1.18.2-0.4.1"
 spruceui = "3.3.3+1.18"
 
 [libraries]
@@ -24,7 +23,6 @@ enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhanced
 cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
-glsl-transformer = { module = "io.github.douira:glsl-transformer", version.ref = "glsl-transformer" }
 iris = { module = "maven.modrinth:iris", version.ref = "iris" }
 jcpp = { module = "org.anarres:jcpp", version.ref = "jcpp" }
 joml = { module = "org.joml:joml", version.ref = "joml" }

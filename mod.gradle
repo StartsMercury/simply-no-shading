@@ -11,7 +11,7 @@ ext {
 		final def joiner = new StringJoiner(' ')
 		final def lowerBound = range[1 ..< delimiter]
 		final def upperBound = reduce range, delimiter + 1, 1
-		
+
 		switch (lowerBound ? range[0] : ' ') {
 		case '[': joiner.add ">=${lowerBound}"; break
 		case '(': case ']': joiner.add ">${lowerBound}"; break
