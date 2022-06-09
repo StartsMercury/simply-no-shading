@@ -1,21 +1,70 @@
-<p align="center"><b>⚠️ Currently being rewritten and currently is not feature complete.</b></p>
+<div align=center>
 
-<h1 align="center">Simply No Shading</h1>
+⚠️ Rewritten and mostly feature complete. ⚠️
 
-<p align="center">
-	<a alt="MIT License" href="LICENSE">
-		<img src="https://img.shields.io/github/license/StartsMercury/simply-no-shading"/></a>
-	<a alt="Build Workflow" href="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml">
-		<img src="https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=5.x%2F1.18.2"/></a>
-	<a alt="FabricMC" href="https://fabricmc.net">
-		<img src="https://img.shields.io/badge/mod%20loader-fabric-1976d2"/></a>
-	<a alt="FabricMC Tutorial Wiki: Side" href="https://fabricmc.net/wiki/tutorial:side">
-		<img src="https://img.shields.io/badge/environment-client-1976d2"/></a>
-	<a alt="Version Type" href="https://semver.org">
-		<img src="https://img.shields.io/badge/dynamic/json?label=channel%20&query=$[0]['version_type']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
-	<a alt="Version" href="https://semver.org">
-		<img src="https://img.shields.io/badge/dynamic/json?label=version%20&query=$[0]['version_number']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a>
-	<a alt="Minecraft Version" href="https://www.minecraft.net">
-		<img src="https://img.shields.io/badge/dynamic/json?label=minecraft&query=$[0]['game_versions']&url=https://api.modrinth.com/v2/project/9gx5Xvc5/version"/></a></p>
+# Simply No Shading
 
-<p align=center>It does not necessarily mean that this mod won't get updated, as version 4 may still get updates for the newer version of Minecraft.</p>
+[![MIT License](https://img.shields.io/github/license/StartsMercury/simply-no-shading)](LICENSE)
+[![Build Workflow](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml/badge.svg?branch=5.x%2F1.18.2)](https://github.com/StartsMercury/simply-no-shading/actions/workflows/build.yml)
+[![FabricMC](https://img.shields.io/badge/mod%20loader-fabric-1976d2)](https://fabricmc.net)
+[![FabricMC Tutorial Wiki: Side](https://img.shields.io/badge/environment-client-1976d2)](https://fabricmc.net/wiki/tutorial:side)
+
+This mod mimics OptiFine's Internal Shader by default, but not being a shader has the added benefit of performance. Stability and compatibility may improve as this is an open-source project. Certain features, such as in-game bindable key mappings, can also be toggled.
+
+[![CurseForge](https://img.shields.io/badge/curseforge-simply--no--shading-e96a41?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/simply-no-shading)
+[![GitHub](https://img.shields.io/badge/github-simply--no--shading-1976d2?logo=github)](https://github.com/StartsMercury/simply-no-shading)
+[![Modrinth](https://img.shields.io/badge/modrinth-simply--no--shading-5da545?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMSAxMSIgd2lkdGg9IjE0LjY2NyIgaGVpZ2h0PSIxNC42NjciICB4bWxuczp2PSJodHRwczovL3ZlY3RhLmlvL25hbm8iPjxkZWZzPjxjbGlwUGF0aCBpZD0iQSI+PHBhdGggZD0iTTAgMGgxMXYxMUgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNBKSI+PHBhdGggZD0iTTEuMzA5IDcuODU3YTQuNjQgNC42NCAwIDAgMS0uNDYxLTEuMDYzSDBDLjU5MSA5LjIwNiAyLjc5NiAxMSA1LjQyMiAxMWMxLjk4MSAwIDMuNzIyLTEuMDIgNC43MTEtMi41NTZoMGwtLjc1LS4zNDVjLS44NTQgMS4yNjEtMi4zMSAyLjA5Mi0zLjk2MSAyLjA5MmE0Ljc4IDQuNzggMCAwIDEtMy4wMDUtMS4wNTVsMS44MDktMS40NzQuOTg0Ljg0NyAxLjkwNS0xLjAwM0w4LjE3NCA1LjgybC0uMzg0LS43ODYtMS4xMTYuNjM1LS41MTYuNjk0LS42MjYuMjM2LS44NzMtLjM4N2gwbC0uMjEzLS45MS4zNTUtLjU2Ljc4Ny0uMzcuODQ1LS45NTktLjcwMi0uNTEtMS44NzQuNzEzLTEuMzYyIDEuNjUxLjY0NSAxLjA5OC0xLjgzMSAxLjQ5MnptOS42MTQtMS40NEE1LjQ0IDUuNDQgMCAwIDAgMTEgNS41QzExIDIuNDY0IDguNTAxIDAgNS40MjIgMCAyLjc5NiAwIC41OTEgMS43OTQgMCA0LjIwNmguODQ4QzEuNDE5IDIuMjQ1IDMuMjUyLjgwOSA1LjQyMi44MDljMi42MjYgMCA0Ljc1OCAyLjEwMiA0Ljc1OCA0LjY5MSAwIC4xOS0uMDEyLjM3Ni0uMDM0LjU2bC43NzcuMzU3aDB6IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiM1ZGE0MjYiLz48L2c+PC9zdmc+)](https://modrinth.com/mod/simply-no-shading)
+
+## Comparisions (TODO)
+
+## Settings
+
+<div align=left>
+
+### Settings Screen
+
+The settings screen for this mod can be accessed via ModMenu by following these steps:
+
+ 0. Pause the game or go to the main menu.
+ 1. Open the Mod Menu
+ 2. Find Simply No Shading
+ 3. Finally, on the top right of the screen, click 'Configure...'
+
+Those without ModMenu but with Fabric API:
+
+ 0. Pause the game or go to the main menu.
+ 1. Open settings
+ 2. Open the control settings
+ 3. Open the key settings
+ 4. Scroll down and look for the Simply No Shading category.
+ 5. 'Open Settings' should be bound to a key.
+ 6. Finally, in-game, use the bound key to access the settings screen for this mod.
+
+For those without Fabric API:
+
+ 0. Open the Minecraft folder.
+ 1. Navigate to the configs folder.
+ 2. Open 'simply-no-shading+client.json'. Create it when it's unavailable.
+ 3. Default contents of <tt>simply-no-shading+client.json</tt>:
+
+```json
+{
+  "shadingRules": {
+	"blocks": false,
+	"clouds": false,
+	"all": false,
+	"liquids": false,
+	"enhancedBlockEntities": true
+  },
+  "smartReload": true
+  "smartReloadMessage": true
+}
+```
+
+### Shading Settings (TODO)
+
+### Advance Settings (TODO)
+
+</div>
+
+</div>
