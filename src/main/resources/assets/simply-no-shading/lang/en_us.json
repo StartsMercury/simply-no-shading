@@ -1,7 +1,7 @@
 {
 	"simply-no-shading.option.advance": "Advance Settings",
 	"simply-no-shading.option.shadingRule.all": "All Shading",
-	"simply-no-shading.option.shadingRule.all.tooltip": "Controls all available shading options\nON is equivalent to all options set to ON.",
+	"simply-no-shading.option.shadingRule.all.tooltip": "Controls all available shading options\nON is equivalent to all options set to ON",
 	"simply-no-shading.option.shadingRule.blocks": "Block Shading",
 	"simply-no-shading.option.shadingRule.blocks.tooltip": "Controls block shading, excluding block entities",
 	"simply-no-shading.option.shadingRule.clouds": "Cloud Shading",
