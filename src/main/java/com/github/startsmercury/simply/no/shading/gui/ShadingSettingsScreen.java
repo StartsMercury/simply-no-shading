@@ -2,6 +2,7 @@ package com.github.startsmercury.simply.no.shading.gui;
 
 import static com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod.LOGGER;
 import static net.fabricmc.api.EnvType.CLIENT;
+import static net.minecraft.client.OptionInstance.cachedConstantTooltip;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -15,13 +16,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.coderbot.iris.Iris;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.CycleOption;
+import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 /**
  * The shading settings screen covering the {@link ShadingRules shading rules}
@@ -39,10 +40,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * @param shadingRule the shading rule
 	 * @return a new shading option
 	 */
-	protected static CycleOption<Boolean> createOption(final String name, final ShadingRule shadingRule) {
-		return CycleOption.createOnOff("simply-no-shading.option.shadingRule." + name,
-		    new TranslatableComponent("simply-no-shading.option.shadingRule." + name + ".tooltip"),
-		    options -> shadingRule.shouldShade(), (options, option, allShading) -> shadingRule.setShade(allShading));
+	protected static OptionInstance<Boolean> createOption(final String name, final ShadingRule shadingRule) {
+		return OptionInstance.createBoolean("simply-no-shading.option.shadingRule." + name,
+		    cachedConstantTooltip(Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
+		    shadingRule.shouldShade(), shadingRule::setShade);
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
-		super(parent, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
+		super(parent, null, Component.translatable("simply-no-shading.options.shadingTitle"));
 
 		this.config = config;
 	}
