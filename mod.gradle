@@ -32,38 +32,54 @@ ext {
 			return coerceMavenVersionRange(range) ?: range ?: '0'
 	}
 
-	minecraftTag = {
+	minecraftTag = { prefix = '+mc' ->
 		final def range = versionRanges.minecraft
 
 		if (!range.endsWith('.+')) {
 			final def delimiter = range.indexOf ','
 
-			if (delimiter == -1) return range ? "+mc${range}" : ''
+			if (delimiter == -1) return range ? "$prefix$range" : ''
 
-			final def joiner = new StringJoiner('-to-', '+mc', '')
+			final def joiner = new StringJoiner('-to-', prefix, '')
 			final def lowerBound = range[1 ..< delimiter]
 			final def upperBound = reduce range, delimiter + 1, 1
-
-			switch (lowerBound ? range[0] : '') {
-			case '[': case '(': case ']': joiner.add lowerBound
-			}
 
 			switch (upperBound ? range[range.length() - 1] : '') {
 			case '[': case '(': case ']': joiner.add upperBound
 			}
 
-			return joiner.length() ? joiner.toString() : range ? "+mc${range}" : ''
+			switch (lowerBound ? range[0] : '') {
+			case '[': case '(': case ']': joiner.add lowerBound
+			}
+
+			return joiner.length() ? joiner.toString() : range ? "$prefix$range" : ''
 		} else {
-			return "+mc${reduce range, 0, 2}.x"
+			return "$prefix${reduce range, 0, 2}.x"
 		}
 	}
 }
+
+defaultProperty 'modGroup', 'group'
+defaultProperty 'modName', 'name'
+defaultProperty 'modVersion', 'version'
 
 versionCatalog.versionAliases.each {
 	final def versionConstraint = versionCatalog.findVersion(it).get()
 	final def versionRange = versionConstraint.requiredVersion
 
 	traversed(semversions, it, coerceVersionRange(versionRange))
+}
+
+def defaultProperty(String modKey, String key) {
+	if (project.properties[modKey] && isUnspecified(project[key])) {
+		project[key] = project.properties[modKey]
+	} else {
+		project.properties[modKey] = project[key]
+	}
+}
+
+def isUnspecified(String value) {
+	return value == 'unspecified' || !value
 }
 
 def traversed(Map map, String alias, value) {

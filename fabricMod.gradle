@@ -17,6 +17,6 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand(['version': version] + fabricSemversions())
+		expand(['version': modVersion] + fabricSemversions())
 	}
 }

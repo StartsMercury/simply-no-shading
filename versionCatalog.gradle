@@ -8,16 +8,16 @@ ext {
 
 		if (delimiter == -1) return '';
 
-		final def lowerBound = range[1 ..< delimiter]
-
-		switch (lowerBound ? range[0] : '') {
-		case '[': case '(': case ']': return lowerBound
-		}
-
 		final def upperBound = reduce range, delimiter + 1, 1
 
 		switch (upperBound ? range[range.length() - 1] : '') {
 		case '[': case '(': case ']': return upperBound
+		}
+
+		final def lowerBound = range[1 ..< delimiter]
+
+		switch (lowerBound ? range[0] : '') {
+		case '[': case '(': case ']': return lowerBound
 		}
 
 		return ''

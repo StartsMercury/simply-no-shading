@@ -6,9 +6,8 @@ plugins {
 apply from: 'fabricMod.gradle'
 apply from: 'runtime.gradle'
 
-group = modGroup
-archivesBaseName = modName
-version = "${modVersion}${minecraftTag()}"
+version = "fabric${minecraftTag '-mc'}-${modVersion}"
+modVersion = "${modVersion}${minecraftTag()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -29,13 +28,13 @@ dependencies {
 	modCompileOnly libs.enhancedblockentities
 
 	// Fabric Key Binding API (V1)
-	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', versions.fabric.api)
 
 	// Fabric Lifecycle Events (V1)
-	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versions.fabric.api)
 
 	// Fabric Renderer API (V1)
-	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
+	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versions.fabric.api)
 
 	// Fabric Loader
 	modImplementation libs.fabric.loader

@@ -28,12 +28,12 @@ dependencies {
 
 	if (fabricKeyBindingApiV1 || iris) {
 		// Fabric Key Binding API (V1)
-		modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
+		modRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', versions.fabric.api)
 	}
 
 	if (fabricLifecycleEventsV1) {
 		// Fabric Lifecycle Events (V1)
-		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
+		modRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', versions.fabric.api)
 	}
 
 	if (fabricRendererApiV1) {
@@ -43,7 +43,7 @@ dependencies {
 
 	if (iris) {
 		// Fabric Resource Loader (V0)
-		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', libs.versions.fabric.api.get())
+		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', versions.fabric.api)
 
 		// Iris
 		modRuntimeOnly libs.iris
@@ -59,10 +59,10 @@ dependencies {
 
 	if (sodium || iris) {
 		// Fabric Rendering Data Attachments (V1)
-		modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', libs.versions.fabric.api.get())
+		modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', versions.fabric.api)
 
 		// Fabric Rendering Fluids (V1)
-		modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', libs.versions.fabric.api.get())
+		modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', versions.fabric.api)
 		
 		// JOML
 		runtimeOnly libs.joml
