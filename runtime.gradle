@@ -38,13 +38,18 @@ dependencies {
 
 	if (fabricRendererApiV1) {
 		// Fabric Renderer API (V1)
-		modRuntimeOnly fabricApi.module('fabric-renderer-api-v1', versionRanges.fabric.api)
+		modRuntimeOnly fabricApi.module('fabric-renderer-api-v1', versions.fabric.api)
+	}
+
+	if (sodium || iris) {
+		// Fabric API Base
+		modRuntimeOnly fabricApi.module('fabric-api-base', versions.fabric.api)
+
+		// Fabric Resource Loader (V0)
+		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', versions.fabric.api)
 	}
 
 	if (iris) {
-		// Fabric Resource Loader (V0)
-		modRuntimeOnly fabricApi.module('fabric-resource-loader-v0', versions.fabric.api)
-
 		// Iris
 		modRuntimeOnly libs.iris
 
@@ -60,10 +65,13 @@ dependencies {
 	if (sodium || iris) {
 		// Fabric Rendering Data Attachments (V1)
 		modRuntimeOnly fabricApi.module('fabric-rendering-data-attachment-v1', versions.fabric.api)
-
+		
 		// Fabric Rendering Fluids (V1)
 		modRuntimeOnly fabricApi.module('fabric-rendering-fluids-v1', versions.fabric.api)
 		
+		// GLSL Transformer
+		runtimeOnly libs.glsl.transformer
+
 		// JOML
 		runtimeOnly libs.joml
 
