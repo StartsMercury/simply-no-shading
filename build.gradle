@@ -7,7 +7,7 @@ apply from: 'fabricMod.gradle'
 apply from: 'runtime.gradle'
 
 version = "fabric${minecraftTag '-mc'}-${modVersion}"
-modVersion = "${modVersion}+${minecraftTag()}"
+modVersion = "${modVersion}${minecraftTag()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
