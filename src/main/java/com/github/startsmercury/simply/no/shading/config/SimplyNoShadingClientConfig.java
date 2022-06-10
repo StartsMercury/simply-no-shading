@@ -4,10 +4,10 @@ import static net.fabricmc.api.EnvType.CLIENT;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRules.Observation.Context;
 import com.github.startsmercury.simply.no.shading.util.Copyable;
+import com.github.startsmercury.simply.no.shading.util.JsonUtils;
 import com.github.startsmercury.simply.no.shading.util.Observable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -222,8 +222,8 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 			return;
 		}
 
-		this.smartReload = !in.has("smartReload") || !(in.get("smartReload") instanceof final JsonPrimitive primitive)
-		    || !primitive.isBoolean() || primitive.getAsBoolean();
+		this.smartReload = JsonUtils.getBooleanNonNull(in, "smartReload", true);
+		this.smartReloadMessage = JsonUtils.getBooleanNonNull(in, "smartReloadMessage", true);
 	}
 
 	/**
@@ -267,5 +267,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 		out.add("shadingRules", shadingRulesJson);
 
 		out.addProperty("smartReload", this.smartReload);
+		out.addProperty("smartReloadMessage", this.smartReloadMessage);
 	}
 }

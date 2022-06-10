@@ -1,0 +1,28 @@
+<?xml version="1.0"
+      standalone="no"?>
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     width="100" height="100"
+     style="fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 9;">
+	<path d="M50 10
+	         L50 60
+	         M10 75
+	         L50 60
+	         L90 75"
+	      style="stroke: silver;"/>
+	<path d="M10 25
+	         L50 40
+	         L90 25
+	         L50 10
+	         L10 25
+	         L10 75
+	         L50 90
+	         L90 75
+	         L90 25
+	         M50 40
+	         L50 90"
+	      style="stroke: white;"/>
+</svg>
