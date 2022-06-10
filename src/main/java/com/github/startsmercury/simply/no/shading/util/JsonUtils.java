@@ -61,7 +61,8 @@ public final class JsonUtils {
 	 * the property with the name is nonexistent, or the value is not a
 	 * {@code boolean}.
 	 *
-	 * @param object       the object
+	 * @param element      the element
+	 * @param name         the name
 	 * @param defaultValue the default value
 	 * @return the named {@code boolean} value in the given {@link JsonElement}, or
 	 *         {@code defaultValue} if it is null, not an instance of
@@ -80,6 +81,7 @@ public final class JsonUtils {
 	 * nonexistent, or the value is not a {@code boolean}.
 	 *
 	 * @param object       the object
+	 * @param name         the name
 	 * @param defaultValue the default value
 	 * @return the named {@code boolean} value in the given {@link JsonObject}, or
 	 *         {@code defaultValue} if it is null, the property with the name is
@@ -96,6 +98,7 @@ public final class JsonUtils {
 	 * value is not a {@code boolean}.
 	 *
 	 * @param object       the object
+	 * @param name         the name
 	 * @param defaultValue the default value
 	 * @return the named {@code boolean} value in the given {@link JsonObject}, or
 	 *         {@code defaultValue} if the property with the name is nonexistent, or
