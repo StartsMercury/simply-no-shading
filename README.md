@@ -50,11 +50,11 @@ For those without Fabric API:
 ```json
 {
   "shadingRules": {
-	"blocks": false,
-	"clouds": false,
-	"all": false,
-	"liquids": false,
-	"enhancedBlockEntities": true
+    "blocks": false,
+    "clouds": false,
+    "all": false,
+    "liquids": false,
+    "enhancedBlockEntities": true
   },
   "smartReload": true
   "smartReloadMessage": true
