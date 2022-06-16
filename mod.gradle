@@ -1,60 +1,23 @@
-apply from: 'versionCatalog.gradle'
+apply from: 'functions.gradle'
 
 ext {
-	semversions = [:]
+	versionCatalogs = extensions.getByType(VersionCatalogsExtension).named 'libs'
 
-	coerceMavenVersionRange = { String range ->
-		final def delimiter = range.indexOf ','
-
-		if (delimiter == -1) return '';
-
-		final def joiner = new StringJoiner(' ')
-		final def lowerBound = range[1 ..< delimiter]
-		final def upperBound = reduce range, delimiter + 1, 1
-
-		switch (lowerBound ? range[0] : ' ') {
-		case '[': joiner.add ">=${lowerBound}"; break
-		case '(': case ']': joiner.add ">${lowerBound}"; break
+	mods = new Object() {
+		private final def libs = versionCatalogs.libraryAliases.collect {
+			dependencies.create versionCatalogs.findLibrary(it).get().get()
 		}
 
-		switch (upperBound ? range[range.length() - 1] : ' ') {
-		case ']': joiner.add "<=${upperBound}"; break
-		case ')': case '[': joiner.add "<${upperBound}"; break
-		}
+		final def versionFilters = [:]
 
-		return joiner as String
-	}
+		def getVersions() {
+			final def versions = [:]
 
-	coerceVersionRange = { String range ->
-		if (range.endsWith('.+'))
-			return "${reduce range, 0, 2}.x"
-		else
-			return coerceMavenVersionRange(range) ?: range ?: '0'
-	}
-
-	minecraftTag = { prefix = '+mc' ->
-		final def range = versionRanges.minecraft
-
-		if (!range.endsWith('.+')) {
-			final def delimiter = range.indexOf ','
-
-			if (delimiter == -1) return range ? "$prefix$range" : ''
-
-			final def joiner = new StringJoiner('-to-', prefix, '')
-			final def lowerBound = range[1 ..< delimiter]
-			final def upperBound = reduce range, delimiter + 1, 1
-
-			switch (upperBound ? range[range.length() - 1] : '') {
-			case '[': case '(': case ']': joiner.add upperBound
+			this.libs.each {
+				createTree versions, Map.entry(it.name, toSemverRange(it.version, versionFilters[it.name]))
 			}
 
-			switch (lowerBound ? range[0] : '') {
-			case '[': case '(': case ']': joiner.add lowerBound
-			}
-
-			return joiner.length() ? joiner.toString() : range ? "$prefix$range" : ''
-		} else {
-			return "$prefix${reduce range, 0, 2}.x"
+			return versions
 		}
 	}
 }
@@ -62,13 +25,6 @@ ext {
 defaultProperty 'modGroup', 'group'
 defaultProperty 'modName', 'name'
 defaultProperty 'modVersion', 'version'
-
-versionCatalog.versionAliases.each {
-	final def versionConstraint = versionCatalog.findVersion(it).get()
-	final def versionRange = versionConstraint.requiredVersion
-
-	traversed(semversions, it, coerceVersionRange(versionRange))
-}
 
 def defaultProperty(String modKey, String key) {
 	if (project.properties[modKey] && isUnspecified(project[key])) {
@@ -80,18 +36,4 @@ def defaultProperty(String modKey, String key) {
 
 def isUnspecified(String value) {
 	return value == 'unspecified' || !value
-}
-
-def traversed(Map map, String alias, value) {
-	final def keys = alias.split(/\P{Alnum}+/)
-
-	if (keys.length == 0) return map
-
-	for (i in 0 ..< keys.length - 1) {
-		map = map.computeIfAbsent(keys[i], key -> [:])
-	}
-
-	map[keys[keys.length - 1]] = value
-
-	return map
 }
