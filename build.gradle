@@ -59,6 +59,7 @@ dependencies {
 
 	// SpruceUI
 	modCompileOnly libs.spruceui
+	include libs.spruceui
 }
 
 mods.versionFilters.putAll([
