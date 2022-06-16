@@ -32,7 +32,8 @@ bin/
 # fabric
 
 run/
-/.apt_generated/
 
 # custom
-runtime.properties
+
+/.apt_generated/
+/.apt_generated_tests/
