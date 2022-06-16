@@ -3,11 +3,11 @@ plugins {
 	alias libs.plugins.loom.quiltflower
 }
 
-apply from: 'fabricMod.gradle'
-apply from: 'runtime.gradle'
+apply from: 'mod.gradle'
+// apply from: 'tests.gradle'
 
-version = "fabric${minecraftTag '-mc'}-${modVersion}"
-modVersion = "${modVersion}${minecraftTag()}"
+version = "fabric-mc${mods.versions.minecraft}-${modVersion}"
+modVersion = "${modVersion}+mc${mods.versions.minecraft}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -28,13 +28,13 @@ dependencies {
 	modCompileOnly libs.enhancedblockentities
 
 	// Fabric Key Binding API (V1)
-	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', versions.fabric.api)
+	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 
 	// Fabric Lifecycle Events (V1)
-	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', versions.fabric.api)
+	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 
 	// Fabric Renderer API (V1)
-	modCompileOnly fabricApi.module('fabric-renderer-api-v1', versions.fabric.api)
+	modCompileOnly fabricApi.module('fabric-renderer-api-v1', libs.versions.fabric.api.get())
 
 	// Fabric Loader
 	modImplementation libs.fabric.loader
@@ -45,7 +45,7 @@ dependencies {
 	// Layered Mappings
 	mappings loom.layered {
 		officialMojangMappings()
-		parchment "org.parchmentmc.data:parchment-${versions.minecraft}:${versions.parchment}@zip"
+		parchment "org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip"
 	}
 
 	// Minecraft
@@ -58,12 +58,24 @@ dependencies {
 	modCompileOnly libs.sodium
 
 	// SpruceUI
-	modImplementation libs.spruceui
-	include libs.spruceui
+	modCompileOnly libs.spruceui
+}
+
+mods.versionFilters.putAll([
+	'iris': { it.replaceFirst(/(?:.+-)?v/, '') },
+	'sodium': { it.replaceFirst(/mc[^-]+-/, '') }
+])
+
+processResources {
+	inputs.property 'version', modVersion
+
+	filesMatching 'fabric.mod.json', {
+		expand 'version': modVersion, 'versions': mods.versions
+	}
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(versions.java)
+	toolchain.languageVersion = JavaLanguageVersion.of(17)
 	
 	withJavadocJar()
 	withSourcesJar()
