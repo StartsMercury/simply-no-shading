@@ -1,89 +1,15 @@
 apply from: 'functions.gradle'
+apply from: 'tests.gradle'
 
-ext {
-	compatibilities = []
-	compatibilitiesClient = []
-	compatibilitiesServer = []
-
-	shouldIgnore = { composition -> false }
-
-	initializeTests = { ->
-		sourceSets {
-			includeClasspath test, main
-		}
-
-		createRun 'test', 'client'
-		createRun 'test', 'server'
-
-		final def compatibilitySet = (compatibilities + compatibilitiesClient + compatibilitiesServer) as Set as List
-
-		compatibilitySet.each {
-			sourceSets { ->
-				"${toIdentifier it}Test" {
-					includeClasspath it, test
-				}
-			}
-		}
-
-		final def compatibilityClientSet = compatibilitySet.collect()
-		final def compatibilityServerSet = (compatibilitySet - compatibilitiesClient) as Set as List
-
-		compatibilityClientSet.each { createRun "${toIdentifier it} Test", 'test', 'client' }
-		compatibilityServerSet.each { createRun "${toIdentifier it} Test", 'test', 'server' }
-
-		for (i in 0 ..< compatibilitySet.size - 1) {
-			final def right = i + 1 ..< compatibilitySet.size
-			final def possibilities = 1L << right.size()
-
-			for (j in 1 ..< possibilities) {
-				final def compositions = [compatibilitySet[i]]
-				def name = compatibilitySet[i]
-
-				for (def h = i + 1; j != 0; j >>>= 1, h++) {
-					if (~j & 1) continue
-
-					compositions.add compatibilitySet[h]
-					name += " ${compatibilitySet[h]}"
-				}
-
-				if (shouldIgnore(compositions)) continue
-
-				sourceSets.create "${toIdentifier name}Test", {
-					includeClasspath it, sourceSets."${toIdentifier compatibilitySet[i]}Test"
-
-					for (composition in compositions) {
-						includeClasspath it, sourceSets."${toIdentifier composition}Test"
-					}
-				}
-
-				createRun "${name} test", 'test', 'client'
-
-				if (!(compositions - compatibilityServerSet)) {
-					createRun "${name} test", 'test', 'server'
-				}
-			}
-		}
-	}
-}
-
-def createRun(String name, parent = null, String environment) {
+tests.createRun = { String name, String parent = null, String environment ->
 	final def identifier = toIdentifier name
-	final def suffix = toTitleCase environment
+	final def suffix = ' ' + toTitleCase(environment)
+	final def suffixedIdentifier = identifier + suffix
 
-	loom.runs {
-		"$identifier$suffix" { ->
-			inherit loom.runConfigs[parent ? "$parent$suffix" : environment]
+	loom.runConfigs.create suffixedIdentifier, { ->
+		inherit loom.runConfigs[parent ? parent + suffix : environment]
 
-			configName = "${toTitleCase name} $suffix"
-			source = sourceSets[identifier]
-		}
+		configName = toTitleCase(name) + suffix
+		source = sourceSets[identifier]
 	}
-
-	return loom.runConfigs."$identifier$suffix"
-}
-
-
-def includeClasspath(SourceSet to, SourceSet from) {
-	to.compileClasspath += from.compileClasspath
-	to.runtimeClasspath += from.runtimeClasspath
 }

@@ -4,7 +4,7 @@ plugins {
 }
 
 apply from: 'mod.gradle'
-// apply from: 'tests.gradle'
+// apply from: 'testsImpl.gradle'
 
 version = "fabric-mc${mods.versions.minecraft}-${modVersion}"
 modVersion = "${modVersion}+mc${mods.versions.minecraft}"

@@ -1,63 +1,103 @@
-apply from: 'fabricTests.gradle'
+apply from: 'functions.gradle'
 
 ext {
-	compatibilitiesClient += [
-		'bedrockify',
-		'enhancedblockentities',
-		'fabric key binding api v1',
-		'fabric lifecycle events v1',
-		'fabric renderer api v1',
-		'iris',
-		'modmenu',
-		'sodium',
-		'spruceui'
-	]
+	tests = new Object() {
+		def client = []
 
-	shouldIgnore = { composition ->
-		return composition.contains('iris') && (composition.contains('fabric key binding api v1') || !composition.contains('sodium')) ||
-		       composition.containsAll(['spruceui', 'fabric lifecycle events v1']) ||
-		       composition.contains('enhancedblockentities') && (composition.contains('fabric key binding api v1') || composition.contains('fabric lifecycle events v1') || composition.contains('fabric renderer api v1'))
+		def server = []
+
+		private def singles
+
+		def createRun = { String name, String parent = null, String environment -> }
+
+		def shouldIgnore = { List multiple -> false }
+
+		def configure(Closure closure) { closure(this) }
+
+		def initialize() {
+			initializeBase()
+			initializeSingles()
+			initializeMultiples()
+		}
+
+		def initializeBase() {
+			sourceSets { includeClasspath test, main }
+
+			this.createRun('test', 'client')
+			this.createRun('test', 'server')
+		}
+
+		def initializeMultiples() {
+			(0 ..< this.singles.size() - 1).each this.&initializeMultiples
+		}
+
+		def initializeMultiples(int base) {
+			// final def right = base + 1 ..< this.singles.size
+			final def remaining = this.singles.size() - base - 1
+			final def multipleCount = 1L << remaining
+
+			(1 ..< multipleCount).each { initializeMultiple base, it }
+		}
+
+		def initializeMultiple(int base, long j) {
+			final def singleBase = this.singles[base]
+			final def multiple = [singleBase]
+			def name = new StringBuilder(singleBase)
+
+			for (def h = base + 1; j != 0; j >>>= 1, h++) {
+				if (j & 1) initializeMultiple multiple, name, h
+			}
+
+			if (shouldIgnore(List.copyOf(multiple))) return
+			println name
+
+			sourceSets.create "${toIdentifier name}Test", {
+				includeClasspath it, sourceSets."${toIdentifier singleBase}Test"
+
+				multiple.each { single ->
+					includeClasspath it, sourceSets."${toIdentifier single}Test"
+				}
+			}
+
+			final def testName = "$name test"
+
+			createRun testName, 'client'
+
+			if (!(multiple.any client.&contains)) {
+				createRun testName, 'server'
+			}
+		}
+
+		def initializeMultiple(List multiple, StringBuilder name, int i) {
+			final def single = this.singles[i]
+
+			multiple << single
+			name << ' ' << single
+		}
+
+
+		def initializeSingle(String name) {
+			println name
+			sourceSets { -> "${toIdentifier name}Test" { includeClasspath it, test } }
+
+			final def testName = "$name test"
+
+			this.createRun(testName, 'test', 'client')
+
+			if (!(name in client)) {
+				this.createRun(testName, 'test', 'server')
+			}
+		}
+
+		def initializeSingles() {
+			this.singles = List.copyOf(new TreeSet(client + server))
+
+			singles.each this.&initializeSingle
+		}
 	}
 }
 
-initializeTests()
-
-loom.runConfigs.configureEach { property 'mixin.debug.export', 'true' }
-
-dependencies {
-	// Quiltflower
-	runtimeOnly libs.quiltflower
-
-	// BedrockIfy
-	bedrockifyTestRuntimeOnly libs.bedrockify
-
-	// Enhanced Block Entities
-	enhancedblockentitiesTestRuntimeOnly libs.enhancedblockentities
-
-	// Fabric API
-	enhancedblockentitiesTestRuntimeOnly libs.fabric.api
-
-	// Fabric Key Binding API (V1)
-	fabricKeyBindingApiV1TestRuntimeOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
-
-	// Fabric Lifecycle Events (V1)
-	fabricLifecycleEventsV1TestRuntimeOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
-
-	// Fabric Renderer API (V1)
-	fabricRendererApiV1TestRuntimeOnly fabricApi.module('fabric-renderer-api-v1', libs.versions.fabric.api.get())
-
-	// Iris
-	irisTestRuntimeOnly libs.iris
-
-	// ModMenu
-	modmenuTestRuntimeOnly libs.modmenu
-	
-	// Sodium
-	sodiumTestRuntimeOnly libs.sodium
-	
-	// SpruceUI
-	spruceuiTestRuntimeOnly libs.spruceui
-
-	// Sodium
-	sodiumTestRuntimeOnly libs.sodium
+def includeClasspath(SourceSet to, SourceSet from) {
+	to.compileClasspath += from.compileClasspath
+	to.runtimeClasspath += from.runtimeClasspath
 }
