@@ -41,9 +41,12 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * @return a new shading option
 	 */
 	protected static OptionInstance<Boolean> createOption(final String name, final ShadingRule shadingRule) {
-		return OptionInstance.createBoolean("simply-no-shading.option.shadingRule." + name,
-		    cachedConstantTooltip(Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
-		    shadingRule.shouldShade(), shadingRule::setShade);
+		return OptionInstance
+		        .createBoolean("simply-no-shading.option.shadingRule." + name,
+		                       cachedConstantTooltip(Component
+		                               .translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
+		                       shadingRule.shouldShade(),
+		                       shadingRule::setShade);
 	}
 
 	/**

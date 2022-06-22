@@ -42,8 +42,11 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @return a new shading option
 	 */
 	protected static SpruceBooleanOption createOption(final String name, final ShadingRule shadingRule) {
-		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name, shadingRule::shouldShade,
-		    shadingRule::setShade, Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip"));
+		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name,
+		                               shadingRule::shouldShade,
+		                               shadingRule::setShade,
+		                               Component.translatable("simply-no-shading.option.shadingRule." + name
+		                                       + ".tooltip"));
 	}
 
 	/**
@@ -100,11 +103,15 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
 
 		final var smartReloadOption = new SpruceBooleanOption("simply-no-shading.option.smartReload",
-		    this.config::isSmartReload, this.config::setSmartReload,
-		    Component.translatable("simply-no-shading.option.smartReload.tooltip"));
+		                                                      this.config::isSmartReload,
+		                                                      this.config::setSmartReload,
+		                                                      Component
+		                                                              .translatable("simply-no-shading.option.smartReload.tooltip"));
 		final var smartReloadMessageOption = new SpruceBooleanOption("simply-no-shading.option.smartReloadMessage",
-		    this.config::isSmartReloadMessage, this.config::setSmartReloadMessage,
-		    Component.translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
+		                                                             this.config::isSmartReloadMessage,
+		                                                             this.config::setSmartReloadMessage,
+		                                                             Component
+		                                                                     .translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
 		this.optionsWidget.addOptionEntry(smartReloadOption, smartReloadMessageOption);
 	}
 
