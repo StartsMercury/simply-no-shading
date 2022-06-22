@@ -42,28 +42,34 @@ import net.minecraft.network.chat.TranslatableComponent;
 @Environment(CLIENT)
 public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig<? extends ShadingRules>, K extends SimplyNoShadingKeyManager> {
 	/**
-	 * The instance.
+	 * The instance of this class.
 	 */
 	private static SimplyNoShadingClientMod<?, ?> instance;
 
 	/**
-	 * The logger.
+	 * The logger used for debugging and sending messages to the console.
 	 *
 	 * @since 5.0.0
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
 
 	/**
-	 * The message shown in-game to the player when a smart reload was delivered.
+	 * The message shown in-game to the player when a smart reload was performed.
+	 *
+	 * @since 5.0.0
 	 */
 	public static final TranslatableComponent SMART_RELOAD_COMPONENT = new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload");
 
 	/**
-	 * Returns the initialized instance, throws {@link IllegalStateException} if
-	 * there is none.
+	 * Returns the instance of this class if there is one initialized, throws an
+	 * {@link IllegalStateException} otherwise.
 	 *
-	 * @return the initialized instance
+	 * @return the instance of this class if there is one initialized, throws an
+	 *         {@link IllegalStateException} otherwise
+	 * @throws IllegalStateException if there is no initialized instance of this
+	 *                               class
 	 * @since 5.0.0
+	 * @see #isInitialized()
 	 */
 	public static SimplyNoShadingClientMod<?, ?> getInstance() {
 		if (isInitialized())
@@ -83,9 +89,13 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public static boolean isInitialized() { return instance == null; }
 
 	/**
+	 * Returns {@code true} if the given shading rule was toggled for the given key
+	 * mapping being pressed.
+	 *
 	 * @param keyMapping  the key mapping
 	 * @param shadingRule the shading rule
-	 * @return {@code true} if there was a consumed click; {@code false} otherwise
+	 * @return {@code true} if the given shading rule was toggled for the given key
+	 *         mapping being pressed
 	 */
 	protected static boolean toggleShade(final KeyMapping keyMapping, final ShadingRule shadingRule) {
 		if (keyMapping.consumeClick()) {
@@ -169,7 +179,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Creates the config in disk.
+	 * Creates the config, writing it to disk.
 	 *
 	 * @see #loadConfig()
 	 * @since 5.0.0
@@ -191,7 +201,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Creates the settings screen.
+	 * Creates the settings screen given the client.
 	 *
 	 * @param client the client
 	 * @return the settings screen
@@ -207,7 +217,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Creates the settings screen.
+	 * Creates the settings screen given the parent screen.
 	 *
 	 * @param parent the parent screen
 	 * @return the settings screen
@@ -225,6 +235,14 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public C getConfig() { return this.config; }
 
 	/**
+	 * Returns the config path.
+	 *
+	 * @return the config path
+	 * @since 5.0.0
+	 */
+	public Path getConfigPath() { return this.configPath; }
+
+	/**
 	 * Returns the config type.
 	 *
 	 * @return the config type
@@ -234,8 +252,16 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
+	 * Returns the key manager.
+	 *
+	 * @return the key manager
+	 * @since 5.0.0
+	 */
+	public K getKeyManager() { return this.keyManager; }
+
+	/**
 	 * Loads the config from disk, it will {@link #createConfig() create} a new one
-	 * if not present.
+	 * if its absent.
 	 *
 	 * @see #createConfig()
 	 * @see #saveConfig()
@@ -258,7 +284,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Opens the settings screen
+	 * Opens the settings screen.
 	 *
 	 * @param client the client
 	 * @see #createSettingsScreen(Screen)
@@ -278,7 +304,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Registers a shutdown hook to {@link #saveConfig() save the config}.
+	 * Registers a shutdown hook to run {@link #saveConfig()}.
 	 */
 	protected void registerShutdownHook() {
 		LOGGER.debug("Registering shutdown hook...");
@@ -289,7 +315,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	}
 
 	/**
-	 * Saves the config to disk.
+	 * Saves the config, writing it to disk.
 	 *
 	 * @see #loadConfig()
 	 * @since 5.0.0
