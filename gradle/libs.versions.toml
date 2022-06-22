@@ -10,7 +10,7 @@ minecraft = "1.19"
 modmenu = "4.0.+"
 parchment = "2022.06.19"
 quiltflower = "latest.release"
-sodium = "mc1.18.2-0.4.2"
+sodium = "mc1.19-0.4.2"
 spruceui = "4.0.+"
 
 [libraries]
