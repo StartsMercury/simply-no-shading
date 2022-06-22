@@ -56,7 +56,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	/**
 	 * The message shown in-game to the player when a smart reload was delivered.
 	 */
-	public static final TranslatableComponent SMART_RELOAD_COMPONENT = Component.translatable("simply-no-shading.option.shadingRules.smartReload");
+	public static final Component SMART_RELOAD_COMPONENT = Component.translatable("simply-no-shading.option.shadingRules.smartReload");
 
 	/**
 	 * Returns the initialized instance, throws {@link IllegalStateException} if
