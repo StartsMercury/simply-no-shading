@@ -1,17 +1,17 @@
 [versions]
-bedrockify = "1.4.1+mc1.18.2"
-enhancedblockentities = "0.7.1+1.18.2"
-fabric-api = "0.56.1+1.18.2"
+bedrockify = "1.4.2+mc1.19"
+enhancedblockentities = "0.7.1+1.19"
+fabric-api = "0.56.1+1.19"
 fabric-loader = "latest.release"
 fabric-loom = "latest.release"
-iris = "1.18.+"
+iris = "1.19.+"
 loom-quiltflower = "latest.release"
-minecraft = "1.18.2"
-modmenu = "3.2.+"
+minecraft = "1.19"
+modmenu = "4.0.+"
 parchment = "2022.06.19"
 quiltflower = "latest.release"
-sodium = "mc1.18.2-0.4.1"
-spruceui = "[3.3.3,4.0.0)"
+sodium = "mc1.18.2-0.4.2"
+spruceui = "4.0.+"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }

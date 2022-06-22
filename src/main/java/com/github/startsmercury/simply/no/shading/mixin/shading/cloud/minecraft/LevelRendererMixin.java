@@ -22,7 +22,7 @@ public class LevelRendererMixin {
 	 * @param shade the original shade
 	 * @return the modified shade
 	 */
-	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)V",
+	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;",
 	                constant = {
 	                    @Constant(floatValue = 0.9F, ordinal = 0),
 	                    @Constant(floatValue = 0.9F, ordinal = 1),
