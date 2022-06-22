@@ -9,8 +9,8 @@ import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import net.fabricmc.api.Environment;
 
 /**
- * Represents a object that shading can be applied bounded to a
- * {@link ShadingRule}.
+ * Represents an object that can be shaded, and the shading behavior is
+ * manipulable via a {@link ShadingRule}.
  *
  * @since 5.0.0
  */
@@ -18,19 +18,26 @@ import net.fabricmc.api.Environment;
 @Environment(CLIENT)
 public interface Shadable {
 	/**
-	 * @return the current shading rule
+	 * Returns the set shading rule.
+	 *
+	 * @return the set shading rule
 	 * @since 5.0.0
+	 * @see ShadingRule
 	 */
 	ShadingRule getShadingRule();
 
 	/**
-	 * @return the shade with the shading rule applied
+	 * Returns {@code true} if shading is applied.
+	 *
+	 * @return {@code true} if shading is applied
 	 * @since 5.0.0
+	 * @see #getShadingRule()
+	 * @implSpec this is being manipulated by the set shading rules
 	 */
 	boolean isShade();
 
 	/**
-	 * Sets the current shading rule to a new one.
+	 * Changes the current shading rule to a new one.
 	 *
 	 * @param shadingRule the new shading rule
 	 * @since 5.0.0
