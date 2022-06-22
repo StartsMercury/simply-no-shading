@@ -31,16 +31,20 @@ public class SimplyNoShadingFabricClientMod extends
         SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig<FabricShadingRules>, SimplyNoShadingFabricKeyManager>
         implements ClientModInitializer {
 	/**
-	 * The initialized instance.
+	 * The instance of this class.
 	 */
 	private static SimplyNoShadingFabricClientMod instance;
 
 	/**
-	 * Returns the initialized instance, throws {@link IllegalStateException} if
-	 * there is none.
+	 * Returns the instance of this class if there is one initialized, throws an
+	 * {@link IllegalStateException} otherwise.
 	 *
-	 * @return the initialized instance
+	 * @return the instance of this class if there is one initialized, throws an
+	 *         {@link IllegalStateException} otherwise
+	 * @throws IllegalStateException if there is no initialized instance of this
+	 *                               class
 	 * @since 5.0.0
+	 * @see #isInitialized()
 	 */
 	public static SimplyNoShadingFabricClientMod getInstance() {
 		if (isInitialized())
@@ -111,8 +115,6 @@ public class SimplyNoShadingFabricClientMod extends
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onInitializeClient() {
@@ -127,7 +129,7 @@ public class SimplyNoShadingFabricClientMod extends
 	}
 
 	/**
-	 * Registers key mappings.
+	 * Registers the key mappings to allow key presses to be consumed.
 	 */
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
@@ -146,7 +148,7 @@ public class SimplyNoShadingFabricClientMod extends
 	}
 
 	/**
-	 * Register lifecycle event listeners.
+	 * Register lifecycle event listeners to allow key mapping usage to take affect.
 	 */
 	protected void registerLifecycleEventListeners() {
 		LOGGER.debug("Registering life cycle event listeners...");
