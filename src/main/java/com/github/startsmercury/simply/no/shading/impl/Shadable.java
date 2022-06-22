@@ -29,7 +29,6 @@ public interface Shadable {
 	 * @return {@code true} if shading is applied
 	 * @since 5.0.0
 	 * @see #getShadingRule()
-	 * @implSpec this is being manipulated by the set shading rules
 	 */
 	boolean isShade();
 
