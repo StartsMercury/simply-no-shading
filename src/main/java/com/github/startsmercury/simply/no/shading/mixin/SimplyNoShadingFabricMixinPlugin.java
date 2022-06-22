@@ -32,9 +32,7 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 	protected SimplyNoShadingFabricMixinPlugin(final boolean log) {
 		super(false);
 
-		if (log) {
-			LOGGER.info("Constructed mixin plugin");
-		}
+		if (log) { LOGGER.info("Constructed mixin plugin"); }
 	}
 
 	/**
@@ -58,8 +56,6 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 			mixins.add("shading.frapi.models.fabric.renderer.api.v1.ClientLevelFabricMixin");
 		}
 
-		if (fabricLoader.isModLoaded("sodium")) {
-			mixins.add("shading.liquid.sodium.FluidRendererFabricMixin");
-		}
+		if (fabricLoader.isModLoaded("sodium")) { mixins.add("shading.liquid.sodium.FluidRendererFabricMixin"); }
 	}
 }

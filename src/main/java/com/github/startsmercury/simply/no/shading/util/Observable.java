@@ -15,13 +15,11 @@ package com.github.startsmercury.simply.no.shading.util;
  * // react to changes
  * // the context type is optional depending on the implementation
  * observation.react(context)
- *
  * </pre>
  *
  * </blockquote>
  *
  * @since 5.0.0
- *
  * @param <T> the observed type
  */
 public interface Observable<T extends Observable<T>> {
@@ -57,9 +55,8 @@ public interface Observable<T extends Observable<T>> {
 		public Observation(final T present) {
 			if (present instanceof final Copyable<?> copyable) {
 				this.past = (T) copyable.copy();
-			} else {
+			} else
 				throw new IllegalArgumentException("expected an instance of Copyable");
-			}
 
 			this.present = present;
 		}

@@ -54,19 +54,29 @@ public class SimplyNoShadingKeyManager extends MultiValuedContainer<KeyMapping> 
 	 */
 	protected SimplyNoShadingKeyManager(final SimplyNoShadingClientConfig<?> config) {
 		this.openSettings = register("openSettings",
-		    new KeyMapping("simply-no-shading.key.openSettings", InputConstants.UNKNOWN.getValue(), CATEGORY));
+		                             new KeyMapping("simply-no-shading.key.openSettings",
+		                                            InputConstants.UNKNOWN.getValue(),
+		                                            CATEGORY));
 		this.toggleAllShading = register("toggleAllShading",
-		    new ToggleKeyMapping("simply-no-shading.key.toggleAllShading", InputConstants.KEY_F6, CATEGORY,
-		        config.shadingRules.all::shouldShade));
+		                                 new ToggleKeyMapping("simply-no-shading.key.toggleAllShading",
+		                                                      InputConstants.KEY_F6,
+		                                                      CATEGORY,
+		                                                      config.shadingRules.all::shouldShade));
 		this.toggleBlockShading = register("toggleBlockShading",
-		    new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading", InputConstants.UNKNOWN.getValue(),
-		        CATEGORY, config.shadingRules.blocks::shouldShade));
+		                                   new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		                                                        InputConstants.UNKNOWN.getValue(),
+		                                                        CATEGORY,
+		                                                        config.shadingRules.blocks::shouldShade));
 		this.toggleCloudShading = register("toggleCloudShading",
-		    new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading", InputConstants.UNKNOWN.getValue(),
-		        CATEGORY, config.shadingRules.clouds::shouldShade));
+		                                   new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		                                                        InputConstants.UNKNOWN.getValue(),
+		                                                        CATEGORY,
+		                                                        config.shadingRules.clouds::shouldShade));
 		this.toggleLiquidShading = register("toggleLiquidShading",
-		    new ToggleKeyMapping("simply-no-shading.key.toggleLiquidShading", InputConstants.UNKNOWN.getValue(),
-		        CATEGORY, config.shadingRules.liquids::shouldShade));
+		                                    new ToggleKeyMapping("simply-no-shading.key.toggleLiquidShading",
+		                                                         InputConstants.UNKNOWN.getValue(),
+		                                                         CATEGORY,
+		                                                         config.shadingRules.liquids::shouldShade));
 	}
 
 	/**
@@ -75,11 +85,7 @@ public class SimplyNoShadingKeyManager extends MultiValuedContainer<KeyMapping> 
 	 * @since 5.0.0
 	 */
 	public void register() {
-		forEach((name, keyMapping) -> {
-			if (shouldRegister(name, keyMapping)) {
-				register(keyMapping);
-			}
-		});
+		forEach((name, keyMapping) -> { if (shouldRegister(name, keyMapping)) { register(keyMapping); } });
 	}
 
 	/**
@@ -87,8 +93,7 @@ public class SimplyNoShadingKeyManager extends MultiValuedContainer<KeyMapping> 
 	 *
 	 * @param keyMapping the key mapping
 	 */
-	protected void register(final KeyMapping keyMapping) {
-	}
+	protected void register(final KeyMapping keyMapping) {}
 
 	/**
 	 * Filters which key mapping should be applied given the name and the key

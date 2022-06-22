@@ -1,4 +1,5 @@
 apply from: 'functions.gradle'
+apply from: 'local.gradle'
 
 ext {
 	tests = new Object() {
@@ -23,6 +24,8 @@ ext {
 		def initializeBase() {
 			sourceSets { includeClasspath test, main }
 
+			if (local.'tests.disabled' != null) return
+
 			this.createRun('test', 'client')
 			this.createRun('test', 'server')
 		}
@@ -32,7 +35,6 @@ ext {
 		}
 
 		def initializeMultiples(int base) {
-			// final def right = base + 1 ..< this.singles.size
 			final def remaining = this.singles.size() - base - 1
 			final def multipleCount = 1L << remaining
 
@@ -49,9 +51,10 @@ ext {
 			}
 
 			if (shouldIgnore(List.copyOf(multiple))) return
-			println name
 
-			sourceSets.create "${toIdentifier name}Test", {
+			final def identifier = toIdentifier name
+
+			sourceSets.create "${identifier}Test", {
 				includeClasspath it, sourceSets."${toIdentifier singleBase}Test"
 
 				multiple.each { single ->
@@ -59,11 +62,17 @@ ext {
 				}
 			}
 
+			configurations { -> "${identifier}RuntimeOnly" {
+				if (local."tests.$name") extendsFrom modLocalRuntime
+			} }
+
 			final def testName = "$name test"
+
+			if (local.'tests.disabled' != null) return
 
 			createRun testName, 'client'
 
-			if (!(multiple.any client.&contains)) {
+			if (!multiple.any(client.&contains)) {
 				createRun testName, 'server'
 			}
 		}
@@ -75,12 +84,18 @@ ext {
 			name << ' ' << single
 		}
 
-
 		def initializeSingle(String name) {
-			println name
-			sourceSets { -> "${toIdentifier name}Test" { includeClasspath it, test } }
-
+			final def identifier = toIdentifier name
 			final def testName = "$name test"
+
+			sourceSets { -> "${identifier}Test" { includeClasspath it, test } }
+
+			configurations { -> "${identifier}RuntimeOnly" {
+				println it
+				/*if (local."tests.$name" != null)*/ modLocalRuntime.extendsFrom it
+			} }
+
+			if (local.'tests.disabled' != null) return
 
 			this.createRun(testName, 'test', 'client')
 
@@ -98,6 +113,8 @@ ext {
 }
 
 def includeClasspath(SourceSet to, SourceSet from) {
+	if (local.'tests.disabled' != null) return
+
 	to.compileClasspath += from.compileClasspath
 	to.runtimeClasspath += from.runtimeClasspath
 }

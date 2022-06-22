@@ -62,9 +62,8 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 * @since 5.0.0
 	 */
 	public final <M extends Map<? super String, ? super T>> M collectTo(final M map) {
-		if (map == null) {
+		if (map == null)
 			return null;
-		}
 
 		map.putAll(mapView());
 
@@ -89,13 +88,12 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		} else if (obj instanceof final MultiValuedContainer<?> other) {
+		else if (obj instanceof final MultiValuedContainer<?> other)
 			return this.values.equals(other.values);
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
@@ -163,9 +161,7 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 *         elements
 	 * @since 5.0.0
 	 */
-	public final boolean isEmpty() {
-		return this.values.isEmpty();
-	}
+	public final boolean isEmpty() { return this.values.isEmpty(); }
 
 	/**
 	 * {@inheritDoc}
@@ -197,11 +193,10 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 *                               a taken name
 	 */
 	protected final <U extends T> U register(final String name, final U value) {
-		if (this.values.putIfAbsent(name, value) != null) {
+		if (this.values.putIfAbsent(name, value) != null)
 			throw new IllegalStateException('\'' + name + "' is already assigned with the value: " + value);
-		} else {
+		else
 			return value;
-		}
 	}
 
 	/**

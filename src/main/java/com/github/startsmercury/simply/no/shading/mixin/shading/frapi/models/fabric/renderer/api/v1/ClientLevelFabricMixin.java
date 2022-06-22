@@ -28,7 +28,7 @@ public abstract class ClientLevelFabricMixin {
 
 		final var wouldBlocksShade = shadingRules.blocks.wouldShade();
 		final var wouldEnhancedBlockEntitiesShade = FabricLoader.getInstance().isModLoaded("enhancedblockentities")
-		    && shadingRules.enhancedBlockEntities.wouldShade();
+		        && shadingRules.enhancedBlockEntities.wouldShade();
 
 		return shade && (wouldBlocksShade || wouldEnhancedBlockEntitiesShade);
 	}

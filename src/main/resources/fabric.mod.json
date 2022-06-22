@@ -47,7 +47,7 @@
 	"recommends": {
 		"enhancedblockentities": "*",
 		"fabric": "*",
-		"fabricloader": "${versions.fabric.loader}",
+		"fabricloader": "${versions.fabricLoader}",
 		"minecraft": "${versions.minecraft}",
 		"modmenu": "*",
 		"sodium": "*",
@@ -56,7 +56,7 @@
 	"suggests": {
 		"bedrockify": "${versions.bedrockify}",
 		"enhancedblockentities": "${versions.enhancedblockentities}",
-		"fabric": "${versions.fabric.api}",
+		"fabric": "${versions.fabricApi}",
 		"iris": "${versions.iris}",
 		"modmenu": "${versions.modmenu}",
 		"sodium": "${versions.sodium}",

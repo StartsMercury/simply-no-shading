@@ -33,8 +33,10 @@ public class SimplyNoShadingFabricKeyManager extends SimplyNoShadingKeyManager {
 		super(config);
 
 		this.toggleEnhancedBlockEntityShading = register("toggleEnhancedBlockEntityShading",
-		    new ToggleKeyMapping("simply-no-shading.key.toggleEnhancedBlockEntityShading",
-		        InputConstants.UNKNOWN.getValue(), CATEGORY, config.shadingRules.enhancedBlockEntities::shouldShade));
+		                                                 new ToggleKeyMapping("simply-no-shading.key.toggleEnhancedBlockEntityShading",
+		                                                                      InputConstants.UNKNOWN.getValue(),
+		                                                                      CATEGORY,
+		                                                                      config.shadingRules.enhancedBlockEntities::shouldShade));
 	}
 
 	/**

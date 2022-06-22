@@ -4,10 +4,11 @@ plugins {
 }
 
 apply from: 'mod.gradle'
-// apply from: 'testsImpl.gradle'
+apply from: 'modRuntime.gradle'
 
-version = "fabric-mc${mods.versions.minecraft}-${modVersion}"
-modVersion = "${modVersion}+mc${mods.versions.minecraft}"
+group = modGroup
+archivesBaseName = modName
+version = "$modVersion+${libs.versions.minecraft.get()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -21,6 +22,8 @@ repositories {
 }
 
 dependencies {
+	testCompileOnly gradleApi()
+
 	// BedrockIfy
 	modCompileOnly libs.bedrockify
 
@@ -59,19 +62,20 @@ dependencies {
 
 	// SpruceUI
 	modCompileOnly libs.spruceui
+	modRuntimeOnly libs.spruceui
 	include libs.spruceui
 }
 
 mods.versionFilters.putAll([
-	'iris': { it.replaceFirst(/(?:.+-)?v/, '') },
-	'sodium': { it.replaceFirst(/mc[^-]+-/, '') }
+	'iris':   { '*' },
+	'sodium': { replaceFirst(/mc[^-]+-/, '') }
 ])
 
 processResources {
-	inputs.property 'version', modVersion
+	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'version': modVersion, 'versions': mods.versions
+		expand 'version': version, 'versions': mods.versions
 	}
 }
 
@@ -84,6 +88,6 @@ java {
 
 jar {
 	from 'LICENSE', {
-		rename { "${it}_${project.archivesBaseName}" }
+		rename { "${it}_$project.archivesBaseName" }
 	}
 }

@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * The base mod class of Simply No Shading.
@@ -50,6 +54,11 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
 
 	/**
+	 * The message shown in-game to the player when a smart reload was delivered.
+	 */
+	public static final TranslatableComponent SMART_RELOAD_COMPONENT = new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload");
+
+	/**
 	 * Returns the initialized instance, throws {@link IllegalStateException} if
 	 * there is none.
 	 *
@@ -57,12 +66,21 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @since 5.0.0
 	 */
 	public static SimplyNoShadingClientMod<?, ?> getInstance() {
-		if (instance == null) {
+		if (isInitialized())
 			throw new IllegalStateException("Accessed too early!");
-		}
 
 		return instance;
 	}
+
+	/**
+	 * Returns {@code true} if an instance of this class is initialized where
+	 * accesses to {@link #getInstance()} are valid.
+	 *
+	 * @return {@code true} if an instance of this class is initialized where
+	 *         accesses to {@link #getInstance()} are valid
+	 * @since 5.0.0
+	 */
+	public static boolean isInitialized() { return instance == null; }
 
 	/**
 	 * @param keyMapping  the key mapping
@@ -74,9 +92,39 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 			shadingRule.toggleShade();
 
 			return true;
-		} else {
+		} else
 			return false;
-		}
+	}
+
+	/**
+	 * Executes an action when an instance of this class {@link #isInitialized() was
+	 * initialized}.
+	 *
+	 * @param whenInitialized the action ran when initialized
+	 * @since 5.0.0
+	 */
+	public static void whenInitialized(final Consumer<? super SimplyNoShadingClientMod<?, ?>> whenInitialized) {
+		Objects.requireNonNull(whenInitialized);
+
+		if (isInitialized()) { whenInitialized.accept(instance); }
+	}
+
+	/**
+	 * Executes an action when an instance of this class {@link #isInitialized() was
+	 * initialized}, a fallback action is executed otherwise.
+	 *
+	 * @param <T>               the result type
+	 * @param whenInitialized   the action ran when initialized
+	 * @param whenUninitialized the fallback action
+	 * @return the result of one of the given actions
+	 * @since 5.0.0
+	 */
+	public static <T> T whenInitialized(final Function<? super SimplyNoShadingClientMod<?, ?>, ? extends T> whenInitialized,
+	                                    final Supplier<? extends T> whenUninitialized) {
+		Objects.requireNonNull(whenInitialized);
+		Objects.requireNonNull(whenUninitialized);
+
+		return isInitialized() ? whenInitialized.apply(instance) : whenUninitialized.get();
 	}
 
 	/**
@@ -108,8 +156,9 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @param keyManagerProvider the key manager provider
 	 * @since 5.0.0
 	 */
-	protected SimplyNoShadingClientMod(final C config, final Path configPath,
-	    final Function<? super C, ? extends K> keyManagerProvider) {
+	protected SimplyNoShadingClientMod(final C config,
+	                                   final Path configPath,
+	                                   final Function<? super C, ? extends K> keyManagerProvider) {
 		this.config = config;
 		this.configPath = configPath;
 		this.keyManager = keyManagerProvider.apply(this.config);
@@ -132,8 +181,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 		this.config.write(configJson);
 
-		try (final var buffer = newBufferedWriter(this.configPath);
-		     final var out = GSON.newJsonWriter(buffer)) {
+		try (final var buffer = newBufferedWriter(this.configPath); final var out = GSON.newJsonWriter(buffer)) {
 			Streams.write(configJson, out);
 
 			LOGGER.info("Created config");
@@ -164,12 +212,22 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @param parent the parent screen
 	 * @return the settings screen
 	 */
-	protected Screen createSettingsScreen(final Screen parent) {
+	public Screen createSettingsScreen(final Screen parent) {
 		return new ShadingSettingsScreen(parent, this.config);
 	}
 
 	/**
-	 * @return the config type.
+	 * Returns the config.
+	 *
+	 * @return the config
+	 * @since 5.0.0
+	 */
+	public C getConfig() { return this.config; }
+
+	/**
+	 * Returns the config type.
+	 *
+	 * @return the config type
 	 */
 	protected Type getConfigType() {
 		return TypeToken.getParameterized(this.config.getClass(), this.config.shadingRules.getClass()).getType();
@@ -184,8 +242,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @since 5.0.0
 	 */
 	public void loadConfig() {
-		try (final var buffer = newBufferedReader(this.configPath);
-		     var in = GSON.newJsonReader(buffer)) {
+		try (final var buffer = newBufferedReader(this.configPath); var in = GSON.newJsonReader(buffer)) {
 			LOGGER.debug("Loading config...");
 
 			this.config.read(Streams.parse(in));
@@ -242,8 +299,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 		final JsonObject configJson;
 
-		try (final var reader = newBufferedReader(this.configPath);
-		     var in = GSON.newJsonReader(reader)) {
+		try (final var reader = newBufferedReader(this.configPath); var in = GSON.newJsonReader(reader)) {
 			configJson = Streams.parse(in) instanceof final JsonObject object ? object : new JsonObject();
 		} catch (final IOException ioe) {
 			LOGGER.warn("Unable to save config", ioe);
@@ -252,8 +308,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 
 		this.config.write(configJson);
 
-		try (final var writer = newBufferedWriter(this.configPath);
-		     final var out = GSON.newJsonWriter(writer)) {
+		try (final var writer = newBufferedWriter(this.configPath); final var out = GSON.newJsonWriter(writer)) {
 			Streams.write(configJson, out);
 
 			LOGGER.info("Saved config");

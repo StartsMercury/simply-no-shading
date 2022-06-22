@@ -49,7 +49,7 @@ public class FabricShadingRules extends ShadingRules {
 		@Override
 		protected boolean shouldRebuild() {
 			return super.shouldRebuild()
-			    && (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled());
+			        && (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled());
 		}
 
 		/**
@@ -60,7 +60,7 @@ public class FabricShadingRules extends ShadingRules {
 		@Override
 		public boolean shouldRebuildBlocks() {
 			return super.shouldRebuildBlocks()
-			    || !this.past.enhancedBlockEntities.wouldEquals(this.present.enhancedBlockEntities);
+			        || !this.past.enhancedBlockEntities.wouldEquals(this.present.enhancedBlockEntities);
 		}
 	}
 

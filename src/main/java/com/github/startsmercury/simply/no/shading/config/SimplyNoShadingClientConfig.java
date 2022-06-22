@@ -20,7 +20,7 @@ import net.minecraft.client.Minecraft;
  */
 @Environment(CLIENT)
 public class SimplyNoShadingClientConfig<R extends ShadingRules>
-    implements Copyable<SimplyNoShadingClientConfig<?>>, Observable<SimplyNoShadingClientConfig<R>> {
+        implements Copyable<SimplyNoShadingClientConfig<?>>, Observable<SimplyNoShadingClientConfig<R>> {
 	/**
 	 * Observed changes to the config.
 	 *
@@ -28,7 +28,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @since 5.0.0
 	 */
 	public static class Observation<T extends SimplyNoShadingClientConfig<?>>
-	    extends Observable.Observation<T, Minecraft> {
+	        extends Observable.Observation<T, Minecraft> {
 		/**
 		 * Whether chunks were rebuilt smartly.
 		 */
@@ -75,6 +75,19 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 		public boolean smartlyRebuiltChunks() {
 			return this.smartlyRebuiltChunks;
 		}
+	}
+
+	/**
+	 * Returns a new instance of {@code SimplyNoShadingClientConfig} with the
+	 * default shading rules type.
+	 *
+	 * @return a new instance of {@code SimplyNoShadingClientConfig} with the
+	 *         default shading rules type
+	 * @since 5.0.0
+	 * @see ShadingRules
+	 */
+	public static SimplyNoShadingClientConfig<?> identity() {
+		return new SimplyNoShadingClientConfig<>(new ShadingRules());
 	}
 
 	/**
@@ -155,25 +168,19 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @return the shading rules
 	 * @since 5.0.0
 	 */
-	public final R getShadingRules() {
-		return this.shadingRules;
-	}
+	public final R getShadingRules() { return this.shadingRules; }
 
 	/**
 	 * @return whether smart reloading is set
 	 * @since 5.0.0
 	 */
-	public final boolean isSmartReload() {
-		return this.smartReload;
-	}
+	public final boolean isSmartReload() { return this.smartReload; }
 
 	/**
 	 * @return whether to display messages when chunks are rebuilt smartly
 	 * @since 5.0.0
 	 */
-	public final boolean isSmartReloadMessage() {
-		return this.smartReloadMessage;
-	}
+	public final boolean isSmartReloadMessage() { return this.smartReloadMessage; }
 
 	/**
 	 * {@inheritDoc}
@@ -202,10 +209,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonElement in) {
-		if (!(in instanceof final JsonObject object)) {
-			reset();
-			return;
-		}
+		if (!(in instanceof final JsonObject object)) { reset(); return; }
 
 		read(object);
 	}
@@ -217,10 +221,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonObject in) {
-		if (in == null) {
-			reset();
-			return;
-		}
+		if (in == null) { reset(); return; }
 
 		this.smartReload = JsonUtils.getBooleanNonNull(in, "smartReload", true);
 		this.smartReloadMessage = JsonUtils.getBooleanNonNull(in, "smartReloadMessage", true);
@@ -241,9 +242,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 *
 	 * @param smartReload the new value
 	 */
-	public final void setSmartReload(final boolean smartReload) {
-		this.smartReload = smartReload;
-	}
+	public final void setSmartReload(final boolean smartReload) { this.smartReload = smartReload; }
 
 	/**
 	 * Sets smart reload message.
@@ -262,7 +261,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 */
 	public void write(final JsonObject out) {
 		final var shadingRulesJson = out.has("shadingRules")
-		    && out.get("shadingRules") instanceof final JsonObject object ? object : new JsonObject();
+		        && out.get("shadingRules") instanceof final JsonObject object ? object : new JsonObject();
 		this.shadingRules.write(shadingRulesJson);
 		out.add("shadingRules", shadingRulesJson);
 
