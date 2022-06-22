@@ -19,6 +19,5 @@ public final class SimplyNoShadingConstants {
 	/**
 	 * It is forbidden to create a new {@code SimplyNoShadingConstants}.
 	 */
-	private SimplyNoShadingConstants() {
-	}
+	private SimplyNoShadingConstants() {}
 }

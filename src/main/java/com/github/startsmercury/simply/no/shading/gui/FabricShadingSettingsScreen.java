@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screens.Screen;
  *
  * @since 5.0.0
  */
+@Deprecated(forRemoval = true)
 @Environment(CLIENT)
 public class FabricShadingSettingsScreen extends ShadingSettingsScreen {
 	/**

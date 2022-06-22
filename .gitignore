@@ -37,3 +37,4 @@ run/
 
 /.apt_generated/
 /.apt_generated_tests/
+local.properties

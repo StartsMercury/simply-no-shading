@@ -23,7 +23,7 @@ import net.minecraft.client.Minecraft;
  */
 @Environment(CLIENT)
 public class ShadingRules extends MultiValuedContainer<ShadingRule>
-    implements Copyable<ShadingRules>, Observable<ShadingRules> {
+        implements Copyable<ShadingRules>, Observable<ShadingRules> {
 	/**
 	 * The {@code Observation} class represents the observed changes between the
 	 * past and the present state of a {@code ShadingRules} object.
@@ -40,8 +40,7 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 		 * @param smartReload was smartReload active
 		 * @since 5.0.0
 		 */
-		public static record Context(Minecraft client, boolean smartReload) {
-		}
+		public static record Context(Minecraft client, boolean smartReload) {}
 
 		/**
 		 * Whether an unnecessary chunk reload was avoided.
@@ -94,9 +93,8 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 				client.levelRenderer.allChanged();
 
 				return true;
-			} else {
+			} else
 				return false;
-			}
 		}
 
 		/**
@@ -122,9 +120,8 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 				((CloudRenderer) client.levelRenderer).generateClouds();
 
 				return true;
-			} else {
+			} else
 				return false;
-			}
 		}
 
 		/**
@@ -144,7 +141,7 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 		 */
 		public boolean shouldRebuildBlocks() {
 			return !this.past.blocks.wouldEquals(this.present.blocks)
-			    || !this.past.liquids.wouldEquals(this.present.liquids);
+			        || !this.past.liquids.wouldEquals(this.present.liquids);
 		}
 
 		/**
@@ -265,10 +262,7 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonElement in) {
-		if (!(in instanceof final JsonObject object)) {
-			reset();
-			return;
-		}
+		if (!(in instanceof final JsonObject object)) { reset(); return; }
 
 		read(object);
 	}
@@ -280,20 +274,13 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonObject in) {
-		if (in == null) {
-			reset();
-			return;
-		}
+		if (in == null) { reset(); return; }
 
 		forEach((name, shadingRule) -> {
-			if (!(in.get(name) instanceof final JsonPrimitive primitive)) {
+			if (!(in.get(name) instanceof final JsonPrimitive primitive))
 				return;
-			}
 
-			if (!primitive.isBoolean()) {
-				shadingRule.resetShade();
-				return;
-			}
+			if (!primitive.isBoolean()) { shadingRule.resetShade(); return; }
 
 			shadingRule.setShade(primitive.getAsBoolean());
 		});

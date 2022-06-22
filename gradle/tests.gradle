@@ -1,0 +1,120 @@
+apply from: 'functions.gradle'
+apply from: 'local.gradle'
+
+ext {
+	tests = new Object() {
+		def client = []
+
+		def server = []
+
+		private def singles
+
+		def createRun = { String name, String parent = null, String environment -> }
+
+		def shouldIgnore = { List multiple -> false }
+
+		def configure(Closure closure) { closure(this) }
+
+		def initialize() {
+			initializeBase()
+			initializeSingles()
+			initializeMultiples()
+		}
+
+		def initializeBase() {
+			sourceSets { includeClasspath test, main }
+
+			if (local.'tests.disabled' != null) return
+
+			this.createRun('test', 'client')
+			this.createRun('test', 'server')
+		}
+
+		def initializeMultiples() {
+			(0 ..< this.singles.size() - 1).each this.&initializeMultiples
+		}
+
+		def initializeMultiples(int base) {
+			final def remaining = this.singles.size() - base - 1
+			final def multipleCount = 1L << remaining
+
+			(1 ..< multipleCount).each { initializeMultiple base, it }
+		}
+
+		def initializeMultiple(int base, long j) {
+			final def singleBase = this.singles[base]
+			final def multiple = [singleBase]
+			def name = new StringBuilder(singleBase)
+
+			for (def h = base + 1; j != 0; j >>>= 1, h++) {
+				if (j & 1) initializeMultiple multiple, name, h
+			}
+
+			if (shouldIgnore(List.copyOf(multiple))) return
+
+			final def identifier = toIdentifier name
+
+			sourceSets.create "${identifier}Test", {
+				includeClasspath it, sourceSets."${toIdentifier singleBase}Test"
+
+				multiple.each { single ->
+					includeClasspath it, sourceSets."${toIdentifier single}Test"
+				}
+			}
+
+			configurations { -> "${identifier}RuntimeOnly" {
+				if (local."tests.$name") extendsFrom modLocalRuntime
+			} }
+
+			final def testName = "$name test"
+
+			if (local.'tests.disabled' != null) return
+
+			createRun testName, 'client'
+
+			if (!multiple.any(client.&contains)) {
+				createRun testName, 'server'
+			}
+		}
+
+		def initializeMultiple(List multiple, StringBuilder name, int i) {
+			final def single = this.singles[i]
+
+			multiple << single
+			name << ' ' << single
+		}
+
+		def initializeSingle(String name) {
+			final def identifier = toIdentifier name
+			final def testName = "$name test"
+
+			sourceSets { -> "${identifier}Test" { includeClasspath it, test } }
+
+			configurations { -> "${identifier}RuntimeOnly" {
+				println it
+				/*if (local."tests.$name" != null)*/ modLocalRuntime.extendsFrom it
+			} }
+
+			if (local.'tests.disabled' != null) return
+
+			this.createRun(testName, 'test', 'client')
+
+			if (!(name in client)) {
+				this.createRun(testName, 'test', 'server')
+			}
+		}
+
+		def initializeSingles() {
+			this.singles = List.copyOf(new TreeSet(client + server))
+
+			singles.each this.&initializeSingle
+		}
+	}
+}
+
+def includeClasspath(SourceSet to, SourceSet from) {
+	if (local.'tests.disabled' != null) return
+
+	to.compileClasspath += from.compileClasspath
+	to.runtimeClasspath += from.runtimeClasspath
+}

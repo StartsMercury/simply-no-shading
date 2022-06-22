@@ -97,7 +97,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	protected void addAdvanceOptions() {
 		this.optionsWidget
-		    .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
+		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
 
 		final var smartReloadOption = new SpruceBooleanOption("simply-no-shading.option.smartReload",
 		    this.config::isSmartReload, this.config::setSmartReload,
@@ -126,20 +126,18 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		final var iterator = this.config.shadingRules.iterator();
 
 		this.optionsWidget
-		    .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
+		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
 
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
 
-			if (leftEntry == null) {
-				continue;
-			}
+			if (leftEntry == null) { continue; }
 
 			final var rightEntry = nextOption(iterator);
 
 			final var leftOption = createOption(leftEntry.getKey(), leftEntry.getValue());
-			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(), rightEntry.getValue())
-			    : null;
+			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(),
+			                                                          rightEntry.getValue()) : null;
 
 			this.optionsWidget.addOptionEntry(leftOption, rightOption);
 		}
@@ -174,8 +172,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		addOptions();
 
 		addRenderableWidget(this.optionsWidget);
-		addRenderableWidget(new SpruceButtonWidget(Position.of(this.width / 2 - 100, this.height - 27), 200, 20,
-		    CommonComponents.GUI_DONE, button -> onClose()));
+		addRenderableWidget(new SpruceButtonWidget(Position
+		        .of(this.width / 2 - 100, this.height - 27), 200, 20, CommonComponents.GUI_DONE, button -> onClose()));
 	}
 
 	/**
@@ -190,9 +188,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		while (iterator.hasNext()) {
 			final var entry = iterator.next();
 
-			if (applyOption(entry.getKey())) {
+			if (applyOption(entry.getKey()))
 				return entry;
-			}
 		}
 
 		return null;
@@ -255,8 +252,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void renderBackground(final PoseStack poseStack) {
-		if (this.minecraft.level == null) {
-			super.renderBackground(poseStack);
-		}
+		if (this.minecraft.level == null) { super.renderBackground(poseStack); }
 	}
 }

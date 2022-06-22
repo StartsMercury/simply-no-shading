@@ -1,0 +1,3 @@
+apply from: 'functions.gradle'
+
+loadProperties 'local.properties' each ext.&set

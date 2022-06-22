@@ -1,39 +1,20 @@
+import org.gradle.api.artifacts.VersionCatalog
+
 apply from: 'functions.gradle'
 
 ext {
-	versionCatalogs = extensions.getByType(VersionCatalogsExtension).named 'libs'
+	versionCatalog = extensions.getByType VersionCatalogsExtension named 'libs'
 
 	mods = new Object() {
-		private final def libs = versionCatalogs.libraryAliases.collect {
-			dependencies.create versionCatalogs.findLibrary(it).get().get()
-		}
-
-		final def versionFilters = [:]
+		final Map<String, Closure> versionFilters = [:]
 
 		def getVersions() {
-			final def versions = [:]
+			versionCatalog.with { versionAliases.collectEntries {
+				final def identifier = toIdentifier it
 
-			this.libs.each {
-				createTree versions, Map.entry(it.name, toSemverRange(it.version, versionFilters[it.name]))
-			}
-
-			return versions
+				return [identifier, toSemverRange("${findVersion it get()}", versionFilters[identifier])]
+			} }
 		}
 	}
 }
 
-defaultProperty 'modGroup', 'group'
-defaultProperty 'modName', 'name'
-defaultProperty 'modVersion', 'version'
-
-def defaultProperty(String modKey, String key) {
-	if (project.properties[modKey] && isUnspecified(project[key])) {
-		project[key] = project.properties[modKey]
-	} else {
-		project.properties[modKey] = project[key]
-	}
-}
-
-def isUnspecified(String value) {
-	return value == 'unspecified' || !value
-}

@@ -13,6 +13,19 @@ import net.fabricmc.api.Environment;
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientConfig<R extends FabricShadingRules> extends SimplyNoShadingClientConfig<R> {
 	/**
+	 * Returns a new instance of {@code SimplyNoShadingFabricClientConfig} with the
+	 * default shading rules type.
+	 *
+	 * @return a new instance of {@code SimplyNoShadingFabricClientConfig} with the
+	 *         default shading rules type
+	 * @since 5.0.0
+	 * @see FabricShadingRules
+	 */
+	public static SimplyNoShadingFabricClientConfig<?> identity() {
+		return new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules());
+	}
+
+	/**
 	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
 	 *
 	 * @param shadingRules the shading rules

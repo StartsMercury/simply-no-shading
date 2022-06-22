@@ -1,28 +1,9 @@
+import groovy.transform.Immutable
+
 import java.nio.file.Files
 import java.nio.file.NoSuchFileException
 
 ext {
-	createTree = { root = [:], obj ->
-		if (obj instanceof Map || obj instanceof Collection || obj.getClass().array) {
-			obj.each { createTree root, it }
-		} else if (obj) {
-			def map = root
-			final def nodes = obj.key.split(/\P{Alnum}+/)
-
-			for (i in 0 ..< nodes.length - 1) {
-				map = map.compute(nodes[i], (node, value) -> value instanceof Map ? value : value ? new HashMap(['value': value]) {
-					def get() { return get('value') }
-				} : [:])
-			}
-
-			map.compute(nodes[nodes.length - 1], (node, value) -> value instanceof Map ? obj.value ? new HashMap(['value': obj.value]) {
-				def get() { return get('value') }
-			} : value : obj.value)
-		}
-
-		return root
-	}
-
 	loadProperties = { obj ->
 		if (obj instanceof java.nio.file.Path) {
 			final def properties = new Properties();
@@ -40,32 +21,6 @@ ext {
 		} else {
 			return loadProperties(file(Objects.toString(obj)))
 		}
-	}
-
-	subchars = { chars, from = 0, to ->
-		Objects.requireNonNull chars
-
-		if (from < 0) {
-			throw new ArrayIndexOutOfBoundsException("from < 0")
-		} else if (to > chars.length) {
-			throw new ArrayIndexOutOfBoundsException("to > chars.length")
-		} else if (from > to) {
-			throw new ArrayIndexOutOfBoundsException("from > to")
-		}
-
-		def subchars = chars
-
-		if (chars instanceof char[]) {
-			subchars = new char[to - from]
-		} else if (chars instanceof int[]) {
-			subchars = new int[to - from]
-		} else {
-			throw new ClassCastException(chars.class.name)
-		}
-
-		System.arraycopy(chars, 0, subchars, from, subchars.length)
-
-		return subchars
 	}
 
 	toIdentifier = { text ->
@@ -90,12 +45,12 @@ ext {
 		if (!action) action = { it }
 
 		if (range.endsWith('.+')) {
-			return "${action range[0..< range.size() - 2]}.x"
+			return "${range[0..< range.size() - 2]}.x".with(action)
 		}
 
 		final def delimiter = range.indexOf ','
 
-		if (delimiter == -1) return action(range);
+		if (delimiter == -1) return range.with(action)
 
 		final def joiner = new StringJoiner(' ')
 		final def lowerBound = range[1 ..< delimiter].strip()
@@ -104,13 +59,13 @@ ext {
 		joiner.emptyValue = '*'
 		
 		switch (lowerBound ? range[0] : ' ') {
-		case '[': joiner.add ">=${lowerBound}"; break
-		case '(': case ']': joiner.add ">${action lowerBound}"; break
+		case '[': joiner.add ">=${lowerBound.with action}"; break
+		case '(': case ']': joiner.add ">${lowerBound.with action}"; break
 		}
 
 		switch (upperBound ? range[range.length() - 1] : ' ') {
-		case ']': joiner.add "<=${upperBound}"; break
-		case ')': case '[': joiner.add "<${action upperBound}"; break
+		case ']': joiner.add "<=${upperBound.with action}"; break
+		case ')': case '[': joiner.add "<${upperBound.with action}"; break
 		}
 
 		return joiner as String
@@ -121,40 +76,30 @@ ext {
 	}
 }
 
-def toIdentifierPartOrTitleCase(def text, boolean nonAlnum, boolean part = false, boolean shared = false) {
-	if (text instanceof char[] || text instanceof int[]) {
-		if (!text.length) return
-		if (!shared) text = text.clone()
+def toIdentifierPartOrTitleCase(def text, boolean nonAlnum, boolean part = false) {
+	if (text == null) return
 
-		def size = 0
-		def start = !nonAlnum && !part
-		def wouldTitleCase = true
+	text = String.valueOf(text)
 
-		for (i in 0 ..< text.length) {
-			final def ch = text[i]
+	final def builder = new StringBuilder(text.size())
+	def start = !nonAlnum && !part
+	def wouldTitleCase = true
 
-			if (Character.isLetterOrDigit(ch)) {
-				if (!start) {
-					text[size++] = wouldTitleCase ? Character.toTitleCase(ch) : ch;
-				} else {
-					text[size++] = Character.toLowerCase(ch)
-					start = false
-				}
-
-				wouldTitleCase = false
+	for (int ch in text) {
+		if (Character.isLetterOrDigit(ch)) {
+			if (!start) {
+				builder.appendCodePoint wouldTitleCase ? Character.toTitleCase(ch) : ch
 			} else {
-				if (nonAlnum) text[size++] = ch
-				wouldTitleCase = true
+				builder.appendCodePoint Character.toLowerCase(ch)
+				start = false
 			}
+
+			wouldTitleCase = false
+		} else {
+			if (nonAlnum) builder.appendCodePoint ch
+			wouldTitleCase = true
 		}
-
-		return size != text.length ? subchars(text, size) : text
-	} else {
-		if (!text) return text
-
-		final def textChars = String.valueOf(text).toCharArray()
-		final def titleChars = toIdentifierPartOrTitleCase textChars, nonAlnum, part, true
-
-		return String.valueOf(titleChars)
 	}
+
+	return builder as String
 }

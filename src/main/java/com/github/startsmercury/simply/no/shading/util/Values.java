@@ -13,9 +13,8 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceSortedMaps;
 
 /**
- * <b>Renamed to {@link MultiValuedContainer}</b>
- *
- * Represents a retrievable collection of elements.
+ * <b>Renamed to {@link MultiValuedContainer}</b> Represents a retrievable
+ * collection of elements.
  *
  * @param <T> the element type
  * @since 5.0.0
@@ -61,9 +60,8 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	 * @since 5.0.0
 	 */
 	public final <M extends Map<? super String, ? super T>> M collectTo(final M map) {
-		if (map == null) {
+		if (map == null)
 			return null;
-		}
 
 		map.putAll(mapView());
 
@@ -88,13 +86,12 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		} else if (obj instanceof final Values<?> other) {
+		else if (obj instanceof final Values<?> other)
 			return this.values.equals(other.values);
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
@@ -149,9 +146,7 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	 * @return a {@code boolean} value
 	 * @since 5.0.0
 	 */
-	public final boolean isEmpty() {
-		return this.values.isEmpty();
-	}
+	public final boolean isEmpty() { return this.values.isEmpty(); }
 
 	/**
 	 * {@inheritDoc}
@@ -180,11 +175,10 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	 * @return the element
 	 */
 	protected final <U extends T> U register(final String name, final U value) {
-		if (this.values.putIfAbsent(name, value) != null) {
+		if (this.values.putIfAbsent(name, value) != null)
 			throw new IllegalStateException('\'' + name + "' is already registered");
-		} else {
+		else
 			return value;
-		}
 	}
 
 	/**

@@ -2,9 +2,13 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import com.github.startsmercury.simply.no.shading.config.FabricShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
-import com.github.startsmercury.simply.no.shading.gui.FabricShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.gui.SimplyNoShadingFabricSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingFabricKeyManager;
 
@@ -16,7 +20,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.EndTic
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 
 /**
  * Simply No Shading {@link ClientModInitializer fabric client mod initializer}.
@@ -25,8 +28,8 @@ import net.minecraft.network.chat.Component;
  */
 @Environment(CLIENT)
 public class SimplyNoShadingFabricClientMod extends
-    SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig<FabricShadingRules>, SimplyNoShadingFabricKeyManager>
-    implements ClientModInitializer {
+        SimplyNoShadingClientMod<SimplyNoShadingFabricClientConfig<FabricShadingRules>, SimplyNoShadingFabricKeyManager>
+        implements ClientModInitializer {
 	/**
 	 * The initialized instance.
 	 */
@@ -40,11 +43,51 @@ public class SimplyNoShadingFabricClientMod extends
 	 * @since 5.0.0
 	 */
 	public static SimplyNoShadingFabricClientMod getInstance() {
-		if (instance == null) {
+		if (isInitialized())
 			throw new IllegalStateException("Accessed too early!");
-		}
 
 		return instance;
+	}
+
+	/**
+	 * Returns {@code true} if an instance of this class is initialized where
+	 * accesses to {@link #getInstance()} are valid.
+	 *
+	 * @return {@code true} if an instance of this class is initialized where
+	 *         accesses to {@link #getInstance()} are valid
+	 * @since 5.0.0
+	 */
+	public static boolean isInitialized() { return instance == null; }
+
+	/**
+	 * Executes an action when an instance of this class {@link #isInitialized() was
+	 * initialized}.
+	 *
+	 * @param whenInitialized the action ran when initialized
+	 * @since 5.0.0
+	 */
+	public static void whenInitialized(final Consumer<? super SimplyNoShadingClientMod<?, ?>> whenInitialized) {
+		Objects.requireNonNull(whenInitialized);
+
+		if (isInitialized()) { whenInitialized.accept(instance); }
+	}
+
+	/**
+	 * Executes an action when an instance of this class {@link #isInitialized() was
+	 * initialized}, a fallback action is executed otherwise.
+	 *
+	 * @param <T>               the result type
+	 * @param whenInitialized   the action ran when initialized
+	 * @param whenUninitialized the fallback action
+	 * @return the result of one of the given actions
+	 * @since 5.0.0
+	 */
+	public static <T> T whenInitialized(final Function<? super SimplyNoShadingClientMod<?, ?>, ? extends T> whenInitialized,
+	                                    final Supplier<? extends T> whenUninitialized) {
+		Objects.requireNonNull(whenInitialized);
+		Objects.requireNonNull(whenUninitialized);
+
+		return isInitialized() ? whenInitialized.apply(instance) : whenUninitialized.get();
 	}
 
 	/**
@@ -54,17 +97,16 @@ public class SimplyNoShadingFabricClientMod extends
 	 */
 	public SimplyNoShadingFabricClientMod() {
 		super(new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules()),
-		    FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
-		    SimplyNoShadingFabricKeyManager::new);
+		      FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
+		      SimplyNoShadingFabricKeyManager::new);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Screen createSettingsScreen(final Screen parent) {
-		return FabricLoader.getInstance().isModLoaded("spruceui") ? new SimplyNoShadingFabricSettingsScreen(parent)
-		    : new FabricShadingSettingsScreen(parent, this.config);
+	public Screen createSettingsScreen(final Screen parent) {
+		return new SimplyNoShadingFabricSettingsScreen(parent, this.config);
 	}
 
 	/**
@@ -93,8 +135,7 @@ public class SimplyNoShadingFabricClientMod extends
 		final var fabricLoader = FabricLoader.getInstance();
 
 		if (!fabricLoader.isModLoaded("fabric-key-binding-api-v1")) {
-			LOGGER.warn(
-			    "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
+			LOGGER.warn("Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
 
 			return;
 		}
@@ -110,9 +151,9 @@ public class SimplyNoShadingFabricClientMod extends
 	protected void registerLifecycleEventListeners() {
 		LOGGER.debug("Registering life cycle event listeners...");
 
+		// Ineffective, this is bundled in spruceui
 		if (!FabricLoader.getInstance().isModLoaded("fabric-lifecycle-events-v1")) {
-			LOGGER.warn(
-			    "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
+			LOGGER.warn("Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
 
 			registerShutdownHook();
 
@@ -126,9 +167,8 @@ public class SimplyNoShadingFabricClientMod extends
 			public void onEndTick(final Minecraft client) {
 				final var windowActive = client.isWindowActive();
 
-				if (this.windowWasActive == windowActive) {
+				if (this.windowWasActive == windowActive)
 					return;
-				}
 
 				if (windowActive) {
 					loadConfig();
@@ -142,29 +182,25 @@ public class SimplyNoShadingFabricClientMod extends
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final var openSettings = this.keyManager.openSettings.consumeClick();
 
-			if (openSettings) {
-				openSettingsScreen(client);
-			}
+			if (openSettings) { openSettingsScreen(client); }
 
 			final var observation = !openSettings ? this.config.observe() : null;
 			final var toggled = toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all)
-			    | toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks)
-			    | toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds)
-			    | toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
-			        this.config.shadingRules.enhancedBlockEntities)
-			    | toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
+			        | toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks)
+			        | toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds)
+			        | toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
+			                      this.config.shadingRules.enhancedBlockEntities)
+			        | toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
 
-			if (!toggled || openSettings) {
+			if (!toggled || openSettings)
 				return;
-			}
 
 			observation.react(client);
 
-			if (!this.config.smartReloadMessage || !observation.smartlyRebuiltChunks() || client.player == null) {
+			if (!this.config.smartReloadMessage || !observation.smartlyRebuiltChunks() || client.player == null)
 				return;
-			}
 
-			client.player.displayClientMessage(Component.translatable("simply-no-shading.option.shadingRules.smartReload"), true);
+			client.player.displayClientMessage(SMART_RELOAD_COMPONENT, true);
 		});
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> saveConfig());
 

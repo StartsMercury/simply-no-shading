@@ -93,13 +93,12 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		} else if (obj instanceof final ShadingRule other) {
+		else if (obj instanceof final ShadingRule other)
 			return equals(other);
-		} else {
+		else
 			return false;
-		}
 	}
 
 	/**
@@ -120,9 +119,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	 * @return the default shade
 	 * @since 5.0.0
 	 */
-	public boolean getDefaultShade() {
-		return this.defaultShade;
-	}
+	public boolean getDefaultShade() { return this.defaultShade; }
 
 	/**
 	 * Returns the parent.
@@ -130,9 +127,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	 * @return the parent
 	 * @since 5.0.0
 	 */
-	public ShadingRule getParent() {
-		return this.parent;
-	}
+	public ShadingRule getParent() { return this.parent; }
 
 	/**
 	 * {@inheritDoc}
@@ -167,9 +162,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	 * @param shade the new shade
 	 * @since 5.0.0
 	 */
-	public void setShade(final boolean shade) {
-		this.shade = shade;
-	}
+	public void setShade(final boolean shade) { this.shade = shade; }
 
 	/**
 	 * Returns the shade.

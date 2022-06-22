@@ -1,0 +1,15 @@
+apply from: 'functions.gradle'
+apply from: 'tests.gradle'
+
+tests.createRun = { String name, String parent = null, String environment ->
+	final def identifier = toIdentifier name
+	final def suffix = toIdentifierPart environment
+	final def suffixedIdentifier = identifier + suffix
+
+	loom.runConfigs.create suffixedIdentifier, { ->
+		inherit loom.runConfigs[parent ? parent + suffix : environment]
+
+		configName = toTitleCase(name) + ' ' + suffix
+		source = sourceSets[identifier]
+	}
+}
