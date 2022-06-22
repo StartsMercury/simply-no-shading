@@ -30,7 +30,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 /**
  * The base mod class of Simply No Shading.
@@ -56,7 +56,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	/**
 	 * The message shown in-game to the player when a smart reload was delivered.
 	 */
-	public static final TranslatableComponent SMART_RELOAD_COMPONENT = new TranslatableComponent("simply-no-shading.option.shadingRules.smartReload");
+	public static final TranslatableComponent SMART_RELOAD_COMPONENT = Component.translatable("simply-no-shading.option.shadingRules.smartReload");
 
 	/**
 	 * Returns the initialized instance, throws {@link IllegalStateException} if
