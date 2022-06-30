@@ -166,7 +166,7 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 	}
 
 	/**
-	 * All shading, acts as the parent of the all other shading rules.
+	 * All shading, the parent of all the other shading rules.
 	 */
 	public final ShadingRule all;
 
