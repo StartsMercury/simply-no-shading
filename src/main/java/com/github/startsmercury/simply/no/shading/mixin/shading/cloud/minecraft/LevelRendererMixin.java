@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 	/**
-	 * Changes the clouds shade applying {@link ShadingRules#clouds}.
+	 * Changes the cloud shade applying {@link ShadingRules#clouds}.
 	 *
 	 * @param shade the original shade
 	 * @return the modified shade
