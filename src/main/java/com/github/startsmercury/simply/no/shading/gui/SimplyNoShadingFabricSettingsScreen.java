@@ -34,8 +34,8 @@ import net.minecraft.network.chat.TranslatableComponent;
  */
 public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	/**
-	 * Creates a new option given the name, and the {@link ShadingRule shading
-	 * rule}.
+	 * Creates a new option given the name, and the {@link ShadingRule shading rule}
+	 * from a predefined template.
 	 *
 	 * @param name        the name
 	 * @param shadingRule the shading rule
@@ -73,7 +73,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * Creates a new FabricShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent) {
 		this(parent, SimplyNoShadingClientMod.getInstance().config);
@@ -85,7 +84,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
 		super(new TranslatableComponent("simply-no-shading.options.title"));
@@ -153,6 +151,9 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * Adds all the {@link ShadingRule shading} options.
+	 *
+	 * @see #addAllShadingOption()
+	 * @see #addOtherShadingOptions()
 	 */
 	protected void addShadingOptions() {
 		this.optionsWidget
@@ -167,6 +168,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @param name the option name
 	 * @return a {@code boolean} value
+	 * @implSpec By default it filters out options named {@code all}
 	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
@@ -216,8 +218,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onClose() {
@@ -230,8 +230,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void removed() {
@@ -248,8 +246,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
@@ -266,8 +262,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void renderBackground(final PoseStack poseStack) {
