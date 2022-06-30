@@ -5,7 +5,8 @@ import static net.fabricmc.api.EnvType.CLIENT;
 import net.fabricmc.api.Environment;
 
 /**
- * Simply No Shading fabric client config.
+ * The {@code SimplyNoShadingFabricClientConfig} class represents the Simply No
+ * Shading config that includes additional features with fabric.
  *
  * @param <R> the shading rules type
  * @since 5.0.0
@@ -26,20 +27,18 @@ public class SimplyNoShadingFabricClientConfig<R extends FabricShadingRules> ext
 	}
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
+	 * Creates a new SimplyNoShadingFabricClientConfig.
 	 *
 	 * @param shadingRules the shading rules
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricClientConfig(final R shadingRules) {
 		super(shadingRules);
 	}
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
+	 * Creates a new SimplyNoShadingFabricClientConfig by copying another's state.
 	 *
 	 * @param other the other config
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricClientConfig(final SimplyNoShadingClientConfig<R> other) {
 		super(other);
@@ -47,8 +46,6 @@ public class SimplyNoShadingFabricClientConfig<R extends FabricShadingRules> ext
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public SimplyNoShadingFabricClientConfig<R> copy() {
