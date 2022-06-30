@@ -12,6 +12,12 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
  */
 public class SimplyNoShadingModMenu implements ModMenuApi {
 	/**
+	 * Creates a new SimplyNoShadingModMenu.
+	 */
+	public SimplyNoShadingModMenu() {
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

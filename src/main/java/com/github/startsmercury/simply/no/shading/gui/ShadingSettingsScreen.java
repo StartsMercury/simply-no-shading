@@ -58,13 +58,12 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	private OptionsList list;
 
 	/**
-	 * The observation of changes to the config.
+	 * The observed changes to the config.
 	 */
 	private SimplyNoShadingClientConfig.Observation<?> observation;
 
 	/**
-	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
-	 * screen.
+	 * Creates a new ShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
 	 * @since 5.0.0
@@ -74,8 +73,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	}
 
 	/**
-	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
-	 * screen and the config.
+	 * Creates a new ShadingSettingsScreen given the parent screen and the config.
 	 *
 	 * @param parent the parent screen
 	 * @param config the config

@@ -70,8 +70,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	protected final Screen parent;
 
 	/**
-	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
-	 * screen.
+	 * Creates a new FabricShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
 	 * @since 5.0.0
@@ -81,8 +80,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
-	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
-	 * screen and the config.
+	 * Creates a new FabricShadingSettingsScreen given the parent screen and the
+	 * config.
 	 *
 	 * @param parent the parent screen
 	 * @param config the config

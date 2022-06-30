@@ -96,8 +96,6 @@ public class SimplyNoShadingFabricClientMod extends
 
 	/**
 	 * Creates a new instance of {@code SimplyNoShadingFabricClientMod}.
-	 *
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricClientMod() {
 		super(new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules()),

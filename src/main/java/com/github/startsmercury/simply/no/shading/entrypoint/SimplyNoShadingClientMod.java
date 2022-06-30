@@ -164,7 +164,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * @param config             the config
 	 * @param configPath         the config path
 	 * @param keyManagerProvider the key manager provider
-	 * @since 5.0.0
 	 */
 	protected SimplyNoShadingClientMod(final C config,
 	                                   final Path configPath,
