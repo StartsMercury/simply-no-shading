@@ -30,8 +30,6 @@ import net.fabricmc.loader.api.FabricLoader;
 public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * The config path.
-	 *
-	 * @since 5.0.0
 	 */
 	public static final Path CONFIG_PATH = FabricLoader.getInstance()
 	        .getConfigDir()
@@ -39,8 +37,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	/**
 	 * The logger.
-	 *
-	 * @since 5.0.0
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/mixin");
 
@@ -94,7 +90,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	private final ObjectOpenHashSet<String> excludedCached;
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingMixinPlugin}.
+	 * Creates a new SimplyNoShadingMixinPlugin.
 	 *
 	 * @since 5.0.0
 	 */
@@ -103,7 +99,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	}
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingMixinPlugin}.
+	 * Creates a new SimplyNoShadingMixinPlugin.
 	 *
 	 * @param log should log post construction
 	 * @since 5.0.0
@@ -129,15 +125,12 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {}
 
 	/**
-	 * @return the additional mixins
-	 * @since 5.0.0
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<String> getMixins() {
@@ -162,8 +155,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public String getRefMapperConfig() { return null; }
@@ -171,22 +162,18 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * Includes additional mixins.
 	 *
-	 * @param mixins the mixin list
+	 * @param mixins the additional mixin list
 	 */
 	protected void includeMixins(final List<String> mixins) {}
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onLoad(final String mixinPackage) {}
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void postApply(final String targetClassName,
@@ -196,8 +183,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void preApply(final String targetClassName,
@@ -206,11 +191,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	                     final IMixinInfo mixinInfo) {}
 
 	/**
-	 * Filters whether a specific mixin class should be appliead given the name and
-	 * the target class name.
-	 *
-	 * @return a {@code boolean} value
-	 * @since 5.0.0
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {

@@ -13,9 +13,7 @@ import net.fabricmc.loader.api.FabricLoader;
  */
 public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin {
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingFabricMixinPlugin}.
-	 *
-	 * @since 5.0.0
+	 * Creates a new SimplyNoShadingFabricMixinPlugin.
 	 */
 	public SimplyNoShadingFabricMixinPlugin() {
 		super(false);
@@ -24,7 +22,7 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 	}
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingFabricMixinPlugin}.
+	 * Creates a new SimplyNoShadingFabricMixinPlugin.
 	 *
 	 * @param log should log post construction
 	 * @since 5.0.0
@@ -37,8 +35,6 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	protected void includeMixins(final List<String> mixins) {
