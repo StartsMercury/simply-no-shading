@@ -109,7 +109,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param name the option name
 	 * @return a {@code boolean} value
-	 * @implSpec By default it filters out options named {@code all}
 	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
