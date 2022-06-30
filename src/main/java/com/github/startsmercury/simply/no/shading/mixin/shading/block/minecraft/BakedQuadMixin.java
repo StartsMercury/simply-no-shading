@@ -38,22 +38,20 @@ public abstract class BakedQuadMixin implements Shadable {
 	}
 
 	/**
-	 * @return the shading rule
+	 * {@inheritDoc}
 	 */
 	@Override
 	public ShadingRule getShadingRule() { return this.shadingRule; }
 
 	/**
-	 * @return the shade with the shading rule applied
+	 * {@inheritDoc}
 	 */
 	@Override
 	@Shadow
 	public abstract boolean isShade();
 
 	/**
-	 * Sets the shading rule to a new value.
-	 *
-	 * @param shadingRule the new shading rule
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void setShadingRule(final ShadingRule shadingRule) { this.shadingRule = shadingRule; }
