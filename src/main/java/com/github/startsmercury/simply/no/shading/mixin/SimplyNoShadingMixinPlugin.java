@@ -26,6 +26,7 @@ import net.fabricmc.loader.api.FabricLoader;
  *
  * @since 5.0.0
  */
+@SuppressWarnings("deprecation")
 public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * The config path.
