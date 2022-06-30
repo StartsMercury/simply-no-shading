@@ -15,13 +15,15 @@ import net.minecraft.client.renderer.LevelRenderer;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin implements CloudRenderer {
 	/**
-	 * Generate clouds.
+	 * Generate clouds on the next rendered frame.
 	 */
 	@Shadow
 	private boolean generateClouds;
 
 	/**
 	 * Sets {@link #generateClouds} to {@code true}.
+	 * <p>
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void generateClouds() {
