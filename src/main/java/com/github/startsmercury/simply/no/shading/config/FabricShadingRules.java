@@ -2,40 +2,46 @@ package com.github.startsmercury.simply.no.shading.config;
 
 import static net.fabricmc.api.EnvType.CLIENT;
 
+import com.github.startsmercury.simply.no.shading.util.Copyable;
+
 import net.coderbot.iris.Iris;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
- * Represents a collection of fabric shading rules.
+ * The {@code FabricShadingRules} class represents a collection of named shading
+ * rules including additional ones available with fabric.
  *
  * @since 5.0.0
  */
 @Environment(CLIENT)
 public class FabricShadingRules extends ShadingRules {
 	/**
-	 * Observed change to {@link FabricShadingRules}.
+	 * The {@code Observation} class represents the observed changes between the
+	 * past and the present state of a {@code FabricShadingRules} object.
 	 *
-	 * @param <T> the shading rule type
+	 * @param <T> the observed type
 	 * @since 5.0.0
 	 */
 	public static class Observation<T extends FabricShadingRules> extends ShadingRules.Observation<T> {
 		/**
-		 * Creates a new instance of {@link Observation} with the a reference point.
+		 * Creates a new observation using the "copy" of the present as the past.
+		 * Providing a present state that is not an instance of {@link Copyable} will
+		 * throw an {@link IllegalArgumentException}.
 		 *
-		 * @param point the reference point
-		 * @since 5.0.0
+		 * @param present the present
+		 * @throws IllegalArgumentException if construction is unable to copy the
+		 *                                  present
 		 */
-		public Observation(final T point) {
-			super(point);
+		public Observation(final T present) {
+			super(present);
 		}
 
 		/**
-		 * Creates a new instance of {@link Observation} with the past and present.
+		 * Creates a new observation with complete information.
 		 *
 		 * @param past    the past
 		 * @param present the present
-		 * @since 5.0.0
 		 */
 		public Observation(final T past, final T present) {
 			super(past, present);
@@ -43,8 +49,6 @@ public class FabricShadingRules extends ShadingRules {
 
 		/**
 		 * {@inheritDoc}
-		 *
-		 * @since 5.0.0
 		 */
 		@Override
 		protected boolean shouldRebuild() {
@@ -54,8 +58,6 @@ public class FabricShadingRules extends ShadingRules {
 
 		/**
 		 * {@inheritDoc}
-		 *
-		 * @since 5.0.0
 		 */
 		@Override
 		public boolean shouldRebuildBlocks() {
@@ -70,20 +72,17 @@ public class FabricShadingRules extends ShadingRules {
 	public final ShadingRule enhancedBlockEntities;
 
 	/**
-	 * Creates an instance of {@code FabricShadingRules}.
-	 *
-	 * @since 5.0.0
+	 * Creates a new {@code FabricShadingRules}.
 	 */
 	public FabricShadingRules() {
 		this.enhancedBlockEntities = register("enhancedBlockEntities", new ShadingRule(this.all, true));
 	}
 
 	/**
-	 * Creates an instance of {@code FabricShadingRules} by copying from the other
+	 * Creates a new {@code ShadingRules} by copying from the another
 	 * {@code ShadingRules}.
 	 *
 	 * @param other the other shading rule
-	 * @since 5.0.0
 	 */
 	public FabricShadingRules(final ShadingRules other) {
 		this();
@@ -93,8 +92,6 @@ public class FabricShadingRules extends ShadingRules {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public FabricShadingRules copy() {
@@ -103,8 +100,6 @@ public class FabricShadingRules extends ShadingRules {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Observation<? extends FabricShadingRules> observe() {
@@ -112,6 +107,8 @@ public class FabricShadingRules extends ShadingRules {
 	}
 
 	/**
+	 * Creates an observation with a provided point of the past as reference.
+	 *
 	 * @param past the past
 	 * @return the observation
 	 * @since 5.0.0
@@ -123,7 +120,7 @@ public class FabricShadingRules extends ShadingRules {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 5.0.0
+	 * @see #observe(FabricShadingRules)
 	 */
 	@Deprecated
 	@Override
