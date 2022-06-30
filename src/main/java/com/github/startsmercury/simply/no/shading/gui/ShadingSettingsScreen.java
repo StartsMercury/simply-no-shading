@@ -32,8 +32,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	/**
-	 * Creates a new option given the name, and the {@link ShadingRule shading
-	 * rule}.
+	 * Creates a new option given the name, and the {@link ShadingRule shading rule}
+	 * from a predefined template.
 	 *
 	 * @param name        the name
 	 * @param shadingRule the shading rule
@@ -66,7 +66,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * Creates a new ShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
-	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent) {
 		this(parent, SimplyNoShadingClientMod.getInstance().config);
@@ -77,7 +76,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
 		super(parent, null, new TranslatableComponent("simply-no-shading.options.shadingTitle"));
@@ -111,6 +109,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 *
 	 * @param name the option name
 	 * @return a {@code boolean} value
+	 * @implSpec By default it filters out options named {@code all}
 	 */
 	protected boolean applyOption(final String name) {
 		return switch (name) {
@@ -165,8 +164,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onClose() {
@@ -179,8 +176,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void removed() {
@@ -197,8 +192,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
