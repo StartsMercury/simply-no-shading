@@ -17,6 +17,7 @@ import net.fabricmc.api.Environment;
  * @see SimplyNoShadingMixinPlugin
  * @since 5.0.0
  */
+@Deprecated(since = "5.0.0")
 @Environment(CLIENT)
 public final class SimplyNoShadingMixinConfig implements Serializable {
 	/**
@@ -26,12 +27,14 @@ public final class SimplyNoShadingMixinConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Exclusion set.
+	 * The mixin class names to be excluded.
 	 */
 	private final ObjectOpenHashSet<String> excluded = new ObjectOpenHashSet<>();
 
 	/**
-	 * @return the exclusion set.
+	 * Returns the mixin class names to be excluded.
+	 *
+	 * @return the mixin class names to be excluded
 	 * @since 5.0.0
 	 */
 	public ObjectOpenHashSet<String> getExcluded() { return this.excluded; }

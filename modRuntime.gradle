@@ -1,30 +1,33 @@
 apply from: 'local.gradle'
 
 // BedrockIfy
-runtime 'bedrockify',              libs.bedrockify
+toggleableModLocalRuntime 'bedrockify',              libs.bedrockify
 
 // Enhanced Block Entities
-runtime 'enhancedblockentities',   libs.enhancedblockentities
+toggleableModLocalRuntime 'enhancedblockentities',   libs.enhancedblockentities
 
 // Fabric Key Binding API (V1)
-runtime 'fabricKeyBindingApiV1',   fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
+toggleableModLocalRuntime 'fabricKeyBindingApiV1',   fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
 
 // Fabric Lifecycle Events (V1) - ineffective, this is bundled in spruceui
-runtime 'fabricLifecycleEventsV1', fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
+toggleableModLocalRuntime 'fabricLifecycleEventsV1', fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
 
 // Fabric Renderer API (V1)
-runtime 'fabricRenderApiV1',       fabricApi.module('fabric-renderer-api-v1', libs.versions.fabric.api.get())
+toggleableModLocalRuntime 'fabricRenderApiV1',       fabricApi.module('fabric-renderer-api-v1', libs.versions.fabric.api.get())
 
 // Iris
-runtime 'iris',                    libs.iris
+toggleableModLocalRuntime 'iris',                    libs.iris
+
+// LazyDFU
+dependencies.modRuntimeOnly                          libs.lazydfu
 
 // ModMenu
-runtime 'modmenu',                 libs.modmenu
+toggleableModLocalRuntime 'modmenu',                 libs.modmenu
 
 // Sodium
-runtime 'sodium',                  libs.sodium
+toggleableModLocalRuntime 'sodium',                  libs.sodium
 
-def runtime(String key, def library) {
+def toggleableModLocalRuntime(String key, def library) {
 	if (String.valueOf(ext.properties."runtime.$key").toBoolean())
 		dependencies.modLocalRuntime library
 }

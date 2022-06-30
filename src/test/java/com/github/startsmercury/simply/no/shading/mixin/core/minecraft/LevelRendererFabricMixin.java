@@ -31,9 +31,15 @@ public class LevelRendererFabricMixin {
 	 * @return modified variable {@code i}
 	 */
 	@ModifyVariable(method = "renderClouds(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FDDD)V",
-	                at = @At(value = "STORE", ordinal = 0), name = "i")
-	private final double holdClouds(final double i, final PoseStack poseStack, final Matrix4f projectionMatrix,
-	    final float partialTick, final double camX, final double camY, final double camZ) {
+	                at = @At(value = "STORE", ordinal = 0),
+	                name = "i")
+	private final double holdClouds(final double i,
+	                                final PoseStack poseStack,
+	                                final Matrix4f projectionMatrix,
+	                                final float partialTick,
+	                                final double camX,
+	                                final double camY,
+	                                final double camZ) {
 		return FabricLoader.getInstance().isDevelopmentEnvironment() ? camX / 12.0D : i;
 	}
 }

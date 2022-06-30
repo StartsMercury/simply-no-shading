@@ -4,7 +4,8 @@ enhancedblockentities = "0.7.1+1.19"
 fabric-api = "0.56.1+1.19"
 fabric-loader = "latest.release"
 fabric-loom = "latest.release"
-iris = "1.19.+"
+iris = "1.19.x-v1.2.5"
+lazydfu = "0.1.3"
 loom-quiltflower = "latest.release"
 minecraft = "1.19"
 modmenu = "4.0.+"
@@ -20,6 +21,7 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-loom = { module = "net.fabricmc:fabric-loom", version.ref = "fabric-loom" }
 iris = { module = "maven.modrinth:iris", version.ref = "iris" }
+lazydfu = { module = "maven.modrinth:lazydfu", version.ref = "lazydfu" }
 loom-quiltflower = { module = "io.github.juuxel:loom-quiltflower", version.ref = "loom-quiltflower" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }

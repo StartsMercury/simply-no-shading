@@ -69,7 +69,7 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	@Deprecated
 	@Override
 	public ShadingRule copy() {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("copy");
 	}
 
 	/**
@@ -102,8 +102,12 @@ public class ShadingRule implements Copyable<ShadingRule> {
 	}
 
 	/**
+	 * Returns {@code true} if the other shading rule have the same parent, default
+	 * shade, and shade.
+	 *
 	 * @param other the other shading rule
-	 * @return a {@code boolean} value
+	 * @return {@code true} if the other shading rule have the same parent, default
+	 *         shade, and shade
 	 */
 	protected boolean equals(final ShadingRule other) {
 		// @formatter:off

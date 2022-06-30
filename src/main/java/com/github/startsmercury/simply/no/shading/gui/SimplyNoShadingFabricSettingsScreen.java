@@ -34,8 +34,8 @@ import net.minecraft.network.chat.Component;
  */
 public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	/**
-	 * Creates a new option given the name, and the {@link ShadingRule shading
-	 * rule}.
+	 * Creates a new option given the name, and the {@link ShadingRule shading rule}
+	 * from a predefined template.
 	 *
 	 * @param name        the name
 	 * @param shadingRule the shading rule
@@ -70,23 +70,20 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	protected final Screen parent;
 
 	/**
-	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
-	 * screen.
+	 * Creates a new FabricShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent) {
 		this(parent, SimplyNoShadingClientMod.getInstance().config);
 	}
 
 	/**
-	 * Creates a new instance of {@code FabricShadingSettingsScreen} with the parent
-	 * screen and the config.
+	 * Creates a new FabricShadingSettingsScreen given the parent screen and the
+	 * config.
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
 		super(Component.translatable("simply-no-shading.options.title"));
@@ -116,6 +113,13 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
+	 * Adds the {@link ShadingRule shading} option {@code all}.
+	 */
+	protected void addAllShadingOption() {
+		this.optionsWidget.addSingleOptionEntry(createOption("all", this.config.shadingRules.all));
+	}
+
+	/**
 	 * Adds all the options.
 	 *
 	 * @see #addShadingOptions()
@@ -127,13 +131,10 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
-	 * Adds all the {@link ShadingRule shading} options.
+	 * Adds all the other {@link ShadingRule shading} options.
 	 */
-	protected void addShadingOptions() {
+	protected void addOtherShadingOptions() {
 		final var iterator = this.config.shadingRules.iterator();
-
-		this.optionsWidget
-		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
 
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
@@ -148,6 +149,20 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 			this.optionsWidget.addOptionEntry(leftOption, rightOption);
 		}
+	}
+
+	/**
+	 * Adds all the {@link ShadingRule shading} options.
+	 *
+	 * @see #addAllShadingOption()
+	 * @see #addOtherShadingOptions()
+	 */
+	protected void addShadingOptions() {
+		this.optionsWidget
+		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
+
+		addAllShadingOption();
+		addOtherShadingOptions();
 	}
 
 	/**
@@ -204,8 +219,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onClose() {
@@ -218,8 +231,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void removed() {
@@ -236,8 +247,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
@@ -254,8 +263,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void renderBackground(final PoseStack poseStack) {

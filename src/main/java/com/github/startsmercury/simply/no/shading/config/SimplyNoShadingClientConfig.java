@@ -13,7 +13,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 
 /**
- * Simply No Shading client config.
+ * The {@code SimplyNoShadingClientConfig} class represents the Simply No
+ * Shading config.
  *
  * @param <R> the shading rules type
  * @since 5.0.0
@@ -22,9 +23,10 @@ import net.minecraft.client.Minecraft;
 public class SimplyNoShadingClientConfig<R extends ShadingRules>
         implements Copyable<SimplyNoShadingClientConfig<?>>, Observable<SimplyNoShadingClientConfig<R>> {
 	/**
-	 * Observed changes to the config.
+	 * The {@code Observation} class represents the observed changes between the
+	 * past and the present state of a {@code SimplyNoShadingClientConfig} object.
 	 *
-	 * @param <T> the config type
+	 * @param <T> the observed type
 	 * @since 5.0.0
 	 */
 	public static class Observation<T extends SimplyNoShadingClientConfig<?>>
@@ -35,21 +37,23 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 		private boolean smartlyRebuiltChunks;
 
 		/**
-		 * Creates a new instance of {@link Observation} with the a reference point.
+		 * Creates a new observation using the "copy" of the present as the past.
+		 * Providing a present state that is not an instance of {@link Copyable} will
+		 * throw an {@link IllegalArgumentException}.
 		 *
-		 * @param point the reference point
-		 * @since 5.0.0
+		 * @param present the present
+		 * @throws IllegalArgumentException if construction is unable to copy the
+		 *                                  present
 		 */
-		public Observation(final T point) {
-			super(point);
+		public Observation(final T present) {
+			super(present);
 		}
 
 		/**
-		 * Creates a new instance of {@link Observation} with the past and present.
+		 * Creates a new observation with complete information.
 		 *
 		 * @param past    the past
 		 * @param present the present
-		 * @since 5.0.0
 		 */
 		public Observation(final T past, final T present) {
 			super(past, present);
@@ -57,8 +61,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 		/**
 		 * {@inheritDoc}
-		 *
-		 * @since 5.0.0
 		 */
 		@Override
 		public void react(final Minecraft context) {
@@ -69,7 +71,9 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 		}
 
 		/**
-		 * @return whether chunks were rebuilt smartly.
+		 * Returns whether chunks were rebuilt smartly.
+		 *
+		 * @return whether chunks were rebuilt smartly
 		 * @since 5.0.0
 		 */
 		public boolean smartlyRebuiltChunks() {
@@ -92,30 +96,23 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	/**
 	 * The shading rules.
-	 *
-	 * @since 5.0.0
 	 */
 	public final R shadingRules;
 
 	/**
 	 * Whether smart reloading is set.
-	 *
-	 * @since 5.0.0
 	 */
 	public boolean smartReload;
 
 	/**
 	 * Whether to display messages when chunks are rebuilt smartly.
-	 *
-	 * @since 5.0.0
 	 */
 	public boolean smartReloadMessage;
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
+	 * Creates a new SimplyNoShadingClientConfig.
 	 *
 	 * @param shadingRules the shading rules
-	 * @since 5.0.0
 	 */
 	public SimplyNoShadingClientConfig(final R shadingRules) {
 		this.shadingRules = shadingRules;
@@ -124,20 +121,17 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	}
 
 	/**
-	 * Creates a new instance of {@code SimplyNoShadingClientConfig}.
+	 * Creates a new SimplyNoShadingClientConfig by copying another's state.
 	 *
 	 * @param other the other config
-	 * @since 5.0.0
 	 */
 	@SuppressWarnings("unchecked")
-	public SimplyNoShadingClientConfig(final SimplyNoShadingClientConfig<R> other) {
+	public SimplyNoShadingClientConfig(final SimplyNoShadingClientConfig<? extends R> other) {
 		this((R) other.shadingRules.copy());
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public SimplyNoShadingClientConfig<R> copy() {
@@ -146,8 +140,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void copyFrom(final SimplyNoShadingClientConfig<?> other) {
@@ -156,8 +148,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void copyTo(final SimplyNoShadingClientConfig<?> other) {
@@ -165,18 +155,24 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	}
 
 	/**
+	 * Returns the shading rules.
+	 *
 	 * @return the shading rules
 	 * @since 5.0.0
 	 */
 	public final R getShadingRules() { return this.shadingRules; }
 
 	/**
+	 * Returns whether smart reloading is set.
+	 *
 	 * @return whether smart reloading is set
 	 * @since 5.0.0
 	 */
 	public final boolean isSmartReload() { return this.smartReload; }
 
 	/**
+	 * Returns whether to display messages when chunks are rebuilt smartly.
+	 *
 	 * @return whether to display messages when chunks are rebuilt smartly
 	 * @since 5.0.0
 	 */
@@ -184,8 +180,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Observation<? extends SimplyNoShadingClientConfig<R>> observe() {
@@ -194,8 +188,6 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public Observation<? extends SimplyNoShadingClientConfig<R>> observe(final SimplyNoShadingClientConfig<R> past) {

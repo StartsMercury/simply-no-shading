@@ -33,8 +33,8 @@ import net.minecraft.network.chat.Component;
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	/**
-	 * Creates a new option given the name, and the {@link ShadingRule shading
-	 * rule}.
+	 * Creates a new option given the name, and the {@link ShadingRule shading rule}
+	 * from a predefined template.
 	 *
 	 * @param name        the name
 	 * @param shadingRule the shading rule
@@ -60,28 +60,24 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	private OptionsList list;
 
 	/**
-	 * The observation of changes to the config.
+	 * The observed changes to the config.
 	 */
 	private SimplyNoShadingClientConfig.Observation<?> observation;
 
 	/**
-	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
-	 * screen.
+	 * Creates a new ShadingSettingsScreen given the parent screen.
 	 *
 	 * @param parent the parent screen
-	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent) {
 		this(parent, SimplyNoShadingClientMod.getInstance().config);
 	}
 
 	/**
-	 * Creates a new instance of {@code ShadingSettingsScreen} with the parent
-	 * screen and the config.
+	 * Creates a new ShadingSettingsScreen given the parent screen and the config.
 	 *
 	 * @param parent the parent screen
 	 * @param config the config
-	 * @since 5.0.0
 	 */
 	public ShadingSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
 		super(parent, null, Component.translatable("simply-no-shading.options.shadingTitle"));
@@ -169,8 +165,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void onClose() {
@@ -183,8 +177,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void removed() {
@@ -201,8 +193,6 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @since 5.0.0
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
