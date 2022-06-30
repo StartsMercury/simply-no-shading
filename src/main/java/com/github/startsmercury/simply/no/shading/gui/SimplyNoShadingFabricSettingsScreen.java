@@ -113,6 +113,13 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
+	 * Adds the {@link ShadingRule shading} option {@code all}.
+	 */
+	protected void addAllShadingOption() {
+		this.optionsWidget.addSingleOptionEntry(createOption("all", this.config.shadingRules.all));
+	}
+
+	/**
 	 * Adds all the options.
 	 *
 	 * @see #addShadingOptions()
@@ -124,13 +131,10 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
-	 * Adds all the {@link ShadingRule shading} options.
+	 * Adds all the other {@link ShadingRule shading} options.
 	 */
-	protected void addShadingOptions() {
+	protected void addOtherShadingOptions() {
 		final var iterator = this.config.shadingRules.iterator();
-
-		this.optionsWidget
-		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
 
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
@@ -145,6 +149,17 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 			this.optionsWidget.addOptionEntry(leftOption, rightOption);
 		}
+	}
+
+	/**
+	 * Adds all the {@link ShadingRule shading} options.
+	 */
+	protected void addShadingOptions() {
+		this.optionsWidget
+		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
+
+		addAllShadingOption();
+		addOtherShadingOptions();
 	}
 
 	/**
