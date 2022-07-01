@@ -222,7 +222,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	public void onClose() {
 		LOGGER.debug("Closing settings screen...");
 
-		super.onClose();
+		this.minecraft.setScreen(this.parent);
 
 		LOGGER.info("Closed settings screen");
 	}
