@@ -16,7 +16,6 @@ import dev.lambdaurora.spruceui.background.DirtTexturedBackground;
 import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
 import dev.lambdaurora.spruceui.option.SpruceSeparatorOption;
 import dev.lambdaurora.spruceui.screen.SpruceScreen;
-import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.coderbot.iris.Iris;
@@ -248,22 +247,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
-		if (this.minecraft.level != null) {
-			this.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F232323, 0x4F232323);
-			RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
-			RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
-		}
-
 		super.render(poseStack, mouseX, mouseY, delta);
 
 		drawCenteredString(poseStack, this.font, this.title, this.width / 2, 5, 0xFFFFFF);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void renderBackground(final PoseStack poseStack) {
-		if (this.minecraft.level == null) { super.renderBackground(poseStack); }
 	}
 }
