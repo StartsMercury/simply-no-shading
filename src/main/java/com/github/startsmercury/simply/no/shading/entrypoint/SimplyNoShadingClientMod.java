@@ -15,12 +15,12 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.ShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
+import com.github.startsmercury.simply.no.shading.util.PrefixedLogger;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
@@ -51,7 +51,7 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 *
 	 * @since 5.0.0
 	 */
-	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
+	public static final Logger LOGGER = PrefixedLogger.minecraft("[SimplyNoShading] ");
 
 	/**
 	 * The message shown in-game to the player when a smart reload was performed.
