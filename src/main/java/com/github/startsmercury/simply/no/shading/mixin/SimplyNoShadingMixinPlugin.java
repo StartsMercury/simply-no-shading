@@ -38,6 +38,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * The logger.
 	 */
+	@Deprecated(forRemoval = true)
 	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/mixin");
 
 	/**
@@ -49,13 +50,13 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		final var mixinConfig = new SimplyNoShadingMixinConfig();
 
 		try (final var out = Files.newBufferedWriter(CONFIG_PATH)) {
-			LOGGER.debug("Creating mixin config...");
+			// LOGGER.debug("Creating mixin config...");
 
 			GSON.toJson(mixinConfig, out);
 
-			LOGGER.info("Created mixin config");
+			// LOGGER.info("Created mixin config");
 		} catch (final IOException ioe) {
-			LOGGER.warn("Unable to create mixin config", ioe);
+			// LOGGER.warn("Unable to create mixin config", ioe);
 		}
 
 		return mixinConfig;
@@ -68,17 +69,15 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 */
 	protected static SimplyNoShadingMixinConfig loadMixinConfig() {
 		try (var in = Files.newBufferedReader(CONFIG_PATH)) {
-			LOGGER.debug("Loading mixin config...");
+			// LOGGER.debug("Loading mixin config...");
 
-			final var mixinConfig = GSON.fromJson(in, SimplyNoShadingMixinConfig.class);
+			// LOGGER.info("Loaded mixin config");
 
-			LOGGER.info("Loaded mixin config");
-
-			return mixinConfig;
+			return GSON.fromJson(in, SimplyNoShadingMixinConfig.class);
 		} catch (final NoSuchFileException nsfe) {
 			return createMixinConfig();
 		} catch (final IOException ioe) {
-			LOGGER.info("Unable to load mixin config", ioe);
+			// LOGGER.info("Unable to load mixin config", ioe);
 
 			return new SimplyNoShadingMixinConfig();
 		}
@@ -105,7 +104,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 * @since 5.0.0
 	 */
 	protected SimplyNoShadingMixinPlugin(final boolean log) {
-		LOGGER.debug("Constructing mixin plugin...");
+		// LOGGER.debug("Constructing mixin plugin...");
 
 		this.excludedCached = new ObjectOpenHashSet<>();
 		final var mixinConfig = loadMixinConfig();
@@ -120,7 +119,9 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 
 		this.excludedCached.trim();
 
-		if (log) { LOGGER.info("Constructed mixin plugin"); }
+		if (log) {
+			// LOGGER.info("Constructed mixin plugin");
+		}
 	}
 
 	/**
