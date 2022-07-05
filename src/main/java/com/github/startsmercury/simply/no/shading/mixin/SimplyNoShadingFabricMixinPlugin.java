@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
+import static com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod.LOGGER;
+
 import java.util.List;
 
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
