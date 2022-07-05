@@ -18,7 +18,7 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 	public SimplyNoShadingFabricMixinPlugin() {
 		super(false);
 
-		LOGGER.info("Constructed mixin plugin");
+		// LOGGER.info("Constructed mixin plugin");
 	}
 
 	/**
@@ -30,7 +30,9 @@ public class SimplyNoShadingFabricMixinPlugin extends SimplyNoShadingMixinPlugin
 	protected SimplyNoShadingFabricMixinPlugin(final boolean log) {
 		super(false);
 
-		if (log) { LOGGER.info("Constructed mixin plugin"); }
+		if (log) {
+			// LOGGER.info("Constructed mixin plugin");
+		}
 	}
 
 	/**
