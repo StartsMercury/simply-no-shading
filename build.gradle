@@ -4,7 +4,7 @@ plugins {
 }
 
 apply from: 'mod.gradle'
-apply from: 'modRuntime.gradle'
+apply from: 'runtimeMods.gradle'
 
 group = modGroup
 archivesBaseName = modName
@@ -66,8 +66,8 @@ dependencies {
 }
 
 mods.versionFilters.putAll([
-	'iris':   { '*' },
-	'sodium': { replaceFirst(/mc[^-]+-/, '') }
+	'iris':   { replaceFirst(/^[^-]+-v/, '') },
+	'sodium': { replaceFirst(/^mc[^-]+-/, '') }
 ])
 
 processResources {
