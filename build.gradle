@@ -65,10 +65,10 @@ dependencies {
 	include libs.spruceui
 }
 
-mods.versionFilters.putAll([
+mods.versionFilters.putAll(
 	'iris':   { replaceFirst(/^[^-]+-v/, '') },
 	'sodium': { replaceFirst(/^mc[^-]+-/, '') }
-])
+)
 
 processResources {
 	inputs.property 'version', version
