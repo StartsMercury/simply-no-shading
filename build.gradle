@@ -61,8 +61,7 @@ dependencies {
 	modCompileOnly libs.sodium
 
 	// SpruceUI
-	modCompileOnly libs.spruceui
-	modRuntimeOnly libs.spruceui
+	modImplementation libs.spruceui
 	include libs.spruceui
 }
 
