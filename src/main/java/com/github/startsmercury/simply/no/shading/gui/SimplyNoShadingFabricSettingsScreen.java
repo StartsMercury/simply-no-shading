@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.gui;
 
-import static com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod.LOGGER;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
+import static dev.lambdaurora.spruceui.background.EmptyBackground.EMPTY_BACKGROUND;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -12,13 +13,14 @@ import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClie
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import dev.lambdaurora.spruceui.Position;
-import dev.lambdaurora.spruceui.background.DirtTexturedBackground;
 import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
 import dev.lambdaurora.spruceui.option.SpruceSeparatorOption;
 import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.coderbot.iris.Iris;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
@@ -33,6 +35,13 @@ import net.minecraft.network.chat.TranslatableComponent;
  * @since 5.0.0
  */
 public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
+	/**
+	 * Answers the simply question "is BedrockIfy loaded?"
+	 *
+	 * @see FabricLoader#isModLoaded(String)
+	 */
+	protected static final boolean BEDROCKIFY_LOADED = FabricLoader.getInstance().isModLoaded("bedrockify");
+
 	/**
 	 * Creates a new option given the name, and the {@link ShadingRule shading rule}
 	 * from a predefined template.
@@ -178,17 +187,35 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	}
 
 	/**
+	 * Returns {@code true} when rendering the level is possible.
+	 *
+	 * @return {@code true} when rendering the level is possible
+	 */
+	protected boolean canRenderLevel() {
+		return this.minecraft.level != null;
+	}
+
+	/**
+	 * Returns {@code true} when panorama rendering is possible.
+	 *
+	 * @return {@code true} when panorama rendering is possible
+	 */
+	protected boolean canRenderPanorama() {
+		return BEDROCKIFY_LOADED && Bedrockify.getInstance().settings.cubeMapBackground;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void init() {
 		super.init();
 
-		final var isLevel = this.minecraft.level != null;
-
 		this.observation = this.config.observe();
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, 34), this.width, this.height - 69);
-		this.optionsWidget.setBackground(new DirtTexturedBackground(32, 32, 32, isLevel ? 0 : 255));
+
+		if (!shouldRenderDirtBackground()) { this.optionsWidget.setBackground(EMPTY_BACKGROUND); }
+
 		addOptions();
 
 		addRenderableWidget(this.optionsWidget);
@@ -248,22 +275,36 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
-		if (this.minecraft.level != null) {
-			this.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F232323, 0x4F232323);
-			RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
-			RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
-		}
-
 		super.render(poseStack, mouseX, mouseY, delta);
 
-		drawCenteredString(poseStack, this.font, this.title, this.width / 2, 5, 0xFFFFFF);
+		drawCenteredString(poseStack, this.font, this.title, this.width / 2, 14, 0xFFFFFF);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderBackground(final PoseStack poseStack) {
-		if (this.minecraft.level == null) { super.renderBackground(poseStack); }
+	public void renderBackground(final PoseStack poseStack, final int vOffset) {
+		if (!canRenderLevel()) {
+			if (canRenderPanorama()) {
+				BedrockifyRotatingCubeMapRenderer.getInstance().render();
+			} else {
+				renderDirtBackground(vOffset);
+
+				return;
+			}
+		}
+
+		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
+		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
+	}
+
+	/**
+	 * Returns {@code true} when dirt backgrounds are supposed to be rendered.
+	 *
+	 * @return {@code true} when dirt backgrounds are supposed to be rendered
+	 */
+	protected boolean shouldRenderDirtBackground() {
+		return !canRenderPanorama() && !canRenderLevel();
 	}
 }

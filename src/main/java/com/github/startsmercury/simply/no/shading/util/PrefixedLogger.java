@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.util;
 
+import static java.util.Objects.requireNonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -14,14 +16,15 @@ import com.mojang.logging.LogUtils;
  */
 public class PrefixedLogger implements Logger {
 	/**
-	 * Returns a prefixed minecraft logger.
+	 * Returns a named prefix logger.
 	 *
+	 * @param name   the name of the logger
 	 * @param prefix the prefixes to the message
-	 * @return a prefixed minecraft logger
+	 * @return a named prefixed logger
 	 * @see LogUtils#getLogger()
 	 */
-	public static PrefixedLogger minecraft(final String prefix) {
-		return new PrefixedLogger(LogUtils.getLogger(), prefix);
+	public static PrefixedLogger named(final String name, final String prefix) {
+		return new PrefixedLogger(LoggerFactory.getLogger(name), prefix);
 	}
 
 	/**
@@ -33,6 +36,20 @@ public class PrefixedLogger implements Logger {
 	 */
 	public static PrefixedLogger root(final String prefix) {
 		return new PrefixedLogger(prefix);
+	}
+
+	/**
+	 * Returns a prefix logger.
+	 *
+	 * @param logger the logger
+	 * @param prefix the prefixes to the message
+	 * @return a prefixed logger
+	 * @see LogUtils#getLogger()
+	 */
+	public static PrefixedLogger wrapped(final Logger logger, final String prefix) {
+		requireNonNull(logger);
+
+		return new PrefixedLogger(logger, prefix);
 	}
 
 	/**
@@ -53,7 +70,7 @@ public class PrefixedLogger implements Logger {
 	 */
 	public PrefixedLogger(final Logger delegate, final String prefix) {
 		this.delegate = delegate == null ? LoggerFactory.getLogger(ROOT_LOGGER_NAME) : delegate;
-		this.prefix = prefix;
+		this.prefix = prefix != null ? prefix : "";
 	}
 
 	/**

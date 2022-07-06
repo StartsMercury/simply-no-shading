@@ -1,5 +1,6 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 import java.util.Objects;
@@ -151,7 +152,7 @@ public class SimplyNoShadingFabricClientMod extends
 	protected void registerLifecycleEventListeners() {
 		LOGGER.debug("Registering life cycle event listeners...");
 
-		// Ineffective, this is bundled in spruceui
+		// Redundant, this is embedded in spruceui
 		if (!FabricLoader.getInstance().isModLoaded("fabric-lifecycle-events-v1")) {
 			LOGGER.warn("Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
 

@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.mixin;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.tree.ClassNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -34,12 +33,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance()
 	        .getConfigDir()
 	        .resolve("simply-no-shading+mixin.json");
-
-	/**
-	 * The logger.
-	 */
-	@Deprecated(forRemoval = true)
-	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/mixin");
 
 	/**
 	 * Creates the mixin config in disk.
