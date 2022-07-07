@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.util;
 
+import org.slf4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,6 +17,13 @@ public final class SimplyNoShadingConstants {
 	 * @since 5.0.0
 	 */
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+	/**
+	 * The logger used for debugging and sending messages to the console.
+	 *
+	 * @since 5.0.0
+	 */
+	public static final Logger LOGGER = PrefixedLogger.named("simply-no-shading", "[SimplyNoShading] ");
 
 	/**
 	 * It is forbidden to create a new {@code SimplyNoShadingConstants}.

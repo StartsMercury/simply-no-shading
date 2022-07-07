@@ -4,7 +4,7 @@ plugins {
 }
 
 apply from: 'mod.gradle'
-apply from: 'modRuntime.gradle'
+apply from: 'runtimeMods.gradle'
 
 group = modGroup
 archivesBaseName = modName
@@ -63,15 +63,14 @@ dependencies {
 	modCompileOnly libs.sodium
 
 	// SpruceUI
-	modCompileOnly libs.spruceui
-	modRuntimeOnly libs.spruceui
+	modImplementation libs.spruceui
 	include libs.spruceui
 }
 
-mods.versionFilters.putAll([
-	'iris':   { '*' },
-	'sodium': { replaceFirst(/mc[^-]+-/, '') }
-])
+mods.versionFilters.putAll(
+	'iris':   { replaceFirst(/^[^-]+-v/, '') },
+	'sodium': { replaceFirst(/^mc[^-]+-/, '') }
+)
 
 processResources {
 	inputs.property 'version', version

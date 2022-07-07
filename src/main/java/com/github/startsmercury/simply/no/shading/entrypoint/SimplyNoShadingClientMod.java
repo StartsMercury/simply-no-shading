@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
 import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
 import static net.fabricmc.api.EnvType.CLIENT;
@@ -13,9 +14,6 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.ShadingRules;
@@ -45,13 +43,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * The instance of this class.
 	 */
 	private static SimplyNoShadingClientMod<?, ?> instance;
-
-	/**
-	 * The logger used for debugging and sending messages to the console.
-	 *
-	 * @since 5.0.0
-	 */
-	public static final Logger LOGGER = LoggerFactory.getLogger("simply-no-shading/client");
 
 	/**
 	 * The message shown in-game to the player when a smart reload was performed.
