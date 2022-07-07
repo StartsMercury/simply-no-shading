@@ -1,6 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.GSON;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
 import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
 import static net.fabricmc.api.EnvType.CLIENT;
@@ -14,13 +15,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.slf4j.Logger;
-
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.ShadingRules;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
-import com.github.startsmercury.simply.no.shading.util.PrefixedLogger;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
@@ -45,13 +43,6 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 	 * The instance of this class.
 	 */
 	private static SimplyNoShadingClientMod<?, ?> instance;
-
-	/**
-	 * The logger used for debugging and sending messages to the console.
-	 *
-	 * @since 5.0.0
-	 */
-	public static final Logger LOGGER = PrefixedLogger.minecraft("[SimplyNoShading] ");
 
 	/**
 	 * The message shown in-game to the player when a smart reload was performed.

@@ -1,6 +1,6 @@
 package com.github.startsmercury.simply.no.shading.gui;
 
-import static com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod.LOGGER;
+import static com.github.startsmercury.simply.no.shading.util.SimplyNoShadingConstants.LOGGER;
 import static net.fabricmc.api.EnvType.CLIENT;
 import static net.minecraft.client.OptionInstance.cachedConstantTooltip;
 
