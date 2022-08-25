@@ -21,6 +21,7 @@ import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientCo
 import com.github.startsmercury.simply.no.shading.gui.ShadingSettingsScreen;
 import com.github.startsmercury.simply.no.shading.util.SimplyNoShadingKeyManager;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 
@@ -271,6 +272,10 @@ public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientCo
 			LOGGER.debug("Loading config...");
 
 			LOGGER.warn("Unable to load config", ioe);
+		} catch (final JsonSyntaxException jse) {
+			LOGGER.warn("Malformed json", jse);
+
+			saveConfig();
 		}
 	}
 
