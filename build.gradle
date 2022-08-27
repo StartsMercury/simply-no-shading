@@ -6,9 +6,12 @@ plugins {
 apply from: 'mod.gradle'
 apply from: 'runtimeMods.gradle'
 
-group = modGroup
-archivesBaseName = modName
-version = "$modVersion+${libs.versions.minecraft.get()}"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+group = 'com.github.startsmercury'
+archivesBaseName = 'simply-no-shading'
+version = "4.0.2+${libs.versions.minecraft.get()}"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -79,8 +82,6 @@ processResources {
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(17)
-	
 	withJavadocJar()
 	withSourcesJar()
 }
@@ -89,4 +90,9 @@ jar {
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
+}
+
+tasks.withType JavaCompile configureEach {
+	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+	options.release = 17
 }
