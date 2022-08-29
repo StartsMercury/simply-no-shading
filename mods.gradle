@@ -1,0 +1,166 @@
+import javax.net.ssl.HttpsURLConnection
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'com.fasterxml.jackson.dataformat:jackson-dataformat-toml:latest.release'
+	}
+}
+
+Map modrinthVersionCache = [:].withDefault { notation ->
+	final def args = notation in Map ? notation.collectEntries { [ "$it.key", it.value ] } : [ slug: "$notation" ]
+	final def params = [:]
+
+	params.loaders = toQuery(args.loader ?: [ loader ])
+	params.game_versions = toQuery(args.gameVersions ?: [ gameVersion ])
+	params.featured = args.featured
+
+	final def url = "https://api.modrinth.com/v2/project/$args.slug/version"
+	final def slurper = parseJson(new URL(url), params)
+
+	return fromQuery(slurper).collect { version ->
+		version.files = version.files.collect { file ->
+			file.withDefault {
+				switch (it) {
+				case 'fabric': return [ mod: [ json: tryParseJson(new URL("jar:$file.url!/fabric.mod.json")) ] ]
+				case 'mods': return [ toml: tryParseToml(new URL("jar:$file.url!/META-INF/mods.toml")) ]
+				case 'quilt': return [ mod: [ json: tryParseJson(new URL("jar:$file.url!/quilt.mod.json")) ] ]
+				}
+			}
+		}
+
+		version << [ primaryFile:version.files.size == 1 ? version.files[0] : version.files.find { it.primary } ]
+
+		return version.withDefault {
+			switch (it) {
+			case 'fabric': return version.primaryFile?.fabric
+			case 'mods': return version.primaryFile?.mods
+			case 'quilt': return version.primaryFile?.quilt
+			default: return null
+			}
+		}
+	}
+}
+
+extensions.findByName('fabricApi')?.ext {
+	module = { String name -> fabricApi.module('fabric-key-binding-api-v1', modrinth.latestVersion('fabric-api').versionNumber) }
+}
+
+ext {
+	loader = null
+	gameVersion = null
+
+	modrinth = new Object() {
+		def latestDependency(final Object notation) {
+			final def slug = notation in Map ? notation.slug : notation
+
+			return dependencies.create("maven.modrinth:$slug:${latestVersion(notation)?.versionNumber}")
+		}
+		
+		def latestVersion(final Object notation) { versions(notation)?[0] }
+
+		def versions(final Object notation) { modrinthVersionCache[notation] }
+	}
+
+	parchment = new Object() {
+		def closestGameVersion(final String expected) {
+			final List gameVersionList = supportedGameVersions()
+
+			if (!gameVersionList)
+				return null
+			else if (gameVersionList.contains(expected))
+				return expected
+
+			gameVersionList << expected
+			gameVersionList.sort()
+
+			if (gameVersionList.last() != expected)
+				return gameVersionList[gameVersionList.lastIndexOf(expected) + 1]
+			else
+				return gameVersionList[-2]
+		}
+		
+		def latestDependency(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions()[-1]) {
+			return "org.parchmentmc.data:parchment-$gameVersion:${latestVersion gameVersion}@zip"
+		}
+
+		def latestVersion(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions()[-1]) {
+			return metadata(gameVersion).versioning.latest
+		}
+
+		def metadata(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions()[-1]) {
+			return parseXml(new URL("https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data/parchment-$gameVersion/maven-metadata.xml"))
+		}
+
+		def supportedGameVersions() {
+			return new URL('https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data').openStream().getText().findAll('"parchment-([^/]+)/"') { it[1] }
+		}
+
+		def versions(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions(gameVersion)[-1]) {
+			return metadata(gameVersion).versioning.versions.version[0..-1]
+		}
+	}
+}
+
+def fromQuery(final Object query) {
+	if (query in Map)
+		return query.collectEntries { [ it.key in CharSequence ? fromQuery(it.key) : it.key, fromQuery(it.value) ] }
+	if (query in CharSequence)
+		return query.replaceAll(/_(.)/) { it[1].toUpperCase() }
+	if (query in Collection)
+		return query.collect { fromQuery it }
+	else
+		return query
+}
+
+def parseJson(final URL url, final Map params = [:]) { new groovy.json.JsonSlurper().parse(url, params) }
+
+def parseToml(final URL url) { new com.fasterxml.jackson.dataformat.toml.TomlMapper().readValue(url, Map.class) }
+
+def parseXml(final URL url) {
+	final def stream = url.openStream()
+	final def slurper = new groovy.xml.XmlSlurper().parse stream
+
+	stream.close()
+
+	return slurper
+}
+
+def toQuery(final Object query) {
+	if (query in List)
+		return "[${query.collect { toQuery it } join ','}]"
+	if (query in CharSequence)
+		return query.replaceAll(/\p{Lu}/) { "_${it.toLowerCase()}" }.replaceAll(/[_\s]+/, '_')
+	else
+		return query
+}
+
+def tryParseJson(final URL url, final Map params = [:]) {
+	for (i in 1 .. 8)
+		try {
+			return parseJson(url, params)
+		} catch (final groovy.json.JsonException je) { }
+
+	return null
+}
+
+def tryParseToml(final URL url) {
+	for (i in 1 .. 8)
+		try {
+			return parseToml(url)
+		} catch (final IOException ioe) { }
+
+	return null
+}
+
+def tryParseXml(final URL url) {
+	for (i in 1 .. 8)
+		try {
+			return parseXml(url)
+		} catch (final IOException ioe) { }
+
+	return null
+}
