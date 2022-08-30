@@ -116,9 +116,21 @@ final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[
 		it[1] = 'Snapshot'
 		break
 	}
-}.join ' '
+}
+final def versionNameParts = versionNamePart.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
 final def changelag = "**View the changelog at**: ${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
+final def varsionType = versionNamePart[1].with {
+	switch (it) {
+	case 'Release':
+		return 'release'
+	case 'Release Candidate':
+	case 'Pre-Release':
+		return 'beta'
+	default
+		return 'alpha'
+	}
+}
 
 curseforge {
 	//apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
@@ -150,7 +162,7 @@ curseforge {
 					return 'Rift'
 			}
 		}
-		releaseType = System.getenv('VERSION_TYPE') ?: 'alpha'
+		releaseType = varsionType
 
 		mainArtifact remapJar, {
 			displayName = versionNeme
@@ -183,7 +195,7 @@ modrinth {
 		new ModDependency('AANobbMI', 'optional')
 	]
 	gameVersions = [ gameVersion ]
-	versionType = System.getenv('VERSION_TYPE') ?: 'alpha'
+	versionType = varsionType
 	loaders = [ loader ]
 	uploadFile = remapJar
 	additionalFiles = [ remapSourcesJar ]
