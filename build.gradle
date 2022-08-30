@@ -102,6 +102,7 @@ tasks.withType JavaCompile configureEach {
 /****************/
 /** Publishing **/
 /****************/
+import com.modrinth.minotaur.dependencies.ModDependency
 
 final def versionPart = version.split(/\+/)[0]
 final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
@@ -119,7 +120,7 @@ final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[
 }
 final def versionNameParts = versionNamePart.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
-final def changelag = "**View the changelog at**: ${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
+final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
 final def varsionType = versionNamePart[1].with {
 	switch (it) {
 	case 'Release':
@@ -127,10 +128,13 @@ final def varsionType = versionNamePart[1].with {
 	case 'Release Candidate':
 	case 'Pre-Release':
 		return 'beta'
-	default
+	default:
 		return 'alpha'
 	}
 }
+
+println changelag
+throw new InternalError()
 
 curseforge {
 	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
