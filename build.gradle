@@ -12,7 +12,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.2-snapshot.1+$gameVersion"
+version = "5.0.2-snapshot.2+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -104,11 +104,26 @@ tasks.withType JavaCompile configureEach {
 import com.modrinth.minotaur.dependencies.ModDependency
 
 modrinth {
+	final def versionPart = version.split(/\+/)[0]
+	final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+		switch (it[1]) {
+		case 'rc':
+			it[1] = 'Release Candidate'
+			break
+		case 'pre':
+			it[1] = 'Pre-Release'
+			break
+		case 'snapshot':
+			it[1] = 'Snapshot'
+			break
+		}
+	}.join ' '
+
 	token = System.getenv 'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
-	versionName = "${version.split(/\+/)[0]} for Minecraft $gameVersion"
+	versionName = "$versionNamePart for Minecraft $gameVersion"
 	versionNumber = version
-	changelog = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${version.split(/\+/)[0].replaceAll(/\.+/, '')}"
+	changelog = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${versionPart.replace '.', ''}"
 	dependencies = [
 		new ModDependency('ox3rDp1B', 'optional'),
 		new ModDependency('OVuFYfre', 'optional'),
