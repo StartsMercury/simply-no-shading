@@ -104,7 +104,6 @@ tasks.withType JavaCompile configureEach {
 import com.modrinth.minotaur.dependencies.ModDependency
 
 modrinth {
-	println System.getenv('MODRINTH_TOKEN')
 	token = System.getenv 'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
 	versionName = "${version.split(/\+/)[0]} for Minecraft $gameVersion"
@@ -122,4 +121,5 @@ modrinth {
 	versionType = System.getenv('VERSION_TYPE') ?: 'alpha'
 	loaders = [ loader ]
 	uploadFile = remapJar
+	additionalFiles = [ remapSourcesJar ]
 }
