@@ -1,8 +1,15 @@
+buildscript {
+	dependencies {
+		classpath 'org.kohsuke:github-api:1.+'
+	}
+}
+
 plugins {
 	id 'com.matthewprenger.cursegradle' version '1.+'
 	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '1.+'
 	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
+	id 'org.ajoberstar.grgit' version '3.+'
 }
 
 apply from: 'mods.gradle'
@@ -13,7 +20,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.3-snapshot.2+$gameVersion"
+version = "5.0.3-pre.1+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -104,6 +111,9 @@ tasks.withType JavaCompile configureEach {
 /****************/
 import com.modrinth.minotaur.dependencies.ModDependency
 
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
 final def versionPart = version.split(/\+/)[0]
 final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
 	switch (it[1]) {
@@ -119,7 +129,20 @@ final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[
 	}
 }.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
-final def changelag = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${versionPart.replace '.', ''}"
+final def changelag = "**View the changelog at**: ${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
+
+def getBranch() {
+	def branch
+
+	if (System.getenv('GITHUB_REF'))
+		branch = System.getenv 'GITHUB_REF'
+	else if (grgit != null)
+		branch = grgit.branch.current().name
+	else
+		return 'unknown'
+
+	return branch.substring(branch.lastIndexOf('/') + 1)
+}
 
 curseforge {
 	//apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
@@ -166,6 +189,24 @@ curseforge {
 
 	options {
 		forgeGradleIntegration = false
+	}
+}
+
+tasks.create name: 'github', dependsOn: remapJar, {
+	onlyIf { System.getenv('GITHUB_TOKEN') && System.getenv('VERSION_TYPE') != 'alpha' }
+
+	doLast {
+		final def github = GitHub.connectUsingOAuth System.getenv('GITHUB_TOKEN')
+		final def repository = github.getRepository System.getenv('GITHUB_REPOSITORY')
+
+		final def releaseBuilder = new GHReleaseBuilder(repository, version)
+
+		releaseBuilder.name versionNeme
+		releaseBuilder.body changelag
+		releaseBuilder.commitish branch
+		releaseBuilder.prerelease(System.getenv('VERSION_TYPE') != 'release')
+
+		releaseBuilder.create().uploadAsset remapJar.archiveFile.get().asFile, 'application/java-archive'
 	}
 }
 
