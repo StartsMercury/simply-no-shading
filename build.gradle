@@ -31,7 +31,7 @@ dependencies {
 	modImplementation modrinth.latestDependency('bedrockify')
 
 	// Enhanced Block Entities
-	modImplementation modrinth.latestDependency('ebe')
+	modImplementation modrinth.latestDependency(slug: 'ebe', gameVersions: [ '1.19' ])
 
 	// Fabric Key Binding API (V1)
 	modImplementation fabricApi.module('fabric-key-binding-api-v1')
