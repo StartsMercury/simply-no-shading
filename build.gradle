@@ -133,8 +133,7 @@ final def varsionType = versionNamePart[1].with {
 }
 
 curseforge {
-	//apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
-	apiKey = 'b7f67ba4-4e3a-4b0f-9393-04f400c148e0'
+	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
 
 	project {
 		id = '550997'
