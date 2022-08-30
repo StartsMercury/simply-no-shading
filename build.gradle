@@ -122,7 +122,8 @@ final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
 final def changelag = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${versionPart.replace '.', ''}"
 
 curseforge {
-	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
+	//apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
+	apiKey = 'b7f67ba4-4e3a-4b0f-9393-04f400c148e0'
 
 	project {
 		id = '550997'
@@ -138,7 +139,18 @@ curseforge {
 		}
 		addGameVersion gameVersion
 		addGameVersion "Java $javaVersion"
-		addGameVersion loader
+		addGameVersion loader.with {
+			switch (it) {
+				case 'fabric':
+					return 'Fabric'
+				case 'forge':
+					return 'Forge'
+				case 'quilt':
+					return 'Quilt'
+				case 'rift':
+					return 'Rift'
+			}
+		}
 		releaseType = System.getenv('VERSION_TYPE') ?: 'alpha'
 
 		mainArtifact remapJar, {
