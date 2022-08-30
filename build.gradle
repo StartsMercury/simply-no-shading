@@ -1,4 +1,5 @@
 plugins {
+	id 'com.matthewprenger.cursegradle' version '1.+'
 	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '1.+'
 	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
@@ -12,7 +13,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.2-snapshot.2+$gameVersion"
+version = "5.0.3-snapshot.2+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -103,27 +104,65 @@ tasks.withType JavaCompile configureEach {
 /****************/
 import com.modrinth.minotaur.dependencies.ModDependency
 
-modrinth {
-	final def versionPart = version.split(/\+/)[0]
-	final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
-		switch (it[1]) {
-		case 'rc':
-			it[1] = 'Release Candidate'
-			break
-		case 'pre':
-			it[1] = 'Pre-Release'
-			break
-		case 'snapshot':
-			it[1] = 'Snapshot'
-			break
-		}
-	}.join ' '
+final def versionPart = version.split(/\+/)[0]
+final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+	switch (it[1]) {
+	case 'rc':
+		it[1] = 'Release Candidate'
+		break
+	case 'pre':
+		it[1] = 'Pre-Release'
+		break
+	case 'snapshot':
+		it[1] = 'Snapshot'
+		break
+	}
+}.join ' '
+final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
+final def changelag = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${versionPart.replace '.', ''}"
 
+curseforge {
+	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
+
+	project {
+		id = '550997'
+		changelogType = 'markdown'
+		changelog = changelag
+		relations {
+			optionalDependency 'bedrockify'
+			optionalDependency 'enhanced-block-entities'
+			optionalDependency 'fabric-api'
+			optionalDependency 'irisshaders'
+			optionalDependency 'modmenu'
+			optionalDependency 'sodium'
+		}
+		addGameVersion gameVersion
+		addGameVersion "Java $javaVersion"
+		addGameVersion loader
+		releaseType = System.getenv('VERSION_TYPE') ?: 'alpha'
+
+		mainArtifact remapJar, {
+			displayName = versionNeme
+		}
+		addArtifact javadocJar
+		addArtifact remapSourcesJar
+
+		afterEvaluate {
+			uploadTask.dependsOn 'javadocJar', 'remapJar', 'remapSourcesJar'
+		}
+	}
+
+	options {
+		forgeGradleIntegration = false
+	}
+}
+
+modrinth {
 	token = System.getenv 'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
-	versionName = "$versionNamePart for Minecraft $gameVersion"
+	versionName = versionNeme
 	versionNumber = version
-	changelog = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${versionPart.replace '.', ''}"
+	changelog = changelag
 	dependencies = [
 		new ModDependency('ox3rDp1B', 'optional'),
 		new ModDependency('OVuFYfre', 'optional'),
