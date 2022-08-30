@@ -1,4 +1,5 @@
 plugins {
+	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '1.+'
 	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
 }
@@ -11,7 +12,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "4.0.2+$gameVersion"
+version = "5.0.2-snapshot.1+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -86,9 +87,39 @@ jar {
 	}
 }
 
+/************************/
+/** Java Compatibility **/
+/************************/
+
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
 tasks.withType JavaCompile configureEach {
 	options.release = project.ext.javaVersion
+}
+
+/****************/
+/** Publishing **/
+/****************/
+import com.modrinth.minotaur.dependencies.ModDependency
+
+modrinth {
+	println System.getenv('MODRINTH_TOKEN')
+	token = System.getenv 'MODRINTH_TOKEN'
+	projectId = '9gx5Xvc5'
+	versionName = "${version.split(/\+/)[0]} for Minecraft $gameVersion"
+	versionNumber = version
+	changelog = "**View the changelog at**: https://github.com/StartsMercury/simply-no-shading/wiki/Changelog#${version.split(/\+/)[0].replaceAll(/\.+/, '')}"
+	dependencies = [
+		new ModDependency('ox3rDp1B', 'optional'),
+		new ModDependency('OVuFYfre', 'optional'),
+		new ModDependency('P7dR8mSH', 'optional'),
+		new ModDependency('YL57xq9U', 'optional'),
+		new ModDependency('mOgUt4GM', 'optional'),
+		new ModDependency('AANobbMI', 'optional')
+	]
+	gameVersions = [ gameVersion ]
+	versionType = System.getenv('VERSION_TYPE') ?: 'alpha'
+	loaders = [ loader ]
+	uploadFile = remapJar
 }
