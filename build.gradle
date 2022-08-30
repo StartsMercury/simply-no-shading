@@ -7,7 +7,7 @@ apply from: 'mods.gradle'
 
 javaVersion = 17 // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 loader = 'fabric'
-gameVersion = '1.19
+gameVersion = '1.19'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
