@@ -1,16 +1,6 @@
 name: publish
 on:
   workflow_dispatch:
-    inputs:
-      versionType:
-        description: 'Version Type'
-        required: false
-        default: 'alpha'
-        type: choice
-        options:
-         - release
-         - beta
-         - alpha
 
 jobs:
   build:
@@ -33,9 +23,7 @@ jobs:
         run: ./gradlew build curseforge modrinth --stacktrace
         env:
           CURSEFORGE_API_KEY: $${{ secrets.CURSEFORGE_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          VERSION_TYPE: ${{ inputs.versionType }}
       - name: Capture build artifacts
         uses: actions/upload-artifact@v2
         with:
