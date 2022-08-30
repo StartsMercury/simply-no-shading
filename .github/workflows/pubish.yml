@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       versionType:
-        description: 'Determines the version type and visibility to users for download'
+        description: 'Version Type'
         required: false
         default: 'alpha'
         type: choice
