@@ -25,7 +25,7 @@ import net.coderbot.iris.Iris;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 /**
  * Simply No Shading's settings screen utilizing {@link SpruceScreen spruceui}.
@@ -54,7 +54,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name,
 		                               shadingRule::shouldShade,
 		                               shadingRule::setShade,
-		                               new TranslatableComponent("simply-no-shading.option.shadingRule." + name
+		                               Component.translatable("simply-no-shading.option.shadingRule." + name
 		                                       + ".tooltip"));
 	}
 
@@ -95,7 +95,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @param config the config
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent, final SimplyNoShadingClientConfig<?> config) {
-		super(new TranslatableComponent("simply-no-shading.options.title"));
+		super(Component.translatable("simply-no-shading.options.title"));
 
 		this.config = config;
 		this.parent = parent;
@@ -111,11 +111,13 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		final var smartReloadOption = new SpruceBooleanOption("simply-no-shading.option.smartReload",
 		                                                      this.config::isSmartReload,
 		                                                      this.config::setSmartReload,
-		                                                      new TranslatableComponent("simply-no-shading.option.smartReload.tooltip"));
+		                                                      Component
+		                                                              .translatable("simply-no-shading.option.smartReload.tooltip"));
 		final var smartReloadMessageOption = new SpruceBooleanOption("simply-no-shading.option.smartReloadMessage",
 		                                                             this.config::isSmartReloadMessage,
 		                                                             this.config::setSmartReloadMessage,
-		                                                             new TranslatableComponent("simply-no-shading.option.smartReloadMessage.tooltip"));
+		                                                             Component
+		                                                                     .translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
 		this.optionsWidget.addOptionEntry(smartReloadOption, smartReloadMessageOption);
 	}
 
