@@ -1,5 +1,16 @@
 name: publish
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      versionType:
+        description: 'Determines the version type and visibility to users for download'
+        required: false
+        default: 'alpha'
+        type: choice
+        options:
+         - release
+         - beta
+         - alpha
 
 jobs:
   build:
