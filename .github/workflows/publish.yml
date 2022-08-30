@@ -30,7 +30,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Build
-        run: ./gradlew build modrinth --stacktrace
+        run: ./gradlew build curseforge modrinth --stacktrace
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           VERSION_TYPE: ${{ inputs.versionType }}
