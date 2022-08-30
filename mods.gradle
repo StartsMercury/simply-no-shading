@@ -10,16 +10,21 @@ buildscript {
 	}
 }
 
+Map modrinthProjectCache = [:].withDefault { slug ->
+	return fromQuery(parseJson(new URL("https://api.modrinth.com/v2/project/$slug")))
+}
+
 Map modrinthVersionCache = [:].withDefault { notation ->
 	final def args = notation in Map ? notation.collectEntries { [ "$it.key", it.value ] } : [ slug: "$notation" ]
-	final def params = [:]
+	final def queryJoiner = new StringJoiner('&', '?', '').tap { emptyValue = '' }
 
-	params.loaders = toQuery(args.loader ?: [ loader ])
-	params.game_versions = toQuery(args.gameVersions ?: [ gameVersion ])
-	params.featured = args.featured
+	[	loaders: toQuery(args.loader ?: [ loader ]),
+		game_versions: toQuery(args.gameVersions ?: [ gameVersion ]),
+		featured: args.featured
+	].each { if (it.value) queryJoiner.add "$it.key=$it.value" }
 
-	final def url = "https://api.modrinth.com/v2/project/$args.slug/version"
-	final def slurper = parseJson(new URL(url), params)
+	final def url = "https://api.modrinth.com/v2/project/$args.slug/version$queryJoiner"
+	final def slurper = parseJson(new URL(url))
 
 	return fromQuery(slurper).collect { version ->
 		version.files = version.files.collect { file ->
@@ -50,17 +55,23 @@ extensions.findByName('fabricApi')?.ext {
 }
 
 ext {
+	javaVersion = null
 	loader = null
 	gameVersion = null
 
 	modrinth = new Object() {
 		def latestDependency(final Object notation) {
+			final def latestVersion = latestVersion notation
 			final def slug = notation in Map ? notation.slug : notation
 
-			return dependencies.create("maven.modrinth:$slug:${latestVersion(notation)?.versionNumber}")
+			println "${project slug title}: ${latestVersion?.versionNumber}"
+
+			return dependencies.create("maven.modrinth:$slug:${latestVersion?.versionNumber}")
 		}
-		
+
 		def latestVersion(final Object notation) { versions(notation)?[0] }
+
+		def project(final String slug) { modrinthProjectCache[slug] }
 
 		def versions(final Object notation) { modrinthVersionCache[notation] }
 	}
@@ -84,7 +95,11 @@ ext {
 		}
 		
 		def latestDependency(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions()[-1]) {
-			return "org.parchmentmc.data:parchment-$gameVersion:${latestVersion gameVersion}@zip"
+			final def latestVersion = latestVersion gameVersion
+
+			println "Parchment Mappings: $latestVersion ($gameVersion)"
+
+			return "org.parchmentmc.data:parchment-$gameVersion:$latestVersion@zip"
 		}
 
 		def latestVersion(final String gameVersion = closestGameVersion(ext.gameVersion) ?: supportedGameVersions()[-1]) {
@@ -116,32 +131,25 @@ def fromQuery(final Object query) {
 		return query
 }
 
-def parseJson(final URL url, final Map params = [:]) { new groovy.json.JsonSlurper().parse(url, params) }
+def parseJson(final URL url) { new groovy.json.JsonSlurper().parse(url) }
 
 def parseToml(final URL url) { new com.fasterxml.jackson.dataformat.toml.TomlMapper().readValue(url, Map.class) }
 
-def parseXml(final URL url) {
-	final def stream = url.openStream()
-	final def slurper = new groovy.xml.XmlSlurper().parse stream
-
-	stream.close()
-
-	return slurper
-}
+def parseXml(final URL url) { new groovy.xml.XmlSlurper().parseText(url.text) }
 
 def toQuery(final Object query) {
 	if (query in List)
-		return "[${query.collect { toQuery it } join ','}]"
-	if (query in CharSequence)
-		return query.replaceAll(/\p{Lu}/) { "_${it.toLowerCase()}" }.replaceAll(/[_\s]+/, '_')
+		return "%5B${query.collect { toQuery it } join ','}%5D"
+	else if (query != null)
+		return "%22${query.replaceAll(/\p{Lu}/) { "_${it.toLowerCase()}" } replaceAll(/[_\s]+/, '_')}%22"
 	else
-		return query
+		return null
 }
 
-def tryParseJson(final URL url, final Map params = [:]) {
+def tryParseJson(final URL url) {
 	for (i in 1 .. 8)
 		try {
-			return parseJson(url, params)
+			return parseJson(url)
 		} catch (final groovy.json.JsonException je) { }
 
 	return null
