@@ -1,14 +1,17 @@
 plugins {
-	alias libs.plugins.fabric.loom
-	alias libs.plugins.loom.quiltflower
+	id 'fabric-loom' version '1.+'
+	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
 }
 
-apply from: 'mod.gradle'
-apply from: 'runtimeMods.gradle'
+apply from: 'mods.gradle'
 
-group = modGroup
-archivesBaseName = modName
-version = "$modVersion+${libs.versions.minecraft.get()}"
+javaVersion = 17 // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+loader = 'fabric'
+gameVersion = '1.19'
+
+group = 'com.github.startsmercury'
+archivesBaseName = 'simply-no-shading'
+version = "4.0.2+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -25,64 +28,54 @@ dependencies {
 	testCompileOnly gradleApi()
 
 	// BedrockIfy
-	modCompileOnly libs.bedrockify
+	modImplementation modrinth.latestDependency('bedrockify')
 
 	// Enhanced Block Entities
-	modCompileOnly libs.enhancedblockentities
+	modImplementation modrinth.latestDependency('ebe')
 
 	// Fabric Key Binding API (V1)
-	modCompileOnly fabricApi.module('fabric-key-binding-api-v1', libs.versions.fabric.api.get())
+	modImplementation fabricApi.module('fabric-key-binding-api-v1')
 
 	// Fabric Lifecycle Events (V1)
-	modCompileOnly fabricApi.module('fabric-lifecycle-events-v1', libs.versions.fabric.api.get())
+	modImplementation fabricApi.module('fabric-lifecycle-events-v1')
 
 	// Fabric Renderer API (V1)
-	modCompileOnly fabricApi.module('fabric-renderer-api-v1', libs.versions.fabric.api.get())
+	modImplementation fabricApi.module('fabric-renderer-api-v1')
 
 	// Fabric Loader
-	modImplementation libs.fabric.loader
+	modImplementation 'net.fabricmc:fabric-loader:latest.release'
 
 	// Iris
-	modCompileOnly libs.iris
+	modImplementation modrinth.latestDependency('iris')
 
 	// Layered Mappings
 	mappings loom.layered {
 		officialMojangMappings()
-		parchment "org.parchmentmc.data:parchment-1.18.2:${libs.versions.parchment.get()}@zip"
-		// Uncomment when 1.19 Parchment is available
-		// parchment "org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip"
+		parchment parchment.latestDependency()
 	}
 
 	// Minecraft
-	minecraft libs.minecraft
+	minecraft "com.mojang:minecraft:$gameVersion"
 
 	// ModMenu
-	modCompileOnly libs.modmenu
+	modImplementation modrinth.latestDependency('modmenu')
 
 	// Sodium
-	modCompileOnly libs.sodium
+	modImplementation modrinth.latestDependency('sodium')
 
 	// SpruceUI
-	modImplementation libs.spruceui
-	include libs.spruceui
+	modImplementation include('dev.lambdaurora:spruceui:4.0.+')
 }
-
-mods.versionFilters.putAll(
-	'iris':   { replaceFirst(/^[^-]+-v/, '') },
-	'sodium': { replaceFirst(/^mc[^-]+-/, '') }
-)
 
 processResources {
 	inputs.property 'version', version
 
 	filesMatching 'fabric.mod.json', {
-		expand 'version': version, 'versions': mods.versions
+		expand version: version
 	}
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(17)
-	
 	withJavadocJar()
 	withSourcesJar()
 }
@@ -91,4 +84,11 @@ jar {
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
+}
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType JavaCompile configureEach {
+	options.release = project.ext.javaVersion
 }
