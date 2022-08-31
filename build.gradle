@@ -20,7 +20,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.3-pre.1+$gameVersion"
+version = "5.0.3-pre.2+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -115,7 +115,7 @@ import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 
 final def versionPart = version.split(/\+/)[0]
-final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+final def versionNameParts = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
 	switch (it[1]) {
 	case 'rc':
 		it[1] = 'Release Candidate'
@@ -128,10 +128,10 @@ final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[
 		break
 	}
 }
-final def versionNameParts = versionNamePart.join ' '
+final def versionNamePart = versionNamePart.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
 final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
-final def varsionType = versionNamePart[1].with {
+final def varsionType = versionNameParts[1].with {
 	switch (it) {
 	case 'Release':
 		return 'release'
