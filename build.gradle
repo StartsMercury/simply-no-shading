@@ -1,8 +1,15 @@
+buildscript {
+	dependencies {
+		classpath 'org.kohsuke:github-api:1.+'
+	}
+}
+
 plugins {
 	id 'com.matthewprenger.cursegradle' version '1.+'
 	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '1.+'
 	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
+	id 'org.ajoberstar.grgit' version '3.+'
 }
 
 apply from: 'mods.gradle'
@@ -104,6 +111,9 @@ tasks.withType JavaCompile configureEach {
 /****************/
 import com.modrinth.minotaur.dependencies.ModDependency
 
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
 final def versionPart = version.split(/\+/)[0]
 final def versionNamePart = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
 	switch (it[1]) {
@@ -133,8 +143,18 @@ final def varsionType = versionNamePart[1].with {
 	}
 }
 
-println changelag
-throw new InternalError()
+def getBranch() {
+	def branch
+
+	if (System.getenv('GITHUB_REF'))
+		branch = System.getenv 'GITHUB_REF'
+	else if (grgit != null)
+		branch = grgit.branch.current().name
+	else
+		return 'unknown'
+
+	return branch.substring(branch.lastIndexOf('/') + 1)
+}
 
 curseforge {
 	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
@@ -180,6 +200,24 @@ curseforge {
 
 	options {
 		forgeGradleIntegration = false
+	}
+}
+
+tasks.create name: 'github', dependsOn: remapJar, {
+	onlyIf { System.getenv('GITHUB_TOKEN') && System.getenv('VERSION_TYPE') != 'alpha' }
+
+	doLast {
+		final def github = GitHub.connectUsingOAuth System.getenv('GITHUB_TOKEN')
+		final def repository = github.getRepository System.getenv('GITHUB_REPOSITORY')
+
+		final def releaseBuilder = new GHReleaseBuilder(repository, version)
+
+		releaseBuilder.name versionNeme
+		releaseBuilder.body changelag
+		releaseBuilder.commitish branch
+		releaseBuilder.prerelease(System.getenv('VERSION_TYPE') != 'release')
+
+		releaseBuilder.create().uploadAsset remapJar.archiveFile.get().asFile, 'application/java-archive'
 	}
 }
 
