@@ -106,6 +106,8 @@ import com.modrinth.minotaur.dependencies.ModDependency
 
 final def versionPart = version.split(/\+/)[0]
 final def versionNameParts = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+	if (it.length == 1) return
+
 	switch (it[1]) {
 	case 'rc':
 		it[1] = 'Release Candidate'
