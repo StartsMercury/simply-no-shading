@@ -4,6 +4,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: write
     strategy:
       matrix:
         java: [ 17 ]
@@ -20,7 +22,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Build
-        run: ./gradlew build curseforge modrinth --stacktrace
+        run: ./gradlew build curseforge github modrinth --stacktrace
         env:
           CURSEFORGE_API_KEY: $${{ secrets.CURSEFORGE_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
