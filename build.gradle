@@ -123,8 +123,8 @@ final def versionNameParts = versionPart.split('-').with { it.length == 2 ? [ it
 final def versionNamePart = versionNameParts.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
 final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
-final def varsionType = versionNameParts[1].with {
-	switch (it) {
+final def varsionType = versionNameParts.with {
+	switch (it.length == 1 ? 'release' : it[1]) {
 	case 'Release':
 		return 'release'
 	case 'Release Candidate':
