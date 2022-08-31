@@ -20,7 +20,7 @@ gameVersion = '1.18.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.3-pre.2+$gameVersion"
+version = "5.0.3-pre.3+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -210,7 +210,7 @@ tasks.create name: 'github', dependsOn: remapJar, {
 		final def github = GitHub.connectUsingOAuth System.getenv('GITHUB_TOKEN')
 		final def repository = github.getRepository System.getenv('GITHUB_REPOSITORY')
 
-		final def releaseBuilder = new GHReleaseBuilder(repository, version)
+		final def releaseBuilder = new GHReleaseBuilder(repository, version as String)
 
 		releaseBuilder.name versionNeme
 		releaseBuilder.body changelag
