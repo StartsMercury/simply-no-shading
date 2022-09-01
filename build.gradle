@@ -1,4 +1,6 @@
 plugins {
+	id 'com.matthewprenger.cursegradle' version '1.+'
+	id 'com.modrinth.minotaur' version '2.+'
 	id 'fabric-loom' version '1.+'
 	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
 }
@@ -11,7 +13,7 @@ gameVersion = '1.19.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "4.0.2+$gameVersion"
+version = "5.0.3+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -86,9 +88,117 @@ jar {
 	}
 }
 
+/************************/
+/** Java Compatibility **/
+/************************/
+
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
 tasks.withType JavaCompile configureEach {
 	options.release = project.ext.javaVersion
+}
+
+/****************/
+/** Publishing **/
+/****************/
+import com.modrinth.minotaur.dependencies.ModDependency
+
+final def versionPart = version.split(/\+/)[0]
+final def versionNameParts = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+	if (it.length == 1) return
+
+	switch (it[1]) {
+	case 'rc':
+		it[1] = 'Release Candidate'
+		break
+	case 'pre':
+		it[1] = 'Pre-Release'
+		break
+	case 'snapshot':
+		it[1] = 'Snapshot'
+		break
+	}
+}
+final def versionNamePart = versionNameParts.join ' '
+final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
+final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
+final def varsionType = versionNameParts.with {
+	switch (it.length == 1 ? 'release' : it[1]) {
+	case 'Release':
+		return 'release'
+	case 'Release Candidate':
+	case 'Pre-Release':
+		return 'beta'
+	default:
+		return 'alpha'
+	}
+}
+
+curseforge {
+	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
+
+	project {
+		id = '550997'
+		changelogType = 'markdown'
+		changelog = changelag
+		relations {
+			optionalDependency 'bedrockify'
+			optionalDependency 'enhanced-block-entities'
+			optionalDependency 'fabric-api'
+			optionalDependency 'irisshaders'
+			optionalDependency 'modmenu'
+			optionalDependency 'sodium'
+		}
+		addGameVersion gameVersion
+		addGameVersion "Java $javaVersion"
+		addGameVersion loader.with {
+			switch (it) {
+				case 'fabric':
+					return 'Fabric'
+				case 'forge':
+					return 'Forge'
+				case 'quilt':
+					return 'Quilt'
+				case 'rift':
+					return 'Rift'
+			}
+		}
+		releaseType = varsionType
+
+		mainArtifact remapJar, {
+			displayName = versionNeme
+		}
+		addArtifact javadocJar
+		addArtifact remapSourcesJar
+
+		afterEvaluate {
+			uploadTask.dependsOn 'javadocJar', 'remapJar', 'remapSourcesJar'
+		}
+	}
+
+	options {
+		forgeGradleIntegration = false
+	}
+}
+
+modrinth {
+	token = System.getenv 'MODRINTH_TOKEN'
+	projectId = '9gx5Xvc5'
+	versionName = versionNeme
+	versionNumber = version
+	changelog = changelag
+	dependencies = [
+		new ModDependency('ox3rDp1B', 'optional'),
+		new ModDependency('OVuFYfre', 'optional'),
+		new ModDependency('P7dR8mSH', 'optional'),
+		new ModDependency('YL57xq9U', 'optional'),
+		new ModDependency('mOgUt4GM', 'optional'),
+		new ModDependency('AANobbMI', 'optional')
+	]
+	gameVersions = [ gameVersion ]
+	versionType = varsionType
+	loaders = [ loader ]
+	uploadFile = remapJar
+	additionalFiles = [ remapSourcesJar ]
 }
