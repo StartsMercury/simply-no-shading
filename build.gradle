@@ -13,7 +13,7 @@ gameVersion = '1.19.2'
 
 group = 'com.github.startsmercury'
 archivesBaseName = 'simply-no-shading'
-version = "5.0.3+$gameVersion"
+version = "5.0.4+$gameVersion"
 
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
@@ -105,8 +105,8 @@ tasks.withType JavaCompile configureEach {
 import com.modrinth.minotaur.dependencies.ModDependency
 
 final def versionPart = version.split(/\+/)[0]
-final def versionNameParts = versionPart.split('-').with { it.length == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
-	if (it.length == 1) return
+final def versionNameParts = versionPart.split('-').with { it.size() == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
+	if (it.size() == 1) return
 
 	switch (it[1]) {
 	case 'rc':
@@ -124,7 +124,7 @@ final def versionNamePart = versionNameParts.join ' '
 final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
 final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
 final def varsionType = versionNameParts.with {
-	switch (it.length == 1 ? 'release' : it[1]) {
+	switch (it.size() == 1 ? 'Release' : it[1]) {
 	case 'Release':
 		return 'release'
 	case 'Release Candidate':
