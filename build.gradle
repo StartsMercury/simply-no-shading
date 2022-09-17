@@ -28,10 +28,14 @@ repositories {
 
 dependencies {
 	// BedrockIfy
-	modImplementation modrinth.latestDependency('bedrockify')
+	// modImplementation modrinth.latestDependency('bedrockify')
+	modCompileOnly modrinth.latestDependency('bedrockify')
 
 	// Enhanced Block Entities
 	modImplementation modrinth.latestDependency('ebe')
+	
+	// Fabric API
+	modRuntimeOnly modrinth.latestDependency('fabric-api')
 
 	// Fabric Key Binding API (V1)
 	modImplementation fabricApi.module('fabric-key-binding-api-v1')
@@ -46,7 +50,8 @@ dependencies {
 	modImplementation 'net.fabricmc:fabric-loader:latest.release'
 
 	// Iris
-	modImplementation modrinth.latestDependency('iris')
+	// modImplementation modrinth.latestDependency('iris')
+	modCompileOnly modrinth.latestDependency('iris')
 
 	// Layered Mappings
 	mappings loom.layered {
@@ -61,7 +66,8 @@ dependencies {
 	modImplementation modrinth.latestDependency('modmenu')
 
 	// Sodium
-	modImplementation modrinth.latestDependency('sodium')
+	// modImplementation modrinth.latestDependency('sodium')
+	modCompileOnly modrinth.latestDependency('sodium')
 
 	// SpruceUI
 	modImplementation include('dev.lambdaurora:spruceui:[3.3.3,4.0.0)')
