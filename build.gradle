@@ -136,19 +136,25 @@ final def versionNameParts = versionPart.split('-').with { it.size() == 2 ? [ it
 	}
 }
 final def versionNamePart = versionNameParts.join ' '
-final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
-final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
-final def varsionType = versionNameParts.with {
-	switch (it.size() == 1 ? 'Release' : it[1]) {
-	case 'Release':
-		return 'release'
-	case 'Release Candidate':
-	case 'Pre-Release':
-		return 'beta'
-	default:
-		return 'alpha'
-	}
-}
+
+final def publishing = [
+	version: [
+		changelog: "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}",
+		name: "$versionNamePart for Minecraft $gameVersion",
+		number: version,
+		type: versionNameParts.with {
+			switch (it.size() == 1 ? 'Release' : it[1]) {
+			case 'Release':
+				return 'release'
+			case 'Release Candidate':
+			case 'Pre-Release':
+				return 'beta'
+			default:
+				return 'alpha'
+			}
+		}
+	]
+]
 
 curseforge {
 	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
@@ -156,7 +162,7 @@ curseforge {
 	project {
 		id = '550997'
 		changelogType = 'markdown'
-		changelog = changelag
+		changelog = publishing.version.changelog
 		relations {
 			optionalDependency 'bedrockify'
 			optionalDependency 'enhanced-block-entities'
@@ -167,7 +173,7 @@ curseforge {
 		}
 		addGameVersion gameVersion
 		addGameVersion "Java $javaVersion"
-		addGameVersion loader.with {
+		addGameVersion loader.toLowerCase().with {
 			switch (it) {
 				case 'fabric':
 					return 'Fabric'
@@ -177,12 +183,14 @@ curseforge {
 					return 'Quilt'
 				case 'rift':
 					return 'Rift'
+				default:
+					return it
 			}
 		}
-		releaseType = varsionType
+		releaseType = publishing.version.type
 
 		mainArtifact remapJar, {
-			displayName = versionNeme
+			displayName = publishing.version.name
 		}
 		addArtifact javadocJar
 		addArtifact remapSourcesJar
@@ -200,9 +208,9 @@ curseforge {
 modrinth {
 	token = System.getenv 'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
-	versionName = versionNeme
-	versionNumber = version
-	changelog = changelag
+	versionName = publishing.version.name
+	versionNumber = publishing.version.number
+	changelog = publishing.version.changelog
 	dependencies = [
 		new ModDependency('ox3rDp1B', 'optional'),
 		new ModDependency('OVuFYfre', 'optional'),
@@ -212,7 +220,7 @@ modrinth {
 		new ModDependency('AANobbMI', 'optional')
 	]
 	gameVersions = [ gameVersion ]
-	versionType = varsionType
+	versionType = publishing.version.type
 	loaders = [ loader ]
 	uploadFile = remapJar
 	additionalFiles = [ remapSourcesJar ]
