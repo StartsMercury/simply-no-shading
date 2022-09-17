@@ -11,6 +11,10 @@ javaVersion = 17 // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 loader = 'fabric'
 gameVersion = '1.18.2'
 
+/******************/
+/** Dependencies **/
+/******************/
+
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://jitpack.io' }
