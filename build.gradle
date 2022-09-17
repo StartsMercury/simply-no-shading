@@ -11,10 +11,6 @@ javaVersion = 17 // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 loader = 'fabric'
 gameVersion = '1.18.2'
 
-group = 'com.github.startsmercury'
-archivesBaseName = 'simply-no-shading'
-version = "5.0.5+$gameVersion"
-
 repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://jitpack.io' }
@@ -67,6 +63,14 @@ dependencies {
 	modImplementation include('dev.lambdaurora:spruceui:[3.3.3,4.0.0)')
 }
 
+/************************/
+/** Java Archive (JAR) **/
+/************************/
+
+group = 'com.github.startsmercury'
+archivesBaseName = 'simply-no-shading'
+version = "5.0.5+$gameVersion"
+
 processResources {
 	inputs.property 'version', version
 
@@ -97,9 +101,18 @@ tasks.withType JavaCompile configureEach {
 	options.release = project.ext.javaVersion
 }
 
+/*****************/
+/** Fabric Loom **/
+/*****************/
+
+loom.runConfigs.configureEach {
+	vmArgs '-Dmixin.debug.export=true'
+}
+
 /****************/
 /** Publishing **/
 /****************/
+
 import com.modrinth.minotaur.dependencies.ModDependency
 
 final def versionPart = version.split(/\+/)[0]
