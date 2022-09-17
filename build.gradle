@@ -27,8 +27,6 @@ repositories {
 }
 
 dependencies {
-	testCompileOnly gradleApi()
-
 	// BedrockIfy
 	modImplementation modrinth.latestDependency('bedrockify')
 
