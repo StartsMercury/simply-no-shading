@@ -136,7 +136,6 @@ final def versionNameParts = versionPart.split('-').with { it.size() == 2 ? [ it
 	}
 }
 final def versionNamePart = versionNameParts.join ' '
-
 final def publishing = [
 	version: [
 		changelog: "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}",
