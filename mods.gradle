@@ -50,15 +50,7 @@ Map modrinthVersionCache = [:].withDefault { notation ->
 	}
 }
 
-extensions.findByName('fabricApi')?.ext {
-	module = { String name -> fabricApi.module('fabric-key-binding-api-v1', modrinth.latestVersion('fabric-api').versionNumber) }
-}
-
 ext {
-	javaVersion = null
-	loader = null
-	gameVersion = null
-
 	modrinth = new Object() {
 		def latestDependency(final Object notation) {
 			final def latestVersion = latestVersion notation

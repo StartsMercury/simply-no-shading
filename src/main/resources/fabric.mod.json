@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "simply-no-shading",
+	"id": "${modId}",
 	"version": "${version}",
 
 	"name": "Simply No Shading",
@@ -14,8 +14,8 @@
 		}
 	],
 	"contributors": [
-		"IMS212",
-		"PepperCode1"
+		"IMS212 - initially converted the mappings to MojMap",
+		"PepperCode1 - pointed out something to improve compatibility"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/simply-no-shading",
@@ -41,12 +41,12 @@
 
 	"depends": {
 		"fabricloader": "*",
-		"java": ">=17",
+		"java": ">=${javaVersion}",
 		"minecraft": "*"
 	},
 	"recommends": {
 		"enhancedblockentities": "*",
-		"fabric": "*",
+		"fabric-api": "*",
 		"modmenu": "*",
 		"sodium": "*",
 		"spruceui": "*"

@@ -1,39 +1,140 @@
+/*
+ * Heading
+ * 
+ * Plugins, buildscript dependencies, imports, runtime fidelling (with groovy metaprogramming) and
+ * extensions.
+ */
+
 plugins {
-	id 'com.matthewprenger.cursegradle' version '1.+'
-	id 'com.modrinth.minotaur' version '2.+'
+	// Fabric Loom - plugin for modding with the Fabric mod loader
 	id 'fabric-loom' version '1.+'
-	id 'io.github.juuxel.loom-quiltflower' version 'latest.release'
+
+	// Curse Gradle - programmaticly view and modify CurseForge projects
+	id 'com.matthewprenger.cursegradle' version '1.+'
+	// Minotaur - programmaticly view and modify Modrinth projects
+	id 'com.modrinth.minotaur' version '2.+'
 }
 
-apply from: 'mods.gradle'
+import com.modrinth.minotaur.dependencies.ModDependency
 
-javaVersion = 17 // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-loader = 'fabric'
-gameVersion = '1.19.2'
+// Essentially add fabricApi.module(<name>, <version>) with version defaulted to `fabricApiVersion`
+// (See `gradle.properties`)
+extensions.findByName('fabricApi').ext {
+	module = { String name -> fabricApi.module('fabric-key-binding-api-v1', fabricApiVersion) }
+}
 
-group = 'com.github.startsmercury'
-archivesBaseName = 'simply-no-shading'
-version = "5.0.4+$gameVersion"
+// Project extensions
+ext {
+	// Used to detect parchment mappings for or close to the desired minecraft version
+	parchment = new Object() {
+		def closestGameVersion(final String expected) {
+			final List gameVersionList = supportedGameVersions()
 
+			if (!gameVersionList)
+				return null
+			else if (gameVersionList.contains(expected))
+				return expected
+
+			gameVersionList << expected
+			gameVersionList.sort()
+
+			if (gameVersionList.last() != expected)
+				return gameVersionList[gameVersionList.lastIndexOf(expected) + 1]
+			else
+				return gameVersionList[-2]
+		}
+		
+		def latestDependency(final String gameVersion = gameVersion) {
+			final def closestGameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions()[-1]
+			final def latestVersion = latestVersion closestGameVersion, false
+
+			if (closestGameVersion != gameVersion)
+				System.err.println "Parchment Mappings: unavailable for $gameVersion, finding alternatives..."
+			println "Parchment Mappings: $latestVersion for $closestGameVersion"
+
+			return "org.parchmentmc.data:parchment-$gameVersion:$latestVersion@zip"
+		}
+
+		def latestVersion(final String gameVersion = gameVersion, final boolean validation = true) {
+			return metadata(validation ? closestGameVersion(gameVersion) ?: supportedGameVersions()[-1] : gameVersion).versioning.latest
+		}
+
+		def metadata(final String gameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions()[-1]) {
+			final def url = new URL("https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data/parchment-$gameVersion/maven-metadata.xml")
+
+			return new groovy.xml.XmlSlurper().parseText(url.text)
+		}
+
+		def supportedGameVersions() {
+			final def url = new URL('https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data')
+
+			return url.text.findAll('"parchment-([^/]+)/"') { it[1] }
+		}
+
+		def versions(final String gameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions(gameVersion)[-1]) {
+			return metadata(gameVersion).versioning.versions.version[0..-1]
+		}
+	}
+}
+
+/*
+ * Main Script
+ * 
+ * Below are the main part of the build script.
+ */
+
+// Project Properties. See `gradle.properties`
+group = modGroup
+archivesBaseName = modId
+version = "$modVersion+$gameVersion"
+
+// Repositories to look for dependencies
 repositories {
-	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
-	maven { url 'https://jitpack.io' }
+	// Gegy Maven Repository
 	maven { url 'https://maven.gegy.dev' }
+
+	// Modrinth Maven Repository (dependencies with the group `maven.modrinth`)
+	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+
+	// ParchmentMC Maven Repository
 	maven { url 'https://maven.parchmentmc.org' }
+
+	// QuiltMC Maven Repository
 	maven { url 'https://maven.quiltmc.org/repository/release' }
+
+	// Shedaniel's Maven Repository
 	maven { url 'https://maven.shedaniel.me' }
+
+	// TerraformersMC Maven Repository
 	maven { url 'https://maven.terraformersmc.com' }
+
+	// Devan's Repository
 	maven { url 'https://storage.googleapis.com/devan-maven' }
+
+	// maven { url 'https://jitpack.io' }
 }
 
+// Dependencies 
 dependencies {
+	// Gradle API for groovy eclipse workaround
 	testCompileOnly gradleApi()
 
 	// BedrockIfy
-	modImplementation modrinth.latestDependency('bedrockify')
+	modImplementation "maven.modrinth:bedrockify:$bedrockifyVersion"
 
-	// Enhanced Block Entities
-	modImplementation modrinth.latestDependency(slug: 'ebe', gameVersions: [ '1.19' ])
+		// Cloth Config
+		modApi "me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion", {
+			exclude group: 'net.fabricmc.fabric-api'
+		}
+
+	// Enhanced Block Entities for compatibility
+	modImplementation "maven.modrinth:ebe:$ebeVersion"
+
+		// ARRP
+		modRuntimeOnly "net.devtech:arrp:$arrpVersion"
+
+	// Fabric API
+	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
 	// Fabric Key Binding API (V1)
 	modImplementation fabricApi.module('fabric-key-binding-api-v1')
@@ -41,68 +142,84 @@ dependencies {
 	// Fabric Lifecycle Events (V1)
 	modImplementation fabricApi.module('fabric-lifecycle-events-v1')
 
-	// Fabric Renderer API (V1)
-	modImplementation fabricApi.module('fabric-renderer-api-v1')
-
 	// Fabric Loader
 	modImplementation 'net.fabricmc:fabric-loader:latest.release'
 
+	// Fabric Renderer API (V1)
+	modImplementation fabricApi.module('fabric-renderer-api-v1')
+	
 	// Iris
-	modImplementation modrinth.latestDependency('iris')
+	modImplementation "maven.modrinth:iris:$irisVersion"
 
-	// Layered Mappings
+	// Layered Mappings for deobfuscating Miencraft's source code
 	mappings loom.layered {
+		// Official Mojang Mappings
 		officialMojangMappings()
+
+		// Parchment Mappings for parameters and documentation
 		parchment parchment.latestDependency()
 	}
 
 	// Minecraft
 	minecraft "com.mojang:minecraft:$gameVersion"
 
-	// ModMenu
-	modImplementation modrinth.latestDependency('modmenu')
+	// ModMenu for compatibility
+	modImplementation "com.terraformersmc:modmenu:$modmenuVersion"
 
-	// Sodium
-	modImplementation modrinth.latestDependency('sodium')
+	// Sodium for compatibility
+	modImplementation "maven.modrinth:sodium:mc1.19.2-0.4.4"
 
-	// SpruceUI
+		// JOML
+		implementation "org.joml:joml:$jomlVersion"
+
+	// SpruceUI for in-game configuration screens
 	modImplementation include('dev.lambdaurora:spruceui:4.0.+')
 }
 
+// Resource Post-processing
 processResources {
+	// I don't know what this does to be honest...
 	inputs.property 'version', version
 
+	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
+	// `src/main/resources/fabric.mod.json`
 	filesMatching 'fabric.mod.json', {
-		expand version: version
+		expand project.properties
 	}
 }
 
+// Java Code Block
 java {
+	// Java source and target compatibility; Usually set at least to what Minecraft requires. See
+	// `gradle.properties`
+	sourceCompatibility = javaVersion
+	targetCompatibility = javaVersion
+
+	// Allow generation of the `-javadoc` jars
 	withJavadocJar()
+
+	// Allow generation of the `-sources` jars
 	withSourcesJar()
 }
 
+// JAR Code Block
 jar {
+	// Appends the archive name to the LICENSE file name
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
 }
 
-/************************/
-/** Java Compatibility **/
-/************************/
-
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
-
+// Sets the java version used in compilation tasks
 tasks.withType JavaCompile configureEach {
-	options.release = project.ext.javaVersion
+	options.release = javaVersion.majorVersion as int
 }
 
-/****************/
-/** Publishing **/
-/****************/
-import com.modrinth.minotaur.dependencies.ModDependency
+/*
+ * Publishing
+ * 
+ * Below are script code related to publishing this mod to CurseForge, and Modrinth.
+ */
 
 final def versionPart = version.split(/\+/)[0]
 final def versionNameParts = versionPart.split('-').with { it.size() == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
@@ -169,6 +286,7 @@ curseforge {
 		mainArtifact remapJar, {
 			displayName = versionNeme
 		}
+
 		addArtifact javadocJar
 		addArtifact remapSourcesJar
 
