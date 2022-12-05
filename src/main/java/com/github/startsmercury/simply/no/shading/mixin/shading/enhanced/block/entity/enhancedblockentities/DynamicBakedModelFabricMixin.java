@@ -30,14 +30,14 @@ public class DynamicBakedModelFabricMixin {
 	 * @return the next value in the iterator
 	 */
 	@Redirect(method = "emitBlockQuads",
-	          at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;"))
+	          at = @At(value = "INVOKE",
+	                   target = "Ljava/util/Iterator;next()Ljava/lang/Object;"))
 	private final Object initEmittedBlockQuads(final Iterator<?> itr) {
-		final Object next = itr.next();
+		final var next = itr.next();
 
-		if (next instanceof final Shadable nextShadable) {
-			nextShadable.setShadingRule(SimplyNoShadingFabricClientMod
-			        .getInstance().config.shadingRules.enhancedBlockEntities);
-		}
+		if (next instanceof final Shadable nextShadable)
+			nextShadable.setShadingRule(
+			        SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.enhancedBlockEntities);
 
 		return next;
 	}

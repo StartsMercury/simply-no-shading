@@ -161,7 +161,9 @@ public abstract class MultiValuedContainer<T> implements Iterable<Entry<String, 
 	 *         elements
 	 * @since 5.0.0
 	 */
-	public final boolean isEmpty() { return this.values.isEmpty(); }
+	public final boolean isEmpty() {
+		return this.values.isEmpty();
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -23,17 +23,24 @@ public class LevelRendererMixin {
 	 * @return the modified shade
 	 */
 	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;",
-	                constant = {
-	                    @Constant(floatValue = 0.9F, ordinal = 0),
-	                    @Constant(floatValue = 0.9F, ordinal = 1),
-	                    @Constant(floatValue = 0.9F, ordinal = 2),
-	                    @Constant(floatValue = 0.7F, ordinal = 0),
-	                    @Constant(floatValue = 0.7F, ordinal = 1),
-	                    @Constant(floatValue = 0.7F, ordinal = 2),
-	                    @Constant(floatValue = 0.8F, ordinal = 0),
-	                    @Constant(floatValue = 0.8F, ordinal = 1),
-	                    @Constant(floatValue = 0.8F, ordinal = 2)
-					})
+	                constant = { @Constant(floatValue = 0.9F,
+	                                       ordinal = 0),
+	                        @Constant(floatValue = 0.9F,
+	                                  ordinal = 1),
+	                        @Constant(floatValue = 0.9F,
+	                                  ordinal = 2),
+	                        @Constant(floatValue = 0.7F,
+	                                  ordinal = 0),
+	                        @Constant(floatValue = 0.7F,
+	                                  ordinal = 1),
+	                        @Constant(floatValue = 0.7F,
+	                                  ordinal = 2),
+	                        @Constant(floatValue = 0.8F,
+	                                  ordinal = 0),
+	                        @Constant(floatValue = 0.8F,
+	                                  ordinal = 1),
+	                        @Constant(floatValue = 0.8F,
+	                                  ordinal = 2) })
 	private final float changeCloudShade(final float shade) {
 		return SimplyNoShadingClientMod.getInstance().config.shadingRules.clouds.wouldShade() ? shade : 1.0F;
 	}

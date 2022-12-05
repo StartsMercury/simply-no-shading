@@ -41,12 +41,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 	 * @return a new shading option
 	 */
 	protected static OptionInstance<Boolean> createOption(final String name, final ShadingRule shadingRule) {
-		return OptionInstance
-		        .createBoolean("simply-no-shading.option.shadingRule." + name,
-		                       cachedConstantTooltip(Component
-		                               .translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
-		                       shadingRule.shouldShade(),
-		                       shadingRule::setShade);
+		return OptionInstance.createBoolean("simply-no-shading.option.shadingRule." + name,
+		        cachedConstantTooltip(
+		                Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
+		        shadingRule.shouldShade(), shadingRule::setShade);
 	}
 
 	/**
@@ -94,13 +92,14 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
 
-			if (leftEntry == null) { continue; }
+			if (leftEntry == null)
+				continue;
 
 			final var rightEntry = nextOption(iterator);
 
 			final var leftOption = createOption(leftEntry.getKey(), leftEntry.getValue());
-			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(),
-			                                                          rightEntry.getValue()) : null;
+			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(), rightEntry.getValue())
+			        : null;
 
 			this.list.addSmall(leftOption, rightOption);
 		}
@@ -134,12 +133,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		addOptions();
 
 		addWidget(this.list);
-		addRenderableWidget(new Button(this.width / 2 - 100,
-		                               this.height - 27,
-		                               200,
-		                               20,
-		                               CommonComponents.GUI_DONE,
-		                               button -> this.minecraft.setScreen(this.lastScreen)));
+		addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE,
+		        button -> this.minecraft.setScreen(this.lastScreen)));
 
 		LOGGER.debug("Initialized settings screen");
 	}
@@ -184,9 +179,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 		SimplyNoShadingClientMod.getInstance().saveConfig();
 
-		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled()) {
+		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled())
 			this.observation.react(this.minecraft);
-		}
 
 		LOGGER.info("Removed settings screen");
 	}
@@ -206,6 +200,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 		final var list = tooltipAt(this.list, mouseX, mouseY);
 
-		if (list != null) { renderTooltip(poseStack, list, mouseX, mouseY); }
+		if (list != null)
+			renderTooltip(poseStack, list, mouseX, mouseY);
 	}
 }

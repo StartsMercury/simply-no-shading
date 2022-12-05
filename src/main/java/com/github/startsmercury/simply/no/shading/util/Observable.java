@@ -53,9 +53,9 @@ public interface Observable<T extends Observable<T>> {
 		 */
 		@SuppressWarnings("unchecked")
 		public Observation(final T present) {
-			if (present instanceof final Copyable<?> copyable) {
+			if (present instanceof final Copyable<?> copyable)
 				this.past = (T) copyable.copy();
-			} else
+			else
 				throw new IllegalArgumentException("expected an instance of Copyable");
 
 			this.present = present;

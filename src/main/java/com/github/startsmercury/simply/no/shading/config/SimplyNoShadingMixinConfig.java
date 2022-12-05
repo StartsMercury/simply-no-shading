@@ -37,7 +37,9 @@ public final class SimplyNoShadingMixinConfig implements Serializable {
 	 * @return the mixin class names to be excluded
 	 * @since 5.0.0
 	 */
-	public ObjectOpenHashSet<String> getExcluded() { return this.excluded; }
+	public ObjectOpenHashSet<String> getExcluded() {
+		return this.excluded;
+	}
 
 	/**
 	 * Copies the state of the other {@code SimplyNoShadingMixinConfig}.

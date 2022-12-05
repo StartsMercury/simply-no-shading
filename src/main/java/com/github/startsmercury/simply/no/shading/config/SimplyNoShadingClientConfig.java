@@ -160,7 +160,9 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @return the shading rules
 	 * @since 5.0.0
 	 */
-	public final R getShadingRules() { return this.shadingRules; }
+	public final R getShadingRules() {
+		return this.shadingRules;
+	}
 
 	/**
 	 * Returns whether smart reloading is set.
@@ -168,7 +170,9 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @return whether smart reloading is set
 	 * @since 5.0.0
 	 */
-	public final boolean isSmartReload() { return this.smartReload; }
+	public final boolean isSmartReload() {
+		return this.smartReload;
+	}
 
 	/**
 	 * Returns whether to display messages when chunks are rebuilt smartly.
@@ -176,7 +180,9 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @return whether to display messages when chunks are rebuilt smartly
 	 * @since 5.0.0
 	 */
-	public final boolean isSmartReloadMessage() { return this.smartReloadMessage; }
+	public final boolean isSmartReloadMessage() {
+		return this.smartReloadMessage;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -201,7 +207,10 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonElement in) {
-		if (!(in instanceof final JsonObject object)) { reset(); return; }
+		if (!(in instanceof final JsonObject object)) {
+			reset();
+			return;
+		}
 
 		read(object);
 	}
@@ -213,7 +222,10 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonObject in) {
-		if (in == null) { reset(); return; }
+		if (in == null) {
+			reset();
+			return;
+		}
 
 		this.smartReload = JsonUtils.getBooleanNonNull(in, "smartReload", true);
 		this.smartReloadMessage = JsonUtils.getBooleanNonNull(in, "smartReloadMessage", true);
@@ -234,7 +246,9 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	 *
 	 * @param smartReload the new value
 	 */
-	public final void setSmartReload(final boolean smartReload) { this.smartReload = smartReload; }
+	public final void setSmartReload(final boolean smartReload) {
+		this.smartReload = smartReload;
+	}
 
 	/**
 	 * Sets smart reload message.

@@ -22,7 +22,9 @@ public abstract class ClientLevelFabricMixin {
 	 * @param shade the original shade
 	 * @return the modified shade
 	 */
-	@ModifyVariable(method = "getShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getShade(Lnet/minecraft/core/Direction;Z)F",
+	                at = @At("HEAD"),
+	                argsOnly = true)
 	private final boolean changeShade(final boolean shade) {
 		final var shadingRules = SimplyNoShadingFabricClientMod.getInstance().config.shadingRules;
 

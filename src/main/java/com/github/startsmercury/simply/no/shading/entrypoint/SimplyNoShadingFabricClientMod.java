@@ -62,7 +62,9 @@ public class SimplyNoShadingFabricClientMod extends
 	 *         accesses to {@link #getInstance()} are valid
 	 * @since 5.0.0
 	 */
-	public static boolean isInitialized() { return instance == null; }
+	public static boolean isInitialized() {
+		return instance == null;
+	}
 
 	/**
 	 * Executes an action when an instance of this class {@link #isInitialized() was
@@ -74,7 +76,8 @@ public class SimplyNoShadingFabricClientMod extends
 	public static void whenInitialized(final Consumer<? super SimplyNoShadingClientMod<?, ?>> whenInitialized) {
 		Objects.requireNonNull(whenInitialized);
 
-		if (isInitialized()) { whenInitialized.accept(instance); }
+		if (isInitialized())
+			whenInitialized.accept(instance);
 	}
 
 	/**
@@ -87,8 +90,9 @@ public class SimplyNoShadingFabricClientMod extends
 	 * @return the result of one of the given actions
 	 * @since 5.0.0
 	 */
-	public static <T> T whenInitialized(final Function<? super SimplyNoShadingClientMod<?, ?>, ? extends T> whenInitialized,
-	                                    final Supplier<? extends T> whenUninitialized) {
+	public static <T> T whenInitialized(
+	        final Function<? super SimplyNoShadingClientMod<?, ?>, ? extends T> whenInitialized,
+	        final Supplier<? extends T> whenUninitialized) {
 		Objects.requireNonNull(whenInitialized);
 		Objects.requireNonNull(whenUninitialized);
 
@@ -100,8 +104,8 @@ public class SimplyNoShadingFabricClientMod extends
 	 */
 	public SimplyNoShadingFabricClientMod() {
 		super(new SimplyNoShadingFabricClientConfig<>(new FabricShadingRules()),
-		      FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
-		      SimplyNoShadingFabricKeyManager::new);
+		        FabricLoader.getInstance().getConfigDir().resolve("simply-no-shading+client.json"),
+		        SimplyNoShadingFabricKeyManager::new);
 	}
 
 	/**
@@ -136,7 +140,8 @@ public class SimplyNoShadingFabricClientMod extends
 		final var fabricLoader = FabricLoader.getInstance();
 
 		if (!fabricLoader.isModLoaded("fabric-key-binding-api-v1")) {
-			LOGGER.warn("Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
+			LOGGER.warn(
+			        "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
 
 			return;
 		}
@@ -154,7 +159,8 @@ public class SimplyNoShadingFabricClientMod extends
 
 		// Redundant, this is embedded in spruceui
 		if (!FabricLoader.getInstance().isModLoaded("fabric-lifecycle-events-v1")) {
-			LOGGER.warn("Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
+			LOGGER.warn(
+			        "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
 
 			registerShutdownHook();
 
@@ -171,11 +177,10 @@ public class SimplyNoShadingFabricClientMod extends
 				if (this.windowWasActive == windowActive)
 					return;
 
-				if (windowActive) {
+				if (windowActive)
 					loadConfig();
-				} else {
+				else
 					saveConfig();
-				}
 
 				this.windowWasActive = windowActive;
 			}
@@ -183,14 +188,15 @@ public class SimplyNoShadingFabricClientMod extends
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			final var openSettings = this.keyManager.openSettings.consumeClick();
 
-			if (openSettings) { openSettingsScreen(client); }
+			if (openSettings)
+				openSettingsScreen(client);
 
 			final var observation = !openSettings ? this.config.observe() : null;
 			final var toggled = toggleShade(this.keyManager.toggleAllShading, this.config.shadingRules.all)
 			        | toggleShade(this.keyManager.toggleBlockShading, this.config.shadingRules.blocks)
 			        | toggleShade(this.keyManager.toggleCloudShading, this.config.shadingRules.clouds)
 			        | toggleShade(this.keyManager.toggleEnhancedBlockEntityShading,
-			                      this.config.shadingRules.enhancedBlockEntities)
+			                this.config.shadingRules.enhancedBlockEntities)
 			        | toggleShade(this.keyManager.toggleLiquidShading, this.config.shadingRules.liquids);
 
 			if (!toggled || openSettings)

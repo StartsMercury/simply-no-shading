@@ -246,7 +246,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getName() { return this.delegate.getName(); }
+	public String getName() {
+		return this.delegate.getName();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -332,7 +334,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isDebugEnabled() { return this.delegate.isDebugEnabled(); }
+	public boolean isDebugEnabled() {
+		return this.delegate.isDebugEnabled();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -346,7 +350,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isErrorEnabled() { return this.delegate.isErrorEnabled(); }
+	public boolean isErrorEnabled() {
+		return this.delegate.isErrorEnabled();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -360,7 +366,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isInfoEnabled() { return this.delegate.isInfoEnabled(); }
+	public boolean isInfoEnabled() {
+		return this.delegate.isInfoEnabled();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -374,7 +382,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isTraceEnabled() { return this.delegate.isTraceEnabled(); }
+	public boolean isTraceEnabled() {
+		return this.delegate.isTraceEnabled();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -388,7 +398,9 @@ public class PrefixedLogger implements Logger {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isWarnEnabled() { return this.delegate.isWarnEnabled(); }
+	public boolean isWarnEnabled() {
+		return this.delegate.isWarnEnabled();
+	}
 
 	/**
 	 * {@inheritDoc}

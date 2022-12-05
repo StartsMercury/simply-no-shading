@@ -19,10 +19,11 @@ public class BedrockBlockShadingFabricMixin {
 	 *
 	 * @param callback the callback
 	 */
-	@Inject(method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F",
+	        at = @At("HEAD"),
+	        cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
-		if (!SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade()) {
+		if (!SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade())
 			callback.setReturnValue(1.0F);
-		}
 	}
 }

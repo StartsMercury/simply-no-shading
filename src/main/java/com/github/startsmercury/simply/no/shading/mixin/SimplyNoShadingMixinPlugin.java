@@ -30,8 +30,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * The config path.
 	 */
-	public static final Path CONFIG_PATH = FabricLoader.getInstance()
-	        .getConfigDir()
+	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir()
 	        .resolve("simply-no-shading+mixin.json");
 
 	/**
@@ -105,7 +104,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		for (final var element : mixinConfig.getExcluded()) {
 			final var excludee = "com.github.startsmercury.simplynoshading.mixin." + element;
 
-			if (!excludee.matches("\\w+(?:\\w+)*")) { continue; }
+			if (!excludee.matches("\\w+(?:\\w+)*"))
+				continue;
 
 			this.excludedCached.add(excludee);
 		}
@@ -121,7 +121,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {}
+	public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) {
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -135,7 +136,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		mixins.trim();
 
 		switch (mixins.size()) {
-		case 0 -> {}
+		case 0 -> {
+		}
 		case 1 -> LOGGER.info("Included mixin '" + mixins.get(0) + "' due to their target mod being present");
 		default -> {
 			LOGGER.info("Included mixins: ");
@@ -151,38 +153,44 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getRefMapperConfig() { return null; }
+	public String getRefMapperConfig() {
+		return null;
+	}
 
 	/**
 	 * Includes additional mixins.
 	 *
 	 * @param mixins the additional mixin list
 	 */
-	protected void includeMixins(final List<String> mixins) {}
+	protected void includeMixins(final List<String> mixins) {
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onLoad(final String mixinPackage) {}
+	public void onLoad(final String mixinPackage) {
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void postApply(final String targetClassName,
-	                      final ClassNode targetClass,
-	                      final String mixinClassName,
-	                      final IMixinInfo mixinInfo) {}
+	        final ClassNode targetClass,
+	        final String mixinClassName,
+	        final IMixinInfo mixinInfo) {
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void preApply(final String targetClassName,
-	                     final ClassNode targetClass,
-	                     final String mixinClassName,
-	                     final IMixinInfo mixinInfo) {}
+	        final ClassNode targetClass,
+	        final String mixinClassName,
+	        final IMixinInfo mixinInfo) {
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -190,7 +198,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
 		for (final var excludee : this.excludedCached) {
-			if (!mixinClassName.startsWith(excludee)) { continue; }
+			if (!mixinClassName.startsWith(excludee))
+				continue;
 
 			final var offset = excludee.length();
 			var startsWithExcludee = false;
@@ -198,7 +207,8 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 			if (mixinClassName.length() == offset || (startsWithExcludee = mixinClassName.charAt(offset) == '.')) {
 				final var message = new StringBuilder("Excluded mixin ").append(mixinClassName);
 
-				if (startsWithExcludee) { message.append(" given it's a member of ").append(excludee); }
+				if (startsWithExcludee)
+					message.append(" given it's a member of ").append(excludee);
 
 				LOGGER.info(message.toString());
 

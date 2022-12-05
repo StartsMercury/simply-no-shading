@@ -19,7 +19,7 @@ import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.coderbot.iris.Iris;
 import net.fabricmc.loader.api.FabricLoader;
@@ -51,11 +51,9 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @return a new shading option
 	 */
 	protected static SpruceBooleanOption createOption(final String name, final ShadingRule shadingRule) {
-		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name,
-		                               shadingRule::shouldShade,
-		                               shadingRule::setShade,
-		                               Component.translatable("simply-no-shading.option.shadingRule." + name
-		                                       + ".tooltip"));
+		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name, shadingRule::shouldShade,
+		        shadingRule::setShade,
+		        Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip"));
 	}
 
 	/**
@@ -109,15 +107,11 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
 
 		final var smartReloadOption = new SpruceBooleanOption("simply-no-shading.option.smartReload",
-		                                                      this.config::isSmartReload,
-		                                                      this.config::setSmartReload,
-		                                                      Component
-		                                                              .translatable("simply-no-shading.option.smartReload.tooltip"));
+		        this.config::isSmartReload, this.config::setSmartReload,
+		        Component.translatable("simply-no-shading.option.smartReload.tooltip"));
 		final var smartReloadMessageOption = new SpruceBooleanOption("simply-no-shading.option.smartReloadMessage",
-		                                                             this.config::isSmartReloadMessage,
-		                                                             this.config::setSmartReloadMessage,
-		                                                             Component
-		                                                                     .translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
+		        this.config::isSmartReloadMessage, this.config::setSmartReloadMessage,
+		        Component.translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
 		this.optionsWidget.addOptionEntry(smartReloadOption, smartReloadMessageOption);
 	}
 
@@ -148,13 +142,14 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		while (iterator.hasNext()) {
 			final var leftEntry = nextOption(iterator);
 
-			if (leftEntry == null) { continue; }
+			if (leftEntry == null)
+				continue;
 
 			final var rightEntry = nextOption(iterator);
 
 			final var leftOption = createOption(leftEntry.getKey(), leftEntry.getValue());
-			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(),
-			                                                          rightEntry.getValue()) : null;
+			final var rightOption = rightEntry != null ? createOption(rightEntry.getKey(), rightEntry.getValue())
+			        : null;
 
 			this.optionsWidget.addOptionEntry(leftOption, rightOption);
 		}
@@ -203,7 +198,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @return {@code true} when panorama rendering is possible
 	 */
 	protected boolean canRenderPanorama() {
-		return BEDROCKIFY_LOADED && Bedrockify.getInstance().settings.cubeMapBackground;
+		return BEDROCKIFY_LOADED && BedrockifyClient.getInstance().settings.cubeMapBackground;
 	}
 
 	/**
@@ -216,13 +211,14 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		this.observation = this.config.observe();
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, 34), this.width, this.height - 69);
 
-		if (!shouldRenderDirtBackground()) { this.optionsWidget.setBackground(EMPTY_BACKGROUND); }
+		if (!shouldRenderDirtBackground())
+			this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
 		addOptions();
 
 		addRenderableWidget(this.optionsWidget);
-		addRenderableWidget(new SpruceButtonWidget(Position
-		        .of(this.width / 2 - 100, this.height - 27), 200, 20, CommonComponents.GUI_DONE, button -> onClose()));
+		addRenderableWidget(new SpruceButtonWidget(Position.of(this.width / 2 - 100, this.height - 27), 200, 20,
+		        CommonComponents.GUI_DONE, button -> onClose()));
 	}
 
 	/**
@@ -265,9 +261,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 
 		SimplyNoShadingClientMod.getInstance().saveConfig();
 
-		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled()) {
+		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled())
 			this.observation.react(this.minecraft);
-		}
 
 		LOGGER.info("Removed settings screen");
 	}
@@ -287,15 +282,14 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void renderBackground(final PoseStack poseStack, final int vOffset) {
-		if (!canRenderLevel()) {
-			if (canRenderPanorama()) {
+		if (!canRenderLevel())
+			if (canRenderPanorama())
 				BedrockifyRotatingCubeMapRenderer.getInstance().render();
-			} else {
+			else {
 				renderDirtBackground(vOffset);
 
 				return;
 			}
-		}
 
 		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
 		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);

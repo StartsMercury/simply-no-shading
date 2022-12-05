@@ -32,7 +32,9 @@ public abstract class BakedQuadMixin implements Shadable {
 	 *
 	 * @param callback the callback
 	 */
-	@Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isShade()Z",
+	        at = @At("RETURN"),
+	        cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
 		callback.setReturnValue(this.shadingRule.wouldShade(callback.getReturnValueZ()));
 	}
@@ -41,7 +43,9 @@ public abstract class BakedQuadMixin implements Shadable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ShadingRule getShadingRule() { return this.shadingRule; }
+	public ShadingRule getShadingRule() {
+		return this.shadingRule;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -54,5 +58,7 @@ public abstract class BakedQuadMixin implements Shadable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setShadingRule(final ShadingRule shadingRule) { this.shadingRule = shadingRule; }
+	public void setShadingRule(final ShadingRule shadingRule) {
+		this.shadingRule = shadingRule;
+	}
 }

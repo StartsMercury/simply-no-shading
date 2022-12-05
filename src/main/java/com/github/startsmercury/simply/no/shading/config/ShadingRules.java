@@ -40,7 +40,8 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 		 * @param smartReload was smartReload active
 		 * @since 5.0.0
 		 */
-		public static record Context(Minecraft client, boolean smartReload) {}
+		public static record Context(Minecraft client, boolean smartReload) {
+		}
 
 		/**
 		 * Whether an unnecessary chunk reload was avoided.
@@ -262,7 +263,10 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonElement in) {
-		if (!(in instanceof final JsonObject object)) { reset(); return; }
+		if (!(in instanceof final JsonObject object)) {
+			reset();
+			return;
+		}
 
 		read(object);
 	}
@@ -274,13 +278,19 @@ public class ShadingRules extends MultiValuedContainer<ShadingRule>
 	 * @since 5.0.0
 	 */
 	public void read(final JsonObject in) {
-		if (in == null) { reset(); return; }
+		if (in == null) {
+			reset();
+			return;
+		}
 
 		forEach((name, shadingRule) -> {
 			if (!(in.get(name) instanceof final JsonPrimitive primitive))
 				return;
 
-			if (!primitive.isBoolean()) { shadingRule.resetShade(); return; }
+			if (!primitive.isBoolean()) {
+				shadingRule.resetShade();
+				return;
+			}
 
 			shadingRule.setShade(primitive.getAsBoolean());
 		});

@@ -16,10 +16,12 @@ public class SimplyNoShadingModMenu implements ModMenuApi {
 	 */
 	public SimplyNoShadingModMenu() {
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ConfigScreenFactory<?> getModConfigScreenFactory() { return SimplyNoShadingFabricSettingsScreen::new; }
+	public ConfigScreenFactory<?> getModConfigScreenFactory() {
+		return SimplyNoShadingFabricSettingsScreen::new;
+	}
 }

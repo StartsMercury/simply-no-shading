@@ -11,7 +11,8 @@ import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 /**
  * {@code LiquidBlockRenderer} mixin class.
  */
-@Mixin(value = LiquidBlockRenderer.class, priority = 999)
+@Mixin(value = LiquidBlockRenderer.class,
+       priority = 999)
 public class LiquidBlockRendererMixin {
 	/**
 	 * Modifies the liquid shade.

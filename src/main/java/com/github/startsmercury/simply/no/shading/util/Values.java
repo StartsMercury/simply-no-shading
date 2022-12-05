@@ -146,7 +146,9 @@ public class Values<T> implements Iterable<Entry<String, T>> {
 	 * @return a {@code boolean} value
 	 * @since 5.0.0
 	 */
-	public final boolean isEmpty() { return this.values.isEmpty(); }
+	public final boolean isEmpty() {
+		return this.values.isEmpty();
+	}
 
 	/**
 	 * {@inheritDoc}
