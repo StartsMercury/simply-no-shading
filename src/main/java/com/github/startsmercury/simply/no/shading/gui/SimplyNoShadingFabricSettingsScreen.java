@@ -10,6 +10,7 @@ import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import dev.lambdaurora.spruceui.Position;
@@ -19,11 +20,12 @@ import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.coderbot.iris.Iris;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -40,6 +42,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @see FabricLoader#isModLoaded(String)
 	 */
+	@Deprecated
 	protected static final boolean BEDROCKIFY_LOADED = FabricLoader.getInstance().isModLoaded("bedrockify");
 
 	/**
@@ -71,6 +74,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	protected SpruceOptionListWidget optionsWidget;
 
+	private final PanoramaRenderer panorama;
+
 	/**
 	 * The parent screen.
 	 */
@@ -96,6 +101,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		super(Component.translatable("simply-no-shading.options.title"));
 
 		this.config = config;
+		this.panorama = new PanoramaRenderer(TitleScreen.CUBE_MAP);
 		this.parent = parent;
 	}
 
@@ -197,8 +203,11 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @return {@code true} when panorama rendering is possible
 	 */
+	@Deprecated
 	protected boolean canRenderPanorama() {
-		return BEDROCKIFY_LOADED && BedrockifyClient.getInstance().settings.cubeMapBackground;
+		// return BEDROCKIFY_LOADED &&
+		// me.juancarloscp52.bedrockify.client.BedrockifyClient.getInstance().settings.cubeMapBackground;
+		return true;
 	}
 
 	/**
@@ -211,8 +220,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		this.observation = this.config.observe();
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, 34), this.width, this.height - 69);
 
-		if (!shouldRenderDirtBackground())
-			this.optionsWidget.setBackground(EMPTY_BACKGROUND);
+		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
 		addOptions();
 
@@ -272,6 +280,16 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
+		if (!canRenderLevel())
+			this.panorama.render(delta, 1.0F);
+
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+
+		this.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F141414, 0x4F141414);
+
+		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
+		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
+
 		super.render(poseStack, mouseX, mouseY, delta);
 
 		drawCenteredString(poseStack, this.font, this.title, this.width / 2, 14, 0xFFFFFF);
@@ -282,17 +300,6 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 */
 	@Override
 	public void renderBackground(final PoseStack poseStack, final int vOffset) {
-		if (!canRenderLevel())
-			if (canRenderPanorama())
-				BedrockifyRotatingCubeMapRenderer.getInstance().render();
-			else {
-				renderDirtBackground(vOffset);
-
-				return;
-			}
-
-		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
-		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
 	}
 
 	/**
@@ -300,7 +307,9 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 *
 	 * @return {@code true} when dirt backgrounds are supposed to be rendered
 	 */
+	@Deprecated
 	protected boolean shouldRenderDirtBackground() {
-		return !canRenderPanorama() && !canRenderLevel();
+		// return !canRenderPanorama() && !canRenderLevel();
+		return false;
 	}
 }
