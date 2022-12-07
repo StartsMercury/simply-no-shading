@@ -137,11 +137,9 @@ public class SimplyNoShadingFabricClientMod extends
 	protected void registerKeyMappings() {
 		LOGGER.debug("Registering key mappings...");
 
-		final var fabricLoader = FabricLoader.getInstance();
-
-		if (!fabricLoader.isModLoaded("fabric-key-binding-api-v1")) {
+		if (!FabricLoader.getInstance().isModLoaded("fabric-key-binding-api-v1")) {
 			LOGGER.warn(
-			        "Unable to register key mappings as the mod provided by 'fabric' (specifically 'fabric-key-binding-api-v1') is not present");
+			        "Unable to register key mappings as the mod provided by 'fabric-api' (specifically 'fabric-key-binding-api-v1') is not present");
 
 			return;
 		}
@@ -160,7 +158,7 @@ public class SimplyNoShadingFabricClientMod extends
 		// Redundant, this is embedded in spruceui
 		if (!FabricLoader.getInstance().isModLoaded("fabric-lifecycle-events-v1")) {
 			LOGGER.warn(
-			        "Unable to register life cycle event listeners as the mod provided by 'fabric' (specifically 'fabric-lifecycle-events-v1') is not present");
+			        "Unable to register life cycle event listeners as the mod provided by 'fabric-api' (specifically 'fabric-lifecycle-events-v1') is not present");
 
 			registerShutdownHook();
 
