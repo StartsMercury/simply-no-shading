@@ -227,6 +227,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 			return;
 		}
 
+		this.shadingRules.read(in.get("shadingRules"));
 		this.smartReload = JsonUtils.getBooleanNonNull(in, "smartReload", true);
 		this.smartReloadMessage = JsonUtils.getBooleanNonNull(in, "smartReloadMessage", true);
 	}
@@ -239,6 +240,7 @@ public class SimplyNoShadingClientConfig<R extends ShadingRules>
 	public void reset() {
 		this.shadingRules.reset();
 		this.smartReload = true;
+		this.smartReloadMessage = true;
 	}
 
 	/**
