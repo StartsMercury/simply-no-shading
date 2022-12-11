@@ -77,6 +77,20 @@ ext {
 	}
 }
 
+// Build script methods
+def serialize(final def obj) {
+	switch (obj) {
+	case Map:
+		return obj.collectEntries { [ serialize(it.key), serialize(it.value) ] }
+	case Collection:
+		return obj.collect { serialize it }
+	case Serializable:
+		return obj;
+	default:
+		return "$obj"
+	}
+}
+
 /*
  * Main Script
  * 
@@ -179,7 +193,7 @@ dependencies {
 // Resource Post-processing
 processResources {
 	// Properties used in processed resources
-	def filteredProperties = project.properties.tap { values() removeIf { it in Project } }
+	def filteredProperties = serialize project.properties
 
 	// Register used properties
 	inputs.properties(filteredProperties)
