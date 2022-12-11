@@ -178,8 +178,8 @@ dependencies {
 
 // Resource Post-processing
 processResources {
-	// I don't know what this does to be honest...
-	inputs.property 'version', version
+	// It registers some properties apparently...
+	inputs.properties(project.properties)
 
 	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
 	// `src/main/resources/fabric.mod.json`
