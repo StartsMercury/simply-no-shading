@@ -208,6 +208,18 @@ jar {
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
+
+	// Configures the jar manifest
+	manifest {
+		attributes([
+			'Specification-Title': 'Simply No Shading',
+			'Specification-Version': mod_version,
+			'Specification-Vendor': '',
+			'Implementation-Title': 'Simply No Shading for Fabric',
+			'Implementation-Version': version,
+			'Implementation-Vendor': ''
+		])
+	}
 }
 
 // Sets the java version used in compilation tasks
