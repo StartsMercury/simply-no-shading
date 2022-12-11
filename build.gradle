@@ -179,13 +179,13 @@ dependencies {
 // Resource Post-processing
 processResources {
 	// Properties used in processed resources
-	def properties = [:]
+	def properties = project.properties
 
-	for (key in new Properties().tap({ file('gradle.properties').withInputStream({ in -> load(in) })}).keys()))
-		properties << [ key, project.getProperty(key) ]
+	// for (key in new Properties().tap({ file('gradle.properties').withInputStream({ in -> load(in) })}).keys()))
+	// 	properties << [ key, project.getProperty(key) ]
 
 	// Register used properties
-	inputs.properties(properties)
+	// inputs.properties(properties)
 
 	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
 	// `src/main/resources/fabric.mod.json`
