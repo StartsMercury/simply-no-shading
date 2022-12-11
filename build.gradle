@@ -179,7 +179,7 @@ dependencies {
 // Resource Post-processing
 processResources {
 	// Properties used in processed resources
-	def filteredProperties = project.properties.values().filter { it in Project }
+	def filteredProperties = project.properties.filter { it.value in Project }
 
 	// Register used properties
 	inputs.properties(filteredProperties)
