@@ -179,7 +179,10 @@ dependencies {
 // Resource Post-processing
 processResources {
 	// Properties used in processed resources
-	def properties = project.properties.findAll(new Properties().tap { file('gradle.properties').withInputStream { in -> load(in) } }.keys())
+	def properties = [:]
+
+	for (key in new Properties().tap { file('gradle.properties').withInputStream { in -> load(in) } }.keys()))
+		properties << [ key, project.getProperty(key) ]
 
 	// Register used properties
 	inputs.properties(properties)
