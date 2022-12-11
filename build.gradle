@@ -77,20 +77,6 @@ ext {
 	}
 }
 
-// Build script methods
-def serialize(final def obj) {
-	switch (obj) {
-	case Map:
-		return obj.collectEntries { [ serialize(it.key), serialize(it.value) ] }
-	case Collection:
-		return obj.collect { serialize it }
-	case Serializable:
-		return obj;
-	default:
-		return "$obj"
-	}
-}
-
 /*
  * Main Script
  * 
@@ -193,15 +179,17 @@ dependencies {
 // Resource Post-processing
 processResources {
 	// Properties used in processed resources
-	def filteredProperties = serialize project.properties
+	def properties = project.properties.findAll(new Properties().tap {
+		file 'gradle.properties' withInputStream { out -> load(out) }
+	} keys)
 
 	// Register used properties
-	inputs.properties(filteredProperties)
+	inputs.properties(properties)
 
 	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
 	// `src/main/resources/fabric.mod.json`
 	filesMatching 'fabric.mod.json', {
-		expand filteredProperties
+		expand properties
 	}
 }
 
