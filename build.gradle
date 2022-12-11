@@ -216,7 +216,7 @@ jar {
 	manifest {
 		attributes([
 			'Specification-Title': 'Simply No Shading',
-			'Specification-Version': mod_version,
+			'Specification-Version': modVersion,
 			'Specification-Vendor': '',
 			'Implementation-Title': 'Simply No Shading for Fabric',
 			'Implementation-Version': version,
