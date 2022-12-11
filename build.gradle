@@ -178,13 +178,16 @@ dependencies {
 
 // Resource Post-processing
 processResources {
-	// It registers some properties apparently...
-	inputs.properties(project.properties)
+	// Properties used in processed resources
+	def filteredProperties project.properties.values.filter { it in Project })
+
+	// Register used properties
+	inputs.properties(filteredProperties)
 
 	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
 	// `src/main/resources/fabric.mod.json`
 	filesMatching 'fabric.mod.json', {
-		expand project.properties
+		expand filteredProperties
 	}
 }
 
