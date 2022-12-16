@@ -52,7 +52,7 @@ ext {
 				System.err.println "Parchment Mappings: unavailable for $gameVersion, finding alternatives..."
 			println "Parchment Mappings: $latestVersion for $closestGameVersion"
 
-			return "org.parchmentmc.data:parchment-$gameVersion:$latestVersion@zip"
+			return "org.parchmentmc.data:parchment-$closestGameVersion:$latestVersion@zip"
 		}
 
 		def latestVersion(final String gameVersion = gameVersion, final boolean validation = true) {
