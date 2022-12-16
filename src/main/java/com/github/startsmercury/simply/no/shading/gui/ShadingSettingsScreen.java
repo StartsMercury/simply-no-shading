@@ -133,7 +133,7 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		addOptions();
 
 		addWidget(this.list);
-		addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> this.minecraft.setScreen(this.lastScreen))
+		addRenderableWidget(Button.builder(CommonComponents.DONE, button -> this.minecraft.setScreen(this.lastScreen))
 		        .bounds(this.width / 2 - 100, this.height - 27, 200, 20).build());
 		// addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE,
 		//        button -> this.minecraft.setScreen(this.lastScreen), null));
@@ -200,9 +200,9 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 
 		super.render(poseStack, mouseX, mouseY, delta);
 
-		final var list = tooltipAt(this.list, mouseX, mouseY);
+		// final var list = tooltipAt(this.list, mouseX, mouseY);
 
-		if (list != null)
-			renderTooltip(poseStack, list, mouseX, mouseY);
+		// if (list != null)
+		//	renderTooltip(poseStack, list, mouseX, mouseY);
 	}
 }
