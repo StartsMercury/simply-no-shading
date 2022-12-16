@@ -133,8 +133,10 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		addOptions();
 
 		addWidget(this.list);
-		addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE,
-		        button -> this.minecraft.setScreen(this.lastScreen), null));
+		addRenderableWidget(Button.builder(CommonComponents.DONE, button -> this.minecraft.setScreen(this.lastScreen))
+		        .bounds(this.width / 2 - 100, this.height - 27, 200, 20).build());
+		// addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE,
+		//        button -> this.minecraft.setScreen(this.lastScreen), null));
 
 		LOGGER.debug("Initialized settings screen");
 	}
