@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 
@@ -25,6 +25,6 @@ public class LiquidBlockRendererMixin {
 	                    target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),
 	           index = 1)
 	private final boolean changeShade(final boolean shade) {
-		return SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade(shade);
+		return SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.liquids.wouldShade(shade);
 	}
 }

@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 
@@ -23,7 +23,7 @@ public class BedrockBlockShadingFabricMixin {
 	        at = @At("HEAD"),
 	        cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
-		if (!SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade())
+		if (!SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.liquids.wouldShade())
 			callback.setReturnValue(1.0F);
 	}
 }

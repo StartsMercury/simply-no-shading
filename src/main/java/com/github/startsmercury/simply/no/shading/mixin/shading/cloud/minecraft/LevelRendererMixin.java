@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRules;
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
@@ -42,6 +42,6 @@ public class LevelRendererMixin {
 	                        @Constant(floatValue = 0.8F,
 	                                  ordinal = 2) })
 	private final float changeCloudShade(final float shade) {
-		return SimplyNoShadingClientMod.getInstance().config.shadingRules.clouds.wouldShade() ? shade : 1.0F;
+		return SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.clouds.wouldShade() ? shade : 1.0F;
 	}
 }
