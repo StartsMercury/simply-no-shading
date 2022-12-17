@@ -169,9 +169,6 @@ dependencies {
 	// Sodium for compatibility
 	modImplementation "maven.modrinth:sodium:mc1.19.2-0.4.4"
 
-		// JOML
-		implementation "org.joml:joml:$jomlVersion"
-
 	// SpruceUI for in-game configuration screens
 	modImplementation include('dev.lambdaurora:spruceui:4.1.+')
 }
