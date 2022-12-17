@@ -38,6 +38,7 @@ import net.minecraft.network.chat.Component;
  * @param <K> The key manager type
  * @since 5.0.0
  */
+@Deprecated
 @Environment(CLIENT)
 public abstract class SimplyNoShadingClientMod<C extends SimplyNoShadingClientConfig<? extends ShadingRules>, K extends SimplyNoShadingKeyManager> {
 	/**
