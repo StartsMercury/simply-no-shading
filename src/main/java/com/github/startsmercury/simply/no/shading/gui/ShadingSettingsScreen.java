@@ -45,7 +45,8 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		return OptionInstance.createBoolean("simply-no-shading.option.shadingRule." + name,
 		        cachedConstantTooltip(
 		                Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip")),
-		        shadingRule.shouldShade(), shadingRule::setShade);
+		        shadingRule.shouldShade(),
+		        shadingRule::setShade);
 	}
 
 	/**
@@ -134,7 +135,11 @@ public class ShadingSettingsScreen extends OptionsSubScreen {
 		addOptions();
 
 		addWidget(this.list);
-		addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE,
+		addRenderableWidget(new Button(this.width / 2 - 100,
+		        this.height - 27,
+		        200,
+		        20,
+		        CommonComponents.GUI_DONE,
 		        button -> this.minecraft.setScreen(this.lastScreen)));
 
 		LOGGER.debug("Initialized settings screen");

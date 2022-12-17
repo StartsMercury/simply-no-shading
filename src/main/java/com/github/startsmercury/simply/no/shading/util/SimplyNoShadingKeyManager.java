@@ -56,17 +56,25 @@ public class SimplyNoShadingKeyManager extends MultiValuedContainer<KeyMapping> 
 		this.openSettings = register("openSettings",
 		        new KeyMapping("simply-no-shading.key.openSettings", InputConstants.UNKNOWN.getValue(), CATEGORY));
 		this.toggleAllShading = register("toggleAllShading",
-		        new ToggleKeyMapping("simply-no-shading.key.toggleAllShading", InputConstants.KEY_F6, CATEGORY,
+		        new ToggleKeyMapping("simply-no-shading.key.toggleAllShading",
+		                InputConstants.KEY_F6,
+		                CATEGORY,
 		                config.shadingRules.all::shouldShade));
 		this.toggleBlockShading = register("toggleBlockShading",
-		        new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading", InputConstants.UNKNOWN.getValue(),
-		                CATEGORY, config.shadingRules.blocks::shouldShade));
+		        new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		                InputConstants.UNKNOWN.getValue(),
+		                CATEGORY,
+		                config.shadingRules.blocks::shouldShade));
 		this.toggleCloudShading = register("toggleCloudShading",
-		        new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading", InputConstants.UNKNOWN.getValue(),
-		                CATEGORY, config.shadingRules.clouds::shouldShade));
+		        new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		                InputConstants.UNKNOWN.getValue(),
+		                CATEGORY,
+		                config.shadingRules.clouds::shouldShade));
 		this.toggleLiquidShading = register("toggleLiquidShading",
-		        new ToggleKeyMapping("simply-no-shading.key.toggleLiquidShading", InputConstants.UNKNOWN.getValue(),
-		                CATEGORY, config.shadingRules.liquids::shouldShade));
+		        new ToggleKeyMapping("simply-no-shading.key.toggleLiquidShading",
+		                InputConstants.UNKNOWN.getValue(),
+		                CATEGORY,
+		                config.shadingRules.liquids::shouldShade));
 	}
 
 	/**
