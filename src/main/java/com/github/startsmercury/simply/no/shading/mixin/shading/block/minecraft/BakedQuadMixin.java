@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 import com.github.startsmercury.simply.no.shading.impl.Shadable;
 
 import net.fabricmc.api.EnvType;
@@ -25,7 +25,7 @@ public abstract class BakedQuadMixin implements Shadable {
 	/**
 	 * The shading rule.
 	 */
-	private ShadingRule shadingRule = SimplyNoShadingClientMod.getInstance().config.shadingRules.blocks;
+	private ShadingRule shadingRule = SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.blocks;
 
 	/**
 	 * Changes the returned shade by applying the {@link #shadingRule}.

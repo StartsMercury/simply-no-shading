@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import com.github.startsmercury.simply.no.shading.config.ShadingRule;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingClientConfig;
 import com.github.startsmercury.simply.no.shading.config.SimplyNoShadingFabricClientConfig;
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -87,7 +87,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @param parent the parent screen
 	 */
 	public SimplyNoShadingFabricSettingsScreen(final Screen parent) {
-		this(parent, SimplyNoShadingClientMod.getInstance().config);
+		this(parent, SimplyNoShadingFabricClientMod.getInstance().config);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	public void removed() {
 		LOGGER.debug("Removing settings screen...");
 
-		SimplyNoShadingClientMod.getInstance().saveConfig();
+		SimplyNoShadingFabricClientMod.getInstance().saveConfig();
 
 		if (!FabricLoader.getInstance().isModLoaded("iris") || !Iris.getIrisConfig().areShadersEnabled())
 			this.observation.react(this.minecraft);

@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientMod;
+import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingFabricClientMod;
 
 import me.jellysquid.mods.sodium.client.render.pipeline.FluidRenderer;
 
@@ -23,6 +23,7 @@ public class FluidRendererFabricMixin {
 	                at = @At("HEAD"),
 	                argsOnly = true)
 	private final float changeShade(final float brightness) {
-		return SimplyNoShadingClientMod.getInstance().config.shadingRules.liquids.wouldShade() ? brightness : 1.0F;
+		return SimplyNoShadingFabricClientMod.getInstance().config.shadingRules.liquids.wouldShade() ? brightness
+		        : 1.0F;
 	}
 }
