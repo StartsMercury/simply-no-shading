@@ -30,6 +30,7 @@ import net.minecraft.network.chat.Component;
  *
  * @since 5.0.0
  */
+@Deprecated
 @Environment(CLIENT)
 public class ShadingSettingsScreen extends OptionsSubScreen {
 	/**
