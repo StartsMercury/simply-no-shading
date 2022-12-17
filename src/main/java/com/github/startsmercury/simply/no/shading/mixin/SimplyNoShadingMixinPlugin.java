@@ -30,8 +30,9 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	/**
 	 * The config path.
 	 */
-	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir()
-	        .resolve("simply-no-shading+mixin.json");
+	public static final Path CONFIG_PATH = FabricLoader.getInstance()
+	                                                   .getConfigDir()
+	                                                   .resolve("simply-no-shading+mixin.json");
 
 	/**
 	 * Creates the mixin config in disk.

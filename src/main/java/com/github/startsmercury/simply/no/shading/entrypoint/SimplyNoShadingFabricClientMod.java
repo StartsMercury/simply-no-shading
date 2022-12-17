@@ -63,8 +63,8 @@ public class SimplyNoShadingFabricClientMod extends
 	 *
 	 * @since 5.0.0
 	 */
-	public static final Component SMART_RELOAD_COMPONENT = Component
-	        .translatable("simply-no-shading.option.shadingRules.smartReload");
+	public static final Component SMART_RELOAD_COMPONENT = Component.translatable(
+	        "simply-no-shading.option.shadingRules.smartReload");
 
 	/**
 	 * Returns the latest initialized instance of this class when present, throws an

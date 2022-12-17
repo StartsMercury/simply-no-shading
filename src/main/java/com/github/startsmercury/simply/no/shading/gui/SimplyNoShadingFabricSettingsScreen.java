@@ -54,7 +54,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @return a new shading option
 	 */
 	protected static SpruceBooleanOption createOption(final String name, final ShadingRule shadingRule) {
-		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name, shadingRule::shouldShade,
+		return new SpruceBooleanOption("simply-no-shading.option.shadingRule." + name,
+		        shadingRule::shouldShade,
 		        shadingRule::setShade,
 		        Component.translatable("simply-no-shading.option.shadingRule." + name + ".tooltip"));
 	}
@@ -109,14 +110,16 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * Adds all the advance options.
 	 */
 	protected void addAdvanceOptions() {
-		this.optionsWidget
-		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
+		this.optionsWidget.addSingleOptionEntry(
+		        new SpruceSeparatorOption("simply-no-shading.option.advance", true, null));
 
 		final var smartReloadOption = new SpruceBooleanOption("simply-no-shading.option.smartReload",
-		        this.config::isSmartReload, this.config::setSmartReload,
+		        this.config::isSmartReload,
+		        this.config::setSmartReload,
 		        Component.translatable("simply-no-shading.option.smartReload.tooltip"));
 		final var smartReloadMessageOption = new SpruceBooleanOption("simply-no-shading.option.smartReloadMessage",
-		        this.config::isSmartReloadMessage, this.config::setSmartReloadMessage,
+		        this.config::isSmartReloadMessage,
+		        this.config::setSmartReloadMessage,
 		        Component.translatable("simply-no-shading.option.smartReloadMessage.tooltip"));
 		this.optionsWidget.addOptionEntry(smartReloadOption, smartReloadMessageOption);
 	}
@@ -168,8 +171,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 	 * @see #addOtherShadingOptions()
 	 */
 	protected void addShadingOptions() {
-		this.optionsWidget
-		        .addSingleOptionEntry(new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
+		this.optionsWidget.addSingleOptionEntry(
+		        new SpruceSeparatorOption("simply-no-shading.option.shadingRules", true, null));
 
 		addAllShadingOption();
 		addOtherShadingOptions();
@@ -225,8 +228,8 @@ public class SimplyNoShadingFabricSettingsScreen extends SpruceScreen {
 		addOptions();
 
 		addRenderableWidget(this.optionsWidget);
-		addRenderableWidget(new SpruceButtonWidget(Position.of(this.width / 2 - 100, this.height - 27), 200, 20,
-		        CommonComponents.GUI_DONE, button -> onClose()));
+		addRenderableWidget(new SpruceButtonWidget(Position.of(this.width / 2 - 100,
+		        this.height - 27), 200, 20, CommonComponents.GUI_DONE, button -> onClose()));
 	}
 
 	/**
