@@ -8,6 +8,9 @@
 [![FabricMC Tutorial Wiki: Side](https://img.shields.io/badge/environment-client-1976d2)](https://fabricmc.net/wiki/tutorial:side)
 
 A mod mimicking OptiFine's Internal Shader though with less performance impact.
+It also support toggling for which types of objects to disable shading.
+
+Made for low-ends by a fellow low-end :D
 
 <h2> </h2>
 
