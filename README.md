@@ -9,7 +9,7 @@
 
 A mod mimicking OptiFine's Internal Shader though with less performance impact.
 
- ---
+<h2> </h2>
 
 Visit the [wiki](https://github.com/StartsMercury/simply-no-shading/wiki) for more information.
 
