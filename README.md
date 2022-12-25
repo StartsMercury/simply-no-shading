@@ -10,7 +10,7 @@
 A mod mimicking OptiFine's Internal Shader though with less performance impact.
 It also support toggling for which types of objects to disable shading.
 
-Made for low-ends by a fellow low-end :D
+Made for low-end hardware by a fellow low-end laptop user :D
 
 <h2> </h2>
 
