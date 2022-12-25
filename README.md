@@ -1,7 +1,5 @@
 <div align=center>
 
-:warning: Rewritten and mostly feature complete. :warning:
-
 # Simply No Shading
 
 [![MIT License](https://img.shields.io/github/license/StartsMercury/simply-no-shading)](LICENSE)
@@ -9,7 +7,7 @@
 [![FabricMC](https://img.shields.io/badge/mod%20loader-fabric-1976d2)](https://fabricmc.net)
 [![FabricMC Tutorial Wiki: Side](https://img.shields.io/badge/environment-client-1976d2)](https://fabricmc.net/wiki/tutorial:side)
 
-This mod mimics OptiFine's Internal Shader by default, but not being a shader has the added performance benefit. Stability and compatibility may improve, considering this is an open-source project where anyone can report issues and suggest changes to the underlying code. Certain features, such as in-game bindable key mappings, can toggle specific shading.
+A mod mimicking OptiFine's Internal Shader though with less performance impact.
 
 [![CurseForge](https://img.shields.io/badge/curseforge-simply--no--shading-e96a41?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/simply-no-shading)
 [![GitHub](https://img.shields.io/badge/github-simply--no--shading-1976d2?logo=github)](https://github.com/StartsMercury/simply-no-shading)
