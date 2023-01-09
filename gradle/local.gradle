@@ -1,5 +1,0 @@
-apply from: 'functions.gradle'
-
-ext.local = loadProperties 'local.properties' asImmutable()
-
-local.each ext.&set
