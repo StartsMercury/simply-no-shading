@@ -1,79 +1,32 @@
 /*
  * Heading
  * 
- * Plugins, buildscript dependencies, imports, runtime fidelling (with groovy metaprogramming) and
- * extensions.
+ * Plugins, buildscript dependencies, imports, runtime fidelling (with groovy
+ * metaprogramming) and extensions.
  */
 
 plugins {
-	// Fabric Loom - plugin for modding with the Fabric mod loader
+	// Fabric Loom - aids mod development with the Fabric mod loader
 	id 'fabric-loom' version '1.+'
-
-	// Curse Gradle - programmaticly view and modify CurseForge projects
+	// Curse Gradle - used to publish the mod to CurseForge
 	id 'com.matthewprenger.cursegradle' version '1.+'
-	// Minotaur - programmaticly view and modify Modrinth projects
+	// Minotaur - used to publish the mod to Modrinth
 	id 'com.modrinth.minotaur' version '2.+'
 }
 
 import com.modrinth.minotaur.dependencies.ModDependency
 
-// Essentially add fabricApi.module(<name>, <version>) with version defaulted to `fabricApiVersion`
-// (See `gradle.properties`)
-extensions.findByName('fabricApi').ext {
-	module = { String name -> fabricApi.module('fabric-key-binding-api-v1', fabricApiVersion) }
-}
-
-// Project extensions
-ext {
-	// Used to detect parchment mappings for or close to the desired minecraft version
-	parchment = new Object() {
-		def closestGameVersion(final String expected) {
-			final List gameVersionList = supportedGameVersions()
-
-			if (!gameVersionList)
-				return null
-			else if (gameVersionList.contains(expected))
-				return expected
-
-			gameVersionList << expected
-			gameVersionList.sort()
-
-			if (gameVersionList.last() != expected)
-				return gameVersionList[gameVersionList.lastIndexOf(expected) + 1]
-			else
-				return gameVersionList[-2]
-		}
-		
-		def latestDependency(final String gameVersion = gameVersion) {
-			final def closestGameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions()[-1]
-			final def latestVersion = latestVersion closestGameVersion, false
-
-			if (closestGameVersion != gameVersion)
-				System.err.println "Parchment Mappings: unavailable for $gameVersion, finding alternatives..."
-			println "Parchment Mappings: $latestVersion for $closestGameVersion"
-
-			return "org.parchmentmc.data:parchment-$closestGameVersion:$latestVersion@zip"
-		}
-
-		def latestVersion(final String gameVersion = gameVersion, final boolean validation = true) {
-			return metadata(validation ? closestGameVersion(gameVersion) ?: supportedGameVersions()[-1] : gameVersion).versioning.latest
-		}
-
-		def metadata(final String gameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions()[-1]) {
-			final def url = new URL("https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data/parchment-$gameVersion/maven-metadata.xml")
-
-			return new groovy.xml.XmlSlurper().parseText(url.text)
-		}
-
-		def supportedGameVersions() {
-			final def url = new URL('https://ldtteam.jfrog.io/artifactory/parchmentmc-internal/org/parchmentmc/data')
-
-			return url.text.findAll('"parchment-([^/]+)/"') { it[1] }
-		}
-
-		def versions(final String gameVersion = closestGameVersion(gameVersion) ?: supportedGameVersions(gameVersion)[-1]) {
-			return metadata(gameVersion).versioning.versions.version[0..-1]
-		}
+// Adds entries to the extension properties of the build script's fabricApi extension
+extensions.findByName 'fabricApi' ext {
+	/**
+	 * Returns the fabric api sub-module. The version is defined by
+	 * {@link #fabricApiVersion}.
+	 *
+	 * @name the fabric api sub-module name
+	 * @return the fabric api sub-module
+	 */
+	module = { final String name ->
+		return fabricApi.module(name, fabricApiVersion)
 	}
 }
 
@@ -94,13 +47,16 @@ repositories {
 	maven { url 'https://maven.gegy.dev' }
 
 	// Modrinth Maven Repository (dependencies with the group `maven.modrinth`)
-	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+	maven {
+		url 'https://api.modrinth.com/maven'
 
-	// ParchmentMC Maven Repository
-	maven { url 'https://maven.parchmentmc.org' }
+		content {
+			includeGroup 'maven.modrinth'
+		}
+	}
 
 	// QuiltMC Maven Repository
-	maven { url 'https://maven.quiltmc.org/repository/release' }
+	// maven { url 'https://maven.quiltmc.org/repository/release' }
 
 	// Shedaniel's Maven Repository
 	maven { url 'https://maven.shedaniel.me' }
@@ -110,69 +66,66 @@ repositories {
 
 	// Devan's Repository
 	maven { url 'https://storage.googleapis.com/devan-maven' }
-
-	// maven { url 'https://jitpack.io' }
 }
 
 // Dependencies 
 dependencies {
-	// Gradle API for groovy eclipse workaround
-	testCompileOnly gradleApi()
-
-	// BedrockIfy
+	// BedrockIfy - used for compatibility as it implements or overrides the
+	//              default block shading, requiring explicit support for it
 	modImplementation "maven.modrinth:bedrockify:$bedrockifyVersion"
 
-		// Cloth Config
-		modApi "me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion", {
+		// Cloth Config - used by BedrockIfy
+		modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion", {
 			exclude group: 'net.fabricmc.fabric-api'
 		}
 
-	// Enhanced Block Entities for compatibility
+	// Enhanced Block Entities - used for compatibility as it implements or
+	//                           overrides the default block entity renderer,
+	//                           requiring explicit support for it
 	modImplementation "maven.modrinth:ebe:$ebeVersion"
 
-		// ARRP
+		// ARRP - used by Enhaced Block Entities
 		modRuntimeOnly "net.devtech:arrp:$arrpVersion"
 
-	// Fabric API
+	// Fabric API - used in runtime
 	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
-	// Fabric Key Binding API (V1)
+	// Fabric Key Binding API (V1) - used in registering custom key mappings
 	modImplementation fabricApi.module('fabric-key-binding-api-v1')
 
-	// Fabric Lifecycle Events (V1)
+	// Fabric Lifecycle Events (V1) - used in listening to lifecycle events
+	//                                (e.g. consuming key presses, etc.)
 	modImplementation fabricApi.module('fabric-lifecycle-events-v1')
 
-	// Fabric Loader
+	// Fabric Loader - required to load Fabric mods into Minecraft
 	modImplementation 'net.fabricmc:fabric-loader:latest.release'
 
-	// Fabric Renderer API (V1)
+	// Fabric Renderer API (V1) - used for compatiblity as it implements or
+	//                            overrides the default renderer, requiring
+	//                            explicit support for it
 	modImplementation fabricApi.module('fabric-renderer-api-v1')
 	
-	// Iris
-	modImplementation "maven.modrinth:iris:$irisVersion"
+	// Official Mojang Mappings - used to map obfuscated identifiers to
+	//                            human-readable equivalent
+	mappings loom.officialMojangMappings()
 
-	// Layered Mappings for deobfuscating Miencraft's source code
-	mappings loom.layered {
-		// Official Mojang Mappings
-		officialMojangMappings()
-
-		// Parchment Mappings for parameters and documentation
-		parchment parchment.latestDependency()
-	}
-
-	// Minecraft
+	// Minecraft - required by the Fabric Loom plugin for the Fabric mod loader
+	//             to integrate mods into, and as reference for modding when
+	//             deobfuscated
 	minecraft "com.mojang:minecraft:$gameVersion"
 
-	// ModMenu for compatibility
+	// ModMenu - used for compatibility, specifically for accessing the
+	//           configuration screen via the mod menu screen it provides
 	modImplementation "com.terraformersmc:modmenu:$modmenuVersion"
 
-	// Sodium for compatibility
+	// Sodium - used for compatibility as it implements or overrides the
+	//          default renderer, requiring explicit support for it
 	modImplementation "maven.modrinth:sodium:mc1.19.2-0.4.4"
 
-		// JOML
-		implementation "org.joml:joml:$jomlVersion"
+		// JOML - used by Sodium
+		runtimeOnly "org.joml:joml:$jomlVersion"
 
-	// SpruceUI for in-game configuration screens
+	// SpruceUI - used by this mod's configuration screen
 	modImplementation include('dev.lambdaurora:spruceui:4.0.+')
 }
 
@@ -182,11 +135,11 @@ processResources {
 	def propertyKeys = [ 'javaVersion', 'modId', 'version' ] // should only be a string
 	def properties = propertyKeys.collectEntries { [it, project.findProperty(it)] }
 
-	// Register used properties
+	// Register used properties for progressive builds
 	inputs.properties(properties)
 
-	// Replace place-holder values, ${like_me}, with concrete values. See `gradle.proeprties`, and
-	// `src/main/resources/fabric.mod.json`
+	// Replace place-holder values, ${like_me}, with concrete values. See
+	// `gradle.proeprties`, and `src/main/resources/fabric.mod.json`
 	filesMatching 'fabric.mod.json', {
 		expand properties
 	}
@@ -220,7 +173,7 @@ jar {
 			'Specification-Version': modVersion,
 			'Specification-Vendor': '',
 			'Implementation-Title': 'Simply No Shading for Fabric',
-			'Implementation-Version': version,
+			'Implementation-Version': archiveVersion,
 			'Implementation-Vendor': ''
 		])
 	}
