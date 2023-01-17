@@ -226,6 +226,7 @@ curseforge {
 
 	project {
 		id = '550997'
+
 		changelogType = 'markdown'
 		changelog = changelag
 		relations {
@@ -236,6 +237,8 @@ curseforge {
 			optionalDependency 'modmenu'
 			optionalDependency 'sodium'
 		}
+
+		releaseType = varsionType
 		addGameVersion gameVersion
 		addGameVersion "Java $javaVersion"
 		addGameVersion loader.with {
@@ -250,7 +253,6 @@ curseforge {
 					return 'Rift'
 			}
 		}
-		releaseType = varsionType
 
 		mainArtifact remapJar, {
 			displayName = versionNeme
@@ -272,8 +274,13 @@ curseforge {
 modrinth {
 	token = System.getenv 'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
+
 	versionName = versionNeme
+	versionType = varsionType
 	versionNumber = version
+	loaders = [ loader ]
+	gameVersions = [ gameVersion ]
+
 	changelog = changelag
 	dependencies = [
 		new ModDependency('ox3rDp1B', 'optional'),
@@ -283,9 +290,7 @@ modrinth {
 		new ModDependency('mOgUt4GM', 'optional'),
 		new ModDependency('AANobbMI', 'optional')
 	]
-	gameVersions = [ gameVersion ]
-	versionType = varsionType
-	loaders = [ loader ]
+
 	uploadFile = remapJar
 	additionalFiles = [ remapSourcesJar ]
 }
