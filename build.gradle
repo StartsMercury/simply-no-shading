@@ -211,5 +211,5 @@ modrinth {
 	]
 
 	uploadFile = remapJar
-	additionalFiles = [ remapSourcesJar ]
+	// additionalFiles = [ remapSourcesJar ]
 }
