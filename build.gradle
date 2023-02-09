@@ -180,10 +180,8 @@ curseforge {
 			displayName = versionName
 		}
 
-		addArtifact remapSourcesJar
-
 		afterEvaluate {
-			uploadTask.dependsOn 'remapJar', 'remapSourcesJar'
+			uploadTask.dependsOn 'remapJar'
 		}
 	}
 
