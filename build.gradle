@@ -1,244 +1,166 @@
-/*
- * Heading
- * 
- * Plugins, buildscript dependencies, imports, runtime fidelling (with groovy
- * metaprogramming) and extensions.
- */
-
 plugins {
-	// Fabric Loom - aids mod development with the Fabric mod loader
 	id 'fabric-loom' version '1.+'
-	// Curse Gradle - used to publish the mod to CurseForge
 	id 'com.matthewprenger.cursegradle' version '1.+'
-	// Minotaur - used to publish the mod to Modrinth
 	id 'com.modrinth.minotaur' version '2.+'
 }
 
 import com.modrinth.minotaur.dependencies.ModDependency
 
-// Adds entries to the extension properties of the build script's fabricApi extension
 extensions.findByName 'fabricApi' ext {
-	/**
-	 * Returns the fabric api sub-module. The version is defined by
-	 * {@link #fabricApiVersion}.
-	 *
-	 * @name the fabric api sub-module name
-	 * @return the fabric api sub-module
-	 */
-	module = { final String name ->
-		return fabricApi.module(name, fabricApiVersion)
+	module = { final String moduleName ->
+		return fabricApi.module(moduleName, fabricApiVersion)
 	}
 }
 
-/*
- * Main Script
- * 
- * Below are the main part of the build script.
- */
-
-// Project Properties. See `gradle.properties`
 group = modGroup
 archivesBaseName = modId
 version = "$modVersion+$gameVersion"
 
-// Repositories to look for dependencies
 repositories {
-	// Gegy Maven Repository
 	maven { url 'https://maven.gegy.dev' }
-
-	// Modrinth Maven Repository (dependencies with the group `maven.modrinth`)
-	maven {
-		url 'https://api.modrinth.com/maven'
-
-		content {
-			includeGroup 'maven.modrinth'
-		}
-	}
-
-	// QuiltMC Maven Repository
-	// maven { url 'https://maven.quiltmc.org/repository/release' }
-
-	// Shedaniel's Maven Repository
+	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://maven.shedaniel.me' }
-
-	// TerraformersMC Maven Repository
 	maven { url 'https://maven.terraformersmc.com' }
-
-	// Devan's Repository
 	maven { url 'https://storage.googleapis.com/devan-maven' }
 }
 
-// Dependencies 
-dependencies {
-	// BedrockIfy - used for compatibility as it implements or overrides the
-	//              default block shading, requiring explicit support for it
-	modImplementation "maven.modrinth:bedrockify:$bedrockifyVersion"
+loom {
+	splitEnvironmentSourceSets()
 
-		// Cloth Config - used by BedrockIfy
-		modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion", {
-			exclude group: 'net.fabricmc.fabric-api'
+	mods {
+		'simply-no-shading' {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
 		}
-
-	// Enhanced Block Entities - used for compatibility as it implements or
-	//                           overrides the default block entity renderer,
-	//                           requiring explicit support for it
-	modImplementation "maven.modrinth:ebe:$ebeVersion"
-
-		// ARRP - used by Enhaced Block Entities
-		modRuntimeOnly "net.devtech:arrp:$arrpVersion"
-
-	// Fabric API - used in runtime
-	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
-
-	// Fabric Key Binding API (V1) - used in registering custom key mappings
-	modImplementation fabricApi.module('fabric-key-binding-api-v1')
-
-	// Fabric Lifecycle Events (V1) - used in listening to lifecycle events
-	//                                (e.g. consuming key presses, etc.)
-	modImplementation fabricApi.module('fabric-lifecycle-events-v1')
-
-	// Fabric Loader - required to load Fabric mods into Minecraft
-	modImplementation 'net.fabricmc:fabric-loader:latest.release'
-
-	// Fabric Renderer API (V1) - used for compatiblity as it implements or
-	//                            overrides the default renderer, requiring
-	//                            explicit support for it
-	modImplementation fabricApi.module('fabric-renderer-api-v1')
-	
-	// Official Mojang Mappings - used to map obfuscated identifiers to
-	//                            human-readable equivalent
-	mappings loom.officialMojangMappings()
-
-	// Minecraft - required by the Fabric Loom plugin for the Fabric mod loader
-	//             to integrate mods into, and as reference for modding when
-	//             deobfuscated
-	minecraft "com.mojang:minecraft:$gameVersion"
-
-	// ModMenu - used for compatibility, specifically for accessing the
-	//           configuration screen via the mod menu screen it provides
-	modImplementation "com.terraformersmc:modmenu:$modmenuVersion"
-
-	// Sodium - used for compatibility as it implements or overrides the
-	//          default renderer, requiring explicit support for it
-	modImplementation "maven.modrinth:sodium:mc1.19.2-0.4.4"
-
-		// JOML - used by Sodium
-		runtimeOnly "org.joml:joml:$jomlVersion"
-
-	// SpruceUI - used by this mod's configuration screen
-	modImplementation include('dev.lambdaurora:spruceui:4.0.+')
-}
-
-// Resource Post-processing
-processResources {
-	// Properties used in processed resources
-	def propertyKeys = [ 'javaVersion', 'modId', 'version' ] // should only be a string
-	def properties = propertyKeys.collectEntries { [it, project.findProperty(it)] }
-
-	// Register used properties for progressive builds
-	inputs.properties(properties)
-
-	// Replace place-holder values, ${like_me}, with concrete values. See
-	// `gradle.proeprties`, and `src/main/resources/fabric.mod.json`
-	filesMatching 'fabric.mod.json', {
-		expand properties
 	}
 }
 
-// Java Code Block
+dependencies {
+	minecraft "com.mojang:minecraft:$gameVersion"
+	mappings loom.officialMojangMappings()
+	modClientImplementation 'net.fabricmc:fabric-loader:latest.release'
+
+	modClientCompileOnly "maven.modrinth:bedrockify:$bedrockifyVersion"
+		//modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion", {
+		//	exclude group: 'net.fabricmc.fabric-api'
+		//}
+
+//	modClientCompileOnly "maven.modrinth:ebe:$ebeVersion"
+		//modClientRuntimeOnly "net.devtech:arrp:$arrpVersion"
+
+	modClientImplementation fabricApi.module('fabric-key-binding-api-v1')
+	modClientImplementation fabricApi.module('fabric-lifecycle-events-v1')
+//	modClientImplementation fabricApi.module('fabric-renderer-api-v1')
+//	modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+
+	modClientCompileOnly "maven.modrinth:iris:$irisVersion"
+
+	modClientImplementation "com.terraformersmc:modmenu:$modmenuVersion"
+
+	modClientCompileOnly "maven.modrinth:sodium:$sodiumVersion"
+		//clientRuntimeOnly "org.joml:joml:$jomlVersion"
+
+	modClientImplementation include("dev.lambdaurora:spruceui:$spruceuiVersion")
+}
+
+processClientResources {
+	def usedPropertyKeys = [ 'javaVersion', 'modId', 'version' ]
+	def usedProperties = usedPropertyKeys.collectEntries { [String.valueOf(it), project.findProperty(it)] }
+
+	inputs.properties(usedProperties)
+
+	filesMatching 'fabric.mod.json', {
+		expand usedProperties
+	}
+}
+
 java {
-	// Java source and target compatibility; Usually set at least to what Minecraft requires. See
-	// `gradle.properties`
 	sourceCompatibility = javaVersion
 	targetCompatibility = javaVersion
 
-	// Allow generation of the `-javadoc` jars
-	withJavadocJar()
-
-	// Allow generation of the `-sources` jars
+	// withJavadocJar()
 	withSourcesJar()
+
+	toolchain {
+		languageVersion = JavaLanguageVersion.of javaVersion
+	}
 }
 
-// JAR Code Block
 jar {
-	// Appends the archive name to the LICENSE file name
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
 
-	// Configures the jar manifest
 	manifest {
 		attributes([
-			'Specification-Title': 'Simply No Shading',
-			'Specification-Version': modVersion,
-			'Specification-Vendor': '',
 			'Implementation-Title': 'Simply No Shading for Fabric',
 			'Implementation-Version': archiveVersion,
-			'Implementation-Vendor': ''
+			'Implementation-Vendor': 'StartsMercury'
 		])
 	}
 }
 
-// Sets the java version used in compilation tasks
 tasks.withType JavaCompile configureEach {
 	options.release = javaVersion.majorVersion as int
 }
 
-/*
- * Publishing
- * 
- * Below are script code related to publishing this mod to CurseForge, and Modrinth.
- */
+ext {
+	def baseVersion
+	def qualifier
+	def qualifierName
+	def qualifierParts
 
-final def versionPart = version.split(/\+/)[0]
-final def versionNameParts = versionPart.split('-').with { it.size() == 2 ? [ it[0], *it[1].split(/\./) ] : it }.tap {
-	if (it.size() == 1) return
+	changelog = "**View the changelog at:** https://github.com/${System.env.'GITHUB_REPOSITORY'}/wiki/Changelog#${modVersion.replace '.', ''}"
 
-	switch (it[1]) {
+	modVersion.split '-', 2 tap {
+		baseVersion = it[0]
+		qualifier = it[1] ?: ''
+	}
+
+	qualifierParts = qualifier.split(/\./, 2) ?: ['', '-1']
+
+	if (qualifierParts.size() != 2)
+		throw new RuntimeException("Non-empty qualifiers are formatted <rc|pre|snapshot>.<int> but was $qualifier")
+
+	switch (qualifierParts[0]) {
+	case '':
+		qualifierName = ''
+		releaseChannel = 'release'
+		break
 	case 'rc':
-		it[1] = 'Release Candidate'
+		qualifierName = 'Release Candidate'
+		releaseChannel = 'beta'
 		break
 	case 'pre':
-		it[1] = 'Pre-Release'
+		qualifierName = 'Pre-Release'
+		releaseChannel = 'beta'
 		break
-	case 'snapshot':
-		it[1] = 'Snapshot'
-		break
-	}
-}
-final def versionNamePart = versionNameParts.join ' '
-final def versionNeme = "$versionNamePart for Minecraft $gameVersion"
-final def changelag = "**View the changelog at**: https://github.com/${System.getenv 'GITHUB_REPOSITORY'}/wiki/Changelog#${versionPart.replace '.', ''}"
-final def varsionType = versionNameParts.with {
-	switch (it.size() == 1 ? 'Release' : it[1]) {
-	case 'Release':
-		return 'release'
-	case 'Release Candidate':
-	case 'Pre-Release':
-		return 'beta'
 	default:
-		return 'alpha'
+		qualifierName = 'Snapshot'
+		releaseChannel = 'alpha'
+		break
 	}
+
+	versionName = "$baseVersion${qualifierName ? " $qualifierName ${qualifierParts[1]}" : ''} for Minecraft $gameVersion"
 }
 
 curseforge {
-	apiKey = System.getenv('CURSEFORGE_API_KEY') ?: ''
+	apiKey = System.env.'CURSEFORGE_API_KEY' ?: ''
 
 	project {
 		id = '550997'
 
 		changelogType = 'markdown'
-		changelog = changelag
+		changelog = project.changelog
 		relations {
 			optionalDependency 'bedrockify'
 			optionalDependency 'enhanced-block-entities'
 			optionalDependency 'fabric-api'
-			optionalDependency 'irisshaders'
 			optionalDependency 'modmenu'
 			optionalDependency 'sodium'
 		}
 
-		releaseType = varsionType
+		releaseType = releaseChannel
 		addGameVersion gameVersion
 		addGameVersion "Java $javaVersion"
 		addGameVersion loader.with {
@@ -255,14 +177,13 @@ curseforge {
 		}
 
 		mainArtifact remapJar, {
-			displayName = versionNeme
+			displayName = versionName
 		}
 
-		addArtifact javadocJar
 		addArtifact remapSourcesJar
 
 		afterEvaluate {
-			uploadTask.dependsOn 'javadocJar', 'remapJar', 'remapSourcesJar'
+			uploadTask.dependsOn 'remapJar', 'remapSourcesJar'
 		}
 	}
 
@@ -272,16 +193,16 @@ curseforge {
 }
 
 modrinth {
-	token = System.getenv 'MODRINTH_TOKEN'
+	token = System.env.'MODRINTH_TOKEN'
 	projectId = '9gx5Xvc5'
 
-	versionName = versionNeme
-	versionType = varsionType
+	versionName = project.versionName
+	versionType = releaseChannel
 	versionNumber = version
 	loaders = [ loader ]
 	gameVersions = [ gameVersion ]
 
-	changelog = changelag
+	changelog = project.changelog
 	dependencies = [
 		new ModDependency('ox3rDp1B', 'optional'),
 		new ModDependency('OVuFYfre', 'optional'),
