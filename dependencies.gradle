@@ -8,7 +8,7 @@ modBedrockifyClientRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:9.0.94', 
 }
 
 // ARRP
-modEnhancedblockentitiesClientRuntimeOnly 'net.devtech:arrp:0.6.2'
+// modEnhancedblockentitiesClientRuntimeOnly 'net.devtech:arrp:0.6.2'
 
 // Enhanced Block Entities
 modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.2+1.19.2'
