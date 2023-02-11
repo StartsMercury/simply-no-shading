@@ -57,10 +57,6 @@ java {
 
 	// withJavadocJar()
 	withSourcesJar()
-
-	toolchain {
-		languageVersion = JavaLanguageVersion.of javaVersion
-	}
 }
 
 jar {
@@ -78,7 +74,7 @@ jar {
 }
 
 tasks.withType JavaCompile configureEach {
-	options.release = javaVersion.majorVersion as int
+	options.release = project.javaVersion as int
 }
 
 ext {
