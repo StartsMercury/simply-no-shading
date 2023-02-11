@@ -22,6 +22,13 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 @Mixin(BakedQuad.class)
 public abstract class BakedQuadMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private BakedQuadMixin() {
+	}
+
+	/**
 	 * This is an {@linkplain Inject injector} that runs additional code at the
 	 * return of {@link BakedQuad#isShade()}.
 	 * <p>

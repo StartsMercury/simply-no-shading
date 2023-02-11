@@ -18,6 +18,13 @@ import net.minecraft.client.renderer.LevelRenderer;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private LevelRendererMixin() {
+	}
+
+	/**
 	 * This is a {@linkplain ModifyConstant constant modifier} that modifies all 1st
 	 * to 3rd float constants with the value of {@code 0.7f}, {@code 0.8f}, and
 	 * {@code 0.9f} in

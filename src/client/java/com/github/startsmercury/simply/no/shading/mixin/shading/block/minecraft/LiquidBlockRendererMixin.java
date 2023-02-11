@@ -25,6 +25,13 @@ import net.minecraft.world.level.material.FluidState;
        priority = 999)
 public class LiquidBlockRendererMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private LiquidBlockRendererMixin() {
+	}
+
+	/**
 	 * This is a {@linkplain ModifyArg argument modifier} that modifies the
 	 * 2<sup>nd</sup> argument of all calls to
 	 * {@link BlockAndTintGetter#getShade(Direction, boolean)} in

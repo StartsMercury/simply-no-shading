@@ -20,6 +20,13 @@ import net.minecraft.core.Direction;
 @Mixin(BedrockBlockShading.class)
 public class BedrockBlockShadingMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private BedrockBlockShadingMixin() {
+	}
+
+	/**
 	 * This is an {@linkplain Inject injector} that runs additional code at the head
 	 * of {@link BedrockBlockShading#getLiquidShade(Direction, boolean)}.
 	 * <p>

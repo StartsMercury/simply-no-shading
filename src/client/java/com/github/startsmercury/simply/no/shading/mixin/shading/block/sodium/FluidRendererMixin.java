@@ -18,6 +18,13 @@ import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.FluidRende
 @Mixin(FluidRenderer.class)
 public class FluidRendererMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private FluidRendererMixin() {
+	}
+
+	/**
 	 * This is a {@linkplain ModifyVariable variable modifier} that modifies the
 	 * parameter {@code brightness} in
 	 * {@code FluidRenderer.updateQuad(ModelQuadView, BlockAndTintGetter, BlockPos, LightPipeline, Direction, float, ColorSampler, FluidState)}.

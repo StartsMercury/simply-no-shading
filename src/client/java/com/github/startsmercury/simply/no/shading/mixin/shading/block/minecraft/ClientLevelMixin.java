@@ -19,6 +19,13 @@ import net.minecraft.core.Direction;
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private ClientLevelMixin() {
+	}
+
+	/**
 	 * This is a {@linkplain ModifyVariable variable modifier} that modifies the
 	 * parameter {@code shade} in {@link ClientLevel#getShade(Direction, boolean)}
 	 * <p>

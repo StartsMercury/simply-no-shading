@@ -19,9 +19,16 @@ import me.jellysquid.mods.sodium.client.util.color.ColorMixer;
 @Mixin(CloudRenderer.class)
 public class CloudRendererMixin {
 	/**
+	 * A private constructor that does nothing as of the writing of this
+	 * documentation.
+	 */
+	private CloudRendererMixin() {
+	}
+
+	/**
 	 * This is a {@linkplain Redirect redirector} that redirects all calls to
 	 * {@link ColorMixer#mulARGB(int, int)} in
-	 * {@code CloudRenderer.rebuildGeometry(BufferBuilder, int, int, int, int)}.
+	 * {@code CloudRenderer.rebuildGeometry(BufferBuilder, int, int, int)}.
 	 * <p>
 	 * Returns {@code ColorMixer.mulARGB(baseColor, multiplier)} when
 	 * {@linkplain Config#blockShadingEnabled cloud shading is enabled}; otherwise
@@ -33,9 +40,10 @@ public class CloudRendererMixin {
 	 *         {@linkplain Config#blockShadingEnabled cloud shading is enabled};
 	 *         otherwise the {@code baseColor}
 	 */
-	@Redirect(method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;IIII)V",
+	@Redirect(method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
 	          at = @At(value = "INVOKE",
-	                   target = "Lme/jellysquid/mods/sodium/client/util/color/ColorMixer;mulARGB(II)I"))
+	                   target = "Lme/jellysquid/mods/sodium/client/util/color/ColorMixer;mulARGB(II)I"),
+	          remap = false)
 	private int modifyMulARGB(final int baseColor, final int multiplier) {
 		final var cloudShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled;
 
