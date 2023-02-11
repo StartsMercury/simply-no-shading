@@ -56,11 +56,15 @@ java {
 	sourceCompatibility = javaVersion
 	targetCompatibility = javaVersion
 
-	// withJavadocJar()
+	withJavadocJar()
 	withSourcesJar()
 }
 
-jar {
+tasks.withType JavaCompile configureEach {
+	options.release = project.javaVersion as int
+}
+
+tasks.named 'jar', {
 	from 'LICENSE', {
 		rename { "${it}_$project.archivesBaseName" }
 	}
@@ -74,8 +78,11 @@ jar {
 	}
 }
 
-tasks.withType JavaCompile configureEach {
-	options.release = project.javaVersion as int
+tasks.named 'javadoc', {
+	classpath += sourceSets.client.compileClasspath
+	source += sourceSets.client.allJava
+
+	options.addStringOption 'tag', 'implNote:a:Implementation Note:'
 }
 
 // See `publishing.gradle`
