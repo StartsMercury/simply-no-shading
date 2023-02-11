@@ -4,43 +4,54 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
+import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
 /**
- * {@code LevelRenderer} mixin class.
+ * The {@code LevelRendererMixin} is a {@linkplain Mixin mixin} class for the
+ * {@link LevelRenderer} class.
  *
  * @since 5.0.0
  */
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 	/**
-	 * Changes the cloud shading by adjusting the applied brightness.
+	 * This is a {@linkplain ModifyConstant constant modifier} that modifies all 1st
+	 * to 3rd float constants with the value of {@code 0.7f}, {@code 0.8f}, and
+	 * {@code 0.9f} in
+	 * {@code LevelRenderer.buildClouds(BufferBuilder, double, double, double, Vec3)}.
+	 * <p>
+	 * Returns the original float constant value when
+	 * {@linkplain Config#blockShadingEnabled block shading is enabled};
+	 * {@code 1.0f} otherwise.
 	 *
-	 * @param brightness the original brightness
-	 * @return the modified brightness
+	 * @param constantValue the constant value
+	 * @return the original float constant value when
+	 *         {@linkplain Config#blockShadingEnabled block shading is enabled};
+	 *         {@code 1.0f} otherwise
 	 */
 	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;",
-	                constant = { @Constant(floatValue = 0.9F,
+	                constant = { @Constant(floatValue = 0.9f,
 	                                       ordinal = 0),
-	                        @Constant(floatValue = 0.9F,
+	                        @Constant(floatValue = 0.9f,
 	                                  ordinal = 1),
-	                        @Constant(floatValue = 0.9F,
+	                        @Constant(floatValue = 0.9f,
 	                                  ordinal = 2),
-	                        @Constant(floatValue = 0.7F,
+	                        @Constant(floatValue = 0.7f,
 	                                  ordinal = 0),
-	                        @Constant(floatValue = 0.7F,
+	                        @Constant(floatValue = 0.7f,
 	                                  ordinal = 1),
-	                        @Constant(floatValue = 0.7F,
+	                        @Constant(floatValue = 0.7f,
 	                                  ordinal = 2),
-	                        @Constant(floatValue = 0.8F,
+	                        @Constant(floatValue = 0.8f,
 	                                  ordinal = 0),
-	                        @Constant(floatValue = 0.8F,
+	                        @Constant(floatValue = 0.8f,
 	                                  ordinal = 1),
-	                        @Constant(floatValue = 0.8F,
+	                        @Constant(floatValue = 0.8f,
 	                                  ordinal = 2) })
-	private final float changeCloudBrightness(final float brightness) {
-		return SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled ? brightness : 1.0F;
+	private final float changeCloudBrightness(final float constantValue) {
+		return SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled ? constantValue : 1.0f;
 	}
 }
