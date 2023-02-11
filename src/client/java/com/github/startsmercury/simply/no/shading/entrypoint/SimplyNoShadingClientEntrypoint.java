@@ -34,6 +34,8 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 
 	/**
 	 * Registers key mappings and key event listeners.
+	 *
+	 * @param simplyNoShading the simply no shading instance
 	 */
 	protected void setupKeyMappings(final SimplyNoShading simplyNoShading) {
 		final var openConfigScreen = new KeyMapping("simply-no-shading.key.openConfigScreen",

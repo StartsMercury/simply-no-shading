@@ -15,6 +15,7 @@ public class Config {
 	 * further details, refer to the {@code Config} class as documenting the builder
 	 * would potentially be redundant and may be overlooked or be outdated.
 	 */
+	@SuppressWarnings("javadoc")
 	public static class Builder {
 		private boolean blockShadingEnabled = true;
 

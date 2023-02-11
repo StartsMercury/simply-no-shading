@@ -11,7 +11,7 @@ import java.util.Objects;
  * {@code null} returns from the aforementioned {@code #getPath()} is properly
  * taken care of.
  *
- * @param <T> the supported types for storing
+ * @param <T> the supported type for storing
  * @since 6.0.0
  */
 public abstract class PathStorage<T> implements Storage<T> {

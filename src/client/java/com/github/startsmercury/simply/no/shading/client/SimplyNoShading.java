@@ -121,8 +121,8 @@ public class SimplyNoShading {
 	}
 
 	/**
-	 * Returns the config storage. It dictates where the {@link #config} should be
-	 * stored, most likely in a persistent file.
+	 * Returns the config storage. It dictates where the {@link #getConfig() config}
+	 * should be stored, most likely in a persistent file.
 	 *
 	 * @return the config storage
 	 */
@@ -177,8 +177,8 @@ public class SimplyNoShading {
 	}
 
 	/**
-	 * Sets a new config storage. It dictates where the {@link #config} should be
-	 * stored, most likely in a persistent file.
+	 * Sets a new config storage. It dictates where the {@link #getConfig() config}
+	 * should be stored, most likely in a persistent file.
 	 *
 	 * @param configStorage the new config storage
 	 */

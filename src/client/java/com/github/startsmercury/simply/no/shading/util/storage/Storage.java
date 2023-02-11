@@ -3,12 +3,12 @@ package com.github.startsmercury.simply.no.shading.util.storage;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * A {@code Storage} allows {@link #load(Object) load} and {@link #store(Object)
- * store} operations on objects. The mode of achieving this such as where the
- * states are stored, null-safety, stored format and others will depend on the
+ * A {@code Storage} allows {@link #load() load} and {@link #save(Object) save}
+ * operations on objects. The mode of achieving this such as where the states
+ * are stored, null-safety, stored format and others will depend on the
  * implementation.
  *
- * @param <T> the supported types for storing
+ * @param <T> the supported type for storing
  * @since 6.0.0
  */
 public interface Storage<T> {
