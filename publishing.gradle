@@ -1,0 +1,113 @@
+ext {
+	def baseVersion
+	def qualifier
+	def qualifierName
+	def qualifierParts
+
+	changelog = "**View the changelog at:** https://github.com/${System.env.'GITHUB_REPOSITORY'}/wiki/Changelog#${modVersion.replace '.', ''}"
+
+	modVersion.split '-', 2 tap {
+		baseVersion = it[0]
+		qualifier = it[1] ?: ''
+	}
+
+	qualifierParts = qualifier.split(/\./, 2) ?: ['', '-1']
+
+	if (qualifierParts.size() != 2)
+		throw new RuntimeException("Non-empty qualifiers are formatted <rc|pre|snapshot>.<int> but was $qualifier")
+
+	switch (qualifierParts[0]) {
+	case '':
+		qualifierName = ''
+		releaseChannel = 'release'
+		break
+	case 'rc':
+		qualifierName = 'Release Candidate'
+		releaseChannel = 'beta'
+		break
+	case 'pre':
+		qualifierName = 'Pre-Release'
+		releaseChannel = 'beta'
+		break
+	default:
+		qualifierName = 'Snapshot'
+		releaseChannel = 'alpha'
+		break
+	}
+
+	versionName = "$baseVersion${qualifierName ? " $qualifierName ${qualifierParts[1]}" : ''} for Minecraft $gameVersion"
+}
+
+curseforge {
+	apiKey = System.env.'CURSEFORGE_API_KEY' ?: ''
+
+	project {
+		id = '550997'
+
+		changelogType = 'markdown'
+		changelog = project.changelog
+		relations {
+			optionalDependency 'bedrockify'
+			optionalDependency 'enhanced-block-entities'
+			optionalDependency 'fabric-api'
+			optionalDependency 'modmenu'
+			optionalDependency 'sodium'
+		}
+
+		releaseType = project.releaseChannel
+		addGameVersion project.gameVersion
+		addGameVersion "Java $javaVersion"
+		addGameVersion project.loader.with {
+			switch (it) {
+				case 'fabric':
+					return 'Fabric'
+				case 'forge':
+					return 'Forge'
+				case 'quilt':
+					return 'Quilt'
+				case 'rift':
+					return 'Rift'
+			}
+		}
+
+		mainArtifact remapJar, {
+			displayName = project.versionName
+		}
+
+		afterEvaluate {
+			uploadTask.dependsOn 'remapJar'
+		}
+	}
+
+	options {
+		forgeGradleIntegration = false
+	}
+}
+
+modrinth {
+	token = System.env.'MODRINTH_TOKEN'
+	projectId = '9gx5Xvc5'
+
+	versionName = project.versionName
+	versionType = project.releaseChannel
+	versionNumber = project.version
+	loaders = [ project.loader ]
+	gameVersions = [ project.gameVersion ]
+
+	changelog = project.changelog
+	dependencies = [
+		modrinthDependency('ox3rDp1B', 'optional'),
+		modrinthDependency('OVuFYfre', 'optional'),
+		modrinthDependency('P7dR8mSH', 'optional'),
+		modrinthDependency('YL57xq9U', 'optional'),
+		modrinthDependency('mOgUt4GM', 'optional'),
+		modrinthDependency('AANobbMI', 'optional')
+	]
+
+	uploadFile = remapJar
+	// additionalFiles = [ remapSourcesJar ]
+
+	syncBodyFrom = rootProject.file('README.md').text
+}
+
+tasks.modrinth.dependsOn tasks.modrinthSyncBody
