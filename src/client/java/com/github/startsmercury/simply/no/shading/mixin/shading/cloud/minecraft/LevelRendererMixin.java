@@ -52,6 +52,11 @@ public class LevelRendererMixin {
 	                        @Constant(floatValue = 0.8f,
 	                                  ordinal = 2) })
 	private final float changeCloudBrightness(final float constantValue) {
-		return SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled ? constantValue : 1.0f;
+		final var cloudShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled;
+
+		if (cloudShadingEnabled)
+			return constantValue;
+		else
+			return 1.0f;
 	}
 }

@@ -37,9 +37,11 @@ public class CloudRendererMixin {
 	          at = @At(value = "INVOKE",
 	                   target = "Lme/jellysquid/mods/sodium/client/util/color/ColorMixer;mulARGB(II)I"))
 	private int modifyMulARGB(final int baseColor, final int multiplier) {
-		if (!SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled)
-			return baseColor;
+		final var cloudShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled;
 
-		return ColorMixer.mulARGB(baseColor, multiplier);
+		if (cloudShadingEnabled)
+			return ColorMixer.mulARGB(baseColor, multiplier);
+		else
+			return baseColor;
 	}
 }

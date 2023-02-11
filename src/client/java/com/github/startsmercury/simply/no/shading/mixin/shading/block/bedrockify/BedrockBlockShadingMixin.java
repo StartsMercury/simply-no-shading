@@ -32,7 +32,9 @@ public class BedrockBlockShadingMixin {
 	        at = @At("HEAD"),
 	        cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
-		if (!SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled)
+		final var blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
+
+		if (!blockShadingEnabled)
 			callback.setReturnValue(1.0F);
 	}
 }

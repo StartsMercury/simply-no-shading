@@ -34,6 +34,11 @@ public class FluidRendererMixin {
 	                at = @At("HEAD"),
 	                argsOnly = true)
 	private final float changeShade(final float brightness) {
-		return SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled ? brightness : 1.0F;
+		final var blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
+
+		if (blockShadingEnabled)
+			return brightness;
+		else
+			return 1.0F;
 	}
 }

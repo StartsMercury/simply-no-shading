@@ -35,6 +35,8 @@ public abstract class ClientLevelMixin {
 	                at = @At("HEAD"),
 	                argsOnly = true)
 	private final boolean changeShade(final boolean shade) {
-		return SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled && shade;
+		final var blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
+
+		return shade && blockShadingEnabled;
 	}
 }
