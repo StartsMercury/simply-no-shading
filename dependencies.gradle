@@ -13,10 +13,6 @@ modClientCompileOnly fabricApi.module('fabric-lifecycle-events-v1', fabricApiVer
 //	modClientImplementation fabricApi.module('fabric-renderer-api-v1')
 modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
-// Iris
-modClientCompileOnly 'maven.modrinth:iris:1.5.2+1.19.3'
-modIrisClientImplementation 'maven.modrinth:iris:1.5.2+1.19.3'
-
 // ModMenu
 modClientImplementation 'com.terraformersmc:modmenu:5.0.2'
 

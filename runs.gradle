@@ -8,11 +8,6 @@ sourceSets {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
-
-	irisClient {
-		compileClasspath += sourceSets.sodiumClient.compileClasspath
-		runtimeClasspath += sourceSets.sodiumClient.runtimeClasspath
-	}
 }
 
 loom {
@@ -29,16 +24,9 @@ loom {
 			source = sourceSets.sodiumClient
 		}
 
-		irisClient {
-			inherit sodiumClient
-
-			source = sourceSets.irisClient
-		}
-
 		remove server
 	}
 
 	createRemapConfigurations sourceSets.bedrockifyClient
 	createRemapConfigurations sourceSets.sodiumClient
-	createRemapConfigurations sourceSets.irisClient
 }
