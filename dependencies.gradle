@@ -1,5 +1,3 @@
-final def fabricApiVersion = '0.73.2+1.19.3'
-
 // BedrockIfy
 modClientCompileOnly 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
 modBedrockifyClientImplementation 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
@@ -7,11 +5,13 @@ modBedrockifyClientImplementation 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
 		exclude group: 'net.fabricmc.fabric-api'
 	}
 
+// Enhanced Block Entities
+modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.2+1.19.2'
+
 // Fabric API
-modClientCompileOnly fabricApi.module('fabric-key-binding-api-v1', fabricApiVersion)
-modClientCompileOnly fabricApi.module('fabric-lifecycle-events-v1', fabricApiVersion)
-//	modClientImplementation fabricApi.module('fabric-renderer-api-v1')
-modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+modClientCompileOnly fabricApi.module('fabric-key-binding-api-v1', '0.73.2+1.19.3')
+modClientCompileOnly fabricApi.module('fabric-lifecycle-events-v1', '0.73.2+1.19.3')
+modRuntimeOnly 'net.fabricmc.fabric-api:fabric-api:0.73.2+1.19.3'
 
 // ModMenu
 modClientImplementation 'com.terraformersmc:modmenu:5.0.2'
@@ -19,7 +19,6 @@ modClientImplementation 'com.terraformersmc:modmenu:5.0.2'
 // Sodium
 modClientCompileOnly 'maven.modrinth:sodium:mc1.19.3-0.4.9'
 modSodiumClientImplementation 'maven.modrinth:sodium:mc1.19.3-0.4.9'
-//	clientRuntimeOnly 'org.joml:joml:1.10.4'
 
 // SpruceUI
 modClientImplementation include('dev.lambdaurora:spruceui:4.1.+')

@@ -4,6 +4,11 @@ sourceSets {
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
 
+	enhancedblockentitiesClient {
+		compileClasspath += sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.runtimeClasspath
+	}
+
 	sodiumClient {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
@@ -18,6 +23,12 @@ loom {
 			source = sourceSets.bedrockifyClient
 		}
 
+		enhancedblockentitiesClient {
+			inherit client
+
+			source = sourceSets.enhancedblockentitiesClient
+		}
+
 		sodiumClient {
 			inherit client
 
@@ -28,5 +39,6 @@ loom {
 	}
 
 	createRemapConfigurations sourceSets.bedrockifyClient
+	createRemapConfigurations sourceSets.enhancedblockentitiesClient
 	createRemapConfigurations sourceSets.sodiumClient
 }
