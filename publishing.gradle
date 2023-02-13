@@ -106,8 +106,4 @@ modrinth {
 
 	uploadFile = remapJar
 	// additionalFiles = [ remapSourcesJar ]
-
-	syncBodyFrom = rootProject.file('README.md').text
 }
-
-tasks.modrinth.dependsOn tasks.modrinthSyncBody
