@@ -120,7 +120,7 @@ tasks.register 'github', {
 		def tokenExists = System.env.GITHUB_TOKEN
 		def nonAlpha = project.releaseChannel in [ 'release', 'beta' ]
 
-		return tokenExists // && nonAlpha
+		return tokenExists && nonAlpha
 	}
 
 	doLast {
