@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Build
-        run: ./gradlew build github --stacktrace -Porg.gradle.parallel.threads=4 # curseforge modrinth
+        run: ./gradlew build github --stacktrace # curseforge modrinth
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
