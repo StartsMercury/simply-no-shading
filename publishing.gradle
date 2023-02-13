@@ -4,7 +4,7 @@ ext {
 	def qualifierName
 	def qualifierParts
 
-	changelog = "**View the changelog at:** https://github.com/${System.env.'GITHUB_REPOSITORY'}/wiki/Changelog#${modVersion.replace '.', ''}"
+	changelog = "**View the changelog at:** https://github.com/${System.env.GITHUB_REPOSITORY}/wiki/Changelog#${modVersion.replace '.', ''}"
 
 	modVersion.split '-', 2 tap {
 		baseVersion = it[0]
