@@ -18,9 +18,10 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Build
-        run: ./gradlew build github --stacktrace # curseforge modrinth --stacktrace
+        run: ./gradlew build github --stacktrace -Porg.gradle.parallel.threads=4 # curseforge modrinth
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       - name: Capture build artifacts
         uses: actions/upload-artifact@v3
