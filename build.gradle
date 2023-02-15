@@ -1,20 +1,6 @@
-buildscript {
-	dependencies {
-		classpath 'org.kohsuke:github-api:1.+'
-	}
-}
-
 plugins {
 	id 'fabric-loom' version '1.+'
-	id 'com.matthewprenger.cursegradle' version '1.+'
-	id 'com.modrinth.minotaur' version '2.+'
-	id 'org.ajoberstar.grgit' version '3.1.+'
 }
-
-import com.modrinth.minotaur.dependencies.ModDependency
-
-import org.kohsuke.github.GHReleaseBuilder
-import org.kohsuke.github.GitHub
 
 group = modGroup
 archivesBaseName = modId
@@ -96,44 +82,4 @@ tasks.named 'javadoc', {
 }
 
 // See `publishing.gradle`
-ext.modrinthDependency = ModDependency.&new; apply from: 'publishing.gradle', to: this; ext.modrinthDependency = null
-
-def getBranch() {
-	if (System.env.GITHUB_REF) {
-		def branch = System.env.GITHUB_REF
-
-		return branch
-	}
-
-	if (grgit == null) {
-		return 'unknown'
-	}
-
-	def branch = grgit.branch.current().name
-	return branch.substring(branch.lastIndexOf('/') + 1)
-}
-
-tasks.register 'github', {
-	dependsOn remapJar
-
-	onlyIf {
-		def tokenExists = System.env.GITHUB_TOKEN
-		def nonAlpha = project.releaseChannel in [ 'release', 'beta' ]
-
-		return tokenExists && nonAlpha
-	}
-
-	doLast {
-		def github = GitHub.connectUsingOAuth(System.env.GITHUB_TOKEN as String)
-		def repository = github.getRepository(System.env.GITHUB_REPOSITORY)
-
-		def releaseBuilder = new GHReleaseBuilder(repository, version as String)
-		releaseBuilder.name(project.versionName)
-		releaseBuilder.body(project.changelog)
-		releaseBuilder.commitish(getBranch())
-		releaseBuilder.prerelease(project.releaseChannel != 'release')
-
-		def ghRelease = releaseBuilder.create()
-		ghRelease.uploadAsset(remapJar.archiveFile.get().asFile, 'application/java-archive');
-	}
-}
+apply from: 'publishing.gradle'
