@@ -52,22 +52,10 @@ final def releaseMetadata = [
 	def qualifierName
 
 	switch (qualifierParts[0]) {
-	case '':
-		qualifierName = ''
-		releaseChannel = 'release'
-		break
-	case 'rc':
-		qualifierName = 'Release Candidate'
-		releaseChannel = 'beta'
-		break
-	case 'pre':
-		qualifierName = 'Pre-Release'
-		releaseChannel = 'beta'
-		break
-	default:
-		qualifierName = 'Snapshot'
-		releaseChannel = 'alpha'
-		break
+	case '':    qualifierName = '';                  releaseChannel = 'release'; break
+	case 'rc':  qualifierName = 'Release Candidate'; releaseChannel = 'beta';    break
+	case 'pre': qualifierName = 'Pre-Release';       releaseChannel = 'beta';    break
+	default:    qualifierName = 'Snapshot';          releaseChannel = 'alpha';   break
 	}
 
 	versionName = "$baseVersion${qualifierName ? " $qualifierName ${qualifierParts[1]}" : ''} for Minecraft $gameVersion"
@@ -86,10 +74,10 @@ curseforge {
 				final def name = dependency.curseforgeName
 
 				switch (dependency.type) {
-				case 'embedded':     embeddedDependency name;     break;
-				case 'incompatible': incompatibleDependency name; break;
-				case 'optional':     optionalDependency name;     break;
-				case 'required':     requiredDependency name;     break;
+				case 'embedded':     embeddedDependency name;     break
+				case 'incompatible': incompatibleDependency name; break
+				case 'optional':     optionalDependency name;     break
+				case 'required':     requiredDependency name;     break
 				}
 			}
 		}
