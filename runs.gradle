@@ -13,6 +13,11 @@ sourceSets {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
+
+	indiumClient {
+		compileClasspath += sourceSets.sodiumClient.compileClasspath
+		runtimeClasspath += sourceSets.sodiumClient.runtimeClasspath
+	}
 }
 
 loom {
@@ -35,10 +40,17 @@ loom {
 			source = sourceSets.sodiumClient
 		}
 
+		indiumClient {
+			inherit sodiumClient
+
+			source = sourceSets.indiumClient
+		}
+
 		remove server
 	}
 
 	createRemapConfigurations sourceSets.bedrockifyClient
 	createRemapConfigurations sourceSets.enhancedblockentitiesClient
 	createRemapConfigurations sourceSets.sodiumClient
+	createRemapConfigurations sourceSets.indiumClient
 }
