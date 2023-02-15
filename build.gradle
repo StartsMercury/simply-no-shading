@@ -37,17 +37,6 @@ dependencies {
 	apply from: 'dependencies.gradle', to: dependencies
 }
 
-processClientResources {
-	def usedPropertyKeys = [ 'javaVersion', 'modId', 'version' ]
-	def usedProperties = usedPropertyKeys.collectEntries { [String.valueOf(it), project.findProperty(it)] }
-
-	inputs.properties(usedProperties)
-
-	filesMatching 'fabric.mod.json', {
-		expand usedProperties
-	}
-}
-
 java {
 	sourceCompatibility = javaVersion
 	targetCompatibility = javaVersion
@@ -79,6 +68,17 @@ tasks.named 'javadoc', {
 	source += sourceSets.client.allJava
 
 	options.addStringOption 'tag', 'implNote:a:Implementation Note:'
+}
+
+tasks.named 'processClientResources', {
+	def usedPropertyKeys = [ 'javaVersion', 'modId', 'version' ]
+	def usedProperties = usedPropertyKeys.collectEntries { [String.valueOf(it), project.findProperty(it)] }
+
+	inputs.properties(usedProperties)
+
+	filesMatching 'fabric.mod.json', {
+		expand usedProperties
+	}
 }
 
 // See `publishing.gradle`
