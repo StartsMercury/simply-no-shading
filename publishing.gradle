@@ -21,6 +21,13 @@ import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 
 final def releaseMetadata = [
+	dependencies: [
+		'BedrockIfy':              [ type: 'optional', modrinthId: 'ox3rDp1B', curseforgeName: 'bedrockify'              ],
+		'Enhanced Block Entities': [ type: 'optional', modrinthId: 'OVuFYfre', curseforgeName: 'enhanced-block-entities' ],
+		'Fabric API':              [ type: 'required', modrinthId: 'P7dR8mSH', curseforgeName: 'fabric-api'              ],
+		'Mod Menu':                [ type: 'optional', modrinthId: 'mOgUt4GM', curseforgeName: 'modmenu'                 ],
+		'Sodium':                  [ type: 'optional', modrinthId: 'AANobbMI', curseforgeName: 'sodium'                  ]
+	],
 	gameVersion: project.gameVersion,
 	implementationVersion: project.modVersion,
 	loader: project.loader,
@@ -75,11 +82,16 @@ curseforge {
 		changelogType = 'markdown'
 		changelog = releaseMetadata.changelog
 		relations {
-			optionalDependency 'bedrockify'
-			optionalDependency 'enhanced-block-entities'
-			optionalDependency 'fabric-api'
-			optionalDependency 'modmenu'
-			optionalDependency 'sodium'
+			for (dependency in releaseMetadata.dependencies.values()) {
+				final def name = dependency.curseforgeName
+
+				switch (dependency.type) {
+				case 'embedded':     embeddedDependency name;     break;
+				case 'incompatible': incompatibleDependency name; break;
+				case 'optional':     optionalDependency name;     break;
+				case 'required':     requiredDependency name;     break;
+				}
+			}
 		}
 
 		releaseType = releaseMetadata.releaseChannel
@@ -112,14 +124,7 @@ modrinth {
 	gameVersions = [ releaseMetadata.gameVersion ]
 
 	changelog = releaseMetadata.changelog
-	dependencies = [
-		new ModDependency('ox3rDp1B', 'optional'),
-		new ModDependency('OVuFYfre', 'optional'),
-		new ModDependency('P7dR8mSH', 'optional'),
-		new ModDependency('YL57xq9U', 'optional'),
-		new ModDependency('mOgUt4GM', 'optional'),
-		new ModDependency('AANobbMI', 'optional')
-	]
+	dependencies = releaseMetadata.dependencies.values() collect { new ModDependency(it.id, it.type) }
 
 	uploadFile = remapJar
 }
