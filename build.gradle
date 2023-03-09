@@ -16,17 +16,41 @@ repositories {
 
 loom {
 	splitEnvironmentSourceSets()
-
-	mods {
-		'simply-no-shading' {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
 }
 
 // See `runs.gradle`
 apply from: 'runs.gradle', to: this
+
+loom {
+	mods {
+		'simply-no-shading' {
+			sourceSet 'main'
+			sourceSet 'client'
+		}
+
+		'simply-no-shading-test' {
+			sourceSet 'test'
+			sourceSet 'testClient'
+		}
+
+		'simply-no-shading-bedrockify-test' {
+			sourceSet 'bedrockifyTestClient'
+		}
+
+		'simply-no-shading-enhancedblockentities-test' {
+			sourceSet 'enhancedblockentitiesTest'
+			sourceSet 'enhancedblockentitiesTestClient'
+		}
+
+		'simply-no-shading-sodium-test' {
+			sourceSet 'sodiumTestClient'
+		}
+
+		'simply-no-shading-indium-test' {
+			sourceSet 'indiumTestClient'
+		}
+	}
+}
 
 dependencies {
 	minecraft "com.mojang:minecraft:$gameVersion"
@@ -70,9 +94,9 @@ tasks.named 'javadoc', {
 	options.addStringOption 'tag', 'implNote:a:Implementation Note:'
 }
 
-tasks.named 'processClientResources', {
-	def usedPropertyKeys = [ 'javaVersion', 'modId', 'version' ]
-	def usedProperties = usedPropertyKeys.collectEntries { [String.valueOf(it), project.findProperty(it)] }
+tasks.withType ProcessResources, {
+	def usedPropertyKeys = [ 'gameVersion', 'javaVersion', 'modId', 'version' ]
+	def usedProperties = usedPropertyKeys.collectEntries { [ String.valueOf(it), project.findProperty(it) ] }
 
 	inputs.properties(usedProperties)
 

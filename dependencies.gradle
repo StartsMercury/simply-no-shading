@@ -1,3 +1,6 @@
+// ARRP
+enhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.6.2'
+
 // BedrockIfy
 modClientCompileOnly 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
 modBedrockifyClientImplementation 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
@@ -7,14 +10,11 @@ modBedrockifyClientRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:9.0.94', 
 	exclude group: 'net.fabricmc.fabric-api'
 }
 
-// ARRP
-// modEnhancedblockentitiesClientRuntimeOnly 'net.devtech:arrp:0.6.2'
-
 // Enhanced Block Entities
-modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.2+1.19.2'
+modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.8+1.19.3'
 
 // Fabric API
-modClientImplementation 'net.fabricmc.fabric-api:fabric-api:0.74.0+1.19.3'
+modClientImplementation 'net.fabricmc.fabric-api:fabric-api:0.75.1+1.19.3'
 
 // Indium
 modIndiumClientImplementation 'maven.modrinth:indium:1.0.14+mc1.19.3'

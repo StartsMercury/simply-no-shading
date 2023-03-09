@@ -1,12 +1,52 @@
 sourceSets {
+	test {
+		compileClasspath += sourceSets.main.compileClasspath
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+	}
+
+	testClient {
+		compileClasspath += sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.runtimeClasspath
+	}
+
 	bedrockifyClient {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
 
+	bedrockifyTestClient {
+		compileClasspath += sourceSets.bedrockifyClient.compileClasspath
+		runtimeClasspath += sourceSets.bedrockifyClient.runtimeClasspath
+		compileClasspath += sourceSets.testClient.compileClasspath
+		runtimeClasspath += sourceSets.testClient.runtimeClasspath
+	}
+
+	enhancedblockentities {
+		compileClasspath += sourceSets.main.compileClasspath
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+	}
+
 	enhancedblockentitiesClient {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
+		compileClasspath += sourceSets.enhancedblockentities.compileClasspath
+		runtimeClasspath += sourceSets.enhancedblockentities.runtimeClasspath
+	}
+
+	enhancedblockentitiesTest {
+		compileClasspath += sourceSets.enhancedblockentities.compileClasspath
+		runtimeClasspath += sourceSets.enhancedblockentities.runtimeClasspath
+		compileClasspath += sourceSets.test.compileClasspath
+		runtimeClasspath += sourceSets.test.runtimeClasspath
+	}
+
+	enhancedblockentitiesTestClient {
+		compileClasspath += sourceSets.enhancedblockentitiesClient.compileClasspath
+		runtimeClasspath += sourceSets.enhancedblockentitiesClient.runtimeClasspath
+		compileClasspath += sourceSets.enhancedblockentitiesTest.compileClasspath
+		runtimeClasspath += sourceSets.enhancedblockentitiesTest.runtimeClasspath
+		compileClasspath += sourceSets.testClient.compileClasspath
+		runtimeClasspath += sourceSets.testClient.runtimeClasspath
 	}
 
 	sodiumClient {
@@ -14,43 +54,85 @@ sourceSets {
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
 
-	indiumClient {
+	sodiumTestClient {
 		compileClasspath += sourceSets.sodiumClient.compileClasspath
 		runtimeClasspath += sourceSets.sodiumClient.runtimeClasspath
+		compileClasspath += sourceSets.testClient.compileClasspath
+		runtimeClasspath += sourceSets.testClient.runtimeClasspath
+	}
+
+	indiumClient {
+		compileClasspath += sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.runtimeClasspath
+	}
+
+	indiumTestClient {
+		compileClasspath += sourceSets.indiumClient.compileClasspath
+		runtimeClasspath += sourceSets.indiumClient.runtimeClasspath
+		compileClasspath += sourceSets.sodiumTestClient.compileClasspath
+		runtimeClasspath += sourceSets.sodiumTestClient.runtimeClasspath
 	}
 }
 
 loom {
 	runs {
+		testClient {
+			inherit client
+			source 'testClient'
+		}
+
 		bedrockifyClient {
 			inherit client
+			source 'bedrockifyClient'
+		}
 
-			source = sourceSets.bedrockifyClient
+		bedrockifyTestClient {
+			inherit testClient
+			source 'bedrockifyTestClient'
 		}
 
 		enhancedblockentitiesClient {
 			inherit client
+			source 'enhancedblockentitiesClient'
+		}
 
-			source = sourceSets.enhancedblockentitiesClient
+		enhancedblockentitiesTestClient {
+			inherit testClient
+			source 'enhancedblockentitiesTestClient'
 		}
 
 		sodiumClient {
 			inherit client
+			source 'sodiumClient'
+		}
 
-			source = sourceSets.sodiumClient
+		sodiumTestClient {
+			inherit testClient
+			source 'sodiumTestClient'
 		}
 
 		indiumClient {
-			inherit sodiumClient
+			inherit client
+			source 'indiumClient'
+		}
 
-			source = sourceSets.indiumClient
+		indiumTestClient {
+			inherit sodiumTestClient
+			source 'indiumTestClient'
 		}
 
 		remove server
 	}
 
+	createRemapConfigurations sourceSets.testClient
 	createRemapConfigurations sourceSets.bedrockifyClient
+	createRemapConfigurations sourceSets.bedrockifyTestClient
+	createRemapConfigurations sourceSets.enhancedblockentities
 	createRemapConfigurations sourceSets.enhancedblockentitiesClient
+	createRemapConfigurations sourceSets.enhancedblockentitiesTest
+	createRemapConfigurations sourceSets.enhancedblockentitiesTestClient
 	createRemapConfigurations sourceSets.sodiumClient
+	createRemapConfigurations sourceSets.sodiumTestClient
 	createRemapConfigurations sourceSets.indiumClient
+	createRemapConfigurations sourceSets.indiumTestClient
 }

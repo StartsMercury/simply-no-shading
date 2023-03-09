@@ -14,8 +14,8 @@
 		}
 	],
 	"contributors": [
-		"IMS212 - initially converted the mappings to MojMap",
-		"PepperCode1 - pointed out something to improve compatibility"
+		"IMS212 - adapted the mod for the official Mojang mappings",
+		"PepperCode1 - hinted a needed mixin for FRAPI compatibility"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/simply-no-shading",
@@ -43,12 +43,15 @@
 		"fabric-api": "*",
 		"fabricloader": "*",
 		"java": ">=${javaVersion}",
-		"minecraft": "*",
+		"minecraft": "~${gameVersion}",
 		"spruceui": "*"
 	},
 	"recommends": {
+		"modmenu": "*"
+	},
+	"suggests": {
+		"bedrockify": "*",
 		"enhancedblockentities": "*",
-		"modmenu": "*",
 		"sodium": "*"
 	}
 }
