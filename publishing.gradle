@@ -112,7 +112,7 @@ modrinth {
 	gameVersions = [ releaseMetadata.gameVersion ]
 
 	changelog = releaseMetadata.changelog
-	dependencies = releaseMetadata.dependencies.values() collect { new ModDependency(it.id, it.type) }
+	dependencies = releaseMetadata.dependencies.values() collect { new ModDependency(it.modrinthId, it.type) }
 
 	uploadFile = remapJar
 }
