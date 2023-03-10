@@ -5,7 +5,7 @@ buildscript {
 
 	dependencies {
 		classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.+'
-		classpath 'com.modrinth.minotaur:Minotaur:2.+'
+		classpath 'com.modrinth.minotaur:Minotaur:2.7.1'
 		classpath 'org.ajoberstar.grgit:grgit-gradle:4.+'
 		classpath 'org.kohsuke:github-api:1.+'
 	}
