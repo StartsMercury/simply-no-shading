@@ -23,7 +23,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build
         uses: burrunan/gradle-cache-action@v1
-        arguments: build --stacktrace
+        with:
+          arguments: build --stacktrace
      # - name: Build
      #   run: ./gradlew build --stacktrace
       - name: Capture build artifacts
