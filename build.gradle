@@ -7,8 +7,8 @@ archivesBaseName = modId
 version = "$modVersion+$gameVersion"
 
 repositories {
-	maven { url 'https://maven.gegy.dev' }
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+	maven { url 'https://maven.gegy.dev' }
 	maven { url 'https://maven.shedaniel.me' }
 	maven { url 'https://maven.terraformersmc.com' }
 	maven { url 'https://ueaj.dev/maven' }
