@@ -1,25 +1,25 @@
 // ARRP
-modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.6.7'
+modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.5.5'
 
 // BedrockIfy
-modCompileOnly 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
-modBedrockifyImplementation 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
+modCompileOnly 'maven.modrinth:bedrockify:1.4.1+mc1.18.2'
+modBedrockifyImplementation 'maven.modrinth:bedrockify:1.4.1+mc1.18.2'
 
 // Enhanced Block Entities
-modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.8+1.19.3'
+modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.1+1.18.2'
 
 // Fabric API
-modImplementation 'net.fabricmc.fabric-api:fabric-api:0.75.1+1.19.3'
+modImplementation 'net.fabricmc.fabric-api:fabric-api:0.75.1+1.18.2'
 
 // Indium
-modIndiumClientImplementation 'maven.modrinth:indium:1.0.14+mc1.19.3'
+modIndiumClientImplementation 'maven.modrinth:indium:1.0.7+mc1.18.2'
 
 // ModMenu
-modClientImplementation 'com.terraformersmc:modmenu:5.0.2'
+modClientImplementation 'com.terraformersmc:modmenu:3.2.5'
 
 // Sodium
-modClientCompileOnly 'maven.modrinth:sodium:mc1.19.3-0.4.9'
-modSodiumClientImplementation 'maven.modrinth:sodium:mc1.19.3-0.4.9'
+modClientCompileOnly 'maven.modrinth:sodium:mc1.18.2-0.4.1'
+modSodiumClientImplementation 'maven.modrinth:sodium:mc1.18.2-0.4.1'
 
 // SpruceUI
-modClientImplementation include('dev.lambdaurora:spruceui:4.1.+')
+modClientImplementation include('dev.lambdaurora:spruceui:3.3.+')
