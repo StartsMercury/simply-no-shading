@@ -1,5 +1,5 @@
 // ARRP
-modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.5.5'
+// modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.5.5'
 
 // BedrockIfy
 modCompileOnly 'maven.modrinth:bedrockify:1.4.1+mc1.18.2'
