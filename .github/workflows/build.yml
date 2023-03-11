@@ -5,8 +5,8 @@ jobs:
   build:
     strategy:
       matrix:
-        java: [ 17, 18 ]
-        os: [ windows-latest, ubuntu-latest, macos-latest ]
+        java: [ 17 ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -22,7 +22,9 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build --stacktrace
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          arguments: build --stacktrace
       - name: Capture build artifacts
         if: ${{ runner.os == 'Windows' && matrix.java == '17' }} # Only upload artifacts built from one OS and java version
         uses: actions/upload-artifact@v3

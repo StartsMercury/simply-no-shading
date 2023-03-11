@@ -60,7 +60,7 @@ public class Config {
 	 * The config preset that mimics OptiFine's Internal Shaders (with Old Lighting
 	 * enabled).
 	 */
-	public static final Config INTERNAL_SHADERS = builder().setCloudShadingEnabled(false).build();
+	public static final Config INTERNAL_SHADERS = builder().setBlockShadingEnabled(false).build();
 
 	/**
 	 * The config preset that aligns with the vanilla game's default. Essentially
