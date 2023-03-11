@@ -34,6 +34,7 @@ loom {
 		}
 
 		'simply-no-shading-bedrockify-test' {
+			sourceSet 'bedrockifyTest'
 			sourceSet 'bedrockifyTestClient'
 		}
 
