@@ -57,6 +57,8 @@ dependencies {
 	minecraft "com.mojang:minecraft:$gameVersion"
 	mappings loom.officialMojangMappings()
 	modImplementation 'net.fabricmc:fabric-loader:latest.release'
+	// Fabric Loader acts weird when not included in SOME configurations
+	modClientRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 
 	// See `dependencies.gradle`
 	apply from: 'dependencies.gradle', to: dependencies
