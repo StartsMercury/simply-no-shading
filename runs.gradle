@@ -9,14 +9,28 @@ sourceSets {
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
 
+	bedrockify {
+		compileClasspath += sourceSets.main.compileClasspath
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+	}
+
 	bedrockifyClient {
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
 
+	bedrockifyTest {
+		compileClasspath += sourceSets.bedrockify.compileClasspath
+		runtimeClasspath += sourceSets.bedrockify.runtimeClasspath
+		compileClasspath += sourceSets.test.compileClasspath
+		runtimeClasspath += sourceSets.test.runtimeClasspath
+	}
+
 	bedrockifyTestClient {
 		compileClasspath += sourceSets.bedrockifyClient.compileClasspath
 		runtimeClasspath += sourceSets.bedrockifyClient.runtimeClasspath
+		compileClasspath += sourceSets.bedrockifyTest.compileClasspath
+		runtimeClasspath += sourceSets.bedrockifyTest.runtimeClasspath
 		compileClasspath += sourceSets.testClient.compileClasspath
 		runtimeClasspath += sourceSets.testClient.runtimeClasspath
 	}
@@ -125,7 +139,9 @@ loom {
 	}
 
 	createRemapConfigurations sourceSets.testClient
+	createRemapConfigurations sourceSets.bedrockify
 	createRemapConfigurations sourceSets.bedrockifyClient
+	createRemapConfigurations sourceSets.bedrockifyTest
 	createRemapConfigurations sourceSets.bedrockifyTestClient
 	createRemapConfigurations sourceSets.enhancedblockentities
 	createRemapConfigurations sourceSets.enhancedblockentitiesClient
