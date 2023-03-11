@@ -11,7 +11,7 @@ repositories {
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://maven.shedaniel.me' }
 	maven { url 'https://maven.terraformersmc.com' }
-	maven { url 'https://storage.googleapis.com/devan-maven' }
+	maven { url 'https://ueaj.dev/maven' }
 }
 
 loom {
