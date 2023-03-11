@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Build
-        run: ./gradlew build curseforge modrinth --stacktrace # github
+        run: ./gradlew build curseforge modrinth github --stacktrace
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
