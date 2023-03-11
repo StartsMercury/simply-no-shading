@@ -15,11 +15,16 @@ public class Config {
 	 * further details, refer to the {@code Config} class as documenting the builder
 	 * would potentially be redundant and may be overlooked or be outdated.
 	 */
-	@SuppressWarnings("javadoc")
 	public static class Builder {
-		private boolean blockShadingEnabled = true;
+		/**
+		 * Controls block shading, excluding block entities.
+		 */
+		private boolean blockShadingEnabled;
 
-		private boolean cloudShadingEnabled = true;
+		/**
+		 * Controls cloud shading.
+		 */
+		private boolean cloudShadingEnabled;
 
 		/**
 		 * Returns a newly build config.
@@ -30,20 +35,42 @@ public class Config {
 			return new Config(this.blockShadingEnabled, this.cloudShadingEnabled);
 		}
 
+		/**
+		 * Returns {@code true} if block shading is enabled; {@code false} otherwise.
+		 *
+		 * @return {@code true} if block shading is enabled; {@code false} otherwise
+		 */
 		public boolean isBlockShadingEnabled() {
 			return this.blockShadingEnabled;
 		}
 
+		/**
+		 * Returns {@code true} if cloud shading is enabled; {@code false} otherwise.
+		 *
+		 * @return {@code true} if cloud shading is enabled; {@code false} otherwise
+		 */
 		public boolean isCloudShadingEnabled() {
 			return this.cloudShadingEnabled;
 		}
 
+		/**
+		 * Sets block shading enabled or disabled, excluding block entities.
+		 *
+		 * @param blockShadingEnabled block shading flag
+		 * @return {@code this} builder
+		 */
 		public Builder setBlockShadingEnabled(final boolean blockShadingEnabled) {
 			this.blockShadingEnabled = blockShadingEnabled;
 
 			return this;
 		}
 
+		/**
+		 * Sets cloud shading enabled or disabled.
+		 *
+		 * @param cloudShadingEnabled cloud shading flag
+		 * @return {@code this} builder
+		 */
 		public Builder setCloudShadingEnabled(final boolean cloudShadingEnabled) {
 			this.cloudShadingEnabled = cloudShadingEnabled;
 
@@ -128,6 +155,24 @@ public class Config {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.blockShadingEnabled, this.cloudShadingEnabled);
+	}
+
+	/**
+	 * Returns {@code true} if block shading is enabled; {@code false} otherwise.
+	 *
+	 * @return {@code true} if block shading is enabled; {@code false} otherwise
+	 */
+	public boolean isBlockShadingEnabled() {
+		return this.blockShadingEnabled;
+	}
+
+	/**
+	 * Returns {@code true} if cloud shading is enabled; {@code false} otherwise.
+	 *
+	 * @return {@code true} if cloud shading is enabled; {@code false} otherwise
+	 */
+	public boolean isCloudShadingEnabled() {
+		return this.cloudShadingEnabled;
 	}
 
 	/**
