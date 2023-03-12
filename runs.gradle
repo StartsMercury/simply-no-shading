@@ -15,6 +15,8 @@ sourceSets {
 	}
 
 	bedrockifyClient {
+		compileClasspath += sourceSets.bedrockify.compileClasspath
+		runtimeClasspath += sourceSets.bedrockify.runtimeClasspath
 		compileClasspath += sourceSets.client.compileClasspath
 		runtimeClasspath += sourceSets.client.runtimeClasspath
 	}
