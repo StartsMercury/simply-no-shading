@@ -40,7 +40,7 @@
 	],
 
 	"depends": {
-		"fabric-api": "*",
+		"fabric": "*",
 		"fabricloader": "*",
 		"java": ">=${javaVersion}",
 		"minecraft": "~${gameVersion}",

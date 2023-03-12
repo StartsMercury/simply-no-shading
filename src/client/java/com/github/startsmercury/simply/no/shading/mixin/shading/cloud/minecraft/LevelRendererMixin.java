@@ -39,7 +39,7 @@ public class LevelRendererMixin {
 	 *         {@linkplain Config#blockShadingEnabled block shading is enabled};
 	 *         {@code 1.0f} otherwise
 	 */
-	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;",
+	@ModifyConstant(method = "buildClouds(Lcom/mojang/blaze3d/vertex/BufferBuilder;DDDLnet/minecraft/world/phys/Vec3;)V",
 	                constant = { @Constant(floatValue = 0.9f,
 	                                       ordinal = 0),
 	                        @Constant(floatValue = 0.9f,
