@@ -6,13 +6,13 @@ jobs:
   build:
     permissions:
       contents: write
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Setup JDK ${{ matrix.java }}
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
