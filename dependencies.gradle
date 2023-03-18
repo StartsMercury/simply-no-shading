@@ -7,7 +7,7 @@ modBedrockifyImplementation 'maven.modrinth:bedrockify:1.6.1+mc1.19.3'
 
 // Cloth Config API
 modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:9.0.94', {
-	exclude group: 'net.fabricmc.fabric-api'
+	transitive false
 }
 
 // Enhanced Block Entities'
