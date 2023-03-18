@@ -39,7 +39,7 @@ final def releaseMetadata = [
 	def baseVersion
 	def qualifier
 
-	implementationVersion.split '-', 2 with { it as list } tap {
+	implementationVersion.split '-', 2 with { it as List } tap {
 		baseVersion = it[0]
 		qualifier = it[1] ?: ''
 	}
