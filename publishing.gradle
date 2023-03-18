@@ -38,13 +38,14 @@ final def releaseMetadata = [
 
 	def baseVersion
 	def qualifier
+	def qualifierParts
 
 	implementationVersion.split '-', 2 with { it as List } tap {
 		baseVersion = it[0]
 		qualifier = it[1] ?: ''
 	}
 
-	final def qualifierParts = qualifier.split(/\./, 2) ?: ['', '-1']
+	qualifierParts = qualifier ? qualifier.split(/\./, 2) : ['', '-1']
 
 	if (qualifierParts.size() != 2)
 		throw new RuntimeException("Non-empty qualifiers are formatted <rc|pre|snapshot>.<int> but was $qualifier")
