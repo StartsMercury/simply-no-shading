@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation;
  * The {@code PeriodicNotificationManagerMixin} is a {@linkplain Mixin mixin}
  * class for the {@link PeriodicNotificationManager} class.
  *
- * @since 5.0.0
+ * @since 6.0.0
  */
 @Mixin(PeriodicNotificationManager.class)
 public abstract class PeriodicNotificationManagerMixin {
