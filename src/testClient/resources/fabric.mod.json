@@ -22,7 +22,6 @@
 	"entrypoints": {
 	},
 	"mixins": [
-		"simply-no-shading-test.mixins.json"
 	],
 
 	"depends": {
