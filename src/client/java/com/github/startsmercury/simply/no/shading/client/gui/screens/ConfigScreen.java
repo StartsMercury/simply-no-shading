@@ -15,6 +15,7 @@ import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -151,7 +152,7 @@ public class ConfigScreen extends SpruceScreen {
 
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 
-		this.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F141414, 0x4F141414);
+		GuiComponent.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F141414, 0x4F141414);
 
 		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
 		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
@@ -165,6 +166,6 @@ public class ConfigScreen extends SpruceScreen {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderBackground(final PoseStack poseStack, final int vOffset) {
+	public void renderBackground(final PoseStack poseStack) {
 	}
 }
