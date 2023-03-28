@@ -29,6 +29,7 @@ final def releaseMetadata = [
 		'Sodium':                  [ type: 'optional', modrinthId: 'AANobbMI', curseforgeName: 'sodium'                  ]
 	],
 	gameVersion: project.gameVersion,
+	gameVersionAlt: project.findProperty('gameVersion') ?: project.gameVersion,
 	implementationVersion: project.modVersion,
 	loader: project.loader,
 	version: project.version
@@ -84,7 +85,7 @@ curseforge {
 		}
 
 		releaseType = releaseMetadata.releaseChannel
-		addGameVersion releaseMetadata.gameVersion
+		addGameVersion releaseMetadata.gameVersionAlt
 		addGameVersion "Java $javaVersion"
 		addGameVersion releaseMetadata.loaderName
 
