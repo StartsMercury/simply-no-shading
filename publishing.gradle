@@ -29,7 +29,7 @@ final def releaseMetadata = [
 		'Sodium':                  [ type: 'optional', modrinthId: 'AANobbMI', curseforgeName: 'sodium'                  ]
 	],
 	gameVersion: project.gameVersion,
-	gameVersionAlt: project.findProperty('gameVersion') ?: project.gameVersion,
+	gameVersionAlt: project.findProperty('gameVersionAlt') ?: project.gameVersion,
 	implementationVersion: project.modVersion,
 	loader: project.loader,
 	version: project.version
