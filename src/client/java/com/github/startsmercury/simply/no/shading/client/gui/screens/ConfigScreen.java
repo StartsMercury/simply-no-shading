@@ -1,25 +1,18 @@
 package com.github.startsmercury.simply.no.shading.client.gui.screens;
 
 import static com.github.startsmercury.simply.no.shading.client.SimplyNoShading.LOGGER;
-import static dev.lambdaurora.spruceui.background.EmptyBackground.EMPTY_BACKGROUND;
 
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
 import dev.lambdaurora.spruceui.screen.SpruceScreen;
-import dev.lambdaurora.spruceui.util.RenderUtil;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -47,11 +40,6 @@ public class ConfigScreen extends SpruceScreen {
 	 * The options widget that contains the options for the user to interact.
 	 */
 	protected SpruceOptionListWidget optionsWidget;
-
-	/**
-	 * The panorama showed when the screen is displayed outside a level.
-	 */
-	private final PanoramaRenderer panorama;
 
 	/**
 	 * The parent screen who'll regain display once this screen is done for :).
@@ -89,7 +77,6 @@ public class ConfigScreen extends SpruceScreen {
 		super(title);
 
 		this.parent = parent;
-		this.panorama = new PanoramaRenderer(TitleScreen.CUBE_MAP);
 		this.configBuilder = configBuilder;
 	}
 
@@ -116,7 +103,6 @@ public class ConfigScreen extends SpruceScreen {
 		doneButton = new SpruceButtonWidget(Position.of(this.width / 2 - 100,
 		        this.height - 27), 200, 20, CommonComponents.GUI_DONE, button -> onClose());
 
-		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 		this.optionsWidget.addOptionEntry(blockShadingEnabledOption, cloudShadingEnabledOption);
 
 		addRenderableWidget(this.optionsWidget);
@@ -147,25 +133,8 @@ public class ConfigScreen extends SpruceScreen {
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
-		if (this.minecraft.level == null)
-			this.panorama.render(delta, 1.0F);
-
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-
-		GuiComponent.fillGradient(poseStack, 0, 0, this.width, this.height, 0x4F141414, 0x4F141414);
-
-		RenderUtil.renderBackgroundTexture(0, 0, this.width, 34, 0);
-		RenderUtil.renderBackgroundTexture(0, this.height - 35, this.width, 35, 0);
-
+		super.renderBackground(poseStack);
 		super.render(poseStack, mouseX, mouseY, delta);
-
 		drawCenteredString(poseStack, this.font, this.title, this.width / 2, 14, 0xFFFFFF);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void renderBackground(final PoseStack poseStack) {
 	}
 }
