@@ -43,10 +43,12 @@
 		"fabric-api": "*",
 		"fabricloader": "*",
 		"java": ">=${javaVersion}",
-		"minecraft": "~${gameVersion}",
+		"minecraft": "*",
 		"spruceui": "*"
 	},
 	"recommends": {
+		"java": "${javaVersion}",
+		"minecraft": "${gameVersion}",
 		"modmenu": "*"
 	},
 	"suggests": {
