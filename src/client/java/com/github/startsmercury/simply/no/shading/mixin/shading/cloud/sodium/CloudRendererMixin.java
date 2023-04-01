@@ -45,8 +45,7 @@ public class CloudRendererMixin {
 	@ModifyVariable(method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
 	        at = @At(value = "STORE"),
 	        name = "baseColor",
-	        allow = 1,
-	        remap = false)
+	        allow = 1)
 	private int cacheBaseColor(final int baseColor) {
 		return this.baseColor = baseColor;
 	}
