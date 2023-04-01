@@ -63,8 +63,7 @@ public class CloudRendererMixin {
 	@ModifyArg(method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
 	        at = @At(value = "INVOKE",
 	                target = "Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;writeVertex(JFFFI)J"),
-	        index = 4,
-	        remap = false)
+	        index = 4)
 	private int undoColorMixing(final int mixedColor) {
 		final var cloudShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().cloudShadingEnabled;
 
