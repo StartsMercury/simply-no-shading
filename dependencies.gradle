@@ -3,7 +3,7 @@ modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.6.7'
 
 // BedrockIfy
 modCompileOnly 'maven.modrinth:bedrockify:1.8+mc1.19.4'
-modBedrockifyImplementation 'maven.modrinth:bedrockify:1.7.1+mc1.19.4'
+modBedrockifyImplementation 'maven.modrinth:bedrockify:1.8+mc1.19.4'
 
 // Cloth Config API
 modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:10.0.96', {
