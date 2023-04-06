@@ -96,7 +96,7 @@ loom {
 		}
 
 		indiumTestClient {
-			inherit sodiumTest
+			inherit sodiumTestClient
 			source 'indiumTest'
 		}
 
