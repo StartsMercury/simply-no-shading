@@ -177,28 +177,28 @@ public class ConfigScreen extends SpruceScreen {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
-		if (this.minecraft.level == null) {
-			this.panoramaRenderer.render(delta, OPAQUE);
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		}
-		this.fillGradient(poseStack, 0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
+	public void renderDirtBackground(final PoseStack poseStack) {
+		// Disable dirt background rendering
+	}
 
-		renderBackgroundTexture(0, 0, this.width, TITLE_PANEL_HEIGHT, 0);
-		renderBackgroundTexture(0, this.height - BUTTON_PANEL_HEIGHT, this.width, BUTTON_PANEL_HEIGHT, 0);
-
-		super.render(poseStack, mouseX, mouseY, delta);
-
+	@Override
+	public void renderTitle(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
 		final var titlePosX = this.width / 2;
 		final var titlePosY = 14;
 		drawCenteredString(poseStack, this.font, this.title, titlePosX, titlePosY, WHITE);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void renderBackground(final PoseStack poseStack, final int z) {
-		// Override fogging that would have been applied to the panels' background
+	public void renderWidgets(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
+		if (this.minecraft.level == null) {
+			this.panoramaRenderer.render(delta, OPAQUE);
+			RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		}
+		fillGradient(poseStack, 0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
+
+		renderBackgroundTexture(0, 0, this.width, TITLE_PANEL_HEIGHT, 0);
+		renderBackgroundTexture(0, this.height - BUTTON_PANEL_HEIGHT, this.width, BUTTON_PANEL_HEIGHT, 0);
+
+		super.renderWidgets(poseStack, mouseX, mouseY, delta);
 	}
 }
