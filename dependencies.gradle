@@ -1,37 +1,37 @@
 // ARRP
-// modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.5.5'
+// modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.4.3'
 
 // BedrockIfy
-modCompileOnly 'maven.modrinth:bedrockify:1.4.1+mc1.18.2'
-modBedrockifyImplementation 'maven.modrinth:bedrockify:1.4.1+mc1.18.2'
+modCompileOnly 'maven.modrinth:bedrockify:1.2.0+mc1.17.1'
+modBedrockifyImplementation 'maven.modrinth:bedrockify:1.2.0+mc1.17.1'
 
 // Cloth Config API
-modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:6.2.57', {
+modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:5.0.38', {
 	transitive false
 }
 
 // Enhanced Block Entities
-modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.1+1.18.2'
+modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.5+1.17'
 
 // Fabric API
-modImplementation 'net.fabricmc.fabric-api:fabric-api:0.75.1+1.18.2'
+modImplementation 'net.fabricmc.fabric-api:fabric-api:0.46.1+1.17'
 
 // Fabric Loader
 modBedrockifyRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 modEnhancedblockentitiesRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 
 // Indium
-modIndiumClientImplementation 'maven.modrinth:indium:1.0.7+mc1.18.2'
+modIndiumClientImplementation 'maven.modrinth:indium:1.0.1+mc1.17.1'
 
 // JOML
 modSodiumClientRuntimeOnly 'org.joml:joml:1.10.2'
 
 // ModMenu
-modClientImplementation 'com.terraformersmc:modmenu:3.2.5'
+modClientImplementation 'com.terraformersmc:modmenu:2.0.17'
 
 // Sodium
-modClientCompileOnly 'maven.modrinth:sodium:mc1.18.2-0.4.1'
-modSodiumClientImplementation 'maven.modrinth:sodium:mc1.18.2-0.4.1'
+modClientCompileOnly 'maven.modrinth:sodium:mc1.17.1-0.3.4'
+modSodiumClientImplementation 'maven.modrinth:sodium:mc1.17.1-0.3.4'
 
 // SpruceUI
 modClientImplementation include('dev.lambdaurora:spruceui:3.3.+')
