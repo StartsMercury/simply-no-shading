@@ -3,7 +3,7 @@
 	"simply-no-shading.config.option.blockShadingEnabled": "Block Shading",
 	"simply-no-shading.config.option.blockShadingEnabled.tooltip": "Controls block shading, excluding block entities",
 	"simply-no-shading.config.option.cloudShadingEnabled": "Cloud Shading",
-	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controls cloud Shading",
+	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controls cloud shading",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
 	"simply-no-shading.key.openConfigScreen": "Open Config Screen",
 	"simply-no-shading.key.reloadConfig": "Reload Config",
