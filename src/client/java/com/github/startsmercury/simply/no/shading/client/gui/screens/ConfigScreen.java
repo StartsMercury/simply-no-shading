@@ -23,6 +23,7 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * The {@code ConfigScreen} class is an implementation of {@link SpruceScreen}
@@ -42,7 +43,7 @@ public class ConfigScreen extends SpruceScreen {
 	/**
 	 * The default title for Simply No Shading's config screen.
 	 */
-	public static final Component DEFAULT_TITLE = Component.translatable("simply-no-shading.config.title");
+	public static final Component DEFAULT_TITLE = new TranslatableComponent("simply-no-shading.config.title");
 
 	/**
 	 * Fully opaque components render completely.
@@ -131,11 +132,11 @@ public class ConfigScreen extends SpruceScreen {
 		blockShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.blockShadingEnabled",
 		        this.configBuilder::isBlockShadingEnabled,
 		        this.configBuilder::setBlockShadingEnabled,
-		        Component.translatable("simply-no-shading.config.option.blockShadingEnabled.tooltip"));
+		        new TranslatableComponent("simply-no-shading.config.option.blockShadingEnabled.tooltip"));
 		cloudShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
 		        this.configBuilder::isCloudShadingEnabled,
 		        this.configBuilder::setCloudShadingEnabled,
-		        Component.translatable("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
+		        new TranslatableComponent("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
 		{
 			final var buttonWidth = 200;
 			final var buttonHeight = 20;

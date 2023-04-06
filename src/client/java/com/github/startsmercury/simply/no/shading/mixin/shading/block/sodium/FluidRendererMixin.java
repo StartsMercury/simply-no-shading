@@ -27,7 +27,7 @@ public class FluidRendererMixin {
 	/**
 	 * This is a {@linkplain ModifyVariable variable modifier} that modifies the
 	 * parameter {@code brightness} in
-	 * {@code FluidRenderer.updateQuad(ModelQuadView, BlockAndTintGetter, BlockPos, LightPipeline, Direction, float, ColorSampler, FluidState)}.
+	 * {@code FluidRenderer.calculateQuadColors(ModelQuadView, BlockAndTintGetter, BlockPos, LightPipeline, Direction, float, ColorSampler, FluidState)}.
 	 * <p>
 	 * Returns the {@code brightness} when {@linkplain Config#blockShadingEnabled
 	 * block shading is enabled}; {@code 1.0f} otherwise.
