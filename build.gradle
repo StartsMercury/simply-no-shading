@@ -27,10 +27,6 @@ loom {
 			sourceSet 'test'
 		}
 
-		'simply-no-shading-bedrockify-test' {
-			sourceSet 'bedrockifyTest'
-		}
-
 		'simply-no-shading-enhancedblockentities-test' {
 			sourceSet 'enhancedblockentitiesTest'
 		}
@@ -81,9 +77,6 @@ tasks.named 'jar', {
 }
 
 tasks.named 'javadoc', {
-	classpath += sourceSets.client.compileClasspath
-	source += sourceSets.client.allJava
-
 	options.addStringOption 'tag', 'implNote:a:Implementation Note:'
 }
 

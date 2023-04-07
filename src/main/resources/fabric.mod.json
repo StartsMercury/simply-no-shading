@@ -52,7 +52,6 @@
 		"modmenu": "*"
 	},
 	"suggests": {
-		"bedrockify": "*",
 		"enhancedblockentities": "*",
 		"sodium": "*"
 	}

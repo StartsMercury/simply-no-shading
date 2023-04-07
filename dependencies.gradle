@@ -1,15 +1,6 @@
 // ARRP
 // modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.4.3'
 
-// BedrockIfy
-modCompileOnly 'maven.modrinth:bedrockify:1.2.0+mc1.17.1'
-modBedrockifyImplementation 'maven.modrinth:bedrockify:1.2.0+mc1.17.1'
-
-// Cloth Config API
-modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:5.0.38', {
-	transitive false
-}
-
 // Enhanced Block Entities
 modEnhancedblockentitiesImplementation 'maven.modrinth:ebe:0.5+1.17'
 
@@ -17,7 +8,6 @@ modEnhancedblockentitiesImplementation 'maven.modrinth:ebe:0.5+1.17'
 modImplementation 'net.fabricmc.fabric-api:fabric-api:0.46.1+1.17'
 
 // Fabric Loader
-modBedrockifyRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 modEnhancedblockentitiesRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 
 // Indium
@@ -35,4 +25,3 @@ modSodiumImplementation 'maven.modrinth:sodium:mc1.17.1-0.3.4'
 
 // SpruceUI
 modImplementation include('dev.lambdaurora:spruceui:3.3.1+1.17')
-

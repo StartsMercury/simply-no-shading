@@ -22,7 +22,7 @@ import net.minecraft.world.level.material.FluidState;
  * @since 5.0.0
  */
 @Mixin(value = LiquidBlockRenderer.class,
-       priority = 999)
+        priority = 999)
 public class LiquidBlockRendererMixin {
 	/**
 	 * A private constructor that does nothing as of the writing of this
@@ -46,10 +46,11 @@ public class LiquidBlockRendererMixin {
 	 *         {@link Config#blockShadingEnabled block shading is enabled};
 	 *         {@code false} otherwise
 	 */
-	@ModifyArg(method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/material/FluidState;)Z",
-	           at = @At(value = "INVOKE",
-	                    target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),
-	           index = 1)
+	@ModifyArg(
+	        method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/material/FluidState;)Z",
+	        at = @At(value = "INVOKE",
+	                target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),
+	        index = 1)
 	private final boolean changeShade(final boolean shade) {
 		final var blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
 

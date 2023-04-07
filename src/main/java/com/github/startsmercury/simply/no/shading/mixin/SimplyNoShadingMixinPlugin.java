@@ -71,9 +71,6 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	protected void includeMixins(final List<String> mixins) {
 		final var fabricLoader = FabricLoader.getInstance();
 
-		if (fabricLoader.isModLoaded("bedrockify"))
-			mixins.add("shading.block.bedrockify.BedrockBlockShadingMixin");
-
 		if (fabricLoader.isModLoaded("sodium"))
 			mixins.add("shading.block.sodium.FluidRendererMixin");
 	}
