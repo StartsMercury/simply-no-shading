@@ -51,7 +51,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 		final var toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
 		        InputConstants.UNKNOWN.getValue(),
 		        SimplyNoShading.KEY_CATEGORY,
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
+		        () -> simplyNoShading.getConfig().cloudShadingEnabled);
 
 		registerKeyBinding(openConfigScreen);
 		registerKeyBinding(reloadConfig);
