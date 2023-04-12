@@ -74,10 +74,8 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 
 			final var builder = Config.builder(simplyNoShading.getConfig());
 
-			while (toggleBlockShading.consumeClick())
-				builder.setBlockShadingEnabled(!builder.isBlockShadingEnabled());
-			while (toggleCloudShading.consumeClick())
-				builder.setCloudShadingEnabled(!builder.isCloudShadingEnabled());
+			builder.setBlockShadingEnabled(toggleBlockShading.isDown());
+			builder.setCloudShadingEnabled(toggleCloudShading.isDown());
 
 			simplyNoShading.setConfig(builder.build());
 		});
