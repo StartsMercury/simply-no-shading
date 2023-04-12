@@ -32,6 +32,11 @@ public class SimplyNoShading {
 	private static SimplyNoShading firstInstance;
 
 	/**
+	 * The category key for key mappings.
+	 */
+	public static final String KEY_CATEGORY = "key.categories.simply-no-shading";
+
+	/**
 	 * This mod's logger.
 	 */
 	public static final Logger LOGGER = PrefixedLogger.named("simply-no-shading", "[SimplyNoShading] ");
