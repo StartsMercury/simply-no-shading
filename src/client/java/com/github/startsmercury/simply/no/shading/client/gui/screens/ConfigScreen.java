@@ -42,7 +42,7 @@ public class ConfigScreen extends SpruceScreen {
 	/**
 	 * The default title for Simply No Shading's config screen.
 	 */
-	public static final Component DEFAULT_TITLE = Component.translatable("simply-no-shading.config.title");
+	public static final Component DEFAULT_TITLE = Component.translatable("options.simply-no-shading");
 
 	/**
 	 * Fully opaque components render completely.
@@ -128,14 +128,14 @@ public class ConfigScreen extends SpruceScreen {
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, TITLE_PANEL_HEIGHT),
 		        this.width,
 		        this.height - TITLE_PANEL_HEIGHT - BUTTON_PANEL_HEIGHT);
-		blockShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.blockShadingEnabled",
+		blockShadingEnabledOption = new SpruceBooleanOption("options.simply-no-shading.blockShadingEnabled",
 		        this.configBuilder::isBlockShadingEnabled,
 		        this.configBuilder::setBlockShadingEnabled,
-		        Component.translatable("simply-no-shading.config.option.blockShadingEnabled.tooltip"));
-		cloudShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
+		        Component.translatable("options.simply-no-shading.blockShadingEnabled.tooltip"));
+		cloudShadingEnabledOption = new SpruceBooleanOption("options.simply-no-shading.cloudShadingEnabled",
 		        this.configBuilder::isCloudShadingEnabled,
 		        this.configBuilder::setCloudShadingEnabled,
-		        Component.translatable("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
+		        Component.translatable("options.simply-no-shading.cloudShadingEnabled.tooltip"));
 		{
 			final var buttonWidth = 200;
 			final var buttonHeight = 20;
