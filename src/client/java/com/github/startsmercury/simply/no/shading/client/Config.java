@@ -76,6 +76,24 @@ public class Config {
 
 			return this;
 		}
+
+		/**
+		 * Toggles block shading enabled or disabled.
+		 *
+		 * @return {@code this} builder
+		 */
+		public Builder toggleBlockShading() {
+			return setBlockShadingEnabled(!isBlockShadingEnabled());
+		}
+
+		/**
+		 * Toggles cloud shading enabled or disabled.
+		 *
+		 * @return {@code this} builder
+		 */
+		public Builder toggleCloudShading() {
+			return setCloudShadingEnabled(!isCloudShadingEnabled());
+		}
 	}
 
 	/**

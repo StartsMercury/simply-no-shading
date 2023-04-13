@@ -10,7 +10,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.ToggleKeyMapping;
 
 /**
  * The {@code SimplyNoShadingClientEntrypoint} class is an implementation of
@@ -44,14 +43,12 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 		final var reloadConfig = new KeyMapping("key.simply-no-shading.reloadConfig",
 		        InputConstants.UNKNOWN.getValue(),
 		        SimplyNoShading.KEY_CATEGORY);
-		final var toggleBlockShading = new ToggleKeyMapping("key.simply-no-shading.toggleBlockShading",
+		final var toggleBlockShading = new KeyMapping("key.simply-no-shading.toggleBlockShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        SimplyNoShading.KEY_CATEGORY,
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
-		final var toggleCloudShading = new ToggleKeyMapping("key.simply-no-shading.toggleCloudShading",
+		        SimplyNoShading.KEY_CATEGORY);
+		final var toggleCloudShading = new KeyMapping("key.simply-no-shading.toggleCloudShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        SimplyNoShading.KEY_CATEGORY,
-		        () -> simplyNoShading.getConfig().cloudShadingEnabled);
+		        SimplyNoShading.KEY_CATEGORY);
 
 		registerKeyBinding(openConfigScreen);
 		registerKeyBinding(reloadConfig);
@@ -74,8 +71,10 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 
 			final var builder = Config.builder(simplyNoShading.getConfig());
 
-			builder.setBlockShadingEnabled(toggleBlockShading.isDown());
-			builder.setCloudShadingEnabled(toggleCloudShading.isDown());
+			while (toggleBlockShading.consumeClick())
+				builder.toggleBlockShading();
+			while (toggleCloudShading.consumeClick())
+				builder.toggleCloudShading();
 
 			simplyNoShading.setConfig(builder.build());
 		});
