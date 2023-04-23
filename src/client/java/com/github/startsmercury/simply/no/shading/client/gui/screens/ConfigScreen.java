@@ -10,7 +10,6 @@ import static net.minecraft.network.chat.CommonComponents.GUI_DONE;
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
@@ -18,6 +17,7 @@ import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -173,32 +173,29 @@ public class ConfigScreen extends SpruceScreen {
 			LOGGER.warn(this + " tried to save changes from a null config builder");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void renderDirtBackground(final PoseStack poseStack) {
+	public void renderDirtBackground(final GuiGraphics guiGraphics) {
 		// Disable dirt background rendering
 	}
 
 	@Override
-	public void renderTitle(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
+	public void renderTitle(final GuiGraphics guiGraphics, final int mouseX, final int mouseY, final float delta) {
 		final var titlePosX = this.width / 2;
 		final var titlePosY = 14;
-		drawCenteredString(poseStack, this.font, this.title, titlePosX, titlePosY, WHITE);
+		guiGraphics.drawCenteredString(this.font, this.title, titlePosX, titlePosY, WHITE);
 	}
 
 	@Override
-	public void renderWidgets(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
+	public void renderWidgets(final GuiGraphics guiGraphics, final int mouseX, final int mouseY, final float delta) {
 		if (this.minecraft.level == null) {
 			this.panoramaRenderer.render(delta, OPAQUE);
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		}
-		fillGradient(poseStack, 0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
+		guiGraphics.fillGradient(0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
 
 		renderBackgroundTexture(0, 0, this.width, TITLE_PANEL_HEIGHT, 0);
 		renderBackgroundTexture(0, this.height - BUTTON_PANEL_HEIGHT, this.width, BUTTON_PANEL_HEIGHT, 0);
 
-		super.renderWidgets(poseStack, mouseX, mouseY, delta);
+		super.renderWidgets(guiGraphics, mouseX, mouseY, delta);
 	}
 }

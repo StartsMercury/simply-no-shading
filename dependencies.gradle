@@ -30,5 +30,5 @@ modClientImplementation 'com.terraformersmc:modmenu:7.0.0-beta.1'
 modClientCompileOnly 'maven.modrinth:sodium:mc1.19.4-0.4.10'
 modSodiumClientImplementation 'maven.modrinth:sodium:mc1.19.4-0.4.10'
 
-// SpruceUI
-modClientImplementation include('dev.lambdaurora:spruceui:4.2.+')
+// SpruceUI (locally built, for now)
+modClientImplementation include('dev.lambdaurora:spruceui:4.3.0-alpha.1+23w16a')
