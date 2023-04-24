@@ -23,7 +23,7 @@ jobs:
       - name: Publish SpruceUI to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: publishToMavenLocal clean --stacktrace
+          arguments: publishToMavenLocal --stacktrace
 
       - name: Checkout repository
         uses: actions/checkout@v3
