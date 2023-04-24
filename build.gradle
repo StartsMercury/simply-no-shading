@@ -99,7 +99,7 @@ tasks.named 'javadoc', {
 }
 
 tasks.withType ProcessResources, {
-	def usedPropertyKeys = [ 'gameVersion', 'javaVersion', 'modId', 'version' ]
+	def usedPropertyKeys = [ 'gameSemverVersion', 'javaVersion', 'modId', 'version' ]
 	def usedProperties = usedPropertyKeys.collectEntries { [ String.valueOf(it), project.findProperty(it) ] }
 
 	inputs.properties(usedProperties)

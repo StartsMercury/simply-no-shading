@@ -48,7 +48,7 @@
 	},
 	"recommends": {
 		"java": "${javaVersion}",
-		"minecraft": "${gameVersion}",
+		"minecraft": "${gameSemverVersion}",
 		"modmenu": "*"
 	},
 	"suggests": {
