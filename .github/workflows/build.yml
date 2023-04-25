@@ -2,7 +2,7 @@ name: Build
 on: [ push ]
 
 jobs:
-  build:
+  build-spruceui:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout SpruceUI (fork) repository
@@ -25,6 +25,9 @@ jobs:
         with:
           arguments: publishToMavenLocal --stacktrace
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Validate gradle wrapper
