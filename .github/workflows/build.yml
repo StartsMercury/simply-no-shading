@@ -24,6 +24,11 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           arguments: publishToMavenLocal --stacktrace
+      - name: Capture local maven repository
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artifacts
+          path: ~/.m2/repository
 
   build:
     needs: build-spruceui
@@ -41,6 +46,11 @@ jobs:
           cache: gradle
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: Recapture local maven repository
+        uses: actions/download-artifact@v2
+        with:
+          name: Artifacts
+          path: ~/.m2/repository
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
@@ -50,3 +60,4 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+          if-no-files-found: true
