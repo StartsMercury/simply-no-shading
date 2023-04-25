@@ -24,11 +24,11 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           arguments: publishToMavenLocal --stacktrace
-      - name: Capture local maven repository
+      - name: Upload SpruceUI from maven local
         uses: actions/upload-artifact@v3
         with:
-          name: Artifacts
-          path: ~/.m2/repository/
+          name: SpruceUI Artifacts
+          path: ~/.m2/repository/dev/lambdaurora/spruceui
 
   build:
     needs: build-spruceui
@@ -46,11 +46,12 @@ jobs:
           cache: gradle
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: Recapture local maven repository
+      - name: Download SpruceUI to maven local
         uses: actions/download-artifact@v2
         with:
-          name: Artifacts
-          path: ~/.m2/repository/
+          name: SpruceUI Artifacts
+          path: ~/.m2/repository/dev/lambdaurora/spruceui
+          retention-days: 1
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
