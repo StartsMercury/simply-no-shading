@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: ~/.m2/repository
+          path: ~/.m2/repository/
 
   build:
     needs: build-spruceui
@@ -50,7 +50,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Artifacts
-          path: ~/.m2/repository
+          path: ~/.m2/repository/
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
@@ -60,4 +60,3 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
-          if-no-files-found: true
