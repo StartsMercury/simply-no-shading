@@ -29,6 +29,7 @@ jobs:
         with:
           name: SpruceUI Artifacts
           path: ~/.m2/repository/dev/lambdaurora/spruceui
+          retention-days: 1
 
   build:
     needs: build-spruceui
@@ -51,7 +52,6 @@ jobs:
         with:
           name: SpruceUI Artifacts
           path: ~/.m2/repository/dev/lambdaurora/spruceui
-          retention-days: 1
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
