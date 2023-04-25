@@ -26,6 +26,7 @@ jobs:
           arguments: publishToMavenLocal --stacktrace
 
   build:
+    needs: build-spruceui
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
