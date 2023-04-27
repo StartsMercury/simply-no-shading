@@ -53,7 +53,7 @@ jobs:
       - name: Download Quilt Mappings to maven local
         uses: actions/download-artifact@v3
         with:
-          name: SpruceUI Artifacts
+          name: Quilt Mappings Artifacts
           path: ~/.m2/repository/org/quiltmc/quilt-mappings
       - name: Publish SpruceUI to Maven Local
         uses: burrunan/gradle-cache-action@v1
