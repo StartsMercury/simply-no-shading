@@ -32,6 +32,7 @@ jobs:
           retention-days: 1
 
   build-spruceui:
+    needs: build-quilt-mappings
     runs-on: ubuntu-latest
     steps:
       - name: Checkout SpruceUI (fork) repository
