@@ -2,6 +2,35 @@ name: Build
 on: [ push ]
 
 jobs:
+  build-quilt-mappings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Quilt Mappings repository
+        uses: actions/checkout@v3
+        with:
+          repository: 'QuiltMC/quilt-mappings'
+          ref: '23w17a'
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: Publish Quilt Mappings to Maven Local
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          arguments: publishToMavenLocal --stacktrace
+      - name: Upload Quilt Mappings from maven local
+        uses: actions/upload-artifact@v3
+        with:
+          name: Quilt Mappings Artifacts
+          path: ~/.m2/repository/org/quiltmc/quilt-mappings
+          retention-days: 1
+
   build-spruceui:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +49,11 @@ jobs:
           cache: gradle
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: Download Quilt Mappings to maven local
+        uses: actions/download-artifact@v3
+        with:
+          name: SpruceUI Artifacts
+          path: ~/.m2/repository/org/quiltmc/quilt-mappings
       - name: Publish SpruceUI to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
@@ -48,7 +82,7 @@ jobs:
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Download SpruceUI to maven local
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: SpruceUI Artifacts
           path: ~/.m2/repository/dev/lambdaurora/spruceui
