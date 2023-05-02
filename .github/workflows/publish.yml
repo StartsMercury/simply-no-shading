@@ -68,6 +68,7 @@ jobs:
           retention-days: 1
 
   build:
+    needs: build-spruceui
     permissions:
       contents: write
     runs-on: ubuntu-latest
