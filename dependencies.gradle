@@ -21,7 +21,7 @@ modBedrockifyRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 modEnhancedblockentitiesRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 
 // Indium
-modIndiumClientImplementation 'maven.modrinth:indium:1.0.17+mc1.19.4'
+modIndiumClientImplementation 'maven.modrinth:indium:1.0.15+mc1.19.4'
 
 // ModMenu
 modClientImplementation 'com.terraformersmc:modmenu:7.0.0-beta.2'
