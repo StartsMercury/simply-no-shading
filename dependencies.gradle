@@ -27,7 +27,7 @@ modIndiumClientImplementation 'maven.modrinth:indium:1.0.17+mc1.19.4'
 modClientImplementation 'com.terraformersmc:modmenu:7.0.0-beta.2'
 
 // Sodium
-modClientCompileOnly 'maven.modrinth:sodium:mc1.19.4-0.4.11'
+modClientCompileOnly 'maven.modrinth:sodium:mc1.19.4-0.4.10'
 modSodiumClientImplementation 'maven.modrinth:sodium:mc1.19.4-0.4.11'
 
 // SpruceUI (locally built, for now)
