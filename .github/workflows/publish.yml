@@ -53,7 +53,7 @@ jobs:
           name: SpruceUI Artifacts
           path: ~/.m2/repository/dev/lambdaurora/spruceui
       - name: Build
-        run: ./gradlew build modrinth --stacktrace
+        run: ./gradlew build modrinth github --stacktrace
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
