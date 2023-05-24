@@ -14,8 +14,9 @@
 		}
 	],
 	"contributors": [
-		"IMS212 - adapted the mod for the official Mojang mappings",
-		"PepperCode1 - hinted a needed mixin for FRAPI compatibility"
+		"IMS212 - initally remapped the mod to official Mojang mappings",
+		"PepperCode1",
+		"FITFC - translated the mod to Português (Brasil) and Português (Portugal)"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/simply-no-shading",
