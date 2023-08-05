@@ -1,4 +1,4 @@
-e// ARRP
+// ARRP
 modEnhancedblockentitiesRuntimeOnly 'net.devtech:arrp:0.6.7'
 
 // BedrockIfy
@@ -27,8 +27,8 @@ modIndiumClientImplementation 'maven.modrinth:indium:1.0.18+mc1.20'
 modClientImplementation 'com.terraformersmc:modmenu:7.0.1'
 
 // Sodium
-modClientCompileOnly 'maven.modrinth:sodium:mc1.20-0.5.0'
-modSodiumClientImplementation 'maven.modrinth:sodium:mc1.20-0.5.0'
+modClientCompileOnly 'maven.modrinth:sodium:mc1.20-0.4.10'
+modSodiumClientImplementation 'maven.modrinth:sodium:mc1.20-0.4.10'
 
 // SpruceUI
 modClientImplementation include('dev.lambdaurora:spruceui:5.0.0+1.20')
