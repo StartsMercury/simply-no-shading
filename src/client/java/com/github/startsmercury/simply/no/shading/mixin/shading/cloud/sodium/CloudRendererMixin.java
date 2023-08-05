@@ -23,7 +23,7 @@ public class CloudRendererMixin {
 	 * The cached base cloud color.
 	 */
 	@Unique
-	private int texel;
+	private int baseColor;
 
 	/**
 	 * A private constructor that does nothing as of the writing of this
@@ -34,20 +34,20 @@ public class CloudRendererMixin {
 
 	/**
 	 * This is a {@linkplain ModifyVariable variable modifier} that caches the value
-	 * of the local variable {@code texel} in
+	 * of the local variable {@code baseColor} in
 	 * {@code CloudRenderer.rebuildGeometry(BufferBuilder, int, int, int)}.
 	 * <p>
-	 * Returns the parameter {@code texel} unmodified.
+	 * Returns the parameter {@code baseColor} unmodified.
 	 *
-	 * @param texel the base cloud color
-	 * @return the unmodified value of {@code texel}
+	 * @param baseColor the base cloud color
+	 * @return the unmodified value of {@code baseColor}
 	 */
 	@ModifyVariable(method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
 	        at = @At(value = "STORE"),
-	        name = "texel",
+	        name = "baseColor",
 	        allow = 1)
-	private int cacheBaseColor(final int texel) {
-		return this.texel = texel;
+	private int cacheBaseColor(final int baseColor) {
+		return this.baseColor = baseColor;
 	}
 
 	/**
@@ -71,6 +71,6 @@ public class CloudRendererMixin {
 		if (cloudShadingEnabled)
 			return mixedColor;
 		else
-			return this.texel;
+			return this.baseColor;
 	}
 }
