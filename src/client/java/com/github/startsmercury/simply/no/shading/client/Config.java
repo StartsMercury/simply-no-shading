@@ -27,6 +27,14 @@ public class Config {
 		private boolean cloudShadingEnabled;
 
 		/**
+		 * Creates a new config builder with data initially set for vanilla behavior.
+		 */
+		public Builder() {
+			this.blockShadingEnabled = true;
+			this.cloudShadingEnabled = true;
+		}
+
+		/**
 		 * Returns a newly build config.
 		 *
 		 * @return a newly build config
