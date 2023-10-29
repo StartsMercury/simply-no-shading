@@ -9,8 +9,11 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * The {@code SimplyNoShadingClientEntrypoint} class is an implementation of
@@ -29,6 +32,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 		simplyNoShading.loadConfig();
 
 		setupKeyMappings(simplyNoShading);
+		setupResources();
 		setupShutdownHook(simplyNoShading::saveConfig);
 	}
 
@@ -80,6 +84,19 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 				builder.setCloudShadingEnabled(!builder.isCloudShadingEnabled());
 
 			simplyNoShading.setConfig(builder.build());
+		});
+	}
+
+	/**
+ 	 * Registers resources such as built-in resource packs.
+   	 */
+	protected void setupResources() {
+		FabricLoader.getInstance().getModContainer("simply-no-shading").ifPresent(container -> {
+			ResourceManagerHelper.registerBuiltinResourcePack(
+				new ResourceLocation("simply-no-shading", "simply_no_entity_shading"),
+				container,
+				ResourcePackActivationType.NORMAL
+			);
 		});
 	}
 
