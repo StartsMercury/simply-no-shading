@@ -15,8 +15,9 @@
 	],
 	"contributors": [
 		"IMS212 - initally remapped the mod to official Mojang mappings",
-		"PepperCode1",
-		"FITFC - translated the mod to Português (Brasil) and Português (Portugal)"
+		"PepperCode1 - showed a more mod-compatible way to override shading",
+		"FITFC - translated the mod to Português (Brasil) and Português (Portugal)",
+		"Minecrafthyr - showed where entity shading was calculated"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/simply-no-shading",
