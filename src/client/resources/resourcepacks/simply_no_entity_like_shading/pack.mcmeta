@@ -1,6 +1,6 @@
 {
   "pack": {
     "pack_format": 18,
-    "description": "(Beta) Disable directional shading for entities and inventory items"
+    "description": "(Beta) Disable entity and inventory model shading"
   }
 }
