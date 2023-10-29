@@ -166,7 +166,7 @@ public class ConfigScreen extends SpruceScreen {
 		);
 
 		this.optionsWidget.addOptionEntry(blockShadingEnabledOption, cloudShadingEnabledOption);
-		this.optionsWidget.addSmallSingleOptionEntry(experimentalEntityLikeShadingOption);
+		this.optionsWidget.addSingleOptionEntry(experimentalEntityLikeShadingOption);
 		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
 		addRenderableWidget(this.optionsWidget);
