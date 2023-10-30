@@ -7,6 +7,8 @@ import static dev.lambdaurora.spruceui.util.ColorUtil.packARGBColor;
 import static dev.lambdaurora.spruceui.util.RenderUtil.renderBackgroundTexture;
 import static net.minecraft.network.chat.CommonComponents.GUI_DONE;
 
+import java.util.List;
+
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -14,12 +16,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
+import dev.lambdaurora.spruceui.option.SpruceSimpleActionOption;
 import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
 import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.Component;
@@ -125,6 +129,7 @@ public class ConfigScreen extends SpruceScreen {
 		final SpruceBooleanOption blockShadingEnabledOption;
 		final SpruceBooleanOption cloudShadingEnabledOption;
 		final SpruceButtonWidget doneButton;
+		final SpruceSimpleActionOption experimentalEntityLikeShadingOption;
 
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, TITLE_PANEL_HEIGHT),
 		        this.width,
@@ -147,8 +152,35 @@ public class ConfigScreen extends SpruceScreen {
 			        GUI_DONE,
 			        button -> onClose());
 		}
+		experimentalEntityLikeShadingOption = SpruceSimpleActionOption.of(
+			"simply-no-shading.config.option.experimentalEntityLikeShading",
+			button -> {
+				final var packSelectionScreen = new PackSelectionScreen(
+					this,
+					this.minecraft.getResourcePackRepository(),
+					packRepository -> {
+						final var oldResourcePacks = List.copyOf(this.minecraft.options.resourcePacks);
+						this.minecraft.options.resourcePacks.clear();
+						this.minecraft.options.incompatibleResourcePacks.clear();
+						for (final var pack : packRepository.getSelectedPacks()) {
+							if (pack.isFixedPosition()) continue;
+							this.minecraft.options.resourcePacks.add(pack.getId());
+							if (pack.getCompatibility().isCompatible()) continue;
+							this.minecraft.options.incompatibleResourcePacks.add(pack.getId());
+						}
+						this.minecraft.options.save();
+						if (oldResourcePacks.equals(this.minecraft.options.resourcePacks)) return;
+						this.minecraft.reloadResourcePacks();
+					},
+					this.minecraft.getResourcePackDirectory(),
+					new TranslatableComponent("resourcePack.title")
+				);
+				minecraft.setScreen(packSelectionScreen);
+			}
+		);
 
 		this.optionsWidget.addOptionEntry(blockShadingEnabledOption, cloudShadingEnabledOption);
+		this.optionsWidget.addSmallSingleOptionEntry(experimentalEntityLikeShadingOption);
 		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
 		addRenderableWidget(this.optionsWidget);
