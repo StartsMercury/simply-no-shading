@@ -24,7 +24,7 @@ modEnhancedblockentitiesRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
 modIndiumClientImplementation 'maven.modrinth:indium:1.0.27+mc1.20.1'
 
 // ModMenu
-modClientImplementation 'com.terraformersmc:modmenu:7.2.2'
+modClientImplementation 'com.terraformersmc:modmenu:7.0.1'
 
 // Sodium
 modClientCompileOnly 'maven.modrinth:sodium:mc1.20.1-0.5.3'
