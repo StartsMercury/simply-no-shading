@@ -34,5 +34,5 @@ modClientCompileOnly 'maven.modrinth:sodium:mc1.18.2-0.4.1'
 modSodiumClientImplementation 'maven.modrinth:sodium:mc1.18.2-0.4.1'
 
 // SpruceUI
-modClientImplementation include('dev.lambdaurora:spruceui:3.3.+')
+modClientImplementation include('dev.lambdaurora:spruceui:[3.3.3,4)')
 
