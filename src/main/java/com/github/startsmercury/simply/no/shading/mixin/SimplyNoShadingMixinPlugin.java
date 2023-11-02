@@ -46,12 +46,12 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		case 0:
 			break;
 		case 1:
-			LOGGER.info("Included mixin '" + mixins.get(0) + "' due to their target mod being present");
+			LOGGER.info("[Simply No Shading] Included mixin '" + mixins.get(0) + "' due to their target mod being present");
 			break;
 		default:
-			LOGGER.info("Included mixins: ");
-			mixins.forEach(mixin -> LOGGER.info("    " + mixin));
-			LOGGER.info("Above mixins were added due to their target mod being present");
+			LOGGER.info("[Simply No Shading] Included mixins: ");
+			mixins.forEach(mixin -> LOGGER.info("[Simply No Shading]     " + mixin));
+			LOGGER.info("[Simply No Shading] Above mixins were added due to their target mod being present");
 			break;
 		}
 

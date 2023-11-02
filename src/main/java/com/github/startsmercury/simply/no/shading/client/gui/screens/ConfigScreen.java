@@ -164,7 +164,7 @@ public class ConfigScreen extends SpruceScreen {
 		if (this.configBuilder != null)
 			SimplyNoShading.getFirstInstance().setConfig(this.configBuilder.build());
 		else
-			LOGGER.warn(this + " tried to save changes from a null config builder");
+			LOGGER.warn("[Simply No Shading] " + this + " tried to save changes from a null config builder");
 	}
 
 	/**

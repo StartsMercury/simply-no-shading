@@ -141,7 +141,7 @@ public class SimplyNoShading {
 		} catch (final NoSuchFileException nsfe) {
 			saveConfig();
 		} catch (final Exception e) {
-			LOGGER.warn("Unable to load config", e);
+			LOGGER.warn("[Simply No Shading] Unable to load config", e);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class SimplyNoShading {
 		try {
 			getConfigStorage().save(getConfig());
 		} catch (final Exception e) {
-			LOGGER.warn("Unable to save config", e);
+			LOGGER.warn("[Simply No Shading] Unable to save config", e);
 			e.printStackTrace();
 		}
 	}
