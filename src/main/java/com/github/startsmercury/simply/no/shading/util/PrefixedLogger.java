@@ -19,7 +19,6 @@ import org.apache.logging.log4j.util.Supplier;
  *
  * @since 5.0.0
  */
-@Deprecated
 public class PrefixedLogger implements Logger {
 	/**
 	 * Returns a named prefix logger.
