@@ -147,6 +147,9 @@ public class Config {
 
 	/**
 	 * Returns {@code true} if {@code this} config's contents are equal to another's.
+	 *
+	 * @param other the other config
+	 * @return {@code true} if {@code this} contents is equal to {@code other}'s
 	 */
 	public boolean equals(final Config other) {
 		return this.blockShadingEnabled == other.blockShadingEnabled

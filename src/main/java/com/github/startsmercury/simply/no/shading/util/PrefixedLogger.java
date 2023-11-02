@@ -27,7 +27,7 @@ public class PrefixedLogger implements Logger {
 	 * @param name   the name of the logger
 	 * @param prefix the prefixes to the message
 	 * @return a named prefixed logger
-	 * @see LoggerFactory#getLogger(String)
+	 * @see LogManager#getLogger(String)
 	 */
 	public static PrefixedLogger named(final String name, final String prefix) {
 		return new PrefixedLogger(LogManager.getLogger(name), prefix);
@@ -38,7 +38,7 @@ public class PrefixedLogger implements Logger {
 	 *
 	 * @param prefix the prefixes to the message
 	 * @return a prefixed root logger
-	 * @see Logger#ROOT_LOGGER_NAME
+	 * @see LogManager#ROOT_LOGGER_NAME
 	 */
 	public static PrefixedLogger root(final String prefix) {
 		return new PrefixedLogger(prefix);
