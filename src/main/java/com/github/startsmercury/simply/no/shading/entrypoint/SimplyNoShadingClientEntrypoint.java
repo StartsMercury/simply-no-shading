@@ -24,7 +24,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	 */
 	@Override
 	public void onInitializeClient() {
-		final var simplyNoShading = new SimplyNoShading();
+		final SimplyNoShading simplyNoShading = new SimplyNoShading();
 
 		simplyNoShading.loadConfig();
 
@@ -38,17 +38,17 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	 * @param simplyNoShading the simply no shading instance
 	 */
 	protected void setupKeyMappings(final SimplyNoShading simplyNoShading) {
-		final var openConfigScreen = new KeyMapping("simply-no-shading.key.openConfigScreen",
+		final KeyMapping openConfigScreen = new KeyMapping("simply-no-shading.key.openConfigScreen",
 		        InputConstants.UNKNOWN.getValue(),
 		        "simply-no-shading.key.categories.simply-no-shading");
-		final var reloadConfig = new KeyMapping("simply-no-shading.key.reloadConfig",
+		final KeyMapping reloadConfig = new KeyMapping("simply-no-shading.key.reloadConfig",
 		        InputConstants.UNKNOWN.getValue(),
 		        "simply-no-shading.key.categories.simply-no-shading");
-		final var toggleBlockShading = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		final KeyMapping toggleBlockShading = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
 		        InputConstants.UNKNOWN.getValue(),
 		        "simply-no-shading.key.categories.simply-no-shading",
 		        () -> simplyNoShading.getConfig().blockShadingEnabled);
-		final var toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		final KeyMapping toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
 		        InputConstants.UNKNOWN.getValue(),
 		        "simply-no-shading.key.categories.simply-no-shading",
 		        () -> simplyNoShading.getConfig().blockShadingEnabled);
@@ -72,7 +72,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 				return;
 			}
 
-			final var builder = Config.builder(simplyNoShading.getConfig());
+			final Config.Builder builder = Config.builder(simplyNoShading.getConfig());
 
 			while (toggleBlockShading.consumeClick())
 				builder.setBlockShadingEnabled(!builder.isBlockShadingEnabled());
@@ -89,7 +89,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	 * @param shutdownAction the shutdown action to run
 	 */
 	protected void setupShutdownHook(final Runnable shutdownAction) {
-		final var shutdownThread = new Thread(shutdownAction);
+		final Thread shutdownThread = new Thread(shutdownAction);
 		shutdownThread.setName("Simply No Shading Shutdown Thread");
 		Runtime.getRuntime().addShutdownHook(shutdownThread);
 	}

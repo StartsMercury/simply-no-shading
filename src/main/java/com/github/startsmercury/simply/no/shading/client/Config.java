@@ -136,6 +136,15 @@ public class Config {
 		this.cloudShadingEnabled = cloudShadingEnabled;
 	}
 
+
+	/**
+	 * Returns {@code true} if {@code this} config's contents are equal to another's.
+	 */
+	public boolean equals(final Config other) {
+		return this.blockShadingEnabled == other.blockShadingEnabled
+		        && this.cloudShadingEnabled == other.cloudShadingEnabled;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -143,9 +152,8 @@ public class Config {
 	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
-		if (obj instanceof final Config other)
-			return this.blockShadingEnabled == other.blockShadingEnabled
-			        && this.cloudShadingEnabled == other.cloudShadingEnabled;
+		if (obj instanceof Config)
+			return equals((Config) obj);
 		return false;
 	}
 

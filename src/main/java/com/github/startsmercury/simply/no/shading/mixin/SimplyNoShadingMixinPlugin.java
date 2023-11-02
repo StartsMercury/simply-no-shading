@@ -38,18 +38,21 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 */
 	@Override
 	public List<String> getMixins() {
-		final var mixins = new ObjectArrayList<String>(3);
+		final ObjectArrayList<String> mixins = new ObjectArrayList<String>(3);
 		includeMixins(mixins);
 		mixins.trim();
 
 		switch (mixins.size()) {
-		case 0 -> {}
-		case 1 -> LOGGER.info("Included mixin '" + mixins.get(0) + "' due to their target mod being present");
-		default -> {
+		case 0:
+			break;
+		case 1:
+			LOGGER.info("Included mixin '" + mixins.get(0) + "' due to their target mod being present");
+			break;
+		default:
 			LOGGER.info("Included mixins: ");
 			mixins.forEach(mixin -> LOGGER.info("    " + mixin));
 			LOGGER.info("Above mixins were added due to their target mod being present");
-		}
+			break;
 		}
 
 		return mixins;
@@ -69,7 +72,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 	 * @param mixins the additional mixin list
 	 */
 	protected void includeMixins(final List<String> mixins) {
-		final var fabricLoader = FabricLoader.getInstance();
+		final FabricLoader fabricLoader = FabricLoader.getInstance();
 
 		if (fabricLoader.isModLoaded("sodium"))
 			mixins.add("shading.block.sodium.FluidRendererMixin");

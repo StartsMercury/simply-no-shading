@@ -15,8 +15,9 @@ repositories {
 		}
 		metadataSources { artifact() }
 	}
+	maven { url 'https://aperlambda.github.io/maven' }
 	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
-	maven { url 'https://maven.gegy.dev' }
+	maven { url 'https://jitpack.io' }
 	maven { url 'https://maven.shedaniel.me' }
 	maven { url 'https://maven.terraformersmc.com' }
 	maven { url 'https://ueaj.dev/maven' }

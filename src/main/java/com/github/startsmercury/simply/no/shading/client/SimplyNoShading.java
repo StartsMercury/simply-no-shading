@@ -2,12 +2,13 @@ package com.github.startsmercury.simply.no.shading.client;
 
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientEntrypoint;
-import com.github.startsmercury.simply.no.shading.util.PrefixedLogger;
 import com.github.startsmercury.simply.no.shading.util.storage.JsonPathStorage;
 import com.github.startsmercury.simply.no.shading.util.storage.Storage;
 import com.google.gson.GsonBuilder;
@@ -34,7 +35,7 @@ public class SimplyNoShading {
 	/**
 	 * This mod's logger.
 	 */
-	public static final Logger LOGGER = PrefixedLogger.named("simply-no-shading", "[SimplyNoShading] ");
+	public static final Logger LOGGER = LogManager.getLogger("simply-no-shading");
 
 	/**
 	 * Sets the first instance if there's not one set.
@@ -55,12 +56,12 @@ public class SimplyNoShading {
 	 */
 	private static Path getConfigDirectory() {
 		try {
-			final var fabricLoader = FabricLoader.getInstance();
-			final var configDirectory = fabricLoader.getConfigDir();
+			final FabricLoader fabricLoader = FabricLoader.getInstance();
+			final Path configDirectory = fabricLoader.getConfigDir();
 
 			return configDirectory;
 		} catch (final RuntimeException re) { // FabricLoader is not yet loaded
-			return Path.of("/");
+			return Paths.get("/");
 		}
 	}
 
@@ -71,8 +72,8 @@ public class SimplyNoShading {
 	 * @see #getConfigDirectory()
 	 */
 	private static Path getDefaultConfigPath() {
-		final var configDirectory = SimplyNoShading.getConfigDirectory();
-		final var configPath = configDirectory.resolve("simply-no-shading.json");
+		final Path configDirectory = SimplyNoShading.getConfigDirectory();
+		final Path configPath = configDirectory.resolve("simply-no-shading.json");
 
 		return configPath;
 	}
@@ -171,7 +172,7 @@ public class SimplyNoShading {
 
 		this.config = config;
 
-		final var minecraft = Minecraft.getInstance();
+		final Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.levelRenderer != null)
 			minecraft.levelRenderer.allChanged();
 	}

@@ -42,8 +42,8 @@ public abstract class BakedQuadMixin {
 	        at = @At("RETURN"),
 	        cancellable = true)
 	private final void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
-		final var blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
-		final var originalReturnValue = callback.getReturnValueZ();
+		final boolean blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
+		final boolean originalReturnValue = callback.getReturnValueZ();
 
 		callback.setReturnValue(originalReturnValue && blockShadingEnabled);
 	}

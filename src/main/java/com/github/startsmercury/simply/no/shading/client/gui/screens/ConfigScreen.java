@@ -1,26 +1,24 @@
 package com.github.startsmercury.simply.no.shading.client.gui.screens;
 
 import static com.github.startsmercury.simply.no.shading.client.SimplyNoShading.LOGGER;
-import static dev.lambdaurora.spruceui.background.EmptyBackground.EMPTY_BACKGROUND;
-import static dev.lambdaurora.spruceui.util.ColorUtil.WHITE;
-import static dev.lambdaurora.spruceui.util.ColorUtil.packARGBColor;
-import static dev.lambdaurora.spruceui.util.RenderUtil.renderBackgroundTexture;
+import static me.lambdaurora.spruceui.background.EmptyBackground.EMPTY_BACKGROUND;
+import static me.lambdaurora.spruceui.util.ColorUtil.WHITE;
+import static me.lambdaurora.spruceui.util.ColorUtil.packARGBColor;
+import static me.lambdaurora.spruceui.util.RenderUtil.renderBackgroundTexture;
 import static net.minecraft.network.chat.CommonComponents.GUI_DONE;
 
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import dev.lambdaurora.spruceui.Position;
-import dev.lambdaurora.spruceui.option.SpruceBooleanOption;
-import dev.lambdaurora.spruceui.screen.SpruceScreen;
-import dev.lambdaurora.spruceui.widget.SpruceButtonWidget;
-import dev.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
+import me.lambdaurora.spruceui.Position;
+import me.lambdaurora.spruceui.option.SpruceBooleanOption;
+import me.lambdaurora.spruceui.screen.SpruceScreen;
+import me.lambdaurora.spruceui.widget.SpruceButtonWidget;
+import me.lambdaurora.spruceui.widget.container.SpruceOptionListWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -44,11 +42,6 @@ public class ConfigScreen extends SpruceScreen {
 	 * The default title for Simply No Shading's config screen.
 	 */
 	public static final Component DEFAULT_TITLE = new TranslatableComponent("simply-no-shading.config.title");
-
-	/**
-	 * Fully opaque components render completely.
-	 */
-	private static final float OPAQUE = 1.0F;
 
 	/**
 	 * The color used over panorama and level renders.
@@ -138,9 +131,9 @@ public class ConfigScreen extends SpruceScreen {
 		        this.configBuilder::setCloudShadingEnabled,
 		        new TranslatableComponent("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
 		{
-			final var buttonWidth = 200;
-			final var buttonHeight = 20;
-			final var buttonPosition = Position.of((this.width - buttonWidth) / 2, this.height - buttonHeight - 7);
+			final int buttonWidth = 200;
+			final int buttonHeight = 20;
+			final Position buttonPosition = Position.of((this.width - buttonWidth) / 2, this.height - buttonHeight - 7);
 			doneButton = new SpruceButtonWidget(buttonPosition,
 			        buttonWidth,
 			        buttonHeight,
@@ -151,8 +144,8 @@ public class ConfigScreen extends SpruceScreen {
 		this.optionsWidget.addOptionEntry(blockShadingEnabledOption, cloudShadingEnabledOption);
 		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
-		addRenderableWidget(this.optionsWidget);
-		addRenderableWidget(doneButton);
+		addWidget(this.optionsWidget);
+		addWidget(doneButton);
 	}
 
 	/**
@@ -179,19 +172,15 @@ public class ConfigScreen extends SpruceScreen {
 	 */
 	@Override
 	public void render(final PoseStack poseStack, final int mouseX, final int mouseY, final float delta) {
-		if (this.minecraft.level == null) {
-			this.panoramaRenderer.render(delta, OPAQUE);
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		}
 		this.fillGradient(poseStack, 0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
 
-		renderBackgroundTexture(0, 0, this.width, TITLE_PANEL_HEIGHT, 0);
-		renderBackgroundTexture(0, this.height - BUTTON_PANEL_HEIGHT, this.width, BUTTON_PANEL_HEIGHT, 0);
+		renderBackgroundTexture(this.minecraft, 0, 0, this.width, TITLE_PANEL_HEIGHT, 0);
+		renderBackgroundTexture(this.minecraft, 0, this.height - BUTTON_PANEL_HEIGHT, this.width, BUTTON_PANEL_HEIGHT, 0);
 
 		super.render(poseStack, mouseX, mouseY, delta);
 
-		final var titlePosX = this.width / 2;
-		final var titlePosY = 14;
+		final int titlePosX = this.width / 2;
+		final int titlePosY = 14;
 		drawCenteredString(poseStack, this.font, this.title, titlePosX, titlePosY, WHITE);
 	}
 
