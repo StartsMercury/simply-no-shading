@@ -1,19 +1,13 @@
 package com.github.startsmercury.simply.no.shading.mixin.shading.block.minecraft;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 
 /**
  * The {@code LiquidBlockRendererMixin} is a {@linkplain Mixin mixin} class for
@@ -32,28 +26,39 @@ public class LiquidBlockRendererMixin {
 	}
 
 	/**
-	 * This is a {@linkplain ModifyArg argument modifier} that modifies the
-	 * 2<sup>nd</sup> argument of all calls to
-	 * {@link BlockAndTintGetter#getShade(Direction, boolean)} in
-	 * {@link LiquidBlockRenderer#tesselate(BlockAndTintGetter, BlockPos, VertexConsumer, BlockState, FluidState)}.
+	 * This is a {@linkplain ModifyConstant constant modifier} that modifies all
+	 * 1st to 4th float constants with the value of {@code 0.5f} and 1st to 2nd
+	 * float constants with the value of {@code 0.8f} and {@code 0.6f} in
+	 * {@code LevelRenderer.buildClouds(BufferBuilder, double, double, double, Vec3)}.
 	 * <p>
-	 * Returns {@code true} if {@code shade} is {@code true} and
-	 * {@link Config#blockShadingEnabled block shading is enabled}; {@code false}
-	 * otherwise.
+	 * Returns the original float constant value when
+	 * {@linkplain Config#blockShadingEnabled block shading is enabled};
+	 * {@code 1.0f} otherwise.
 	 *
-	 * @param shade the shade
-	 * @return {@code true} if {@code shade} is {@code true} and
-	 *         {@link Config#blockShadingEnabled block shading is enabled};
-	 *         {@code false} otherwise
+	 * @param constantValue the constant value
+	 * @return the original float constant value when
+	 *         {@linkplain Config#blockShadingEnabled block shading is enabled};
+	 *         {@code 1.0f} otherwise
 	 */
-	@ModifyArg(
-	        method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/material/FluidState;)Z",
-	        at = @At(value = "INVOKE",
-	                target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F"),
-	        index = 1)
-	private final boolean changeShade(final boolean shade) {
+	@ModifyConstant(
+	    method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/material/FluidState;)Z",
+	    constant = {
+	        @Constant(floatValue = 0.5F, ordinal = 0),
+	        @Constant(floatValue = 0.8F, ordinal = 0),
+	        @Constant(floatValue = 0.6F, ordinal = 0),
+	        @Constant(floatValue = 0.5F, ordinal = 1),
+	        @Constant(floatValue = 0.5F, ordinal = 2),
+	        @Constant(floatValue = 0.5F, ordinal = 3),
+	        @Constant(floatValue = 0.8F, ordinal = 1),
+	        @Constant(floatValue = 0.6F, ordinal = 1)
+	    }
+	)
+	private final float changeVertexBrightness(final float constantValue) {
 		final boolean blockShadingEnabled = SimplyNoShading.getFirstInstance().getConfig().blockShadingEnabled;
 
-		return shade && blockShadingEnabled;
+		if (blockShadingEnabled)
+			return constantValue;
+		else
+			return 1.0f;
 	}
 }

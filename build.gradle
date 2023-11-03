@@ -10,17 +10,18 @@ repositories {
 	ivy {
 		url 'https://github.com'
 		patternLayout {
+			artifact '[organization]/releases/download/[revision]/[module](-[classifier]).[ext]'
 			artifact '[organization]/releases/download/[revision]/[module]-[revision](-[classifier]).[ext]'
 			m2compatible = true
 		}
 		metadataSources { artifact() }
 	}
 	maven { url 'https://aperlambda.github.io/maven' }
-	maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+	// maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
 	maven { url 'https://jitpack.io' }
-	maven { url 'https://maven.shedaniel.me' }
+	// maven { url 'https://maven.shedaniel.me' }
 	maven { url 'https://maven.terraformersmc.com' }
-	maven { url 'https://ueaj.dev/maven' }
+	// maven { url 'https://ueaj.dev/maven' }
 }
 
 // See `runs.gradle`
@@ -36,21 +37,21 @@ loom {
 			sourceSet 'test'
 		}
 
-		'simply-no-shading-bedrockify-test' {
-			sourceSet 'bedrockifyTest'
-		}
+		// 'simply-no-shading-bedrockify-test' {
+		// 	sourceSet 'bedrockifyTest'
+		// }
 
-		'simply-no-shading-enhancedblockentities-test' {
-			sourceSet 'enhancedblockentitiesTest'
-		}
+		// 'simply-no-shading-enhancedblockentities-test' {
+		// 	sourceSet 'enhancedblockentitiesTest'
+		// }
 
-		'simply-no-shading-sodium-test' {
-			sourceSet 'sodiumTest'
-		}
+		// 'simply-no-shading-sodium-test' {
+		// 	sourceSet 'sodiumTest'
+		// }
 
-		'simply-no-shading-indium-test' {
-			sourceSet 'indiumTest'
-		}
+		// 'simply-no-shading-indium-test' {
+		// 	sourceSet 'indiumTest'
+		// }
 	}
 }
 

@@ -1,8 +1,9 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import com.github.startsmercury.simply.no.shading.client.gui.screens.ConfigScreen;
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
+
+import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import io.github.prospector.modmenu.api.ModMenuApi;
 
 /**
  * The {@code SimplyNoShadingModMenuEntrypoint} class is an implementation of

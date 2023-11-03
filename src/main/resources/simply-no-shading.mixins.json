@@ -6,7 +6,6 @@
 	"plugin": "com.github.startsmercury.simply.no.shading.mixin.SimplyNoShadingMixinPlugin",
 	"client": [
 		"shading.block.minecraft.BakedQuadMixin",
-		"shading.block.minecraft.ClientLevelMixin",
 		"shading.block.minecraft.LiquidBlockRendererMixin",
 		"shading.cloud.minecraft.LevelRendererMixin"
 	],

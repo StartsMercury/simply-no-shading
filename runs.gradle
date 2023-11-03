@@ -4,29 +4,29 @@ sourceSets {
 		runtimeClasspath += sourceSets.main.runtimeClasspath
 	}
 
-	bedrockify {
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
+	// bedrockify {
+	// 	compileClasspath += sourceSets.main.compileClasspath
+	// 	runtimeClasspath += sourceSets.main.runtimeClasspath
+	// }
 
-	bedrockifyTest {
-		compileClasspath += sourceSets.bedrockify.compileClasspath
-		runtimeClasspath += sourceSets.bedrockify.runtimeClasspath
-		compileClasspath += sourceSets.test.compileClasspath
-		runtimeClasspath += sourceSets.test.runtimeClasspath
-	}
+	// bedrockifyTest {
+	// 	compileClasspath += sourceSets.bedrockify.compileClasspath
+	// 	runtimeClasspath += sourceSets.bedrockify.runtimeClasspath
+	// 	compileClasspath += sourceSets.test.compileClasspath
+	// 	runtimeClasspath += sourceSets.test.runtimeClasspath
+	// }
 
-	enhancedblockentities {
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
+	// enhancedblockentities {
+	// 	compileClasspath += sourceSets.main.compileClasspath
+	// 	runtimeClasspath += sourceSets.main.runtimeClasspath
+	// }
 
-	enhancedblockentitiesTest {
-		compileClasspath += sourceSets.enhancedblockentities.compileClasspath
-		runtimeClasspath += sourceSets.enhancedblockentities.runtimeClasspath
-		compileClasspath += sourceSets.test.compileClasspath
-		runtimeClasspath += sourceSets.test.runtimeClasspath
-	}
+	// enhancedblockentitiesTest {
+	// 	compileClasspath += sourceSets.enhancedblockentities.compileClasspath
+	// 	runtimeClasspath += sourceSets.enhancedblockentities.runtimeClasspath
+	// 	compileClasspath += sourceSets.test.compileClasspath
+	// 	runtimeClasspath += sourceSets.test.runtimeClasspath
+	// }
 
 	sodium {
 		compileClasspath += sourceSets.main.compileClasspath
@@ -40,17 +40,17 @@ sourceSets {
 		runtimeClasspath += sourceSets.test.runtimeClasspath
 	}
 
-	indium {
-		compileClasspath += sourceSets.sodium.compileClasspath
-		runtimeClasspath += sourceSets.sodium.runtimeClasspath
-	}
+	// indium {
+	// 	compileClasspath += sourceSets.sodium.compileClasspath
+	// 	runtimeClasspath += sourceSets.sodium.runtimeClasspath
+	// }
 
-	indiumTest {
-		compileClasspath += sourceSets.indium.compileClasspath
-		runtimeClasspath += sourceSets.indium.runtimeClasspath
-		compileClasspath += sourceSets.sodiumTest.compileClasspath
-		runtimeClasspath += sourceSets.sodiumTest.runtimeClasspath
-	}
+	// indiumTest {
+	// 	compileClasspath += sourceSets.indium.compileClasspath
+	// 	runtimeClasspath += sourceSets.indium.runtimeClasspath
+	// 	compileClasspath += sourceSets.sodiumTest.compileClasspath
+	// 	runtimeClasspath += sourceSets.sodiumTest.runtimeClasspath
+	// }
 }
 
 loom {
@@ -60,25 +60,25 @@ loom {
 			source 'test'
 		}
 
-		bedrockifyClient {
-			inherit client
-			source 'bedrockify'
-		}
+		// bedrockifyClient {
+		// 	inherit client
+		// 	source 'bedrockify'
+		// }
 
-		bedrockifyTestClient {
-			inherit testClient
-			source 'bedrockifyTest'
-		}
+		// bedrockifyTestClient {
+		// 	inherit testClient
+		// 	source 'bedrockifyTest'
+		// }
 
-		enhancedblockentitiesClient {
-			inherit client
-			source 'enhancedblockentities'
-		}
+		// enhancedblockentitiesClient {
+		// 	inherit client
+		// 	source 'enhancedblockentities'
+		// }
 
-		enhancedblockentitiesTestClient {
-			inherit testClient
-			source 'enhancedblockentitiesTest'
-		}
+		// enhancedblockentitiesTestClient {
+		// 	inherit testClient
+		// 	source 'enhancedblockentitiesTest'
+		// }
 
 		sodiumClient {
 			inherit client
@@ -90,26 +90,26 @@ loom {
 			source 'sodiumTest'
 		}
 
-		indiumClient {
-			inherit client
-			source 'indium'
-		}
+		// indiumClient {
+		// 	inherit client
+		// 	source 'indium'
+		// }
 
-		indiumTestClient {
-			inherit sodiumTestClient
-			source 'indiumTest'
-		}
+		// indiumTestClient {
+		// 	inherit sodiumTestClient
+		// 	source 'indiumTest'
+		// }
 
 		remove server
 	}
 
 	createRemapConfigurations sourceSets.test
-	createRemapConfigurations sourceSets.bedrockify
-	createRemapConfigurations sourceSets.bedrockifyTest
-	createRemapConfigurations sourceSets.enhancedblockentities
-	createRemapConfigurations sourceSets.enhancedblockentitiesTest
+	// createRemapConfigurations sourceSets.bedrockify
+	// createRemapConfigurations sourceSets.bedrockifyTest
+	// createRemapConfigurations sourceSets.enhancedblockentities
+	// createRemapConfigurations sourceSets.enhancedblockentitiesTest
 	createRemapConfigurations sourceSets.sodium
 	createRemapConfigurations sourceSets.sodiumTest
-	createRemapConfigurations sourceSets.indium
-	createRemapConfigurations sourceSets.indiumTest
+	// createRemapConfigurations sourceSets.indium
+	// createRemapConfigurations sourceSets.indiumTest
 }
