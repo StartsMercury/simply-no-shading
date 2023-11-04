@@ -41,7 +41,7 @@ public class LiquidBlockRendererMixin {
 	 *         {@code 1.0f} otherwise
 	 */
 	@ModifyConstant(
-	    method = "tesselate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/material/FluidState;)Z",
+	    method = "tesselate(Lnet/minecraft/world/level/BlockAndBiomeGetter;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/BufferBuilder;Lnet/minecraft/world/level/material/FluidState;)Z",
 	    constant = {
 	        @Constant(floatValue = 0.5F, ordinal = 0),
 	        @Constant(floatValue = 0.8F, ordinal = 0),
