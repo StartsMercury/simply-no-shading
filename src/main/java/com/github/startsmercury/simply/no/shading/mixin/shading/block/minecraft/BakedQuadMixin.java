@@ -82,14 +82,14 @@ public abstract class BakedQuadMixin {
 		        .blockShadingEnabled
 		) {
 			this.vertices[0x03] = this.color0;
-			this.vertices[0x0B] = this.color1;
-			this.vertices[0x13] = this.color2;
-			this.vertices[0x0B] = this.color3;
+			this.vertices[0x0A] = this.color1;
+			this.vertices[0x11] = this.color2;
+			this.vertices[0x18] = this.color3;
 		} else {
 			this.vertices[0x03] = 0xFFFFFFFF;
-			this.vertices[0x0B] = 0xFFFFFFFF;
-			this.vertices[0x13] = 0xFFFFFFFF;
-			this.vertices[0x0B] = 0xFFFFFFFF;
+			this.vertices[0x0A] = 0xFFFFFFFF;
+			this.vertices[0x11] = 0xFFFFFFFF;
+			this.vertices[0x18] = 0xFFFFFFFF;
 		}
 	}
 
@@ -109,8 +109,8 @@ public abstract class BakedQuadMixin {
 	)
 	private final void onInitReturn(final CallbackInfo callback) {
 		this.color0 = this.vertices[0x03];
-		this.color1 = this.vertices[0x0B];
-		this.color2 = this.vertices[0x13];
-		this.color3 = this.vertices[0x0B];
+		this.color1 = this.vertices[0x0A];
+		this.color2 = this.vertices[0x11];
+		this.color3 = this.vertices[0x18];
 	}
 }

@@ -10,7 +10,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.ToggleKeyMapping;
 
 /**
  * The {@code SimplyNoShadingClientEntrypoint} class is an implementation of
@@ -44,14 +43,12 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 		final KeyMapping reloadConfig = new KeyMapping("simply-no-shading.key.reloadConfig",
 		        InputConstants.UNKNOWN.getValue(),
 		        "simply-no-shading.key.categories.simply-no-shading");
-		final KeyMapping toggleBlockShading = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		final KeyMapping toggleBlockShading = new KeyMapping("simply-no-shading.key.toggleBlockShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
-		final KeyMapping toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		        "simply-no-shading.key.categories.simply-no-shading");
+		final KeyMapping toggleCloudShading = new KeyMapping("simply-no-shading.key.toggleCloudShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
+		        "simply-no-shading.key.categories.simply-no-shading");
 
 		registerKeyBinding(openConfigScreen);
 		registerKeyBinding(reloadConfig);

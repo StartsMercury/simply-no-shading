@@ -75,8 +75,7 @@ public class SimplyNoShadingMixinPlugin implements IMixinConfigPlugin {
 		final FabricLoader fabricLoader = FabricLoader.getInstance();
 
 		if (fabricLoader.isModLoaded("sodium")) {
-			mixins.add("shading.block.sodium.MixinBakedQuadMixin");
-			mixins.add("shading.block.sodium.FluidRendererMixin");
+
 		}
 	}
 
