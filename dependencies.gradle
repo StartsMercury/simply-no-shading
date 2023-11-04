@@ -14,15 +14,7 @@ modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:10.0.96', {
 modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.8+1.19.3'
 
 // Fabric API
-modRuntimeOnly 'net.fabricmc.fabric-api:fabric-api:0.76.3+23w13a_or_b', {
-	transitive false
-}
-
-// Fabric Key Binding API (v1)
-modImplementation fabricApi.module('fabric-key-binding-api-v1', '0.76.3+23w13a_or_b')
-
-// Fabric Lifecycle Events (v1)
-modImplementation fabricApi.module('fabric-lifecycle-events-v1', '0.76.3+23w13a_or_b')
+modImplementation 'net.fabricmc.fabric-api:fabric-api:0.76.3+23w13a_or_b'
 
 // Fabric Loader
 modBedrockifyRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
