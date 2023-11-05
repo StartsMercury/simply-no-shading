@@ -14,7 +14,7 @@ modBedrockifyRuntimeOnly 'me.shedaniel.cloth:cloth-config-fabric:6.2.57', {
 modEnhancedblockentitiesClientImplementation 'maven.modrinth:ebe:0.7.1+1.18.2'
 
 // Fabric API
-modImplementation 'net.fabricmc.fabric-api:fabric-api:0.76.0+1.18.2'
+modImplementation 'net.fabricmc.fabric-api:fabric-api:0.48.1+22w13oneblockatatime'
 
 // Fabric Loader
 modBedrockifyRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
