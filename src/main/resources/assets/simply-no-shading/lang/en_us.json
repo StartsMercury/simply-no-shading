@@ -5,8 +5,8 @@
 	"simply-no-shading.config.option.cloudShadingEnabled": "Cloud Shading",
 	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controls cloud shading",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-	"simply-no-shading.key.openConfigScreen": "Open Config Screen",
-	"simply-no-shading.key.reloadConfig": "Reload Config",
-	"simply-no-shading.key.toggleBlockShading": "Toggle Block Shading",
-	"simply-no-shading.key.toggleCloudShading": "Toggle Cloud Shading"
+	"key.simply-no-shading.open_config_screen": "Open Config Screen",
+	"key.simply-no-shading.reload_config": "Reload Config",
+	"key.simply-no-shading.toggle_block_shading": "Toggle Block Shading",
+	"key.simply-no-shading.toggle_cloud_shading": "Toggle Cloud Shading"
 }

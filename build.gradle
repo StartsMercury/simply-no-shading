@@ -61,7 +61,9 @@ dependencies {
 	modImplementation 'net.fabricmc:fabric-loader:latest.release'
 
 	// See `dependencies.gradle`
+	ext.fabricApi = fabricApi
 	apply from: 'dependencies.gradle', to: dependencies
+	ext.fabricApi = null
 }
 
 java {

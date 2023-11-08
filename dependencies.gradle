@@ -17,7 +17,11 @@ runtimeOnly include('org.aperlambda:lambdajcommon:1.8.0') {
 // modEnhancedblockentitiesImplementation 'maven.modrinth:ebe:0.4'
 
 // Fabric API
-modImplementation 'net.fabricmc.fabric-api:fabric-api:0.28.5+1.15'
+// modImplementation 'net.fabricmc.fabric-api:fabric-api:0.5.7+build.2-20w14infinite'
+modImplementation include(fabricApi.module('fabric-api-base', '0.5.7+build.2-20w14infinite'))
+modImplementation include(fabricApi.module('fabric-events-lifecycle-v0', '0.5.7+build.2-20w14infinite'))
+modImplementation include(fabricApi.module('fabric-keybindings-v0', '0.5.7+build.2-20w14infinite'))
+modImplementation include(fabricApi.module('fabric-resource-loader-v0', '0.5.7+build.2-20w14infinite'))
 
 // Fabric Loader
 // modEnhancedblockentitiesRuntimeOnly 'net.fabricmc:fabric-loader:latest.release'
@@ -29,9 +33,8 @@ modImplementation 'net.fabricmc.fabric-api:fabric-api:0.28.5+1.15'
 modImplementation 'com.terraformersmc:modmenu:1.10.7'
 
 // Sodium
-modCompileOnly 'mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10:mc1.15.2-0.1.1-SNAPSHOT+2020-12-10@jar'
-modSodiumImplementation 'mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10:mc1.15.2-0.1.1-SNAPSHOT+2020-12-10@jar'
-//https://github.com/mrmangohands/sodium-fabric/releases/download/mc1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10/sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10.jar
-//https://github.com/mrmangohands/sodium-fabric/releases/download/mc1.15.2                -0.1.1-SNAPSHOT%2B2020-12-10/sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10.jar
+modCompileOnly 'mrmangohands.sodium-fabric:sodium-20w14infinite-backport-fabric-0.1.1-SNAPSHOT+2020-12-10:mc20w14infinite-0.1.1-SNAPSHOT+2020-12-10@jar'
+modSodiumImplementation 'mrmangohands.sodium-fabric:sodium-20w14infinite-backport-fabric-0.1.1-SNAPSHOT+2020-12-10:mc20w14infinite-0.1.1-SNAPSHOT+2020-12-10@jar'
+
 // SpruceUI
-modImplementation include('LambdAurora.SpruceUI:spruceui:1.3.4')
+// modImplementation include('LambdAurora.SpruceUI:spruceui-1.5.2-fabric1.16:1.5.2')

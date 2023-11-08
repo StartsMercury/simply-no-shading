@@ -5,9 +5,9 @@ import static com.github.startsmercury.simply.no.shading.client.SimplyNoShading.
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 
-import me.lambdaurora.spruceui.SpruceButtonWidget;
-import me.lambdaurora.spruceui.option.SpruceBooleanOption;
+import net.minecraft.client.BooleanOption;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -109,9 +109,9 @@ public class ConfigScreen extends Screen {
 	protected void init() {
 		super.init();
 
-		final SpruceBooleanOption blockShadingEnabledOption;
-		final SpruceBooleanOption cloudShadingEnabledOption;
-		final SpruceButtonWidget doneButton;
+		final BooleanOption blockShadingEnabledOption;
+		final BooleanOption cloudShadingEnabledOption;
+		final Button doneButton;
 
 		this.optionsWidget = new OptionsList(this.minecraft,
 		        this.width,
@@ -119,22 +119,20 @@ public class ConfigScreen extends Screen {
 		        TITLE_PANEL_HEIGHT,
 		        this.height - TITLE_PANEL_HEIGHT - BUTTON_PANEL_HEIGHT,
 		        25);
-		blockShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.blockShadingEnabled",
-		        this.configBuilder::isBlockShadingEnabled,
-		        this.configBuilder::setBlockShadingEnabled,
-		        new TranslatableComponent("simply-no-shading.config.option.blockShadingEnabled.tooltip"));
-		cloudShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
-		        this.configBuilder::isCloudShadingEnabled,
-		        this.configBuilder::setCloudShadingEnabled,
-		        new TranslatableComponent("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
+		blockShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.blockShadingEnabled",
+		        options -> this.configBuilder.isBlockShadingEnabled(),
+		        (options, enabled) -> this.configBuilder.setBlockShadingEnabled(enabled));
+		cloudShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
+		        options -> this.configBuilder.isCloudShadingEnabled(),
+		        (options, enabled) -> this.configBuilder.setCloudShadingEnabled(enabled));
 		{
 			final int buttonWidth = 200;
 			final int buttonHeight = 20;
-			doneButton = new SpruceButtonWidget((this.width - buttonWidth) / 2,
+			doneButton = new Button((this.width - buttonWidth) / 2,
 			        this.height - buttonHeight - 7,
 			        buttonWidth,
 			        buttonHeight,
-			        I18n.get("gui.done", new Object[0]),
+			        I18n.get("gui.done"),
 			        button -> onClose());
 		}
 

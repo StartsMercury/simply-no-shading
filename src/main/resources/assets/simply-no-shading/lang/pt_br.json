@@ -5,8 +5,8 @@
 	"simply-no-shading.config.option.cloudShadingEnabled": "Sombreamento da Nuvem",
 	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controla o Sombreamento da Nuvem",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-	"simply-no-shading.key.openConfigScreen": "Abrir tela de config.",
-	"simply-no-shading.key.reloadConfig": "Recarregar config.",
-	"simply-no-shading.key.toggleBlockShading": "Alternar Sombreamento do Bloco",
-	"simply-no-shading.key.toggleCloudShading": "Alternar Sombreamento da Nuvem"
+	"key.simply-no-shading.open_config_screen": "Abrir tela de config.",
+	"key.simply-no-shading.reload_config": "Recarregar config.",
+	"key.simply-no-shading.toggle_block_shading": "Alternar Sombreamento do Bloco",
+	"key.simply-no-shading.toggle_cloud_shading": "Alternar Sombreamento da Nuvem"
 }

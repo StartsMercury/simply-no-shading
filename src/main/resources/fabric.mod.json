@@ -42,13 +42,16 @@
 	],
 
 	"depends": {
-		"fabric": "*",
+		"fabric-api-base": "*",
+		"fabric-events-lifecycle-v0": "*",
+		"fabric-keybindings-v0": "*",
+		"fabric-resource-loader-v0": "*",
 		"fabricloader": "*",
 		"java": ">=${javaVersion}",
-		"minecraft": "*",
-		"spruceui": "*"
+		"minecraft": "*"
 	},
 	"recommends": {
+		"fabric": "*",
 		"java": "${javaVersion}",
 		"minecraft": "${gameVersion}",
 		"modmenu": "*"
