@@ -144,7 +144,7 @@ public class ConfigScreen extends Screen {
 		}
 
 		this.optionsWidget.addSmall(blockShadingEnabledOption, cloudShadingEnabledOption);
-		this.optionsWidget.addBig(entityShadingEnabledOption);)
+		this.optionsWidget.addBig(entityShadingEnabledOption);
 
 		this.children.add(this.optionsWidget);
 		addButton(doneButton);
