@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "${modId}",
+	"id": "simply-no-shading",
 	"version": "${version}",
 
 	"name": "Simply No Shading",
