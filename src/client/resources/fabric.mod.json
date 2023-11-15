@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "${modId}",
+	"id": "simply-no-shading",
 	"version": "${version}",
 
 	"name": "Simply No Shading",
@@ -50,7 +50,7 @@
 	},
 	"recommends": {
 		"java": "${javaVersion}",
-		"minecraft": "${gameSemverVersion}",
+		"minecraft": "${gameVersion}",
 		"modmenu": "*"
 	},
 	"suggests": {
