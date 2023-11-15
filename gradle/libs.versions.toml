@@ -1,0 +1,30 @@
+[versions]
+# arrp = "0.5.5" # see build.gradle.kts
+arrp = "0.6.7" # "workaround"
+bedrockify = "1.4.1+mc1.18.2"
+cloth-config = "6.2.57"
+enhancedblockentities = "0.7.1+1.18.2"
+fabric-api = "0.77.0+1.18.2"
+fabric-loader = "latest.release"
+indium = "1.0.7+mc1.18.2"
+java = "17"
+minecraft = "1.18.2"
+modmenu = "3.2.5"
+sodium = "mc1.18.2-0.4.1"
+spruceui = "3.3.3+1.18"
+
+[libraries]
+arrp = { module = "net.devtech:arrp", version.ref = "arrp" }
+bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
+cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
+enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+indium = { module = "maven.modrinth:indium", version.ref = "indium" }
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
+
+[plugins]
+fabric-loom = "fabric-loom:1.4.4"
