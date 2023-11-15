@@ -126,7 +126,7 @@ public class ConfigScreen extends Screen {
 		cloudShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
 		        options -> this.configBuilder.isCloudShadingEnabled(),
 		        (options, enabled) -> this.configBuilder.setCloudShadingEnabled(enabled));
-		cloudShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.entityShadingEnabled",
+		entityShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.entityShadingEnabled",
 		        options -> this.configBuilder.isEntityShadingEnabled(),
 		        (options, enabled) -> this.configBuilder.setEntityShadingEnabled(enabled));
 		{
@@ -141,7 +141,7 @@ public class ConfigScreen extends Screen {
 		}
 
 		this.optionsWidget.addSmall(blockShadingEnabledOption, cloudShadingEnabledOption);
-		this.optionsWidget.addBig(entityShadingEnabledOption);)
+		this.optionsWidget.addBig(entityShadingEnabledOption);
 
 		this.children.add(this.optionsWidget);
 		addButton(doneButton);
