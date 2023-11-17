@@ -18,7 +18,6 @@ plugins {
 fun requiredStringProperty(key: String): String = project.property(key)!!.toString()
 
 val baseVersion = requiredStringProperty("baseVersion")
-val gameVersion = requiredStringProperty("gameVersion")
 
 project.group = "com.github.startsmercury"
 base.archivesName.set("simply-no-shading")
@@ -247,7 +246,7 @@ tasks.named<Javadoc>("javadoc") {
 
 tasks.withType<ProcessResources> {
     val data = mapOf(
-        "gameVersion" to gameVersion,
+        "gameVersion" to libs.versions.fabric.minecraft.get(),
         "javaVersion" to libs.versions.java.get(),
         "version" to version,
     )

@@ -1,6 +1,7 @@
 [versions]
 fabric-api = "0.28.5+1.15"
 fabric-loader = "latest.release"
+fabric-minecraft = "1.15.2"
 java = "8"
 lambdacommon = "1.8.0"
 minecraft = "1.15.2"
