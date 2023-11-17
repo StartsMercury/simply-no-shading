@@ -1,6 +1,7 @@
 [versions]
 fabric-api = "0.5.7+build.2-20w14infinite"
 fabric-loader = "latest.release"
+fabric-minecraft = "1.16-alpha.20.13.inf"
 java = "8"
 minecraft = "20w14infinite"
 modmenu = "1.10.7"
