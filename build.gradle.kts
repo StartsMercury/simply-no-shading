@@ -21,7 +21,7 @@ val baseVersion = requiredStringProperty("baseVersion")
 
 project.group = "com.github.startsmercury"
 base.archivesName.set("simply-no-shading")
-if (project.version == DEFAULT_VERSION) project.version = "$baseVersion+${libs.versions.minecraft.get()}"
+if (project.version == DEFAULT_VERSION) project.version = "$baseVersion-mc${libs.versions.minecraft.get()}"
 
 /******************************************************************************/
 /* ADDITIONAL REPOSITORIES (see settings.gradle)                              */
