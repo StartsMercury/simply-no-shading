@@ -23,7 +23,7 @@ jobs:
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: -Pversion=${{ env.short_sha }} build --stacktrace
+          arguments: -Pversion=${{ env.short_sha }}-alpha.pr.${{ github.event.number }} build --stacktrace
       - name: Capture build artifacts
         uses: actions/upload-artifact@v3
         with:
