@@ -277,6 +277,7 @@ tasks.withType<ProcessResources> {
     val data = mapOf(
         "gameVersion" to libs.versions.fabric.minecraft.get(),
         "javaVersion" to libs.versions.java.get(),
+        "minecraftVersion" to libs.versions.minecraft.get(),
         "version" to version,
     )
 
