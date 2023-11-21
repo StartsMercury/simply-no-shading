@@ -31,3 +31,4 @@ jobs:
           modrinth-id: 9gx5Xvc5
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          game-version-filter: any
