@@ -1,5 +1,8 @@
 name: Build
-on: [ push ]
+on:
+  push:
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -17,10 +20,13 @@ jobs:
           cache: gradle
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: Shorten SHA
+        shell: bash
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: build --stacktrace
+          arguments: -Pversion=${{ env.short_sha }}-alpha build --stacktrace
       - name: Capture build artifacts
         uses: actions/upload-artifact@v3
         with:

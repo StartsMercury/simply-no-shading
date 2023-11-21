@@ -1,6 +1,7 @@
 name: Publish
 on:
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -18,13 +19,15 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Build
-        run: ./gradlew build modrinth github --stacktrace
-        env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-      - name: Capture build artifacts
-        uses: actions/upload-artifact@v3
+        run: ./gradlew clean -Pversion=${{ github.ref_name }} build --stacktrace
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: Artifacts
-          path: build/libs/
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/libs/*
+          file_glob: true
+      - uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: 9gx5Xvc5
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
