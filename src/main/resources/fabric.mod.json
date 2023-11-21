@@ -55,6 +55,7 @@
 	},
 	"suggests": {
 		"enhancedblockentities": "*",
+		"minecraft": "${minecraftVersion}",
 		"sodium": "*"
 	}
 }
