@@ -4,6 +4,8 @@
 
 Simply No Shading is a [Fabric]-based [modification] (<abbr>mod</abbr>) for the [Minecraft] [client]. This mod removes the darkening on sides or faces (also known as [shading]) to in-game objects such as blocks, clouds, and (block) entities (experimental) as illustrated below: TODO
 
+Disabling shading results in a brighter environment, especially to blocks. Similar results for blocks can be achieved using [OptiFine], though **not** recommended for underpowered hardware, and by turning `Options > Video Settings > Shaders... > (internal) > Old Lighting` to `ON`. A similar simple mod [Flat Lighting] achieves similar results for blocks and supports Sodium as of version [`1.2.0`].
+
 ## Compatibility
 
 Simply No Shading provides active compatibility for [BedrockIfy] and [Sodium]. Some mods that provide or replace stuff may work such as [Enhanced Block Entities] (<abbr>EBE</abbr>), where block entities acts like blocks and are affected as such when toggling shading.
@@ -40,15 +42,19 @@ Simply No Shading stores its configuration as a formatted <abbr title="JavaScrip
 [`1.20.1`]: https://minecraft.wiki/w/Java_Edition_1.20.1
 [`1.20.2`]: https://minecraft.wiki/w/Java_Edition_1.20.2
 [`1.20.3`]: https://minecraft.wiki/w/Java_Edition_1.20.3
+
+[`1.2.0`]: https://modrinth.com/mod/flat-lighting/version/1.2.0
 [advancement]: https://minecraft.wiki/w/Advancement
 [BedrockIfy]: https://modrinth.com/mod/bedrockify
 [client]: https://minecraft.wiki/w/Mods#Client-based
 [Enhanced Block Entities]: https://modrinth.com/mod/ebe
 [Fabric]: https://fabricmc.net
+[Flat Lighting]: https://modrinth.com/mod/flat-lighting
 [Iris]: https://modrinth.com/mod/iris
 [JSON]: https://en.m.wikipedia.org/wiki/JSON
 [Minecraft]: https://minecraft.net
 [modification]: https://minecraft.wiki/w/Mods
 [Mod Menu]: https://modrinth.com/mod/modmenu
+[OptiFine]: https://optifine.net
 [shading]: https://en.m.wikipedia.org/wiki/Shading
 [Sodium]: https://modrinth.com/mod/sodium
