@@ -12,7 +12,7 @@ Simply No Shading provides active compatibility for [BedrockIfy] and [Sodium]. S
 
 Some mods that replace rendering are most likely incompatible; exceptions are ones that have active support for such as Sodium, for example. One example incompatibility are shaders, usually applied using [Iris].
 
-Simply No Shading recently added active support for the latest minor updates to major releases along with the some April Fool's snapshots. Following are all those versions: [`1.14.4`], [`1.15.2`], [`20w14infinite`], [`1.16.5`], [`1.17.1`], [`1.18.2`], [`22w13oneblockatatime`], [`1.19.4`], [`23w13a_or_b`], [`1.20`], [`1.20.1`], [`1.20.2`], and [`1.20.3`]. All minor releases for the latest major version is supported while (most) snapshots loses support when superseded by more recent updates.
+Simply No Shading recently added active support for the latest minor updates to major releases along with the some April Fool's snapshots. Following are all those versions: [`1.14.4`], [`1.15.2`], [`20w14infinite`], [`1.16.5`], [`1.17.1`], [`1.18.2`], [`22w13oneblockatatime`], [`1.19.4`], [`23w13a_or_b`], [`1.20`], [`1.20.1`], [`1.20.2`], and [`1.20.3`]. All minor releases for the latest major version is supported. Latest snapshot versions also get temporary support before the next major release.
 
 ## Features
 
