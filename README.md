@@ -17,9 +17,9 @@ Simply No Shading recently added active support for the latest minor updates to 
 ## Features
 
 Simply No Shading supports the following categories for toggling shading:
- - Blocks &emdash; this includes blocks, liquids, and <abbr title="Enhanced Block Entities">EBE</abbr>'s block entities
- - Clouds &emdash; this includes clouds
- - Entities (experimental) &emdash; this includes block entities, entities, and blocks, block entities, entities, and items in toasts (pop-ups; e.g. completing an [advancement]) and inventories and or Graphical User Interfaces (<abbr>GUI</abbr>s)
+ - Blocks &mdash; this includes blocks, liquids, and <abbr title="Enhanced Block Entities">EBE</abbr>'s block entities
+ - Clouds &mdash; this includes clouds
+ - Entities (experimental) &mdash; this includes block entities, entities, and blocks, block entities, entities, and items in toasts (pop-ups; e.g. completing an [advancement]) and inventories and or Graphical User Interfaces (<abbr>GUI</abbr>s)
 
 ## Configuration
 
@@ -28,6 +28,36 @@ Simply No Shading has a configuration screen and it's accessible through:
  - [Mod Menu]. `Mods > Simply No Shading > Configure...`
 
 Simply No Shading stores its configuration as a formatted <abbr title="JavaScript Object Notation">[JSON]</abbr> file at `<your minecraft folder>/config/simply-no-shading.json`.
+
+## Source
+
+Simply No Shading's sources, except the mod icon, is available under [MIT License].
+
+Simply No Shading uses [Gradle] along with the [Fabric Loom] [plugin] as tools in developing and building the mod jar. The gradle build scripts are written in [Kotlin], the mod sources and mixins in [Java], and the [core shaders] contained in the included [resource pack] in [GLSL].
+
+Simply No Shading requires Java 17+ for loom to work. Gradle should be able to automatically get the right version of java that's used for compiling this mod.
+
+### Building
+
+Simply No Shading uses the Gradle build tool along with the Fabric Loom plugin. Loom applies the [Java Library plugin], meaning this mod can be built as if it was a regular java library. Here are some commands:
+ - `./gradlew jar` - creates the mod jar and is exact jar to be placed in the `mods` folder
+ - `./gradlew sourcesJar` - creates the mod sources jar and is useful when reading the soucre code
+ - `./gradlew javadocJar` - creates the mod javadoc jar and is useful when reading the usage of certain code
+ - `./gradlew build` - builds all three of the aforementioned jars
+
+Loom also provides a way to test the mod in a live Minecraft client for the development environment by running `./gradlew runClient`.
+
+### The Build Script
+
+There are four files that are related to the build script:
+ - [`gradle/libs.versions.toml`] - handles dependency version and coordinate informatiln
+ - [`build.gradle.kts`] - handles plug-ins, task configurations, and dependency resolution and repositories
+ - [`gradle.properties`] - only contains the mod's base version and essential properties
+ - [`settings.gradle.kts`] - handles plug-in repositories
+
+### Mixins
+
+[SpongePowered Mixins] inject, transform, or overwrite pre-existing java code such Minecraft's code; modifying, adding, or disabling functionality. 
 
 [`1.14.4`]: https://minecraft.wiki/w/Java_Edition_1.14.4
 [`1.15.2`]: https://minecraft.wiki/w/Java_Edition_1.15.2
@@ -43,18 +73,34 @@ Simply No Shading stores its configuration as a formatted <abbr title="JavaScrip
 [`1.20.2`]: https://minecraft.wiki/w/Java_Edition_1.20.2
 [`1.20.3`]: https://minecraft.wiki/w/Java_Edition_1.20.3
 
+[`gradle/libs.versions.toml`]: /gradle/libs.versions.toml
+[`build.gradle.kts`]: /build.gradle.kts
+[`gradle.properties`]: /gradle.properties
+[`settings.gradle.kts`]: /settings.gradle.kts
+
 [`1.2.0`]: https://modrinth.com/mod/flat-lighting/version/1.2.0
 [advancement]: https://minecraft.wiki/w/Advancement
 [BedrockIfy]: https://modrinth.com/mod/bedrockify
 [client]: https://minecraft.wiki/w/Mods#Client-based
+[core shaders]: https://minecraft.wiki/w/Shaders
 [Enhanced Block Entities]: https://modrinth.com/mod/ebe
 [Fabric]: https://fabricmc.net
+[Fabric Loom]: https://github.com/FabricMC/fabric-loom
 [Flat Lighting]: https://modrinth.com/mod/flat-lighting
+[GLSL]: https://www.khronos.org/opengl/wiki/OpenGL_Shading_Language
+[Gradle]: https://gradle.com
 [Iris]: https://modrinth.com/mod/iris
+[Java]: https://en.m.wikipedia.org/wiki/Java_(programming_language)
+[Java Library plugin]: https://docs.gradle.org/current/userguide/java_library_plugin.html
 [JSON]: https://en.m.wikipedia.org/wiki/JSON
+[Kotlin]: https://kotlinlang.org/
 [Minecraft]: https://minecraft.net
+[MIT License]: /LICENSE
 [modification]: https://minecraft.wiki/w/Mods
 [Mod Menu]: https://modrinth.com/mod/modmenu
 [OptiFine]: https://optifine.net
+[plugin]: https://docs.gradle.org/current/userguide/plugins.html
+[resource pack]: https://minecraft.wiki/w/Resource_Packs
 [shading]: https://en.m.wikipedia.org/wiki/Shading
 [Sodium]: https://modrinth.com/mod/sodium
+[SpongePowered Mixins]: https://github.com/SpongePowered/Mixin/wiki
