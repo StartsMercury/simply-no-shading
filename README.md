@@ -52,7 +52,7 @@
 
 &emsp;&emsp;Simply No Shading is available on [JitPack], [GitHub Releases], and [Modrinth] especially the published releases. JitPack supports depending on specific commits and even pull requests. Releases that were exclusive for github were mostly alpha testing, especially ones for testing automated publishing. Modrinth is the preferred platform for downloading mod jars used in-game.
 
-&emsp;&emsp;Simply No Shading follows [semantic versioning] and usually in the format `<major>.<minor>.<patch>-mc<minecraft>` for releases; `-alpha` and `-beta` are inserted after the patch version number with additional information separated with periods (`.`) for alpha and beta releases respectively. Non-releases, usually local builds, 
+&emsp;&emsp;Simply No Shading follows [semantic versioning] and usually in the format `<major>.<minor>.<patch>-mc<minecraft>` for releases; `-alpha` and `-beta` are inserted after the patch version number with additional information separated with periods (`.`) for alpha and beta releases respectively. Plus (`+`) shouldn't be used in the versioning due JitPack seemingly being incompatible with them. Non-releases, usually local builds, use their commit hash and thus won't follow semantic versioning.
 
 ```gradle
 repositories {
