@@ -1,6 +1,5 @@
-<div align=center>
-   <h1>Simply No Shading</h1>
-</div>
+<h1 align=center>Simply No Shading</h1>
+<div align=justify>
 
 Simply No Shading is a [Fabric]-based [modification] (<abbr>mod</abbr>) for the [Minecraft] [client]. This mod removes the darkening on sides or faces (also known as [shading]) to in-game objects such as blocks, clouds, and (block) entities (experimental) as illustrated below: TODO
 
