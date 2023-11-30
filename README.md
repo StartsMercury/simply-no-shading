@@ -33,20 +33,20 @@
 ### Building
 
 &emsp;&emsp;Simply No Shading uses the Gradle build tool along with the Fabric Loom plugin. Loom applies the [Java Library plugin], meaning this mod can be built as if it was a regular java library. Here are some commands:
- - `./gradlew jar` - creates the mod jar and is exact jar to be placed in the `mods` folder
- - `./gradlew sourcesJar` - creates the mod sources jar and is useful when reading the soucre code
- - `./gradlew javadocJar` - creates the mod javadoc jar and is useful when reading the usage of certain code
- - `./gradlew build` - builds all three of the aforementioned jars
+ - `./gradlew jar` &mdash; creates the mod jar and is exact jar to be placed in the `mods` folder
+ - `./gradlew sourcesJar` &mdash; creates the mod sources jar and is useful when reading the soucre code
+ - `./gradlew javadocJar` &mdash; creates the mod javadoc jar and is useful when reading the usage of certain code
+ - `./gradlew build` &mdash; builds all three of the aforementioned jars
 
 &emsp;&emsp;Loom also provides a way to test the mod in a live Minecraft client for the development environment by running `./gradlew runClient`.
 
 ### The Build Script
 
 &emsp;&emsp;There are four files that are related to the build script:
- - [`gradle/libs.versions.toml`] - handles dependency version and coordinate informatiln
- - [`build.gradle.kts`] - handles plug-ins, task configurations, and dependency resolution and repositories
- - [`gradle.properties`] - only contains the mod's base version and essential properties
- - [`settings.gradle.kts`] - handles plug-in repositories
+ - [`gradle/libs.versions.toml`] &mdash; handles dependency version and coordinate informatiln
+ - [`build.gradle.kts`] &mdash; handles plug-ins, task configurations, and dependency resolution and repositories
+ - [`gradle.properties`] &mdash; only contains the mod's base version and essential properties
+ - [`settings.gradle.kts`] &mdash; handles plug-in repositories
 
 ### Mixins
 
