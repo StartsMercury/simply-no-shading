@@ -48,6 +48,32 @@
  - [`gradle.properties`] &mdash; only contains the mod's base version and essential properties
  - [`settings.gradle.kts`] &mdash; handles plug-in repositories
 
+### Publishing
+
+&emsp;&emsp;Simply No Shading is available on [JitPack], [GitHub Releases], and [Modrinth] especially the published releases. JitPack supports depending on specific commits and even pull requests. Releases that were exclusive for github were mostly alpha testing, especially ones for testing automated publishing. Modrinth is the preferred platform for downloading mod jars used in-game.
+
+&emsp;&emsp;Simply No Shading follows [semantic versioning] and usually in the format `<major>.<minor>.<patch>-mc<minecraft>` for releases; `-alpha` and `-beta` are inserted after the patch version number with additional information separated with periods (`.`) for alpha and beta releases respectively. Non-releases, usually local builds, 
+
+```gradle
+repositories {
+    maven { url = uri("https://jitpack.io") }
+}
+
+dependencies {
+    modImplementation("com.github.StartsMercury:simply-no-shading:<version>")
+}
+```
+
+```gradle
+repositories {
+    maven { url = uri("https://api.modrinth.com/maven") }
+}
+
+dependencies {
+    modImplementation("maven.modrinth:simply-no-shading:<version>")
+}
+```
+
 ### Mixins
 
 &emsp;&emsp;[SpongePowered Mixins] inject, transform, or overwrite pre-existing java code such as Minecraft's code; modifying, adding, or disabling functionality. 
@@ -82,18 +108,22 @@
 [Flat Lighting]: https://modrinth.com/mod/flat-lighting
 [GLSL]: https://www.khronos.org/opengl/wiki/OpenGL_Shading_Language
 [Gradle]: https://gradle.com
+[GitHub Releases]: https://github.com/StartsMercury/simply-no-shading/releases
 [Iris]: https://modrinth.com/mod/iris
 [Java]: https://en.m.wikipedia.org/wiki/Java_(programming_language)
 [Java Library plugin]: https://docs.gradle.org/current/userguide/java_library_plugin.html
+[JitPack]: https://jitpack.io/#StartsMercury/simply-no-shading
 [JSON]: https://en.m.wikipedia.org/wiki/JSON
 [Kotlin]: https://kotlinlang.org/
 [Minecraft]: https://minecraft.net
 [MIT License]: /LICENSE
 [modification]: https://minecraft.wiki/w/Mods
 [Mod Menu]: https://modrinth.com/mod/modmenu
+[Modrinth]: https://modrinth.com/mod/simply-no-shading/versions
 [OptiFine]: https://optifine.net
 [plugin]: https://docs.gradle.org/current/userguide/plugins.html
 [resource pack]: https://minecraft.wiki/w/Resource_Packs
 [shading]: https://en.m.wikipedia.org/wiki/Shading
+[semantic versioning]: https://semver.org
 [Sodium]: https://modrinth.com/mod/sodium
 [SpongePowered Mixins]: https://github.com/SpongePowered/Mixin/wiki
