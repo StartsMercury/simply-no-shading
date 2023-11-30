@@ -57,7 +57,7 @@ There are four files that are related to the build script:
 
 ### Mixins
 
-[SpongePowered Mixins] inject, transform, or overwrite pre-existing java code such Minecraft's code; modifying, adding, or disabling functionality. 
+[SpongePowered Mixins] inject, transform, or overwrite pre-existing java code such as Minecraft's code; modifying, adding, or disabling functionality. 
 
 [`1.14.4`]: https://minecraft.wiki/w/Java_Edition_1.14.4
 [`1.15.2`]: https://minecraft.wiki/w/Java_Edition_1.15.2
