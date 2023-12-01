@@ -55,15 +55,6 @@ repositories {
         }
     }
 
-    maven {
-        name = "Ueaj Maven"
-        url = uri("https://ueaj.dev/maven")
-        content {
-            // arrp
-            includeGroup("net.devtech")
-        }
-    }
-
     // JitPack dependencies
     maven {
         name = "JitPack"
