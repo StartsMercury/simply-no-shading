@@ -14,7 +14,7 @@ sodium = "mc1.20.1-0.5.3"
 spruceui = "5.0.2+1.20"
 
 [libraries]
-arrp = { module = "net.devtech:arrp", version.ref = "arrp" }
+arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
 cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
 enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
