@@ -72,6 +72,20 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
+
+    // mod dependencies that aren't on modrinth or have corrupt version numbers
+    ivy {
+        name = "GitHub Releases"
+        url = uri("https://github.com")
+        patternLayout {
+            artifact("[organization]/releases/download/[revision]/[module](-[classifier]).[ext]")
+            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classsifier]).[ext]")
+            setM2compatible(true)
+        }
+        metadataSources {
+            artifact()
+        }
+    }
 }
 
 /******************************************************************************/
