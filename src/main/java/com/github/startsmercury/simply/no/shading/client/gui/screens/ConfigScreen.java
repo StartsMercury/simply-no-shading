@@ -111,6 +111,7 @@ public class ConfigScreen extends Screen {
 
 		final BooleanOption blockShadingEnabledOption;
 		final BooleanOption cloudShadingEnabledOption;
+		final BooleanOption entityShadingEnabledOption;
 		final Button doneButton;
 
 		this.optionsWidget = new OptionsList(this.minecraft,
@@ -125,6 +126,9 @@ public class ConfigScreen extends Screen {
 		cloudShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.cloudShadingEnabled",
 		        options -> this.configBuilder.isCloudShadingEnabled(),
 		        (options, enabled) -> this.configBuilder.setCloudShadingEnabled(enabled));
+		cloudShadingEnabledOption = new BooleanOption("simply-no-shading.config.option.entityShadingEnabled",
+		        options -> this.configBuilder.isEntityShadingEnabled(),
+		        (options, enabled) -> this.configBuilder.setEntityShadingEnabled(enabled));
 		{
 			final int buttonWidth = 200;
 			final int buttonHeight = 20;
@@ -137,6 +141,7 @@ public class ConfigScreen extends Screen {
 		}
 
 		this.optionsWidget.addSmall(blockShadingEnabledOption, cloudShadingEnabledOption);
+		this.optionsWidget.addBig(entityShadingEnabledOption);)
 
 		this.children.add(this.optionsWidget);
 		addButton(doneButton);

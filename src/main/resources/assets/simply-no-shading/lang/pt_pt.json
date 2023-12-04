@@ -4,6 +4,8 @@
 	"simply-no-shading.config.option.blockShadingEnabled.tooltip": "Controla o Sombreado do bloco, excluindo entidades de bloco",
 	"simply-no-shading.config.option.cloudShadingEnabled": "Sombreado da Nuvem",
 	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controla o Sombreado da Nuvem",
+	"simply-no-shading.config.option.entityShadingEnabled": "Experimental Entity Shading",
+	"simply-no-shading.config.option.entityShadingEnabled.tooltip": "Controls entity shading (experimental)",
 	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
 	"key.simply-no-shading.open_config_screen": "Abrir tela de Ajuste",
 	"key.simply-no-shading.reload_config": "Recarregar Ajustes",
