@@ -107,6 +107,31 @@ loom {
     splitEnvironmentSourceSets()
 }
 
+fun createCompatTestRemapConfigurations(name: String, sourceSet: SourceSet) {
+    if (project.findProperty("debug.disableCompatTests") === null) {
+        loom.createRemapConfigurations(sourceSet)
+        return
+    }
+
+    fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
+
+    for (configurationName in listOf(
+        "mod${name.capitalize()}CompatTestClientCompileOnly",
+        "mod${name.capitalize()}CompatTestClientImplementation",
+        "mod${name.capitalize()}CompatTestClientRuntimeOnly",
+        "mod${name.capitalize()}CompatTestCompileOnly",
+        "mod${name.capitalize()}CompatTestImplementation",
+        "mod${name.capitalize()}CompatTestRuntimeOnly",
+        "modCompileClasspath${name.capitalize()}CompatTestClientMapped",
+        "modCompileClasspath${name.capitalize()}CompatTestMapped",
+        "modRuntimeClasspath${name.capitalize()}CompatTestClientMapped",
+        "modRuntimeClasspath${name.capitalize()}CompatTestMapped",
+    )) {
+        configurations.create(configurationName)
+    }
+
+}
+
 /**
  * Creates similarly named source sets, remap configurations, and run tasks for
  * testing mod compatibility.
@@ -115,7 +140,9 @@ loom {
  * @param fosters the fosters to inherit from
  */
 fun createCompatTest(name: String, vararg fosters: String) {
-    val compatTest = sourceSets.create("${name}CompatTest", loom::createRemapConfigurations)
+    val compatTest = sourceSets.create("${name}CompatTest") {
+        createCompatTestRemapConfigurations(name, this)
+    }
 
     sourceSets.main {
         compatTest.compileClasspath += this.compileClasspath
@@ -130,9 +157,11 @@ fun createCompatTest(name: String, vararg fosters: String) {
     }
 
     val compatTestClient = sourceSets.create("${name}CompatTestClient") {
+        if (project.findProperty("debug.disableCompatTests") !== null)
+            return@create
         net.fabricmc.loom.configuration.RemapConfigurations.configureClientConfigurations(
             project,
-            this
+            this,
         );
     }
 
