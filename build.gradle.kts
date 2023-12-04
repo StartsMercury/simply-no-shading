@@ -109,13 +109,12 @@ loom {
 
 fun createCompatTestRemapConfigurations(name: String, sourceSet: SourceSet) {
     if (project.findProperty("debug.disableCompatTests") === null) {
-        println("Compat test configuration remapping is disabled")
         loom.createRemapConfigurations(sourceSet)
         return
     }
 
     fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
-
+    println("Compat test configuration remapping is disabled")
     for (configurationName in listOf(
         "mod${name.capitalize()}CompatTestClientCompileOnly",
         "mod${name.capitalize()}CompatTestClientImplementation",
