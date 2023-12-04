@@ -8,7 +8,8 @@
 		"shading.block.minecraft.BakedQuadMixin",
 		"shading.block.minecraft.ClientLevelMixin",
 		"shading.block.minecraft.LiquidBlockRendererMixin",
-		"shading.cloud.minecraft.LevelRendererMixin"
+		"shading.cloud.minecraft.LevelRendererMixin",
+		"shading.entity.minecraft.GlStateManagerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

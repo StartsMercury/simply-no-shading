@@ -117,6 +117,7 @@ public class ConfigScreen extends SpruceScreen {
 
 		final SpruceBooleanOption blockShadingEnabledOption;
 		final SpruceBooleanOption cloudShadingEnabledOption;
+		final SpruceBooleanOption entityShadingEnabledOption;
 		final SpruceButtonWidget doneButton;
 
 		this.optionsWidget = new SpruceOptionListWidget(Position.of(0, TITLE_PANEL_HEIGHT),
@@ -130,6 +131,10 @@ public class ConfigScreen extends SpruceScreen {
 		        this.configBuilder::isCloudShadingEnabled,
 		        this.configBuilder::setCloudShadingEnabled,
 		        new TranslatableComponent("simply-no-shading.config.option.cloudShadingEnabled.tooltip"));
+		entityShadingEnabledOption = new SpruceBooleanOption("simply-no-shading.config.option.entityShadingEnabled",
+		        this.configBuilder::isEntityShadingEnabled,
+		        this.configBuilder::setEntityShadingEnabled,
+		        new TranslatableComponent("simply-no-shading.config.option.entityShadingEnabled.tooltip"));
 		{
 			final int buttonWidth = 200;
 			final int buttonHeight = 20;
@@ -142,6 +147,7 @@ public class ConfigScreen extends SpruceScreen {
 		}
 
 		this.optionsWidget.addOptionEntry(blockShadingEnabledOption, cloudShadingEnabledOption);
+		this.optionsWidget.addSingleOptionEntry(entityShadingEnabledOption);
 		this.optionsWidget.setBackground(EMPTY_BACKGROUND);
 
 		addWidget(this.optionsWidget);
