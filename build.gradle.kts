@@ -109,6 +109,7 @@ loom {
 
 fun createCompatTestRemapConfigurations(name: String, sourceSet: SourceSet) {
     if (project.findProperty("debug.disableCompatTests") === null) {
+        println("Compat test configuration remapping is disabled")
         loom.createRemapConfigurations(sourceSet)
         return
     }
