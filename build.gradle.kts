@@ -234,6 +234,9 @@ dependencies {
     // Fabric Resource Loader (v0)
     modCompileOnly(fabricApi.module("fabric-resource-loader-v0"))
 
+    // Fabrishot
+    modRuntimeOnly(libs.fabrishot)
+
     // Indium
     "modIndiumClientAuto"(libs.indium)
 
