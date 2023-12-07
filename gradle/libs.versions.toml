@@ -10,7 +10,7 @@ indium = "1.0.27+mc1.20.1"
 java = "17"
 minecraft = "1.20.2"
 modmenu = "8.0.0"
-sodium = "mc1.20.2-0.5.3"
+sodium = "mc1.20.2-0.5.4"
 spruceui = "5.0.3+1.20.2"
 
 [libraries]
