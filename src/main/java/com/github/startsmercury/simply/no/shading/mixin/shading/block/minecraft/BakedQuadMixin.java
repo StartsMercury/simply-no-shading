@@ -84,12 +84,12 @@ public abstract class BakedQuadMixin {
 			this.vertices[0x03] = this.color0;
 			this.vertices[0x0B] = this.color1;
 			this.vertices[0x13] = this.color2;
-			this.vertices[0x0B] = this.color3;
+			this.vertices[0x1B] = this.color3;
 		} else {
 			this.vertices[0x03] = 0xFFFFFFFF;
 			this.vertices[0x0B] = 0xFFFFFFFF;
 			this.vertices[0x13] = 0xFFFFFFFF;
-			this.vertices[0x0B] = 0xFFFFFFFF;
+			this.vertices[0x1B] = 0xFFFFFFFF;
 		}
 	}
 
@@ -111,6 +111,6 @@ public abstract class BakedQuadMixin {
 		this.color0 = this.vertices[0x03];
 		this.color1 = this.vertices[0x0B];
 		this.color2 = this.vertices[0x13];
-		this.color3 = this.vertices[0x0B];
+		this.color3 = this.vertices[0x1B];
 	}
 }
