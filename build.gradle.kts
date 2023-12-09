@@ -64,12 +64,6 @@ java {
     withSourcesJar()
 }
 
-loom {
-    // runtimeOnlyLog4j = true
-
-    // splitEnvironmentSourceSets()
-}
-
 configurations.named("modRuntimeOnly") {
     exclude(mapOf("module" to "fabric-loader"))
 }
