@@ -106,6 +106,10 @@ java {
     withSourcesJar()
 }
 
+configurations.named("modRuntimeOnly") {
+    exclude(mapOf("module" to "fabric-loader"))
+}
+
 /**
  * Creates similarly named source sets, remap configurations, and run tasks for
  * testing mod compatibility.
@@ -139,6 +143,10 @@ fun createCompatTest(name: String, vararg fosters: String) {
     }
 
     fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
+
+    configurations.named("mod${name.capitalize()}CompatTestRuntimeOnly") {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
 
     val modAuto = configurations.create("mod${name.capitalize()}Auto")
 
