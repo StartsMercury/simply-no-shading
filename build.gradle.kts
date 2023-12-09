@@ -71,6 +71,10 @@ java {
     withSourcesJar()
 }
 
+configurations.named("modRuntimeOnly") {
+    exclude(mapOf("module" to "fabric-loader"))
+}
+
 /**
  * Creates similarly named source sets, remap configurations, and run tasks for
  * testing mod compatibility.
@@ -105,6 +109,10 @@ fun createCompatTest(name: String, vararg fosters: String) {
 
     fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
 
+    configurations.named("mod${name.capitalize()}CompatTestRuntimeOnly") {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
+
     val modAuto = configurations.create("mod${name.capitalize()}Auto")
 
     val modCompileOnly by configurations.getting {
@@ -131,9 +139,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
 
     // Fabric API
-    modRuntimeOnly(libs.fabric.api) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    modRuntimeOnly(libs.fabric.api)
 
     // Fabric API Base
     modCompileOnly(fabricApi.module("fabric-api-base"))
@@ -151,15 +157,11 @@ dependencies {
     minecraft(libs.minecraft)
 
     // ModMenu
-    "modImplementation"(libs.modmenu) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    "modImplementation"(libs.modmenu)
 
     // SpruceUI
     include(libs.spruceui)
-    "modImplementation"(libs.spruceui) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    "modImplementation"(libs.spruceui)
 }
 
 /******************************************************************************/
