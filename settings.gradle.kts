@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
         // prefer to retrieve fabric loom plugin from here
         maven {
-            name = "Fabric Maven"
+            name = "Fabric"
             url = uri("https://maven.fabricmc.net")
         }
 

@@ -29,51 +29,37 @@ if (project.version == DEFAULT_VERSION) project.version = "$baseVersion-mc${libs
 
 repositories {
     maven {
-        name = "Gegy Maven"
+        name = "Gegy"
         url = uri("https://maven.gegy.dev")
         content {
-            // spruce-ui
             includeGroup("dev.lambdaurora")
         }
     }
 
     maven {
-        name = "shedaniel's Maven"
+        name = "shedaniel's"
         url = uri("https://maven.shedaniel.me")
         content {
-            // cloth-config-fabric
             includeGroup("me.shedaniel.cloth")
         }
     }
 
     maven {
-        name = "Terraformers Maven"
+        name = "Terraformers"
         url = uri("https://maven.terraformersmc.com")
         content {
-            // modmenu
             includeGroup("com.terraformersmc")
         }
     }
 
-    // JitPack dependencies
     maven {
-        name = "JitPack"
-        url = uri("https://jitpack.io")
-        content {
-
-        }
-    }
-
-    // mod dependencies without dedicated repositories
-    maven {
-        name = "Modrinth Maven"
+        name = "Modrinth"
         url = uri("https://api.modrinth.com/maven")
         content {
             includeGroup("maven.modrinth")
         }
     }
 
-    // mod dependencies that aren't on modrinth or have corrupt version numbers
     ivy {
         name = "GitHub Releases"
         url = uri("https://github.com")
@@ -88,10 +74,9 @@ repositories {
     }
 
     maven {
-        name = "Devan Maven"
+        name = "Devan"
         url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master")
         content {
-            // arrp 0.4.2 or older
             includeGroup("net.devtech")
         }
     }
@@ -114,6 +99,10 @@ loom {
     runtimeOnlyLog4j = true
 
     // splitEnvironmentSourceSets()
+}
+
+configurations.named("modRuntimeOnly") {
+    exclude(mapOf("module" to "fabric-loader"))
 }
 
 /**
@@ -150,6 +139,10 @@ fun createCompatTest(name: String, vararg fosters: String) {
 
     fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
 
+    configurations.named("mod${name.capitalize()}CompatTestRuntimeOnly") {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
+
     val modAuto = configurations.create("mod${name.capitalize()}Auto")
 
     val modCompileOnly by configurations.getting {
@@ -171,9 +164,7 @@ dependencies {
         fabricApi.module(moduleName, libs.versions.fabric.api.get())
 
     // ARRP
-    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.arrp) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.arrp)
 
     // BedrockIfy
     "modBedrockifyAuto"(libs.bedrockify)
@@ -181,7 +172,6 @@ dependencies {
     // Cloth Config
     "modBedrockifyCompatTestRuntimeOnly"(libs.cloth.config) {
         exclude(mapOf("group" to "net.fabricmc.fabric-api"))
-        exclude(mapOf("module" to "fabric-loader"))
         exclude(mapOf("module" to "gson"))
     }
 
@@ -213,18 +203,14 @@ dependencies {
     minecraft(libs.minecraft)
 
     // ModMenu
-    "modImplementation"(libs.modmenu) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    "modImplementation"(libs.modmenu)
 
     // Sodium
     "modSodiumAuto"(libs.sodium)
 
     // SpruceUI
     include(libs.spruceui)
-    "modImplementation"(libs.spruceui) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
+    "modImplementation"(libs.spruceui)
 }
 
 /******************************************************************************/
