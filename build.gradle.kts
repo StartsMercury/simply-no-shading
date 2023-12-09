@@ -29,34 +29,7 @@ if (project.version == DEFAULT_VERSION) project.version = "$baseVersion-mc${libs
 
 repositories {
     maven {
-        name = "AperLambda Maven"
-        url = uri("https://aperlambda.github.io/maven")
-        content {
-            // lambdajcommon
-            includeGroup("org.aperlambda")
-        }
-    }
-
-    maven {
-        name = "Gegy Maven"
-        url = uri("https://maven.gegy.dev")
-        content {
-            // spruce-ui
-            includeGroup("dev.lambdaurora")
-        }
-    }
-
-    maven {
-        name = "shedaniel's Maven"
-        url = uri("https://maven.shedaniel.me")
-        content {
-            // cloth-config-fabric
-            includeGroup("me.shedaniel.cloth")
-        }
-    }
-
-    maven {
-        name = "Terraformers Maven"
+        name = "Terraformers"
         url = uri("https://maven.terraformersmc.com")
         content {
             // modmenu
@@ -64,25 +37,6 @@ repositories {
         }
     }
 
-    // JitPack dependencies
-    maven {
-        name = "JitPack"
-        url = uri("https://jitpack.io")
-        content {
-
-        }
-    }
-
-    // mod dependencies without dedicated repositories
-    maven {
-        name = "Modrinth Maven"
-        url = uri("https://api.modrinth.com/maven")
-        content {
-            includeGroup("maven.modrinth")
-        }
-    }
-
-    // mod dependencies that aren't on modrinth or have corrupt version numbers
     ivy {
         name = "GitHub Releases"
         url = uri("https://github.com")
@@ -93,15 +47,6 @@ repositories {
         }
         metadataSources {
             artifact()
-        }
-    }
-
-    maven {
-        name = "Devan Maven"
-        url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master")
-        content {
-            // arrp 0.4.2 or older
-            includeGroup("net.devtech")
         }
     }
 }
