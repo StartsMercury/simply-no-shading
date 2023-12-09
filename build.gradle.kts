@@ -106,12 +106,6 @@ java {
     withSourcesJar()
 }
 
-loom {
-    // runtimeOnlyLog4j = true
-
-    // splitEnvironmentSourceSets()
-}
-
 /**
  * Creates similarly named source sets, remap configurations, and run tasks for
  * testing mod compatibility.
