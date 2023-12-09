@@ -197,6 +197,9 @@ dependencies {
     // Indium
     "modIndiumAuto"(libs.indium)
 
+    // JOML
+    "modSodiumCompatTestRuntimeOnly"(libs.joml)
+
     // Minecraft (required)
     minecraft(libs.minecraft)
 
