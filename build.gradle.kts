@@ -97,8 +97,6 @@ java {
 
 loom {
     runtimeOnlyLog4j = true
-
-    // splitEnvironmentSourceSets()
 }
 
 configurations.named("modRuntimeOnly") {
