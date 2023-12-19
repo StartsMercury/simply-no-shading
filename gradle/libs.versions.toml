@@ -1,6 +1,6 @@
 [versions]
 fabric-api = "0.5.7+build.2-20w14infinite"
-fabric-loader = "latest.release"
+fabric-loader = "0.15.3"
 fabric-minecraft = "1.16-alpha.20.13.inf"
 java = "8"
 minecraft = "20w14infinite"
@@ -15,4 +15,4 @@ modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "mrmangohands.sodium-fabric:sodium-20w14infinite-backport-fabric-0.1.1-SNAPSHOT+2020-12-10", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.4.4"
+fabric-loom = "fabric-loom:1.4.5"
