@@ -11,7 +11,7 @@ java = "17"
 minecraft = "1.20.4"
 modmenu = "9.0.0"
 sodium = "mc1.20.3-0.5.5"
-spruceui = "5.0.3+1.20.2"
+spruceui = "5.0.3+1.20.4"
 
 [libraries]
 arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
