@@ -1,0 +1,14 @@
+{
+	"simply-no-shading.config.title": "Configuration de Simply No Shading",
+	"simply-no-shading.config.option.blockShadingEnabled": "Ombrage des blocs",
+	"simply-no-shading.config.option.blockShadingEnabled.tooltip": "Contrôle l'ombrage des blocs, à l'exclusion des entités de blocs",
+	"simply-no-shading.config.option.cloudShadingEnabled": "Ombrage des nuages",
+	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Contrôle l'ombrage des nuages",
+	"simply-no-shading.config.option.entityShadingEnabled": "Experimental Entity Shading",
+	"simply-no-shading.config.option.entityShadingEnabled.tooltip": "Controls entity shading (experimental)",
+	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
+	"simply-no-shading.key.openConfigScreen": "Ouvrir l'écran de configuration",
+	"simply-no-shading.key.reloadConfig": "Recharger la configuration",
+	"simply-no-shading.key.toggleBlockShading": "Activer/désactiver l'ombrage des blocs",
+	"simply-no-shading.key.toggleCloudShading": "Activer/désactiver l'ombrage des nuages"
+}
