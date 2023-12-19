@@ -4,7 +4,7 @@ bedrockify = "1.9.1+mc1.20"
 cloth-config = "11.0.98"
 enhancedblockentities = "0.9+1.20"
 fabric-api = "0.83.0+1.20"
-fabric-loader = "latest.release"
+fabric-loader = "0.15.3"
 fabric-minecraft = "1.20"
 indium = "1.0.18+mc1.20"
 java = "17"
@@ -27,4 +27,4 @@ sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.4.4"
+fabric-loom = "fabric-loom:1.4.5"
