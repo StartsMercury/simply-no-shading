@@ -1,30 +1,5 @@
 [versions]
-arrp = "0.8.0"
-bedrockify = "1.9.1+mc1.20.2"
-cloth-config = "12.0.109"
-enhancedblockentities = "0.9.1+1.20.2"
-fabric-api = "0.91.3+1.20.4"
 fabric-loader = "0.15.3"
-fabric-minecraft = "1.20.4"
-indium = "1.0.28+mc1.20.4"
-java = "17"
-minecraft = "1.20.4"
-modmenu = "9.0.0"
-sodium = "mc1.20.3-0.5.5"
-spruceui = "5.0.3+1.20.4"
 
 [libraries]
-arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
-bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
-cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
-enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
-fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
-indium = { module = "maven.modrinth:indium", version.ref = "indium" }
-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
-spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
-
-[plugins]
-fabric-loom = "fabric-loom:1.4.5"

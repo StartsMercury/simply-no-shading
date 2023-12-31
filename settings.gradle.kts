@@ -18,3 +18,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.7.0")
 }
 
+include(
+    "simply-no-shading-fabric-1_20_4",
+)
