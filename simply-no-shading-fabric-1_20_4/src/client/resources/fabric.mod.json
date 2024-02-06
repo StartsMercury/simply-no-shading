@@ -44,13 +44,12 @@
 
 	"depends": {
 		"fabric-api": "*",
-		"fabricloader": "*",
+		"fabricloader": ">={loaderMinVersion}",
 		"java": ">=${javaVersion}",
 		"minecraft": "*",
 		"spruceui": "*"
 	},
 	"recommends": {
-		"java": "${javaVersion}",
 		"minecraft": "${gameVersion}",
 		"modmenu": "*"
 	},

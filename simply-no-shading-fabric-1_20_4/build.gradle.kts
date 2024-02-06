@@ -3,7 +3,6 @@
 /******************************************************************************/
 
 plugins {
-    // configures a specialized development environment for fabric mods
     id("fabric-loom")
 }
 
@@ -11,12 +10,22 @@ plugins {
 /* PROJECT PROPERTIES                                                         */
 /******************************************************************************/
 
-val configureJava: (Int) -> Action<JavaPluginExtension> by rootProject.extra
-val createCompatTestFactory: Action<Project> by rootProject.extra
 val subgroup: String by rootProject.extra
+
+val configureExtras: Action<Project> by rootProject.extra
+configureExtras(project)
+
+val configureJarTask: () -> Unit by extra
+val configureJava: (Int) -> Action<JavaPluginExtension> by extra
+val configureJavadocTask: () -> Unit by extra
+val configureProcessResourcesTasks: () -> Unit by extra
+val createCompatTest: (String, Array<out String>) -> Unit by extra
 
 group = subgroup
 base.archivesName.set("simply-no-shading-fabric-1_20_4")
+
+val gameVersion by extra("1.20.4")
+val minecraftVersion by extra("1.20.4")
 
 /******************************************************************************/
 /* ADDITIONAL REPOSITORIES (see settings.gradle)                              */
@@ -95,18 +104,15 @@ loom {
     splitEnvironmentSourceSets()
 }
 
-createCompatTestFactory(project)
-val createCompatTest: (String, Array<out String>) -> Unit by extra
-
 createCompatTest("bedrockify", arrayOf())
 createCompatTest("enhancedblockentities", arrayOf())
 createCompatTest("sodium", arrayOf())
 createCompatTest("indium", arrayOf("sodium"))
 
 dependencies {
-    val version_fabric_api = "0.91.3+1.20.4"
+    val fabricApiVersion = "0.91.3+1.20.4"
     fun net.fabricmc.loom.configuration.FabricApiExtension.module(moduleName: String): Dependency =
-        fabricApi.module(moduleName, version_fabric_api)
+        fabricApi.module(moduleName, fabricApiVersion)
 
     // ARRP
     "modEnhancedblockentitiesCompatTestClientRuntimeOnly"("maven.modrinth:arrp:0.8.0") {
@@ -130,7 +136,7 @@ dependencies {
     "modEnhancedblockentitiesClientAuto"("maven.modrinth:ebe:0.9.1+1.20.2")
 
     // Fabric API
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${version_fabric_api}")
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
 
     // Fabric Lifecycle Events (v1)
     modCompileOnly(fabricApi.module("fabric-lifecycle-events-v1"))
@@ -148,7 +154,7 @@ dependencies {
     "modIndiumClientAuto"("maven.modrinth:indium:1.0.28+mc1.20.4")
 
     // Minecraft (required)
-    minecraft("com.mojang:minecraft:1.20.4")
+    minecraft("com.mojang:minecraft:${minecraftVersion}")
 
     // ModMenu
     "modClientImplementation"("com.terraformersmc:modmenu:9.0.0") {
@@ -168,36 +174,6 @@ dependencies {
 /* TASK CONFIGURATIONS                                                        */
 /******************************************************************************/
 
-tasks.named<Jar>("jar") {
-    manifest {
-        attributes(mapOf(
-            "Implementation-Title" to "Simply No Shading",
-            "Implementation-Version" to version,
-            "Implementation-Vendor" to "StartsMercury",
-        ))
-    }
-}
-
-tasks.named<Javadoc>("javadoc") {
-    classpath += sourceSets["client"].compileClasspath
-    source += sourceSets["client"].allJava
-
-    when (val options = this.options) {
-        is CoreJavadocOptions -> options.addStringOption("tag", "implNote:a:Implementation Note:")
-    }
-}
-
-tasks.withType<ProcessResources> {
-    val data = mapOf(
-        "gameVersion" to "1.20.4",
-        "javaVersion" to "17",
-        "minecraftVersion" to "1.20.4",
-        "version" to version,
-    )
-
-    inputs.properties(data)
-
-    filesMatching("fabric.mod.json") {
-        expand(data)
-    }
-}
+configureJarTask()
+configureJavadocTask()
+configureProcessResourcesTasks()

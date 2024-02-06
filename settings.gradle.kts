@@ -19,5 +19,6 @@ plugins {
 }
 
 include(
+    "simply-no-shading-fabric-1_20_3",
     "simply-no-shading-fabric-1_20_4",
 )
