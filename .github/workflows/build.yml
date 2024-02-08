@@ -26,7 +26,7 @@ jobs:
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: -Dorg.gradle.jvmargs="-Xmx4G" -Pversion=${{ env.short_sha }}-alpha build --stacktrace
+          arguments: -Dorg.gradle.jvmargs="-Xmx1G" -Pversion=${{ env.short_sha }}-alpha build --stacktrace
       - name: Capture build artifacts
         uses: actions/upload-artifact@v3
         with:
