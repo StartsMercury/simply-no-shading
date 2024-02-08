@@ -19,7 +19,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Build
-        run: ./gradlew clean -Pversion=${{ github.ref_name }} build --stacktrace
+        run: ./gradlew -Dorg.gradle.jvmargs="-Xmx2G" clean -Pversion=${{ github.ref_name }} build --stacktrace
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
