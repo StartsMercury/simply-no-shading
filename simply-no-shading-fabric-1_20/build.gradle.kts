@@ -110,7 +110,7 @@ createCompatTest("sodium", arrayOf())
 createCompatTest("indium", arrayOf("sodium"))
 
 dependencies {
-    val fabricApiVersion = "0.83.0+1.20.1"
+    val fabricApiVersion = "0.83.0+1.20"
     fun net.fabricmc.loom.configuration.FabricApiExtension.module(moduleName: String): Dependency =
         fabricApi.module(moduleName, fabricApiVersion)
 
