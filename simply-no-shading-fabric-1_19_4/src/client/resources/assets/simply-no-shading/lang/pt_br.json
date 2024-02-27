@@ -1,0 +1,13 @@
+{
+	"simply-no-shading.config.title": "Simply No Shading Config.",
+	"simply-no-shading.config.option.blockShadingEnabled": "Sombreamento do Bloco",
+	"simply-no-shading.config.option.blockShadingEnabled.tooltip": "Controla o sombreamento do bloco, excluindo entidades de bloco",
+	"simply-no-shading.config.option.cloudShadingEnabled": "Sombreamento da Nuvem",
+	"simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Controla o Sombreamento da Nuvem",
+	"simply-no-shading.config.option.experimentalEntityLikeShading": "Experimental Entity-like shading...",
+	"simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
+	"simply-no-shading.key.openConfigScreen": "Abrir tela de config.",
+	"simply-no-shading.key.reloadConfig": "Recarregar config.",
+	"simply-no-shading.key.toggleBlockShading": "Alternar Sombreamento do Bloco",
+	"simply-no-shading.key.toggleCloudShading": "Alternar Sombreamento da Nuvem"
+}
