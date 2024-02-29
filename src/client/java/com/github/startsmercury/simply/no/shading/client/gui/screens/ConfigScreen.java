@@ -193,11 +193,6 @@ public class ConfigScreen extends SpruceScreen {
 	}
 
 	@Override
-	public void renderDirtBackground(final GuiGraphics guiGraphics) {
-		// Disable dirt background rendering
-	}
-
-	@Override
 	public void renderTitle(final GuiGraphics guiGraphics, final int mouseX, final int mouseY, final float delta) {
 		final var titlePosX = this.width / 2;
 		final var titlePosY = 14;
