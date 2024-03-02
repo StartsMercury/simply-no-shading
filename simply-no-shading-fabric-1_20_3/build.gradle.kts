@@ -138,7 +138,7 @@ dependencies {
     }
 
     // Sodium
-    mpdCompileOnly("maven.modrinth:sodium:mc1.20.3-0.5.5")
+    modCompileOnly("maven.modrinth:sodium:mc1.20.3-0.5.5")
 
     // SpruceUI
     include("modClientImplementation"("dev.lambdaurora:spruceui:5.0.3+1.20.2") {
