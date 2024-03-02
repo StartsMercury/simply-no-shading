@@ -109,7 +109,7 @@ dependencies {
         fabricApi.module(moduleName, fabricApiVersion)
 
     // BedrockIfy
-    modCopileOnly("maven.modrinth:bedrockify:1.9.1+mc1.20.2")
+    modCompileOnly("maven.modrinth:bedrockify:1.9.1+mc1.20.2")
 
     // Deobfuscation Mappings (required)
     mappings(loom.officialMojangMappings())
