@@ -19,7 +19,6 @@ val configureJarTask: () -> Unit by extra
 val configureJava: (Int) -> Action<JavaPluginExtension> by extra
 val configureJavadocTask: () -> Unit by extra
 val configureProcessResourcesTasks: () -> Unit by extra
-val createCompatTest: (String, Array<out String>) -> Unit by extra
 
 group = subgroup
 base.archivesName.set("simply-no-shading-fabric-1_20")
@@ -104,36 +103,16 @@ loom {
     splitEnvironmentSourceSets()
 }
 
-createCompatTest("bedrockify", arrayOf())
-createCompatTest("enhancedblockentities", arrayOf())
-createCompatTest("sodium", arrayOf())
-createCompatTest("indium", arrayOf("sodium"))
-
 dependencies {
     val fabricApiVersion = "0.83.0+1.20"
     fun net.fabricmc.loom.configuration.FabricApiExtension.module(moduleName: String): Dependency =
         fabricApi.module(moduleName, fabricApiVersion)
 
-    // ARRP
-    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"("maven.modrinth:arrp:0.6.7") {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
-
     // BedrockIfy
-    "modBedrockifyAuto"("maven.modrinth:bedrockify:1.9.1+mc1.20")
-
-    // Cloth Config
-    "modBedrockifyCompatTestClientRuntimeOnly"("me.shedaniel.cloth:cloth-config-fabric:11.0.98") {
-        exclude(mapOf("group" to "net.fabricmc.fabric-api"))
-        exclude(mapOf("module" to "fabric-loader"))
-        exclude(mapOf("module" to "gson"))
-    }
+    modCompileOnly("maven.modrinth:bedrockify:1.9.1+mc1.20")
 
     // Deobfuscation Mappings (required)
     mappings(loom.officialMojangMappings())
-
-    // Enhanced Block Entities
-    "modEnhancedblockentitiesClientAuto"("maven.modrinth:ebe:0.9+1.20")
 
     // Fabric API
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
@@ -150,9 +129,6 @@ dependencies {
     // Fabric Resource Loader (v0)
     modCompileOnly(fabricApi.module("fabric-resource-loader-v0"))
 
-    // Indium
-    "modIndiumClientAuto"("maven.modrinth:indium:1.0.18+mc1.20")
-
     // Minecraft (required)
     minecraft("com.mojang:minecraft:${minecraftVersion}")
 
@@ -162,7 +138,7 @@ dependencies {
     }
 
     // Sodium
-    "modSodiumClientAuto"("maven.modrinth:sodium:mc1.20-0.4.10")
+    modCompileOnly("maven.modrinth:sodium:mc1.20-0.4.10")
 
     // SpruceUI
     include("modClientImplementation"("dev.lambdaurora:spruceui:5.0.2+1.20") {
