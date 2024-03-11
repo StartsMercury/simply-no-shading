@@ -144,7 +144,7 @@ dependencies {
     }
 
     // Sodium
-    modCompileOnly("mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10")
+    modCompileOnly("mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10:mc1.15.2-0.1.1-SNAPSHOT+2020-12-10")
 
     // SpruceUI
     include(modImplementation("LambdAurora.SpruceUI:spruceui:1.3.4") {
