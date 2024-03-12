@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
+
       - name: Initialize caches
         uses: actions/cache@v3
         with:
@@ -24,10 +25,12 @@ jobs:
           key: ${{ runner.os }}-build-external-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-build-external-
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: 17
+
       - name: Build artifacts
         run: ./gradlew build

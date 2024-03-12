@@ -17,13 +17,16 @@ jobs:
         # bash pattern expansion to grab branch name without slashes
         run: ref="${GITHUB_REF#refs/heads/}" && echo "branch=${ref////-}" >> $GITHUB_OUTPUT
         id: ref
+
       - name: Checkout sources
         uses: actions/checkout@v3
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: 17
+
       - name: Initialize caches
         uses: actions/cache@v3
         with:
@@ -34,8 +37,10 @@ jobs:
           key: ${{ runner.os }}-build-commit-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-build-commit-
+
       - name: Build artifacts
         run: ./gradlew build
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
