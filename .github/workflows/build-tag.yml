@@ -1,5 +1,5 @@
-# Modified version of build-commit.yml from CaffeineMC/sodium-fabric
-# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-commit.yml
+# Modified version of build-tag.yml from CaffeineMC/sodium-fabric
+# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-tag.yml
 
 # Used when a commit is tagged and pushed to the repository
 # This makes use of caching for faster builds and uploads the resulting artifacts

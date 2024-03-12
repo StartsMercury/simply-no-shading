@@ -1,5 +1,5 @@
-# Modified version of build-commit.yml from CaffeineMC/sodium-fabric
-# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-commit.yml
+# Modified version of build-release.yml from CaffeineMC/sodium-fabric
+# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-release.yml
 
 # Used when a release is pushed to GitHub
 # This does not make use of any caching as to ensure a clean build

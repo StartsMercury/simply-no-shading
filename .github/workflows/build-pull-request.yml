@@ -1,5 +1,5 @@
-# Modified version of build-commit.yml from CaffeineMC/sodium-fabric
-# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-commit.yml
+# Modified version of build-pull-request.yml from CaffeineMC/sodium-fabric
+# https://github.com/CaffeineMC/sodium-fabric/blob/aa613ca1ffeaeede666fe83faf31881b95caace1/.github/workflows/build-pull-request.yml
 
 # Used when building external pull requests
 # We don't want to publish build artifacts or expose our other caches to possibly untrusted code
