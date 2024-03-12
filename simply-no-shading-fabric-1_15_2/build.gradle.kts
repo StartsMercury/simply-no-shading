@@ -123,6 +123,9 @@ dependencies {
     // Fabric API
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
 
+    // Fabric API Base
+    modCompileOnly(fabricApi.module("fabric-api-base"))
+
     // Fabric Lifecycle Events (v1)
     modCompileOnly(fabricApi.module("fabric-lifecycle-events-v1"))
 
