@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-build-tag-
 
       - name: Build artifacts
-        run: ./gradlew build -Pbuild.release=true
+        run: ./gradlew -Dorg.gradle.jvmargs="-Xmx2G" build -Pbuild.release=true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
