@@ -32,10 +32,10 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingClientEntrypoint"
+			"io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingClientEntrypoint"
 		],
 		"modmenu": [
-			"com.github.startsmercury.simply.no.shading.entrypoint.SimplyNoShadingModMenuEntrypoint"
+			"io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingModMenuEntrypoint"
 		]
 	},
 	"mixins": [

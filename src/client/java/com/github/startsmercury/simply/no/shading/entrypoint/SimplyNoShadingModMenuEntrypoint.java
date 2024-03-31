@@ -10,6 +10,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
  * in the {@code fabric.mod.json}. This acts as compatibility between Simply No
  * Shading and ModMenu.
  */
+@Deprecated(since = "6.2.0", forRemoval = true)
 public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
 	/**
 	 * {@inheritDoc}

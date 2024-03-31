@@ -14,6 +14,7 @@ import com.mojang.logging.LogUtils;
  *
  * @since 5.0.0
  */
+@Deprecated(since = "6.2.0", forRemoval = true)
 public class PrefixedLogger implements Logger {
 	/**
 	 * Returns a named prefix logger.

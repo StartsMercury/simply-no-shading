@@ -35,6 +35,7 @@ import net.minecraft.network.chat.Component;
  *
  * @since 6.0.0
  */
+@Deprecated(since = "6.2.0", forRemoval = true)
 public class ConfigScreen extends SpruceScreen {
 	/**
 	 * The height of the button panel of this screen.
@@ -202,7 +203,7 @@ public class ConfigScreen extends SpruceScreen {
 	@Override
 	public void renderWidgets(final GuiGraphics guiGraphics, final int mouseX, final int mouseY, final float delta) {
 		if (this.minecraft.level == null) {
-			this.panoramaRenderer.render(delta, OPAQUE);
+//			this.panoramaRenderer.render(guiGraphics, mouseX, mouseY, delta, OPAQUE);
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		}
 		guiGraphics.fillGradient(0, 0, this.width, this.height, RENDER_GRADIENT_COLOR, RENDER_GRADIENT_COLOR);
