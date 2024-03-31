@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
@@ -24,8 +25,8 @@ public abstract class BakedQuadMixin {
     }
 
     // TODO
-    @Inject(method = "init", at = @At("RETURN"))
-    private void changeInitialShade() {
+    @Inject(method = "<init>([IILnet/minecraft/core/Direction;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Z)V", at = @At("RETURN"))
+    private void changeInitialShade(final CallbackInfo callback) {
         this.shade = this.shade && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled;
     }
 
@@ -33,6 +34,6 @@ public abstract class BakedQuadMixin {
     private void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
         // TODO try FaceBakery, BlockModel, ModelBlockRenderer, BlockRenderDispatcher, SectionRenderDispatcher, LevelRenderer
 
-        // TEMP: callback.setReturnValue(callback.getReturnValueZ() && ComputedConfig.blockShadingEnabled);
+        // callback.setReturnValue(callback.getReturnValueZ() && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled);
     }
 }

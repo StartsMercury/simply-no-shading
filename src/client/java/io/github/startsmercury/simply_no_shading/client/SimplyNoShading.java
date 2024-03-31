@@ -3,6 +3,7 @@ package io.github.startsmercury.simply_no_shading.client;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.google.gson.Gson;

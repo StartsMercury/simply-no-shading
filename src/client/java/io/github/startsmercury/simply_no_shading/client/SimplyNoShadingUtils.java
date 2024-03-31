@@ -37,7 +37,7 @@ public final class SimplyNoShadingUtils {
     public static boolean tryLoadConfig(final SimplyNoShading self) {
         try {
             self.loadConfig();
-            ComputedConfig.setDebugFileSyncEnbled(simplyNoShading.config().debugFileSyncEnbled());
+            ComputedConfig.setDebugFileSyncEnbled(self.config().debugFileSyncEnbled());
             return true;
         } catch (final ConfigIOException.NotExist ignored) {
             System.out.println("Config file does not exist: defaults will be used.");
@@ -82,8 +82,17 @@ public final class SimplyNoShadingUtils {
             && SimplyNoShadingUtils.tryLoadConfig(self);
     }
 
+    private static final Path RELATIVE_CONFIG_PATH = SimplyNoShading.configPath().getFileName();
     public static boolean discardConfigWatchEvents() {
-        return !SimplyNoShadingUtils.configWatchKey.pollEvents().isEmpty();
+        final var events = SimplyNoShadingUtils.configWatchKey.pollEvents();
+        SimplyNoShadingUtils.configWatchKey.reset();
+
+        for (final var event : events) {
+            if (event.context().equals(RELATIVE_CONFIG_PATH)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static WatchKey configWatchKey = new WatchKey() {
@@ -108,12 +117,12 @@ public final class SimplyNoShadingUtils {
 
         @Override
         public Watchable watchable() {
-            return SimplyNoShading.configPath();
+            return SimplyNoShading.configPath().getParent();
         }
     };
 
     private static void renewConfigWatchKey() {
-        final var configPath = SimplyNoShading.configPath();
+        final var configPath = SimplyNoShading.configPath().getParent();
         try {
             SimplyNoShadingUtils.configWatchKey = configPath.register(
                 configPath.getFileSystem().newWatchService(),

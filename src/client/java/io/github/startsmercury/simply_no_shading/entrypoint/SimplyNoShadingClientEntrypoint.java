@@ -1,6 +1,7 @@
 package io.github.startsmercury.simply_no_shading.entrypoint;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import io.github.startsmercury.simply_no_shading.client.KeyMapping;
 import io.github.startsmercury.simply_no_shading.client.ReloadType;
 import io.github.startsmercury.simply_no_shading.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.client.SimplyNoShadingUtils;
@@ -11,8 +12,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -50,17 +49,15 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
         );
 
         // NOTE: SimplyNoShading::config returns a copy, not a reference
-        final var toggleBlockShading = new ToggleKeyMapping(
+        final var toggleBlockShading = new KeyMapping(
             "simply-no-shading.key.toggleBlockShading",
             InputConstants.UNKNOWN.getValue(),
-            "simply-no-shading.key.categories.simply-no-shading",
-            () -> simplyNoShading.config().blockShadingEnabled()
+            "simply-no-shading.key.categories.simply-no-shading"
         );
-        final var toggleCloudShading = new ToggleKeyMapping(
+        final var toggleCloudShading = new KeyMapping(
             "simply-no-shading.key.toggleCloudShading",
             InputConstants.UNKNOWN.getValue(),
-            "simply-no-shading.key.categories.simply-no-shading",
-            () -> simplyNoShading.config().cloudShadingEnabled()
+            "simply-no-shading.key.categories.simply-no-shading"
         );
 
         KeyBindingHelper.registerKeyBinding(openConfigScreen);
@@ -70,41 +67,48 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
 
         ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
             if (minecraft.screen instanceof ConfigScreen) {
-                // Avoid overlapping functionality
-                return;
-            }
-
-            if (
-                !SimplyNoShadingUtils.consumeConfigWatchEvents(simplyNoShading)
-                    && reloadConfig.isDown()
-            ) {
-                SimplyNoShadingUtils.tryLoadConfig(simplyNoShading);
-            }
-
-            if (openConfigScreen.isDown()) {
+                // ConfigScreen ticks performs coinciding tasks
+            } else if (openConfigScreen.isDown()) {
                 minecraft.setScreen(new ConfigScreen(null, simplyNoShading.config()));
-                return;
-            }
+            } else if (
+                SimplyNoShadingUtils.consumeConfigWatchEvents(simplyNoShading)
+                    || reloadConfig.isDown()
+            ) {
+                final var oldConfig = simplyNoShading.config();
+                SimplyNoShadingUtils.tryLoadConfig(simplyNoShading);
+                final var newConfig = simplyNoShading.config();
 
-            final var config = simplyNoShading.config();
-            final var reloadType = ReloadType.max(
-                SimplyNoShadingClientEntrypoint.cycleInConfig(
-                    toggleBlockShading,
-                    ReloadType.Major,
-                    config::toggleBlockShading
-                ),
-                SimplyNoShadingClientEntrypoint.cycleInConfig(
-                    toggleCloudShading,
-                    ReloadType.Minor,
-                    config::toggleCloudShading
-                )
-            );
-            if (reloadType == ReloadType.None)
-                return;
-            reloadType.applyTo(minecraft.levelRenderer);
-            simplyNoShading.setConfig(config);
-            if (config.debugFileSyncEnbled()) {
-                SimplyNoShadingUtils.trySaveConfig();
+                final ReloadType reloadType;
+                if (oldConfig.blockShadingEnabled() != newConfig.blockShadingEnabled()) {
+                    reloadType = ReloadType.Major;
+                } else if (oldConfig.cloudShadingEnabled() != newConfig.cloudShadingEnabled()) {
+                    reloadType = ReloadType.Minor;
+                } else {
+                    reloadType = ReloadType.None;
+                }
+
+                reloadType.applyTo(minecraft.levelRenderer);
+            } else {
+                final var config = simplyNoShading.config();
+                final var reloadType = ReloadType.max(
+                    SimplyNoShadingClientEntrypoint.cycleInConfig(
+                        toggleBlockShading,
+                        ReloadType.Major,
+                        config::toggleBlockShading
+                    ),
+                    SimplyNoShadingClientEntrypoint.cycleInConfig(
+                        toggleCloudShading,
+                        ReloadType.Minor,
+                        config::toggleCloudShading
+                    )
+                );
+                if (reloadType == ReloadType.None)
+                    return;
+                reloadType.applyTo(minecraft.levelRenderer);
+                simplyNoShading.setConfig(config);
+                if (config.debugFileSyncEnbled()) {
+                    SimplyNoShadingUtils.trySaveConfig(simplyNoShading);
+                }
             }
         });
     }
@@ -114,7 +118,7 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
         final ReloadType reloadType,
         final Runnable action
     ) {
-        if (key.isDown()) {
+        if (key.consumeReleased()) {
             action.run();
             return reloadType;
         } else {
