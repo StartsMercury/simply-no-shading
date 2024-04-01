@@ -156,7 +156,7 @@ public final class SimplyNoShading {
 
     /**
      * Loads the config from {@code <minecraft>/config/simply-no-shading.json}.
-     * <b>
+     * <p>
      * This method uses {@link #setConfig(Config)} and is subject to the same blocking
      * rules.
      *
@@ -185,7 +185,7 @@ public final class SimplyNoShading {
 
     /**
      * Saves the config to {@code <minecraft>/config/simply-no-shading.json}.
-     * <b>
+     * <p>
      * This method uses {@link #config()} and is subject to the same blocking
      * rules.
      *
