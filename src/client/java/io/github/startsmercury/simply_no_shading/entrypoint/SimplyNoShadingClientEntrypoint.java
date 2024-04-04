@@ -71,7 +71,7 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
             } else if (openConfigScreen.isDown()) {
                 minecraft.setScreen(new ConfigScreen(null, simplyNoShading.config()));
             } else if (
-                SimplyNoShadingUtils.consumeConfigWatchEvents(simplyNoShading)
+                SimplyNoShadingUtils.discardConfigWatchEvents()
                     || reloadConfig.isDown()
             ) {
                 final var oldConfig = simplyNoShading.config();

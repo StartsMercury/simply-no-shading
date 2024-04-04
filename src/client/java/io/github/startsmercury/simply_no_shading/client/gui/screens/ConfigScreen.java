@@ -145,7 +145,7 @@ public final class ConfigScreen extends OptionsSubScreen {
         final var simplyNoShading = SimplyNoShading.instance();
         if (
             this.config.debugFileSyncEnbled()
-                && SimplyNoShadingUtils.consumeConfigWatchEvents(simplyNoShading)
+                && SimplyNoShadingUtils.discardConfigWatchEvents()
         ) {
             SimplyNoShadingUtils.tryLoadConfig(simplyNoShading);
             simplyNoShading.configInto(this.config);

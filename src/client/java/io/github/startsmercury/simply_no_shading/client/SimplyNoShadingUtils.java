@@ -77,11 +77,6 @@ public final class SimplyNoShadingUtils {
         }
     }
 
-    public static boolean consumeConfigWatchEvents(final SimplyNoShading self) {
-        return SimplyNoShadingUtils.discardConfigWatchEvents()
-            && SimplyNoShadingUtils.tryLoadConfig(self);
-    }
-
     private static final Path RELATIVE_CONFIG_PATH = SimplyNoShading.configPath().getFileName();
     public static boolean discardConfigWatchEvents() {
         final var events = SimplyNoShadingUtils.configWatchKey.pollEvents();
