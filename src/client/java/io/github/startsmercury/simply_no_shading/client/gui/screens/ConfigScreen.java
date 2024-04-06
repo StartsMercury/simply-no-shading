@@ -67,11 +67,11 @@ public final class ConfigScreen extends OptionsSubScreen {
         this.list.addSmall(this.createToEntityLikeShadingButton(), null);
         this.list.addSmall(
             this.createToggleButton(
-                "simply-no-shading.config.option.debugFileSyncEnbled",
-                this.config.debugFileSyncEnbled(),
+                "simply-no-shading.config.option.debugFileSyncEnabled",
+                this.config.debugFileSyncEnabled(),
                 enabled -> {
-                    this.config.setDebugFileSyncEnbled(enabled);
-                    ComputedConfig.setDebugFileSyncEnbled(enabled);
+                    this.config.setDebugFileSyncEnabled(enabled);
+                    ComputedConfig.setDebugFileSyncEnabled(enabled);
                 },
                 ReloadType.None
             ),
@@ -101,14 +101,14 @@ public final class ConfigScreen extends OptionsSubScreen {
                 setter.accept((boolean) enabled);
                 final var queuedReloadType = this.reloadType.max(reloadType);
 
-                final var debugFileSyncEnbled = this.config.debugFileSyncEnbled();
+                final var debugFileSyncEnabled = this.config.debugFileSyncEnabled();
                 final var interactiveReloadEnabled = queuedReloadType != ReloadType.None
                     && this.config.interactiveReloadEnabled();
 
-                if (debugFileSyncEnbled || interactiveReloadEnabled) {
+                if (debugFileSyncEnabled || interactiveReloadEnabled) {
                     SimplyNoShading.instance().setConfig(this.config);
                 }
-                if (debugFileSyncEnbled) {
+                if (debugFileSyncEnabled) {
                     SimplyNoShadingUtils.trySaveConfig(SimplyNoShading.instance());
                 }
                 if (interactiveReloadEnabled) {
@@ -144,7 +144,7 @@ public final class ConfigScreen extends OptionsSubScreen {
     public void tick() {
         final var simplyNoShading = SimplyNoShading.instance();
         if (
-            this.config.debugFileSyncEnbled()
+            this.config.debugFileSyncEnabled()
                 && SimplyNoShadingUtils.discardConfigWatchEvents()
         ) {
             SimplyNoShadingUtils.tryLoadConfig(simplyNoShading);
@@ -165,7 +165,7 @@ public final class ConfigScreen extends OptionsSubScreen {
     public void removed() {
         final var simplyNoShading = SimplyNoShading.instance();
         simplyNoShading.setConfig(this.config);
-        if (!config.debugFileSyncEnbled()) {
+        if (!config.debugFileSyncEnabled()) {
             SimplyNoShadingUtils.trySaveConfig(simplyNoShading);
         }
         if (!config.interactiveReloadEnabled()) {

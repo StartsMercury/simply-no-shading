@@ -106,7 +106,7 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
                     return;
                 reloadType.applyTo(minecraft.levelRenderer);
                 simplyNoShading.setConfig(config);
-                if (config.debugFileSyncEnbled()) {
+                if (config.debugFileSyncEnabled()) {
                     SimplyNoShadingUtils.trySaveConfig(simplyNoShading);
                 }
             }
