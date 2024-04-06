@@ -11,7 +11,7 @@ import java.util.Objects;
 @ApiStatus.Internal
 public final class SimplyNoShadingUtils {
     public static final class ComputedConfig {
-        // config values frequently used (e.g. in rendering)
+        // config values frequently used such as in rendering
         public static boolean blockShadingEnabled = true;
         public static boolean cloudShadingEnabled = true;
 
@@ -56,7 +56,7 @@ public final class SimplyNoShadingUtils {
             );
             cause.getCause().printStackTrace();
         } catch (final ConfigIOException cause) {
-            throw new AssertionError("sealed subtypes was not exhausted");
+            throw new AssertionError("ConfigIOException subtypes was not exhausted");
         }
 
         return false;
@@ -77,13 +77,12 @@ public final class SimplyNoShadingUtils {
         }
     }
 
-    private static final Path RELATIVE_CONFIG_PATH = SimplyNoShading.configPath().getFileName();
     public static boolean discardConfigWatchEvents() {
         final var events = SimplyNoShadingUtils.configWatchKey.pollEvents();
         SimplyNoShadingUtils.configWatchKey.reset();
 
         for (final var event : events) {
-            if (event.context().equals(RELATIVE_CONFIG_PATH)) {
+            if (event.context().equals(SimplyNoShading.configFileName())) {
                 return true;
             }
         }

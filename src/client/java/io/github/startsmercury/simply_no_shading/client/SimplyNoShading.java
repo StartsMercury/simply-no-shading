@@ -17,34 +17,22 @@ import net.minecraft.client.Minecraft;
  * <p>
  * This class provides methods to safely interface with Simply No Shading.
  * Getters and setters are appropriately read/write locked though operations
- * with parameter objects are <b>NOT</b> thread-safe and should be handled by
- * the caller. Any getters will return a {@linkplain Object#clone clone} to that
- * value and <b>never</b> a reference, it's a bug otherwise. All setters will
- * never store a reference as an internal value, it's either
- * {@linkplain Object#clone cloned} or cloned into the internal value.
+ * containing parameter objects are <b>NOT</b> synchronized and should be
+ * handled by the caller. Any getters will return a
+ * {@linkplain Object#clone clone} to that value and <b>never</b> a reference
+ * as it may prove challenging to enforce borrowing rules. All setters will
+ * {@linkplain Object#clone cloned} from a value and never store a reference to
+ * it as these reference may change which would also challenge borroeing rules.
  *
  * @since 6.2.0
  */
 public final class SimplyNoShading {
-    private static final Path CONFIG_PATH;
-    static {
-        final var minecraft = Minecraft.getInstance();
-        if (minecraft == null)
-            throw new Error("Simply No Shading requires Minecraft to function");
-        CONFIG_PATH = minecraft
-            .gameDirectory
-            .toPath()
-            .resolve("config")
-            .resolve("simply-no-shading.json");
-    }
-
     private static volatile SimplyNoShading instance;
 
     /**
-     * The Simply No Shading instance.
+     * The Simply No Shading singleton instance.
      * <p>
-     * This method is <b>thread-safe</b>. It will always return the same value
-     * generated from the first call to this method.
+     * This method is <b>thread-safe</b>.
      *
      * @since 6.2.0
      */
@@ -67,8 +55,49 @@ public final class SimplyNoShading {
         }
     }
 
+    private static final Path CONFIG_FILE_NAME = Path.of("simply-no-shading.json");
+
+    /**
+     * Simply No Shading's client configuration file name.
+     *
+     * @return the file name of the client config
+     * @since 6.2.0
+     */
+    public static Path configFileName() {
+        return SimplyNoShading.CONFIG_FILE_NAME;
+    }
+
+    private static Path configPath;
+
+    /**
+     * Simply No Shading's client configuration path.
+     * 
+     * @return the path to the client config
+     * @since 6.2.0
+     */
     public static Path configPath() {
-        return SimplyNoShading.CONFIG_PATH;
+        final var path = SimplyNoShading.configPath;
+        if (path != null) {
+            return path;
+        } else {
+            // no need to synchronize?
+            return SimplyNoShading.initConfigPath();
+        }
+    }
+
+    private static Path initConfigPath() {
+        final var minecraft = Minecraft.getInstance();
+        if (minecraft == null)
+            throw new Error("Simply No Shading requires Minecraft to function");
+
+        // Assertion: these returns the same value
+        final var configDirectory = minecraft
+            .gameDirectory
+            .toPath()
+            .resolve("config");
+        final var configFile = SimplyNoShading.configFileName();
+
+        return SimplyNoShading.configPath = configDirectory.resolve(configFile);
     }
 
     private final Config config;

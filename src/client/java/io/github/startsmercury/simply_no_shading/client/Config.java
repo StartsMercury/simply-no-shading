@@ -4,7 +4,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * The Simply No Shading client config.
+ * The Simply No Shading client configuration <abbr>(config)</abbr>..
  * <p>
  * The config object functions to store data following the Object-Oriented
  * Pattern (OOP). For example, config instance accesses can be easily wrapped
@@ -44,7 +44,7 @@ public class Config implements Cloneable {
 
     private boolean blockShadingEnabled;
     private boolean cloudShadingEnabled;
-    private boolean debugFileSyncEnbled = false;
+    private boolean debugFileSyncEnabled = false;
     private boolean interactiveReloadEnabled = true;
 
     /**
@@ -72,10 +72,10 @@ public class Config implements Cloneable {
      * said darkening.
      *
      * @since 6.2.0
-     * @see #setBlockShadingEnabled
-     * @see #withBlockShadingEnabled
-     * @see #toggleBlockShading
-     * @see #withBlockShadingToggled
+     * @see #setBlockShadingEnabled(boolean)
+     * @see #withBlockShadingEnabled(boolean)
+     * @see #toggleBlockShading()
+     * @see #withBlockShadingToggled()
      */
     public boolean blockShadingEnabled() {
         return this.blockShadingEnabled;
@@ -89,20 +89,39 @@ public class Config implements Cloneable {
      * darkening.
      *
      * @since 6.2.0
-     * @see #setCloudShadingEnabled
-     * @see #withCloudShadingEnabled
-     * @see #toggleCloudShading
-     * @see #withCloudShadingToggled
+     * @see #setCloudShadingEnabled(boolean)
+     * @see #withCloudShadingEnabled(boolean)
+     * @see #toggleCloudShading()
+     * @see #withCloudShadingToggled()
      */
     public boolean cloudShadingEnabled() {
         return this.cloudShadingEnabled;
     }
 
+    /**
+     * Debug config file syncing.
+     * <p>
+     * A usually debug purposed option to load config changes and save changes.
+     * Unlike when disabled where the config is only ever loaded once at the
+     * start or through a key mapping and saved after applying changes int the
+     * configuration screen.
+     *
+     * @since 6.2.0
+     * @see #setDebugFileSyncEnabled(boolean)
+     */
     @ApiStatus.Experimental
-    public boolean debugFileSyncEnbled() {
-        return this.debugFileSyncEnbled;
+    public boolean debugFileSyncEnabled() {
+        return this.debugFileSyncEnabled;
     }
 
+    /**
+     * Interactive reload in configuration screen.
+     * <p>
+     * When enabled, changes are applied immediately instead of after exiting
+     * the screen.
+     *
+     * @since 6.2.0
+     */
     @ApiStatus.Experimental
     public boolean interactiveReloadEnabled() {
         return this.interactiveReloadEnabled;
@@ -194,11 +213,23 @@ public class Config implements Cloneable {
         return this;
     }
 
+    /**
+     * Sets debug config file syncing enabled.
+     *
+     * @since 6.2.0
+     * @see #debugFileSyncEnbled()
+     */
     @ApiStatus.Experimental
     public void setDebugFileSyncEnbled(final boolean enabled) {
         this.debugFileSyncEnbled = enabled;
     }
 
+    /**
+     * Sets nteractive reload in configuration screen enabled.
+     *
+     * @since 6.2.0
+     * @see #interactiveReloadEnabled()
+     */
     @ApiStatus.Experimental
     public void setInteractiveReloadEnabled(final boolean enabled) {
         this.interactiveReloadEnabled = enabled;
@@ -332,9 +363,9 @@ public class Config implements Cloneable {
      * @see #toString()
      */
     public String toComponentString() {
-        return "[blockShadingEnabled"
+        return "[blockShadingEnabled="
             + this.blockShadingEnabled
-            + ",cloudShadingEnabled"
+            + ",cloudShadingEnabled="
             + this.cloudShadingEnabled
             + "]";
     }
