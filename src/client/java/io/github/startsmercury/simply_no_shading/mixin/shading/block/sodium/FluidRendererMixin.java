@@ -6,6 +6,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+/**
+ * @since 6.2.0
+ */
 @Mixin(FluidRenderer.class)
 public class FluidRendererMixin {
     private FluidRendererMixin() {

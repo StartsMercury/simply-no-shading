@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+/**
+ * @since 6.2.0
+ */
 @Mixin(CloudRenderer.class)
 public abstract class CloudRendererMixin {
     @Unique
