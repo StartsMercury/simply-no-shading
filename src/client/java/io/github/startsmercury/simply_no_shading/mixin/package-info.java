@@ -1,5 +1,11 @@
 /**
- * The Simply No Shading client-side mixins.
+ * Simply No Shading's mixins.
+ * <p>
+ * This package contains internal
+ * {@linkplain org.spongepowered.asm.mixin SpongePowered mixin} classes whose
+ * members are injected into Minecraft code to modify or add functionality.
+ * This is an <b>internal</b> package and its classes shouldn't be referenced in
+ * normal clasees.
  */
 @ApiStatus.Internal
 package io.github.startsmercury.simply_no_shading.mixin;
