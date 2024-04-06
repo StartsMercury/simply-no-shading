@@ -27,16 +27,16 @@ public abstract class BakedQuadMixin {
     private BakedQuadMixin() {
     }
 
-    // TODO
+    /* TODO
     @Inject(method = "<init>([IILnet/minecraft/core/Direction;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Z)V", at = @At("RETURN"))
     private void changeInitialShade(final CallbackInfo callback) {
         this.shade = this.shade && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled;
-    }
+    }*/
 
     @Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
     private void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
         // TODO try FaceBakery, BlockModel, ModelBlockRenderer, BlockRenderDispatcher, SectionRenderDispatcher, LevelRenderer
 
-        // callback.setReturnValue(callback.getReturnValueZ() && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled);
+        callback.setReturnValue(callback.getReturnValueZ() && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled);
     }
 }
