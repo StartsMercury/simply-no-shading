@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)
 public abstract class BakedQuadMixin {
-    @Final
+    /*@Final
     @Mutable
     @Shadow
-    private boolean shade;
+    private boolean shade;*/
 
     private BakedQuadMixin() {
     }
