@@ -9,7 +9,7 @@
  * {@linkplain net.minecraft Minecraft's} (when deobfucated using Mojang's
  * Mappings). Due to the structure and the nature of this
  * <abbr title="modification">mod</mod>, there is little need for this package
- * to contain any class. Contined subpackages and their short descriptions are
+ * to contain any class. Contained subpackages and their short descriptions are
  * arranged in the following table:
  * <table>
  *    <tr>
