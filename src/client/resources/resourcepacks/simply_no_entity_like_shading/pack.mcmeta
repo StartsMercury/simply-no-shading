@@ -1,6 +1,6 @@
 {
   "pack": {
-    "pack_format": 22,
+    "pack_format": 30,
     "description": "(EXP) Disables entity and item model shading"
   }
 }
