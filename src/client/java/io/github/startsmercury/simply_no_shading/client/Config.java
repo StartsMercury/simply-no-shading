@@ -217,11 +217,11 @@ public class Config implements Cloneable {
      * Sets debug config file syncing enabled.
      *
      * @since 6.2.0
-     * @see #debugFileSyncEnbled()
+     * @see #debugFileSyncEnabled()
      */
     @ApiStatus.Experimental
-    public void setDebugFileSyncEnbled(final boolean enabled) {
-        this.debugFileSyncEnbled = enabled;
+    public void setDebugFileSyncEnabled(final boolean enabled) {
+        this.debugFileSyncEnabled = enabled;
     }
 
     /**
@@ -394,7 +394,7 @@ public class Config implements Cloneable {
         Objects.requireNonNull(source, "Parameter source is null");
         this.blockShadingEnabled = source.blockShadingEnabled;
         this.cloudShadingEnabled = source.cloudShadingEnabled;
-        this.debugFileSyncEnbled = source.debugFileSyncEnbled;
+        this.debugFileSyncEnabled = source.debugFileSyncEnabled;
         this.interactiveReloadEnabled = source.interactiveReloadEnabled;
     }
 

@@ -22,7 +22,7 @@ public final class SimplyNoShadingUtils {
             ComputedConfig.cloudShadingEnabled = config.cloudShadingEnabled();
         }
 
-        public static void setDebugFileSyncEnbled(final boolean enabled) {
+        public static void setDebugFileSyncEnabled(final boolean enabled) {
             if (enabled) {
                 SimplyNoShadingUtils.renewConfigWatchKey();
             } else {
@@ -37,7 +37,7 @@ public final class SimplyNoShadingUtils {
     public static boolean tryLoadConfig(final SimplyNoShading self) {
         try {
             self.loadConfig();
-            ComputedConfig.setDebugFileSyncEnbled(self.config().debugFileSyncEnbled());
+            ComputedConfig.setDebugFileSyncEnabled(self.config().debugFileSyncEnabled());
             return true;
         } catch (final ConfigIOException.NotExist ignored) {
             System.out.println("Config file does not exist: defaults will be used.");
