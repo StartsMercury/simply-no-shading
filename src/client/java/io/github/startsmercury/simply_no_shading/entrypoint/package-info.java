@@ -6,6 +6,8 @@
  * <abbr title="modification">mod</abbr> state or for compatibility with other
  * <abbr title="modifications">mods</abbr>. This is an <b>internal</b> package
  * and its classes shouldn't be referenced in normal classes.
+ *
+ * @since 6.2.0
  */
 @ApiStatus.Internal
 package io.github.startsmercury.simply_no_shading.entrypoint;

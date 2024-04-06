@@ -21,7 +21,6 @@ public class Config implements Cloneable {
      * Minecraft shading.
      *
      * @return the config for vanilla shading
-     * @since 6.2.0
      * @see #isVanilla()
      */
     public static Config defaultVanilla() {
@@ -35,7 +34,6 @@ public class Config implements Cloneable {
      * lighting" feature available through internal shaders.
      *
      * @return the config for old lighting shading
-     * @since 6.2.0
      * @see #isOldLighting()
      */
     public static Config defaultOldLighting() {
@@ -71,7 +69,6 @@ public class Config implements Cloneable {
      * perception of directional lighting from the sun. Disabling will remove
      * said darkening.
      *
-     * @since 6.2.0
      * @see #setBlockShadingEnabled(boolean)
      * @see #withBlockShadingEnabled(boolean)
      * @see #toggleBlockShading()
@@ -88,7 +85,6 @@ public class Config implements Cloneable {
      * of directional lighting from the sun. Disabling will remove said
      * darkening.
      *
-     * @since 6.2.0
      * @see #setCloudShadingEnabled(boolean)
      * @see #withCloudShadingEnabled(boolean)
      * @see #toggleCloudShading()
@@ -106,7 +102,6 @@ public class Config implements Cloneable {
      * start or through a key mapping and saved after applying changes int the
      * configuration screen.
      *
-     * @since 6.2.0
      * @see #setDebugFileSyncEnabled(boolean)
      */
     @ApiStatus.Experimental
@@ -119,8 +114,6 @@ public class Config implements Cloneable {
      * <p>
      * When enabled, changes are applied immediately instead of after exiting
      * the screen.
-     *
-     * @since 6.2.0
      */
     @ApiStatus.Experimental
     public boolean interactiveReloadEnabled() {
@@ -139,7 +132,6 @@ public class Config implements Cloneable {
     /**
      * Sets block shading enabled or disabled.
      *
-     * @since 6.2.0
      * @see #blockShadingEnabled()
      */
     public Config withBlockShadingEnabled(final boolean enabled) {
@@ -150,7 +142,6 @@ public class Config implements Cloneable {
     /**
      * Sets block shading to its opposite value.
      *
-     * @since 6.2.0
      * @see #blockShadingEnabled()
      * @see #setBlockShadingEnabled(boolean)
      */
@@ -161,7 +152,6 @@ public class Config implements Cloneable {
     /**
      * Sets block shading to its opposite value.
      *
-     * @since 6.2.0
      * @see #blockShadingEnabled()
      * @see #setBlockShadingEnabled(boolean)
      */
@@ -182,7 +172,6 @@ public class Config implements Cloneable {
     /**
      * Sets cloud shading enabled or disabled.
      *
-     * @since 6.2.0
      * @see #cloudShadingEnabled()
      */
     public Config withCloudShadingEnabled(final boolean enabled) {
@@ -193,7 +182,6 @@ public class Config implements Cloneable {
     /**
      * Sets cloud shading to its opposite value.
      *
-     * @since 6.2.0
      * @see #cloudShadingEnabled()
      * @see #setCloudShadingEnabled(boolean)
      */
@@ -204,7 +192,6 @@ public class Config implements Cloneable {
     /**
      * Sets cloud shading to its opposite value.
      *
-     * @since 6.2.0
      * @see #cloudShadingEnabled()
      * @see #setCloudShadingEnabled(boolean)
      */
@@ -216,7 +203,6 @@ public class Config implements Cloneable {
     /**
      * Sets debug config file syncing enabled.
      *
-     * @since 6.2.0
      * @see #debugFileSyncEnabled()
      */
     @ApiStatus.Experimental
@@ -227,7 +213,6 @@ public class Config implements Cloneable {
     /**
      * Sets nteractive reload in configuration screen enabled.
      *
-     * @since 6.2.0
      * @see #interactiveReloadEnabled()
      */
     @ApiStatus.Experimental
@@ -241,7 +226,6 @@ public class Config implements Cloneable {
      * Vanilla shading config is a config that would result in behavior
      * observable in the absence of Simply No Shading.
      *
-     * @since 6.2.0
      * @see #defaultVanilla()
      * @see #setVanilla()
      * @see #withVanilla()
@@ -257,7 +241,6 @@ public class Config implements Cloneable {
      * observable when playing with OptiFine's old lighting accessible through
      * specific configurations to internal shaders.
      *
-     * @since 6.2.0
      * @see #defaultOldLighting()
      * @see #setOldLighting()
      * @see #withOldLighting()
@@ -273,7 +256,6 @@ public class Config implements Cloneable {
      * values. With shading toggles, this means all types of shading are
      * disabled.
      *
-     * @since 6.2.0
      * @see #Config()
      * @see #setDefault()
      * @see #withDefault()
@@ -284,7 +266,7 @@ public class Config implements Cloneable {
 
     /**
      * Sets the values of this config for vanilla shading.
-     * @since 6.2.0
+     *
      * @see #isVanilla()
      */
     public void setVanilla() {
@@ -295,7 +277,6 @@ public class Config implements Cloneable {
     /**
      * Sets the values of this config for vanilla shading.
      *
-     * @since 6.2.0
      * @see #isVanilla()
      */
     public Config withVanilla() {
@@ -307,7 +288,6 @@ public class Config implements Cloneable {
     /**
      * Sets the values of this config for old lighting.
      *
-     * @since 6.2.0
      * @see #isOldLighting()
      */
     public void setOldLighting() {
@@ -318,7 +298,6 @@ public class Config implements Cloneable {
     /**
      * Sets the values of this config for old lighting.
      *
-     * @since 6.2.0
      * @see #isOldLighting()
      */
     public Config withOldLighting() {
@@ -330,7 +309,6 @@ public class Config implements Cloneable {
     /**
      * Sets the values of this config to absolute default.
      *
-     * @since 6.2.0
      * @see #isDefault()
      */
     public void setDefault() {
@@ -341,7 +319,6 @@ public class Config implements Cloneable {
     /**
      * Sets the values of this config to absolute default.
      *
-     * @since 6.2.0
      * @see #isDefault()
      */
     public Config withDefault() {
@@ -387,7 +364,6 @@ public class Config implements Cloneable {
     /**
      * Updates this config to clone or shallowly copy the value of another.
      *
-     * @since 6.2.0
      * @see #clone()
      */
     public void cloneFrom(final Config source) {

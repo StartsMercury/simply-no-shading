@@ -16,22 +16,16 @@ public enum ReloadType {
      * A major reload.
      * <p>
      * This would rebuild all chunks and stuff.
-     * 
-     * @since 6.2.0
      */
     Major,
     /**
      * A minor reload.
      * <p>
-     * This would rebuild clouds and a few stuff.
-     * 
-     * @since 6.2.0
+     * This would rebuild clouds and a few stuff
      */
     Minor,
     /**
      * No reload.
-     * 
-     * @since 6.2.0
      */
     None;
 
@@ -43,7 +37,6 @@ public enum ReloadType {
      *
      * @return the greatest reload type
      * @see #max(ReloadType)
-     * @since 6.2.0
      */
     public static ReloadType max(final ReloadType... rts) {
         var lhs = ReloadType.None;
@@ -57,7 +50,6 @@ public enum ReloadType {
      * Applies this reload type.
      *
      * @param levelRenderer the level renderer
-     * @since 6.2.0
      */
     public void applyTo(final LevelRenderer levelRenderer) {
         switch (this) {
@@ -70,7 +62,6 @@ public enum ReloadType {
     /**
      * Returns the greater of two reload types.
      *
-     * @since 6.2.0
      * @see ReloadType#max(ReloadType[]) max(ReloadType...)
      */
     public ReloadType max(final ReloadType rhs) {

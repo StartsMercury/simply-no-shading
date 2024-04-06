@@ -18,8 +18,6 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
 
     /**
      * Creates a new key mapping.
-     *
-     * @since 6.2.0
      */
     public KeyMapping(final String name, final int key, final String category) {
         super(name, InputConstants.Type.KEYSYM, key, category);
@@ -29,7 +27,6 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
      * Detects a press and clears this state.
      *
      * @return {@code true} if {@code this} was pressed
-     * @since 6.2.0
      */
     public boolean consumePressed() {
         final var pressed = this.pressed;
@@ -41,7 +38,6 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
      * Detects a release and clears this state.
      *
      * @return {@code true} if {@code this} was released
-     * @since 6.2.0
      */
     public boolean consumeReleased() {
         final var released = this.released;

@@ -17,8 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * The Simply No Shading client-side entrypoint.
  *
- * @since 6.2.0
  * @see ClientModInitializer
+ * @since 6.2.0
  */
 public final class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
     /**

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @since 6.2.0
+ */
 @ApiStatus.Internal
 public final class SimplyNoShadingUtils {
     public static final class ComputedConfig {

@@ -33,8 +33,6 @@ public final class SimplyNoShading {
      * The Simply No Shading singleton instance.
      * <p>
      * This method is <b>thread-safe</b>.
-     *
-     * @since 6.2.0
      */
     public static SimplyNoShading instance() {
         {
@@ -61,7 +59,6 @@ public final class SimplyNoShading {
      * Simply No Shading's client configuration file name.
      *
      * @return the file name of the client config
-     * @since 6.2.0
      */
     public static Path configFileName() {
         return SimplyNoShading.CONFIG_FILE_NAME;
@@ -73,7 +70,6 @@ public final class SimplyNoShading {
      * Simply No Shading's client configuration path.
      * 
      * @return the path to the client config
-     * @since 6.2.0
      */
     public static Path configPath() {
         final var path = SimplyNoShading.configPath;
@@ -116,7 +112,6 @@ public final class SimplyNoShading {
      * Blocks when a preceded by a call to {@link #setConfig(Config)} on a
      * different thread.
      *
-     * @since 6.2.0
      * @see #configInto(Config)
      * @see #setConfig(Config)
      */
@@ -136,7 +131,6 @@ public final class SimplyNoShading {
      * Blocks when a preceded by a call to {@link #setConfig(Config)} on a
      * different thread.
      *
-     * @since 6.2.0
      * @see #config()
      * @see Config#cloneFrom(Config)
      */
