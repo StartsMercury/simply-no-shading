@@ -248,7 +248,7 @@ dependencies {
     // Sodium
     "modSodiumClientAuto"(libs.sodium)
 
-    // SpruceUI
+    // SpruceUI - to be removed soon
     include(libs.spruceui)
     "modClientImplementation"(libs.spruceui) {
         exclude(mapOf("module" to "fabric-loader"))
