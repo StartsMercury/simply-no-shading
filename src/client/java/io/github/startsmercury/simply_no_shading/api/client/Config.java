@@ -3,7 +3,7 @@ package io.github.startsmercury.simply_no_shading.api.client;
 import java.util.Objects;
 
 /**
- * The Simply No Shading client configuration <abbr>(config)</abbr>..
+ * The Simply No Shading client configuration <abbr>(config)</abbr>.
  * <p>
  * The config object functions to store data following the Object-Oriented
  * Pattern (OOP). For example, config instance accesses can be easily wrapped
