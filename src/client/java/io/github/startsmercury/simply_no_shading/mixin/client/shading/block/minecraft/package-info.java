@@ -4,6 +4,6 @@
  * @since 6.2.0
  */
 @ApiStatus.Internal
-package io.github.startsmercury.simply_no_shading.impl.mixin.shading.block.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
 import org.jetbrains.annotations.ApiStatus;

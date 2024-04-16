@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.impl.mixin.shading.block.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.fabricmc.api.EnvType;

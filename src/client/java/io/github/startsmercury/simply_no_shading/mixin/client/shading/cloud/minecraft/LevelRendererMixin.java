@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.impl.mixin.shading.cloud.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.minecraft;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.minecraft.client.renderer.LevelRenderer;

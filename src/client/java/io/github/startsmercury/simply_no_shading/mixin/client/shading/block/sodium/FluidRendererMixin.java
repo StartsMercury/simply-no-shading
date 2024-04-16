@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.impl.mixin.shading.block.sodium;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.sodium;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;

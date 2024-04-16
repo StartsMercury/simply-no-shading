@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.impl.mixin.shading.cloud.sodium;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.sodium;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import me.jellysquid.mods.sodium.client.render.immediate.CloudRenderer;
