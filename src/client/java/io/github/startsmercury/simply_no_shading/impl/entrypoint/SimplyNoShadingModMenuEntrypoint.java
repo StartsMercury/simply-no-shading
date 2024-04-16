@@ -7,9 +7,6 @@ import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 
 /**
  * The Simply No Shading {@link ModMenuApi modmenu} initializer.
- * <p>
- * Implements interoperability with Mod Menu to provide user centered features,
- * specifically making the config screen button available in the mod menu.
  *
  * @see ModMenuApi
  * @since 6.2.0
