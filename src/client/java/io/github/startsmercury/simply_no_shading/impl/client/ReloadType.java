@@ -2,7 +2,6 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
-// TODO: might be unstable API
 /**
  * Game reload type.
  * <p>
