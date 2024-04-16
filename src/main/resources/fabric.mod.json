@@ -1,63 +1,63 @@
 {
-	"schemaVersion": 1,
-	"id": "simply-no-shading",
-	"version": "${version}",
+    "schemaVersion": 1,
+    "id": "simply-no-shading",
+    "version": "${version}",
 
-	"name": "Simply No Shading",
-	"description": "A mod mimicking OptiFine's Internal Shader though with less performance impact.",
-	"authors": [
-		{
-			"name": "StartsMercury",
-			"contact": {
-				"homepage": "https://github.com/StartsMercury"
-			}
-		}
-	],
-	"contributors": [
-		"IMS212 - initally remapped the mod to official Mojang mappings",
-		"PepperCode1 - showed a more mod-compatible way to override shading",
-		"FITFC - Português (Brasil) and Português (Portugal) translations",
-		"Minecrafthyr - showed where entity and item model shading was calculated",
-		"Myuui - Français (French) translation"
-	],
-	"contact": {
-		"homepage": "https://modrinth.com/mod/simply-no-shading",
-		"sources": "https://github.com/StartsMercury/simply-no-shading",
-		"issues": "https://github.com/StartsMercury/simply-no-shading/issues"
-	},
+    "name": "Simply No Shading",
+    "description": "A mod mimicking OptiFine's Internal Shader though with less performance impact.",
+    "authors": [
+        {
+            "name": "StartsMercury",
+            "contact": {
+                "homepage": "https://github.com/StartsMercury"
+            }
+        }
+    ],
+    "contributors": [
+        "IMS212 - initally remapped the mod to official Mojang mappings",
+        "PepperCode1 - showed a more mod-compatible way to override shading",
+        "FITFC - Português (Brasil) and Português (Portugal) translations",
+        "Minecrafthyr - showed where entity and item model shading was calculated",
+        "Myuui - Français (French) translation"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/simply-no-shading",
+        "sources": "https://github.com/StartsMercury/simply-no-shading",
+        "issues": "https://github.com/StartsMercury/simply-no-shading/issues"
+    },
 
-	"license": "MIT",
-	"icon": "assets/simply-no-shading/icon.png",
+    "license": "MIT",
+    "icon": "assets/simply-no-shading/icon.png",
 
-	"environment": "client",
-	"entrypoints": {
-		"client": [
-			"io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingClientEntrypoint"
-		],
-		"modmenu": [
-			"io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingModMenuEntrypoint"
-		]
-	},
-	"mixins": [
-		"simply-no-shading.mixins.json"
-	],
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingClientEntrypoint"
+        ],
+        "modmenu": [
+            "io.github.startsmercury.simply_no_shading.entrypoint.SimplyNoShadingModMenuEntrypoint"
+        ]
+    },
+    "mixins": [
+        "simply-no-shading.client.mixins.json"
+    ],
 
-	"depends": {
-		"fabric-api": "*",
-		"fabricloader": "*",
-		"java": ">=${javaVersion}",
-		"minecraft": "*",
-		"spruceui": "*"
-	},
-	"recommends": {
-		"java": "${javaVersion}",
-		"minecraft": "${gameVersion}",
-		"modmenu": "*"
-	},
-	"suggests": {
-		"bedrockify": "*",
-		"enhancedblockentities": "*",
-		"minecraft": "${minecraftVersion}",
-		"sodium": "*"
-	}
+    "depends": {
+        "fabric-api": "*",
+        "fabricloader": "*",
+        "java": ">=${javaVersion}",
+        "minecraft": "*",
+        "spruceui": "*"
+    },
+    "recommends": {
+        "java": "${javaVersion}",
+        "minecraft": "${gameVersion}",
+        "modmenu": "*"
+    },
+    "suggests": {
+        "bedrockify": "*",
+        "enhancedblockentities": "*",
+        "minecraft": "${minecraftVersion}",
+        "sodium": "*"
+    }
 }
