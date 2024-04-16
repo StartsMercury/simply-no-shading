@@ -124,6 +124,7 @@ public final class SimplyNoShadingClientEntrypoint implements ClientModInitializ
             .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
                 new ResourceLocation("simply-no-shading", "simply_no_entity_like_shading"),
                 container,
+                "No Shading Entity-Like",
                 ResourcePackActivationType.NORMAL
             ));
     }
