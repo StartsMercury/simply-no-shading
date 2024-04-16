@@ -82,10 +82,10 @@ public final class SimplyNoShading {
 
     private static Path initConfigPath() {
         final var minecraft = Minecraft.getInstance();
-        if (minecraft == null)
+        if (minecraft == null) {
             throw new Error("Simply No Shading requires Minecraft to function");
+        }
 
-        // Assertion: always the same value
         final var configDirectory = minecraft
             .gameDirectory
             .toPath()
