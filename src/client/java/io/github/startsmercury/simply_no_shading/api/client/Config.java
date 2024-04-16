@@ -5,10 +5,8 @@ import java.util.Objects;
 /**
  * The Simply No Shading client configuration <abbr>(config)</abbr>.
  * <p>
- * The config object functions to store data following the Object-Oriented
- * Pattern (OOP). For example, config instance accesses can be easily wrapped
- * or accesses be synchronized (refer to {@code SimplyNoShading}'s
- * implementation).
+ * The config object stores data used by Simply No Shading and is usually
+ * serialized.
  *
  * @since 6.2.0
  */
@@ -16,7 +14,7 @@ public class Config implements Cloneable {
     /**
      * Default vanilla shading.
      * <p>
-     * Creates a new config defaulted to look exactly like the public vanilla
+     * Creates a new config defaulted to look exactly like the default vanilla
      * Minecraft shading.
      *
      * @return the config for vanilla shading
@@ -296,7 +294,7 @@ public class Config implements Cloneable {
     }
 
     /**
-     * Creates a clone or shallow copy of this config.
+     * Creates a clone of this config.
      * <p>
      * {@inheritDoc}
      */
@@ -310,7 +308,10 @@ public class Config implements Cloneable {
     }
 
     /**
-     * Updates this config to clone or shallowly copy the value of another.
+     * Clones value from another.
+     *
+     * Cloning usually involve creating objects but when that is undesirable
+     * this method may replace that by cloning values into a preexisting object.
      *
      * @see #clone()
      */
@@ -323,8 +324,10 @@ public class Config implements Cloneable {
     /**
      * Performs equality check with this config and another object.
      * <p>
-     * Though this method could accept any objects of any type, only another
-     * config with the exact same values would result with {@code true}.
+     * Compares the equality of this and another config and will only result to
+     * {@code true} if the other config is of the same type and both their
+     * internal values that are at least have getters to are also equal;
+     * {code false} otherwise.
      * <p>
      * {@inheritDoc}
      */
@@ -343,9 +346,8 @@ public class Config implements Cloneable {
     /**
      * Calculates the hash of this config.
      * <p>
-     * The hash of the config is only determined by the internal values that has
-     * some form of accessing publicly and that are not dynamically synthesized
-     * or derived from simpler internal values.
+     * The hash of this config is influenced by the values internal to this
+     * object that are also accessible through getters.
      * <p>
      * {@inheritDoc}
      */
@@ -360,9 +362,8 @@ public class Config implements Cloneable {
     /**
      * Creates a verbose string representation of this config.
      * <p>
-     * The string representation contains internal values that have accessors or
-     * getters. It's not the scope of this method to include the return of every
-     * method.
+     * The string representation of this config will contain internal values
+     * that are accessible through getters.
      * <p>
      * {@inheritDoc}
      */
