@@ -1,7 +1,7 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
-import java.util.Objects;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
+import java.util.Objects;
 
 /**
  * @since 6.2.0
