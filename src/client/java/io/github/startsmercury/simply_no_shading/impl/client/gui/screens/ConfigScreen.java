@@ -1,5 +1,7 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
+import static io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingUtils.LOGGER;
+
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingUtils;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
@@ -121,8 +123,9 @@ public final class ConfigScreen extends OptionsSubScreen {
             }
         }
 
-        System.err.println(
-            this.getClass().getName() + " might not have been opened using Minecraft::setScreen"
+        LOGGER.warn(
+            "[Simply No Shading] {} might not have been opened using Minecraft::setScreen",
+            this
         );
         return this.minecraft = Minecraft.getInstance();
     }

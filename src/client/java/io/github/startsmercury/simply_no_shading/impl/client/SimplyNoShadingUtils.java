@@ -16,14 +16,14 @@ public final class SimplyNoShadingUtils {
     public static boolean tryLoadConfig(final SimplyNoShading self) {
         try {
             final var unrecognisedKeys = self.loadConfig();
-            LOGGER.warn("Ignored unrecognized keys: {}", unrecognisedKeys);
+            LOGGER.warn("[Simply No Shading] Ignored unrecognized keys: {}", unrecognisedKeys);
             return true;
         } catch (final FileNotFoundException ignored) {
-            LOGGER.info("Config file does not exist: defaults will be used.");
+            LOGGER.info("[Simply No Shading] Config file does not exist: defaults will be used.");
         } catch (final JsonParseException cause) {
-            LOGGER.error("Unable to parse config", cause);
+            LOGGER.error("[Simply No Shading] Unable to parse config", cause);
         } catch (final IOException cause) {
-            LOGGER.error("Unable to read config", cause);
+            LOGGER.error("[Simply No Shading] Unable to read config", cause);
         }
 
         return false;
@@ -34,9 +34,9 @@ public final class SimplyNoShadingUtils {
             self.saveConfig();
             return true;
         } catch (final JsonParseException cause) {
-            LOGGER.error("Unable to parse config", cause);
+            LOGGER.error("[Simply No Shading] Unable to parse config", cause);
         } catch (final IOException cause) {
-            LOGGER.error("Unable to merge-save config", cause);
+            LOGGER.error("[Simply No Shading] Unable to merge-save config", cause);
         }
 
         return false;
