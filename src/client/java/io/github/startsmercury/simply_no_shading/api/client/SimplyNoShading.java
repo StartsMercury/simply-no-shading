@@ -17,216 +17,56 @@ import net.minecraft.client.Minecraft;
 /**
  * Simply No Shading.
  * <p>
- * The singleton instance of this class represents the state of Simply No
- * Shading as a Minecraft modification.
- * <p>
- * Operations with instances of this class are read/write locked. Getters will
- * always return the clone of their values and setters will always clone their
- * new value into the instance.
+ * A concrete instance of this class represents the state of Simply No Shading
+ * as a Minecraft modification.
  *
  * @since 6.2.0
  */
-public final class SimplyNoShading {
-    private static volatile SimplyNoShading instance;
-
+public interface SimplyNoShading {
     /**
-     * The Simply No Shading singleton instance.
-     * <p>
-     * This method is <b>thread-safe</b>.
+     * The Simply No Shading implementation instance.
+     *
+     * @implSpec This method may be implemented such that it returns different
+     *           implementation instance, but this is discouraged as callers may
+     *           validly assume to receive the same reference.
+     * @implNote It is possible to call this method before the instance is
+     *           initialized, which will result in a {@link RuntimeException}.
      */
-    public static SimplyNoShading instance() {
-        {
-            final var instance = SimplyNoShading.instance;
-            if (SimplyNoShading.instance != null) {
-                return instance;
-            }
-        }
-        return instanceSync();
-    }
-
-    private static synchronized SimplyNoShading instanceSync() {
-        final var instance = SimplyNoShading.instance;
-        if (SimplyNoShading.instance != null) {
+    static SimplyNoShading instance() {
+        final var instance = SimplyNoShadingImpl.instance;
+        if (instance != null) {
             return instance;
         } else {
-            return SimplyNoShading.instance = new SimplyNoShading();
+            throw new RuntimeException("Simply No Shading is not yet initialized");
         }
     }
-
-    private static final Path CONFIG_FILE_NAME = Path.of("simply-no-shading.json");
-
-    /**
-     * Simply No Shading's client configuration file name.
-     *
-     * @return the file name of the client config
-     */
-    public static Path configFileName() {
-        return SimplyNoShading.CONFIG_FILE_NAME;
-    }
-
-    private static Path configPath;
 
     /**
      * Simply No Shading's client configuration file path.
-     * 
-     * @return the file path to the client config
+     *
+     * @implSpec This method return may vary but it is discouraged and should
+     *           never be {@code null}.
      */
-    public static Path configPath() {
-        final var path = SimplyNoShading.configPath;
-        if (path != null) {
-            return path;
-        } else {
-            return SimplyNoShading.initConfigPath();
-        }
-    }
-
-    private static Path initConfigPath() {
-        final var minecraft = Minecraft.getInstance();
-        if (minecraft == null) {
-            throw new Error("Simply No Shading requires Minecraft to function");
-        }
-
-        final var configDirectory = minecraft
-            .gameDirectory
-            .toPath()
-            .resolve("config");
-        final var configFile = SimplyNoShading.configFileName();
-
-        return SimplyNoShading.configPath = configDirectory.resolve(configFile);
-    }
-
-    private final Config config;
-    private final ReentrantReadWriteLock rwlock;
-
-    private SimplyNoShading() {
-        this.config = Config.defaultOldLighting();
-        this.rwlock = new ReentrantReadWriteLock();
-    }
+    Path configPath();
 
     /**
-     * The main Simply No Shading config.
-     * <p>
-     * Blocks when a preceded by a call to {@link #setConfig(Config)} on a
-     * different thread.
+     * The Simply No Shading config.
      *
-     * @see #configInto(Config)
      * @see #setConfig(Config)
+     * @implSpec This method may return any non-{@code null} concrete
+     *           implementation of {@link Config} and it is recommended that
+     *           the returned config instance has no possible avenue to
+     *           influence succeeding calls such as by returning a copy instead.
      */
-    public Config config() {
-        final var lock = this.rwlock.readLock();
-        lock.lock();
-        try {
-            return this.config.clone();
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    /**
-     * Copies the value of the main Simply No Shading config.
-     * <p>
-     * Blocks when a preceded by a call to {@link #setConfig(Config)} on a
-     * different thread.
-     *
-     * @see #config()
-     * @see Config#cloneFrom(Config)
-     */
-    public Config configInto(final Config config) {
-        Objects.requireNonNull(config, "Parameter config is null");
-
-        final var lock = this.rwlock.readLock();
-        lock.lock();
-        try {
-            config.cloneFrom(this.config);
-        } finally {
-            lock.unlock();
-        }
-        return config;
-    }
+    Config config();
 
     /**
      * Sets the main config.
-     * <p>
-     * Blocks when a preceded by a call to either {@link #config()},
-     * {@link #configInto(Config)}, or to itself on a different thread.
      *
      * @see #config()
+     * @implSpec This method may throw on {@code null}s and may store the passed
+     *           config instance, but it is preferred to store a copy of the
+     *           value instead.
      */
-    public void setConfig(final Config config) {
-        Objects.requireNonNull(config, "Parameter config is null");
-
-        Lock lock = this.rwlock.writeLock();
-        lock.lock();
-        try {
-            this.config.cloneFrom(config);
-
-            // downgrades lock
-            final var readLock = this.rwlock.readLock();
-            readLock.lock();
-            try {
-                lock.unlock();
-            } finally {
-                lock = readLock;
-            }
-        } finally {
-            ComputedConfig.set(this.config);
-            lock.unlock();
-        }
-    }
-
-    /**
-     * Loads the config from {@code <minecraft>/config/simply-no-shading.json}.
-     * <p>
-     * This method uses {@link #setConfig(Config)} and is subject to the same blocking
-     * rules.
-     *
-     * @return unrecognized keys from parsing
-     */
-    public Set<? extends String> loadConfig() throws IOException, JsonParseException {
-        try {
-            return ConfigIO.lossyLoadMut(this::config, this::setConfig, SimplyNoShading::configJsonReader);
-        } catch (final RuntimeException | IOException cause) {
-            throw cause;
-        } catch (final Exception invariant) {
-            throw new AssertionError(
-                "the only anticipated checked exception is java.io.IOException",
-                invariant
-            );
-        }
-    }
-
-    /**
-     * Saves the config to {@code <minecraft>/config/simply-no-shading.json}.
-     * <p>
-     * This method uses {@link #config()} and is subject to the same blocking
-     * rules.
-     */
-    public void saveConfig() throws IOException, JsonParseException {
-        try {
-            ConfigIO.mergeSave(
-                this.config,
-                SimplyNoShading::configJsonReader,
-                SimplyNoShading::configJsonWriter
-            );
-        } catch (final RuntimeException | IOException cause) {
-            throw cause;
-        } catch (final Exception invariant) {
-            throw new AssertionError(
-                "the only anticipated checked exception is java.io.IOException",
-                invariant
-            );
-        }
-    }
-
-    private static JsonReader configJsonReader() throws IOException {
-        return new JsonReader(Files.newBufferedReader(SimplyNoShading.configPath()));
-    }
-
-    private static JsonWriter configJsonWriter() throws IOException {
-        final var writer = Files.newBufferedWriter(SimplyNoShading.configPath());
-        final var jsonWriter = new JsonWriter(writer);
-
-        jsonWriter.setIndent("    ");
-        return jsonWriter;
-    }
+    void setConfig(Config config);
 }

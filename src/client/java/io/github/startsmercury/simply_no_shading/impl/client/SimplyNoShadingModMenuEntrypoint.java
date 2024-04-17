@@ -1,9 +1,7 @@
-package io.github.startsmercury.simply_no_shading.impl.entrypoint;
+package io.github.startsmercury.simply_no_shading.impl.client;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 
 /**
  * The Simply No Shading {@link ModMenuApi modmenu} initializer.
@@ -19,7 +17,7 @@ public final class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
      */
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        final var simplyNoShading = SimplyNoShading.instance();
+        final var simplyNoShading = SimplyNoShadingImpl.instance;
         return lastScreen -> new ConfigScreen(lastScreen, simplyNoShading.config());
     }
 }

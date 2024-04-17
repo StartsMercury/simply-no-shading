@@ -1,11 +1,10 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
-import static io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingUtils.LOGGER;
+import static io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.LOGGER;
 
-import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingUtils;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
@@ -109,9 +108,9 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        final var simplyNoShading = SimplyNoShading.instance();
+        final var simplyNoShading = SimplyNoShadingImpl.instance;
         simplyNoShading.setConfig(this.config);
-        SimplyNoShadingUtils.trySaveConfig(simplyNoShading);
+        simplyNoShading.saveConfig(simplyNoShading);
         this.reloadType.applyTo(this.minecraft().levelRenderer);
     }
 
