@@ -5,7 +5,7 @@ import com.google.code.gson.JsonParser;
 import com.google.code.gson.stream.JsonReader;
 import com.google.code.gson.stream.JsonWriter;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
-import io.github.startsmercury.simply_no_shading.impl.JsonUtils
+import io.github.startsmercury.simply_no_shading.impl.JsonUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
