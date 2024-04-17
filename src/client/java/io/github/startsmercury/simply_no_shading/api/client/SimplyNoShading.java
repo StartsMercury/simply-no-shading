@@ -1,6 +1,6 @@
 package io.github.startsmercury.simply_no_shading.api.client;
 
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShadingImpl;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.nio.file.Path;
 
 /**

@@ -6,13 +6,14 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.JsonUtils;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.files.Files;
-import java.nio.files.Path;
-import net.fabricmc.fabric.api.FabricLoader;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,7 +164,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         try {
             final var reader = Files.newBufferedReader(this.configPath());
             this.loadConfigHelper(reader);
-        } catch (final FileNotFoundException cause) {
+        } catch (final NoSuchFileException cause) {
             LOGGER.info("[Simply No Shading] Config file is not present, defaults will be used.");
         } catch (final IOException cause) {
             LOGGER.error(
@@ -197,8 +198,6 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         try {
             final var writer = Files.newBufferedWriter(this.configPath());
             this.saveConfigHelper(writer);
-        } catch (final FileNotFoundException cause) {
-            LOGGER.info("[Simply No Shading] Config file is not present, defaults will be used.");
         } catch (final IOException cause) {
             LOGGER.error(
                 "[Simply No Shading] An I/O exception occurred while creating the config file writer.",
