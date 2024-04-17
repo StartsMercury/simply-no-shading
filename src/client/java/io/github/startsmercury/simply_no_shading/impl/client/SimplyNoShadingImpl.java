@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.JsonUtils;
 import java.io.IOException;
