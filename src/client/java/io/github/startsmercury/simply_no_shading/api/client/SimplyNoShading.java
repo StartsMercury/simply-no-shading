@@ -1,18 +1,7 @@
 package io.github.startsmercury.simply_no_shading.api.client;
 
-import com.google.gson.JsonParseException;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
-import io.github.startsmercury.simply_no_shading.impl.client.ConfigIO;
-import java.io.IOException;
-import java.nio.file.Files;
+import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShadingImpl;
 import java.nio.file.Path;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import net.minecraft.client.Minecraft;
 
 /**
  * Simply No Shading.

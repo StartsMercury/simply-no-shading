@@ -1,5 +1,11 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import io.github.startsmercury.simply_no_shading.api.client.Config;
+
 public class ConfigImpl implements Config {
     private boolean blockShadingEnabled;
     private boolean cloudShadingEnabled;

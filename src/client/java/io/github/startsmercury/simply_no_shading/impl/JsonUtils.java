@@ -1,11 +1,11 @@
 package io.github.startsmercury.simply_no_shading.impl;
 
-import com.google.code.gson.JsonArray;
-import com.google.code.gson.JsonElement;
-import com.google.code.gson.JsonNull;
-import com.google.code.gson.JsonObject;
-import com.google.code.gson.JsonPrimitive;
-import com.google.code.gson.stream.JsonWriter;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonWriter;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import java.io.IOException;
