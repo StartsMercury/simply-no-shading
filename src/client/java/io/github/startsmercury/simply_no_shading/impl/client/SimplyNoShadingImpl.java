@@ -58,11 +58,11 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         return KeyMapping;
     }
 
-    private consumeKeyEvents(final Minecraft minecraft) {
+    private void consumeKeyEvents(final Minecraft minecraft) {
         if (openConfigScreen.isDown()) {
             minecraft.setScreen(new ConfigScreen(null, thus.config()));
         } else if (reloadConfig.isDown()) {
-            this.reloadCondig(final Minecraft minecraft);
+            this.reloadCondig(minecraft);
         } else {
             this.consumeKeyToggleEvents(minecraft);
         }
@@ -208,7 +208,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private JsonObject parseConfigAsJsonObject() {
-        try (final var reader = Files.newBufferedReader(this.configPath()) {
+        try (final var reader = Files.newBufferedReader(this.configPath())) {
             if (JsonPrser.parseReader(reader) instanceof JsonObject jsonObject) {
                 return jsonOject;
             }
