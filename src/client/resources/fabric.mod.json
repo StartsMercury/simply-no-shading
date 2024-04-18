@@ -39,7 +39,7 @@
         ]
     },
     "mixins": [
-        "simply-no-shading.client.json"
+        "simply-no-shading.mixins.json"
     ],
 
     "depends": {

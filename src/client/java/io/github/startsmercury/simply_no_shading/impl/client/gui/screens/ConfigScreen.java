@@ -3,7 +3,10 @@ package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 import static io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.LOGGER;
 
 import io.github.startsmercury.simply_no_shading.api.client.Config;
+import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
+import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
+import io.github.startsmercury.simply_no_shading.impl.client.ShadingToggle;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import java.util.Objects;
@@ -24,7 +27,7 @@ import net.minecraft.network.chat.Component;
  */
 public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
-    private final Config config;
+    private final ConfigImpl config;
     private OptionsList list;
     private ReloadType reloadType;
 
@@ -33,8 +36,8 @@ public final class ConfigScreen extends OptionsSubScreen {
 
         Objects.requireNonNull(config, "Parameter config is null");
 
-        this.config = config;
-        this.reloadType = ReloadType.None;
+        this.config = new ConfigImpl(config);
+        this.reloadType = ReloadType.NONE;
     }
 
     @Override
@@ -43,39 +46,34 @@ public final class ConfigScreen extends OptionsSubScreen {
             new OptionsList(this.minecraft, this.width, this.height, this)
         );
 
-        this.list.addSmall(
-            this.createToggleButton(
-                "simply-no-shading.config.option.blockShadingEnabled",
-                this.config.blockShadingEnabled(),
-                this.config::setBlockShadingEnabled,
-                ReloadType.Major
-            ),
-            this.createToggleButton(
-                "simply-no-shading.config.option.cloudShadingEnabled",
-                this.config.cloudShadingEnabled(),
-                this.config::setCloudShadingEnabled,
-                ReloadType.Minor
-            )
-        );
+        final var shadingToggles =
+            ((SimplyNoShadingImpl) SimplyNoShading.instance()).shadingToggles();
+        final var options = new OptionInstance[shadingToggles.size()];
+        {
+            final var iter = shadingToggles.iterator();
+            var size = 0;
+            while (iter.hasNext()) {
+                final var shadingToggle = iter.next();
+                options[size++] = this.createShadingOption(shadingToggle);
+            }
+        }
+
+        this.list.addSmall(options);
         this.list.addSmall(this.createToEntityLikeShadingButton(), null);
 
         super.init();
     }
 
-    private OptionInstance<Boolean> createToggleButton(
-        final String key,
-        final boolean initial,
-        final BooleanConsumer setter,
-        final ReloadType reloadType
-    ) {
+    private OptionInstance<Boolean> createShadingOption(final ShadingToggle shadingToggle) {
+        final var key = "simply-no-shading.config.option." + shadingToggle.name() + "Enabled";
         final var tooltip = Tooltip.create(Component.translatable(key + ".tooltip"));
         return OptionInstance.createBoolean(
             key,
             enabled -> tooltip,
-            initial,
+            shadingToggle.getFrom(this.config),
             enabled -> {
-                setter.accept((boolean) enabled);
-                this.reloadType = this.reloadType.max(reloadType);
+                shadingToggle.setTo(this.config, enabled);
+                this.reloadType = this.reloadType.max(shadingToggle.reloadType());
             }
         );
     }
@@ -108,9 +106,9 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        final var simplyNoShading = SimplyNoShadingImpl.instance;
+        final var simplyNoShading = SimplyNoShading.instance();
         simplyNoShading.setConfig(this.config);
-        simplyNoShading.saveConfig(simplyNoShading);
+        ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
         this.reloadType.applyTo(this.minecraft().levelRenderer);
     }
 
