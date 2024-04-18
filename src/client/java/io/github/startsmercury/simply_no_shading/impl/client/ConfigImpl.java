@@ -40,8 +40,8 @@ public class ConfigImpl implements Config {
     }
 
     public void set(final Config other) {
-        this.blockShadingEnabled = other.blockShadingEnabled;
-        this.cloudShadingEnabled = other.cloudShadingEnabled;
+        this.blockShadingEnabled = other.blockShadingEnabled();
+        this.cloudShadingEnabled = other.cloudShadingEnabled();
     }
 
     public void fromJson(final JsonElement json) {

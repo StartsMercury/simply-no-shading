@@ -23,19 +23,19 @@ public final class JsonUtils {
         values.push(first);
 
         while (true) {
-            final var json = values.poll();
+            final var json = values.removeLast();
             if (json == null) {
                 break;
             }
 
-            if (scope.peek() == Scope.OBJECT) {
+            if (scopes.peek() == Scope.OBJECT) {
                 // NOTE: there should be enough keys in an OBJECT scope, which
                 //       was extracted from a JsonObject along with their values
                 writer.name(keys.pop());
             }
 
             if (json instanceof final JsonArray jsonArray) {
-                markers.add(values.length());
+                markers.add(values.size());
                 scopes.add(Scope.ARRAY);
                 writer.beginArray();
 
@@ -43,7 +43,7 @@ public final class JsonUtils {
                     values.add(jsonArray.get(i));
                 }
             } else if (json instanceof final JsonObject jsonObject) {
-                markers.add(values.length());
+                markers.add(values.size());
                 scopes.add(Scope.OBJECT);
                 writer.beginObject();
 
@@ -69,8 +69,8 @@ public final class JsonUtils {
                     throw new IllegalArgumentException("Unrecognized json type: " + json.getClass().getName());
                 }
 
-                final var cursor = values.length();
-                while (!markers.isEmpty() && markers.peekInt() == cursor) {
+                final var cursor = values.size();
+                while (markers.peekInt(-1) == cursor) {
                     markers.popInt();
                     // NOTE: there should be as many scopes as there are markers
                     switch (scopes.pop()) {
