@@ -274,7 +274,11 @@ tasks.named<Javadoc>("javadoc") {
     source += sourceSets["client"].allJava
 
     when (val options = this.options) {
-        is CoreJavadocOptions -> options.addStringOption("tag", "implNote:a:Implementation Note:")
+        is StandardJavadocDocletOptions -> options.tags(
+            "apiNote:a:API Note",
+            "implNote:a:Implementation Note",
+            "implSpec:a:Implementation Requirements",
+        )
     }
 }
 
