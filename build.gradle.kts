@@ -256,6 +256,27 @@ dependencies {
 }
 
 /******************************************************************************/
+/* TESTING SUITES                                                             */
+/******************************************************************************/
+
+testing {
+    suites {
+        val clientTest by registering(JvmTestSuite::class) {
+            val client by sourceSets.getting
+
+            sources {
+                compileClasspath += client.compileClasspath
+                runtimeClasspath += client.runtimeClasspath
+            }
+
+            dependencies {
+                implementation(client.output)
+            }
+        }
+    }
+}
+
+/******************************************************************************/
 /* TASK CONFIGURATIONS                                                        */
 /******************************************************************************/
 
