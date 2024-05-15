@@ -1,15 +1,12 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 /**
  * @since 6.2.0
