@@ -19,7 +19,7 @@ public class BedrockBlockShadingMixin {
 
     @ModifyReturnValue(
         method = {
-            "getBlockShade(Lnet/minecraft/core/Direction)F",
+            "getBlockShade(Lnet/minecraft/core/Direction;)F",
             "getLiquidShade(Lnet/minecraft/core/Direction;Z)F"
         },
         at = @At("HEAD")
