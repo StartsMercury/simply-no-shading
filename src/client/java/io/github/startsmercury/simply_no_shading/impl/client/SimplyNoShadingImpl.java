@@ -3,14 +3,11 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.blaze3d.platform.InputConstants;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.JsonUtils;
-import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
-import io.github.startsmercury.simply_no_shading.impl.client.ShadingToggle;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
@@ -26,6 +23,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -242,7 +240,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private void reloadConfig(final Minecraft minecraft) {
-        final var oldShadingValues = new Reference2BooleanOpenHashMap(this.config.shadingValues);
+        final var oldShadingValues = new Reference2BooleanOpenHashMap<>(this.config.shadingValues);
         this.loadConfig();
         final var newShadingValues = this.config.shadingValues;
 
@@ -285,7 +283,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
             .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
                 new ResourceLocation(MODID, "simply_no_entity_like_shading"),
                 container,
-                "No Shading: Entity-Like",
+                Component.literal("Entity(ish) No Shading"),
                 ResourcePackActivationType.NORMAL
             ));
     }

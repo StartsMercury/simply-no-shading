@@ -7,8 +7,7 @@ import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingToggle;
-import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;;
-import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
@@ -42,23 +41,15 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     protected void init() {
-        this.list = this.addRenderableWidget(
-            new OptionsList(this.minecraft, this.width, this.height, this)
-        );
+        this.list = new OptionsList(this.minecraft, this.width, this.height, this);
+        this.addRenderableWidget(this.list);
 
-        final var shadingToggles =
-            ((SimplyNoShadingImpl) SimplyNoShading.instance()).shadingToggles();
-        final var options = new OptionInstance[shadingToggles.size()];
-        {
-            final var iter = shadingToggles.iterator();
-            var size = 0;
-            while (iter.hasNext()) {
-                final var shadingToggle = iter.next();
-                options[size++] = this.createShadingOption(shadingToggle);
-            }
+        final var shadingToggles = ((SimplyNoShadingImpl) SimplyNoShading.instance()).shadingToggles();
+        for (final var shadingToggle : shadingToggles) {
+            final var option = this.createShadingOption(shadingToggle);
+            this.list.addSmall(option);
         }
 
-        this.list.addSmall(options);
         this.list.addSmall(this.createToEntityLikeShadingButton(), null);
 
         super.init();
@@ -80,6 +71,7 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     private Button createToEntityLikeShadingButton() {
         final var minecraft = this.minecraft();
+
         return Button.builder(
             Component.translatable("simply-no-shading.config.option.experimentalEntityLikeShading"),
             self -> minecraft.setScreen(
@@ -106,10 +98,12 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
+        final var minecraft = this.minecraft();
         final var simplyNoShading = SimplyNoShading.instance();
+
         simplyNoShading.setConfig(this.config);
         ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
-        this.reloadType.applyTo(this.minecraft().levelRenderer);
+        this.reloadType.applyTo(minecraft.levelRenderer);
     }
 
     private Minecraft minecraft() {

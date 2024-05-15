@@ -65,15 +65,15 @@ public final class JsonUtils {
                 } else {
                     throw new IllegalArgumentException("Unrecognized json type: " + json.getClass().getName());
                 }
+            }
 
-                final var cursor = values.size();
-                while (!markers.isEmpty() && markers.topInt() == cursor) {
-                    markers.popInt();
-                    // NOTE: there should be as many scopes as there are markers
-                    switch (scopes.pop()) {
-                        case ARRAY -> writer.endArray();
-                        case OBJECT -> writer.endObject();
-                    }
+            final var cursor = values.size();
+            while (!markers.isEmpty() && markers.topInt() == cursor) {
+                markers.popInt();
+                // NOTE: there should be as many scopes as there are markers
+                switch (scopes.pop()) {
+                    case ARRAY -> writer.endArray();
+                    case OBJECT -> writer.endObject();
                 }
             }
         }

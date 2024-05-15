@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 
@@ -13,7 +12,7 @@ public class ConfigImpl implements Config {
     final Reference2BooleanMap<String> shadingValues;
 
     public ConfigImpl(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
-        this.shadingValues = new Reference2BooleanOpenHashMap();
+        this.shadingValues = new Reference2BooleanOpenHashMap<>();
         this.set(blockShadingEnabled, cloudShadingEnabled);
     }
 
@@ -23,7 +22,7 @@ public class ConfigImpl implements Config {
 
     @Override
     public boolean blockShadingEnabled() {
-        return this.shadingValues.get("blockShading");
+        return this.shadingValues.getBoolean("blockShading");
     }
 
     @Override
@@ -33,7 +32,7 @@ public class ConfigImpl implements Config {
 
     @Override
     public boolean cloudShadingEnabled() {
-        return this.shadingValues.get("cloudShading");
+        return this.shadingValues.getBoolean("cloudShading");
     }
 
     @Override
