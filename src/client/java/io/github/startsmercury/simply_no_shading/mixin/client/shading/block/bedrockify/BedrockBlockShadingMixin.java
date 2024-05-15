@@ -5,8 +5,8 @@ import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockS
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 /**
  * @since 6.2.0
@@ -17,13 +17,18 @@ public class BedrockBlockShadingMixin {
     private BedrockBlockShadingMixin() {
     }
 
-    @Inject(
-        method = "getLiquidShade(Lnet/minecraft/core/Direction;Z)F",
-        at = @At("HEAD"),
-        cancellable = true
+    @ModifyReturnValue(
+        method = {
+            "getBlockShade(Lnet/minecraft/core/Direction)F",
+            "getLiquidShade(Lnet/minecraft/core/Direction;Z)F"
+        },
+        at = @At("HEAD")
     )
-    private void changeReturnedShade(final CallbackInfoReturnable<Float> callback) {
-        if (!ComputedConfig.blockShadingEnabled)
-            callback.setReturnValue(1.0F);
+    private float modifyShade(final float original) {
+        if (ComputedConfig.blockShadingEnabled) {
+            return original;
+        } else {
+            return Math.max(1.0f, original);
+        }
     }
 }
