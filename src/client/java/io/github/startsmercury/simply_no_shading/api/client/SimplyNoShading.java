@@ -2,6 +2,7 @@ package io.github.startsmercury.simply_no_shading.api.client;
 
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.nio.file.Path;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Simply No Shading.
@@ -22,7 +23,7 @@ public interface SimplyNoShading {
      *           initialized, which may result in a
      *           {@linkplain RuntimeException runtime exception}.
      */
-    static SimplyNoShading instance() {
+    static @NotNull SimplyNoShading instance() {
         final var instance = SimplyNoShadingImpl.instance;
         if (instance != null) {
             return instance;
@@ -47,7 +48,7 @@ public interface SimplyNoShading {
      *           implementation of {@link Config} and preferrably carry no
      *           side-effects to future calls to this method.
      */
-    Config config();
+    @NotNull Config config();
 
     /**
      * Changes the config.
