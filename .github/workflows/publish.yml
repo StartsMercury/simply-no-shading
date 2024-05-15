@@ -18,6 +18,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Make gradle wrapper executable
+        run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew clean -Pversion=${{ github.ref_name }} build --stacktrace
       - name: Upload binaries to release
