@@ -9,6 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+
 /**
  * @since 6.2.0
  */
@@ -29,10 +31,10 @@ public abstract class BakedQuadMixin {
         this.shade = this.shade && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled;
     }*/
 
-    @Inject(method = "isShade()Z", at = @At("RETURN"), cancellable = true)
-    private void changeReturnedShade(final CallbackInfoReturnable<Boolean> callback) {
+    @ModifyReturnValue(method = "isShade()Z", at = @At("RETURN"))
+    private boolean modifyShade(final boolean original) {
         // TODO try FaceBakery, BlockModel, ModelBlockRenderer, BlockRenderDispatcher, SectionRenderDispatcher, LevelRenderer
 
-        callback.setReturnValue(callback.getReturnValueZ() && ComputedConfig.blockShadingEnabled);
+        return original && ComputedConfig.blockShadingEnabled;
     }
 }
