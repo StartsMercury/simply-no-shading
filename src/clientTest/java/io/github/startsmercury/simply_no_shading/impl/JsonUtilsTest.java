@@ -3,7 +3,6 @@ package io.github.startsmercury.simply_no_shading.impl;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
 import java.io.StringWriter;
 
 import org.junit.jupiter.api.Test;
