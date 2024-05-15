@@ -12,6 +12,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * @since 6.2.0
+ */
 class JsonUtilsTest {
     static void assertSerialization(final JsonElement value, final String expected) {
         final var stringWriter = new StringWriter();
