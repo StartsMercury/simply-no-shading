@@ -44,11 +44,13 @@ public final class ConfigScreen extends OptionsSubScreen {
         this.list = new OptionsList(this.minecraft, this.width, this.height, this);
         this.addRenderableWidget(this.list);
 
-        final var shadingToggles = ((SimplyNoShadingImpl) SimplyNoShading.instance()).shadingToggles();
-        for (final var shadingToggle : shadingToggles) {
-            final var option = this.createShadingOption(shadingToggle);
-            this.list.addSmall(option);
-        }
+        // Non-critical, stream could be fine here...
+        final var shadingOptions = ((SimplyNoShadingImpl) SimplyNoShading.instance())
+            .shadingToggles()
+            .stream()
+            .map(this::createShadingOption)
+            .toArray(OptionInstance[]::new);
+        this.list.addSmall(shadingOptions);
 
         this.list.addSmall(this.createToEntityLikeShadingButton(), null);
 
