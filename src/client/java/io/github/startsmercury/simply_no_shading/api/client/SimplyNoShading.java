@@ -15,11 +15,12 @@ public interface SimplyNoShading {
     /**
      * The Simply No Shading implementation instance.
      *
-     * @implSpec This method may be implemented such that it returns different
-     *           implementation instance, but this is discouraged as callers may
-     *           validly assume to receive the same reference.
+     * @implSpec It is discouraged for this method to return different instances
+     *           for an implementation as callers may validly assume that the
+     *           first valid instance is a singleton.
      * @implNote It is possible to call this method before the instance is
-     *           initialized, which will result in a {@link RuntimeException}.
+     *           initialized, which may result in a
+     *           {@linkplain RuntimeException runtime exception}.
      */
     static SimplyNoShading instance() {
         final var instance = SimplyNoShadingImpl.instance;
@@ -33,7 +34,7 @@ public interface SimplyNoShading {
     /**
      * Simply No Shading's client configuration file path.
      *
-     * @implSpec This method return may vary but it is discouraged and should
+     * @implSpec This method should preferably return the same path and should
      *           never be {@code null}.
      */
     Path configPath();
@@ -43,19 +44,17 @@ public interface SimplyNoShading {
      *
      * @see #setConfig(Config)
      * @implSpec This method may return any non-{@code null} concrete
-     *           implementation of {@link Config} and it is recommended that
-     *           the returned config instance has no possible avenue to
-     *           influence succeeding calls such as by returning a copy instead.
+     *           implementation of {@link Config} and preferrably carry no
+     *           side-effects to future calls to this method.
      */
     Config config();
 
     /**
-     * Sets the main config.
+     * Changes the config.
      *
      * @see #config()
-     * @implSpec This method may throw on {@code null}s and may store the passed
-     *           config instance, but it is preferred to store a copy of the
-     *           value instead.
+     * @implSpec This method may throw an exception on {@code null} values and
+     *           preferable copy the values to avoid untrivial side-effects.
      */
     void setConfig(Config config);
 }
