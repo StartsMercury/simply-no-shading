@@ -11,7 +11,6 @@ java = "17"
 minecraft = "24w11a"
 modmenu = "10.0.0-alpha.3"
 sodium = "mc1.20.4-0.5.8"
-spruceui = "5.0.3+1.20.4"
 
 [libraries]
 arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
@@ -24,7 +23,6 @@ indium = { module = "maven.modrinth:indium", version.ref = "indium" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
-spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]
 fabric-loom = "fabric-loom:1.6.11"

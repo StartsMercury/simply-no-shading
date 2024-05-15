@@ -4,7 +4,6 @@ import static net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.regi
 
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
-import com.github.startsmercury.simply.no.shading.client.gui.screens.ConfigScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -74,7 +73,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 			if (openConfigScreen.consumeClick()) {
 				while (openConfigScreen.consumeClick()) {}
 
-				minecraft.setScreen(new ConfigScreen(null));
+				// minecraft.setScreen(new ConfigScreen(null));
 				return;
 			}
 
