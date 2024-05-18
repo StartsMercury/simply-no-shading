@@ -44,7 +44,7 @@
 
     "depends": {
         "fabric-api": "*",
-        "fabricloader": "*",
+        "fabricloader": ">=0.15",
         "java": ">=${javaVersion}",
         "minecraft": "*",
         "spruceui": "*"
