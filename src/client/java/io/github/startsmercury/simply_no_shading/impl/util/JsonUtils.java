@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.impl;
+package io.github.startsmercury.simply_no_shading.impl.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
