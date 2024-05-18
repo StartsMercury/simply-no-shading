@@ -1,4 +1,5 @@
 object Constants {
+    const val MOD_NAME: String = "Simply No Shading"
     const val MOD_VERSION: String = "7.0.0"
 }
 
@@ -27,116 +28,22 @@ java {
     withSourcesJar()
 }
 
-/******************************************************************************/
-/* DEPENDENCIES                                                               */
-/******************************************************************************/
-
-repositories {
-    maven {
-        name = "shedaniel's Maven"
-        url = uri("https://maven.shedaniel.me")
-        content {
-            // cloth-config-fabric
-            includeGroup("me.shedaniel.cloth")
-        }
-    }
-
-    maven {
-        name = "Terraformers Maven"
-        url = uri("https://maven.terraformersmc.com")
-        content {
-            // modmenu
-            includeGroup("com.terraformersmc")
-        }
-    }
-
-    // mod dependencies without dedicated repositories
-    maven {
-        name = "Modrinth Maven"
-        url = uri("https://api.modrinth.com/maven")
-        content {
-            includeGroup("maven.modrinth")
-        }
-    }
-
-    // mod dependencies that aren't on modrinth or have corrupt version numbers
-    ivy {
-        name = "GitHub Releases"
-        url = uri("https://github.com")
-        patternLayout {
-            artifact("[organization]/releases/download/[revision]/[module](-[classifier]).[ext]")
-            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classsifier]).[ext]")
-            setM2compatible(true)
-        }
-        metadataSources {
-            artifact()
-        }
-    }
-}
-
-createCompatTest("bedrockify")
-createCompatTest("enhancedblockentities")
-createCompatTest("sodium")
-createCompatTest("indium", "sodium")
-
 dependencies {
     fun net.fabricmc.loom.configuration.FabricApiExtension.module(moduleName: String): Dependency =
         fabricApi.module(moduleName, libs.versions.fabric.api.get())
 
-    // ARRP
-    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.arrp) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
-
-    // BedrockIfy
-    "modBedrockifyAuto"(libs.bedrockify)
-
-    // Cloth Config
-    "modBedrockifyCompatTestClientRuntimeOnly"(libs.cloth.config) {
-        exclude(mapOf("group" to "net.fabricmc.fabric-api"))
-        exclude(mapOf("module" to "fabric-loader"))
-        exclude(mapOf("module" to "gson"))
-    }
-
-    // Deobfuscation Mappings (required)
+    minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
-
-    // Enhanced Block Entities
-    "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
-
-    // Fabric API
-    modRuntimeOnly(libs.fabric.api)
-
-    // Fabric Lifecycle Events (v1)
-    modCompileOnly(fabricApi.module("fabric-lifecycle-events-v1"))
-
-    // Fabric Loader (required)
     modImplementation(libs.fabric.loader)
 
-    // Fabric Key Binding API (v1)
+    modRuntimeOnly(libs.fabric.api)
+    modCompileOnly(fabricApi.module("fabric-lifecycle-events-v1"))
     modCompileOnly(fabricApi.module("fabric-key-binding-api-v1"))
-
-    // Fabric Resource Loader (v0)
     modCompileOnly(fabricApi.module("fabric-resource-loader-v0"))
-
-    // Indium
-    "modIndiumClientAuto"(libs.indium)
-
-    // Minecraft (required)
-    minecraft(libs.minecraft)
-
-    // ModMenu
     "modClientImplementation"(libs.modmenu) {
         exclude(mapOf("module" to "fabric-loader"))
     }
-
-    // Sodium
-    "modSodiumClientAuto"(libs.sodium)
 }
-
-/******************************************************************************/
-/* TESTING SUITES                                                             */
-/******************************************************************************/
 
 testing {
     suites {
@@ -155,50 +62,117 @@ testing {
     }
 }
 
-/******************************************************************************/
-/* TASK CONFIGURATIONS                                                        */
-/******************************************************************************/
+tasks {
+    withType<ProcessResources> {
+        val data = mapOf(
+            "gameVersion" to libs.versions.fabric.minecraft.get(),
+            "javaVersion" to libs.versions.java.get(),
+            "minecraftVersion" to libs.versions.minecraft.get(),
+            "version" to version,
+        )
 
-tasks.withType<ProcessResources> {
-    val data = mapOf(
-        "gameVersion" to libs.versions.fabric.minecraft.get(),
-        "javaVersion" to libs.versions.java.get(),
-        "minecraftVersion" to libs.versions.minecraft.get(),
-        "version" to version,
-    )
+        inputs.properties(data)
 
-    inputs.properties(data)
-
-    filesMatching("fabric.mod.json") {
-        expand(data)
+        filesMatching("fabric.mod.json") {
+            expand(data)
+        }
     }
-}
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
 
-tasks.named<Javadoc>("javadoc") {
-    classpath += sourceSets["client"].compileClasspath
-    source += sourceSets["client"].allJava
+    javadoc {
+        classpath += sourceSets["client"].compileClasspath
+        source += sourceSets["client"].allJava
+        val options = this.options as StandardJavadocDocletOptions;
 
-    when (val options = this.options) {
-        is StandardJavadocDocletOptions -> options.tags(
+        val title = "${Constants.MOD_NAME} ${version}"
+        options.docTitle(title)
+        options.windowTitle(title)
+
+        options.tags(
             "apiNote:a:API Note",
             "implNote:a:Implementation Note",
             "implSpec:a:Implementation Requirements",
         )
     }
+
+    jar {
+        manifest {
+            attributes(mapOf(
+                "Implementation-Title" to Constants.MOD_NAME,
+                "Implementation-Version" to Constants.MOD_VERSION,
+                "Implementation-Vendor" to "StartsMercury",
+            ))
+        }
+    }
 }
 
-tasks.named<Jar>("jar") {
-    manifest {
-        attributes(mapOf(
-            "Implementation-Title" to "Simply No Shading",
-            "Implementation-Version" to Constants.MOD_VERSION,
-            "Implementation-Vendor" to "StartsMercury",
-        ))
+/******************************************************************************/
+/* COMPATIBILITY TESTS                                                        */
+/******************************************************************************/
+
+createCompatTest("bedrockify")
+createCompatTest("enhancedblockentities")
+createCompatTest("sodium")
+createCompatTest("indium", "sodium")
+
+repositories {
+    maven {
+        name = "shedaniel's Maven"
+        url = uri("https://maven.shedaniel.me")
+        content {
+            includeGroup("me.shedaniel.cloth")
+        }
     }
+
+    maven {
+        name = "Terraformers Maven"
+        url = uri("https://maven.terraformersmc.com")
+        content {
+            includeGroup("com.terraformersmc")
+        }
+    }
+
+    maven {
+        name = "Modrinth Maven"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroup("maven.modrinth")
+        }
+    }
+
+    ivy {
+        name = "GitHub Releases"
+        url = uri("https://github.com")
+        patternLayout {
+            artifact("[organization]/releases/download/[revision]/[module](-[classifier]).[ext]")
+            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classsifier]).[ext]")
+            setM2compatible(true)
+        }
+        metadataSources {
+            artifact()
+        }
+    }
+}
+
+dependencies {
+    "modBedrockifyAuto"(libs.bedrockify)
+    "modBedrockifyCompatTestClientRuntimeOnly"(libs.cloth.config) {
+        exclude(mapOf("group" to "net.fabricmc.fabric-api"))
+        exclude(mapOf("module" to "fabric-loader"))
+        exclude(mapOf("module" to "gson"))
+    }
+
+    "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
+    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.arrp) {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
+
+    "modSodiumClientAuto"(libs.sodium)
+
+    "modIndiumClientAuto"(libs.indium)
 }
 
 /******************************************************************************/
@@ -287,18 +261,28 @@ fun createCompatTest(name: String, vararg fosters: String) {
     }
 }
 
-/**
- * Helper function to construct the complete version.
- */
 fun createVersionString(): String {
-    val version = version
+    val builder = StringBuilder()
 
-    return if (version is String && version != DEFAULT_VERSION) {
-        version
+    val isReleaseBuild = project.hasProperty("build.release")
+    val buildId = System.getenv("GITHUB_RUN_NUMBER")
+
+    if (isReleaseBuild) {
+        builder.append(Constants.MOD_VERSION)
     } else {
-        val mod = Constants.MOD_VERSION
-        val minecraft = libs.versions.fabric.minecraft
-
-        "$mod+mc$minecraft"
+        builder.append(Constants.MOD_VERSION.substringBefore('-'))
+        builder.append("-snapshot")
     }
+
+    builder.append("+mc").append(libs.versions.minecraft.get())
+
+    if (!isReleaseBuild) {
+        if (buildId != null) {
+            builder.append("-build.${buildId}")
+        } else {
+            builder.append("-local")
+        }
+    }
+
+    return builder.toString()
 }
