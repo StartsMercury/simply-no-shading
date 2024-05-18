@@ -1,0 +1,38 @@
+name: build-tag
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract Current Branch Name
+        shell: bash
+        # bash pattern expansion to grab the branch name without the slashes
+        run: ref="${GITHUB_REF#refs/heads/}" && echo "branch=${ref////-}" >> $GITHUB_OUTPUT
+        id: ref
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Gradle Build
+        run: ./gradlew build -Pbuild.release=true
+
+      - name: Capture Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: simply-no-shading-artifacts-${{ steps.ref.outputs.branch }}
+          path: build/libs/*.jar
