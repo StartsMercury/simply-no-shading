@@ -3,7 +3,7 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 import net.minecraft.client.renderer.LevelRenderer;
 
 /**
- * @since 6.2.0
+ * @since 7.0.0
  */
 public enum ReloadType {
     ALL_CHANGED,

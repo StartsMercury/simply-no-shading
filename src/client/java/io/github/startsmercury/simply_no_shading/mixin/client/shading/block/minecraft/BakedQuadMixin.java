@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * @since 6.2.0
+ * @since 7.0.0
  */
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)

@@ -9,7 +9,7 @@ import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigS
  * The Simply No Shading {@link ModMenuApi modmenu} initializer.
  *
  * @see ModMenuApi
- * @since 6.2.0
+ * @since 7.0.0
  */
 public final class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
     /**

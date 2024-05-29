@@ -9,7 +9,7 @@ import com.mojang.blaze3d.platform.InputConstants;
  * This extension supports differentiating and consuming instantaneous press and
  * release events.
  *
- * @since 6.2.0
+ * @since 7.0.0
  */
 public class KeyMapping extends net.minecraft.client.KeyMapping {
     protected boolean pressed;

@@ -14,7 +14,7 @@ import java.util.Objects;
  * @param <T> the supported type for storing
  * @since 6.0.0
  */
-@Deprecated(since = "6.2.0", forRemoval = true)
+@Deprecated(since = "7.0.0", forRemoval = true)
 public abstract class PathStorage<T> implements Storage<T> {
 	/**
 	 * The assigned path to where states are read and written into.

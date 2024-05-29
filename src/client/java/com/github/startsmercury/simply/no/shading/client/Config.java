@@ -9,10 +9,10 @@ import java.util.Objects;
  *
  * @since 6.0.0
  * @see io.github.startsmercury.simply_no_shading.api.client.Config
- * @deprecated As of version 6.2.0, replaced by
+ * @deprecated As of version 7.0.0, replaced by
  *     {@code io.github.startsmercury.simply_no_shading.api.client.Config}
  */
-@Deprecated(since = "6.2.0", forRemoval = true)
+@Deprecated(since = "7.0.0", forRemoval = true)
 public class Config {
 	/**
 	 * The {@code Config.Builder} class is the builder for {@code Config}. For
@@ -22,7 +22,7 @@ public class Config {
      * @since 6.0.0
 	 * @deprecated No replacement
 	 */
-	@Deprecated(since = "6.2.0", forRemoval = true)
+	@Deprecated(since = "7.0.0", forRemoval = true)
 	public static class Builder {
 		/**
 		 * Controls block shading, excluding block entities.

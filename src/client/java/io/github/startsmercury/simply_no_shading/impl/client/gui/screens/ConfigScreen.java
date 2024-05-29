@@ -22,7 +22,7 @@ import net.minecraft.network.chat.Component;
 /**
  * The Simply No Shading config screen.
  *
- * @since 6.2.0
+ * @since 7.0.0
  */
 public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
