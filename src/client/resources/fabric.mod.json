@@ -46,8 +46,7 @@
         "fabric-api": "*",
         "fabricloader": ">=0.15",
         "java": ">=${javaVersion}",
-        "minecraft": "*",
-        "spruceui": "*"
+        "minecraft": "*"
     },
     "recommends": {
         "java": "${javaVersion}",
