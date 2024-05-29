@@ -16,6 +16,7 @@ public class Config {
 	 * further details, refer to the {@code Config} class as documenting the builder
 	 * would potentially be redundant and may be overlooked or be outdated.
 	 */
+	@Deprecated(since = "6.2.0", forRemoval = true)
 	public static class Builder {
 		/**
 		 * Controls block shading, excluding block entities.
