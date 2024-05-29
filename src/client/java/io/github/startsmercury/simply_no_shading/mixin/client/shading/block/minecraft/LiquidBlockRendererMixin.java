@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
- * @since 6.2.0
+ * @since 7.0.0
  */
 @Mixin(value = LiquidBlockRenderer.class, priority = 999)
 public class LiquidBlockRendererMixin {

@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
  * @param <T> the supported type for storing
  * @since 6.0.0
  */
-@Deprecated(since = "6.2.0", forRemoval = true)
+@Deprecated(since = "7.0.0", forRemoval = true)
 public interface Storage<T> {
 	/**
 	 * Loads the stored state as a new object.

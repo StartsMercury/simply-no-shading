@@ -6,7 +6,7 @@ package io.github.startsmercury.simply_no_shading.api.client;
  * A concrete instance of this class stores data used by Simply No Shading and
  * is usually serialized.
  *
- * @since 6.2.0
+ * @since 7.0.0
  */
 public interface Config {
     /**

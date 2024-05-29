@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * A concrete instance of this class represents the state of Simply No Shading
  * as a Minecraft modification.
  *
- * @since 6.2.0
+ * @since 7.0.0
  */
 public interface SimplyNoShading {
     /**

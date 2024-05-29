@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * @since 6.2.0
+ * @since 7.0.0
  */
 class JsonUtilsTest {
     static void assertSerialization(final JsonElement value, final String expected) {
