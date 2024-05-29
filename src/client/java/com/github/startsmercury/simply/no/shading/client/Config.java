@@ -18,6 +18,9 @@ public class Config {
 	 * The {@code Config.Builder} class is the builder for {@code Config}. For
 	 * further details, refer to the {@code Config} class as documenting the builder
 	 * would potentially be redundant and may be overlooked or be outdated.
+	 *
+     * @since 6.0.0
+	 * @deprecated No replacement
 	 */
 	@Deprecated(since = "6.2.0", forRemoval = true)
 	public static class Builder {
