@@ -8,6 +8,9 @@ import java.util.Objects;
  * shading.
  *
  * @since 6.0.0
+ * @see io.github.startsmercury.simply_no_shading.api.client.Config
+ * @deprecated As of version 6.2.0, replaced by
+ *     {@code io.github.startsmercury.simply_no_shading.api.client.Config}
  */
 @Deprecated(since = "6.2.0", forRemoval = true)
 public class Config {
