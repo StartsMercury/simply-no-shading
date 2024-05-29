@@ -29,7 +29,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Gradle Build
-        run: ./gradle build
+        run: ./gradlew build
 
       - name: Capture Build Artifacts
         uses: actions/upload-artifact@v4
