@@ -1,5 +1,5 @@
 /**
- * Simply No Shading's client-side API.
+ * Simply No Shading client API.
  *
  * @since 7.0.0
  */
