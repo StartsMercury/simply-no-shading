@@ -83,19 +83,30 @@ tasks {
     }
 
     javadoc {
-        classpath += sourceSets["client"].compileClasspath
-        source += sourceSets["client"].allJava
-        val options = this.options as StandardJavadocDocletOptions;
+        options {
+            this as StandardJavadocDocletOptions
 
-        val title = "${Constants.MOD_NAME} ${version}"
-        options.docTitle(title)
-        options.windowTitle(title)
+            source = libs.versions.java.get()
+            encoding = "UTF-8"
+            charSet = "UTF-8"
+            memberLevel = JavadocMemberLevel.PACKAGE
+            addStringOption("Xdoclint:none", "-quiet")
+            tags(
+                "apiNote:a:API Note:",
+                "implSpec:a:Implementation Requirements:",
+                "implNote:a:Implementation Note:",
+            )
+        }
 
-        options.tags(
-            "apiNote:a:API Note",
-            "implNote:a:Implementation Note",
-            "implSpec:a:Implementation Requirements",
+        source(sourceSets.main.get().allJava)
+        source(sourceSets.named("client").get().allJava)
+        classpath = files(
+            sourceSets.main.get().compileClasspath,
+            sourceSets.named("client").get().compileClasspath
         )
+        include("com/github/startsmercury/simply/no/shading/**")
+        include("**/api/**")
+        isFailOnError = true
     }
 
     jar {
@@ -205,7 +216,7 @@ fun createCompatTest(name: String, vararg fosters: String) {
         net.fabricmc.loom.configuration.RemapConfigurations.configureClientConfigurations(
             project,
             this
-        );
+        )
     }
 
     sourceSets.main {
