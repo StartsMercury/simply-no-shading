@@ -19,11 +19,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
 
-/**
- * The Simply No Shading config screen.
- *
- * @since 7.0.0
- */
 public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
     private final ConfigImpl config;

@@ -3,9 +3,6 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import java.util.Objects;
 
-/**
- * @since 7.0.0
- */
 public final class ComputedConfig {
     // config values frequently used such as in rendering
     public static boolean blockShadingEnabled = true;

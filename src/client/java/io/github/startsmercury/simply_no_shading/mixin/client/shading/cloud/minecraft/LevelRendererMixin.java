@@ -6,9 +6,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-/**
- * @since 7.0.0
- */
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
     private LevelRendererMixin() {
