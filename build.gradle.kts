@@ -29,17 +29,17 @@ java {
 }
 
 dependencies {
-    fun net.fabricmc.loom.configuration.FabricApiExtension.module(moduleName: String): Dependency =
-        fabricApi.module(moduleName, libs.versions.fabric.api.get())
+    fun fabricModule(moduleName: String): Dependency? =
+        modCompileOnly(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
 
     minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
 
-    modRuntimeOnly(libs.fabric.api)
-    modCompileOnly(fabricApi.module("fabric-lifecycle-events-v1"))
-    modCompileOnly(fabricApi.module("fabric-key-binding-api-v1"))
-    modCompileOnly(fabricApi.module("fabric-resource-loader-v0"))
+    modImplementation(libs.fabric.api)
+    fabricModule("fabric-lifecycle-events-v1")
+    fabricModule("fabric-key-binding-api-v1")
+    fabricModule("fabric-resource-loader-v0")
     "modClientImplementation"(libs.modmenu) {
         exclude(mapOf("module" to "fabric-loader"))
     }
