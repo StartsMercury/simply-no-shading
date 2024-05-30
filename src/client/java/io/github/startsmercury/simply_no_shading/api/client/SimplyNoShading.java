@@ -37,15 +37,15 @@ public interface SimplyNoShading {
      * @implSpec This method should preferably return the same path and should
      *           never be {@code null}.
      */
-    Path configPath();
+    @NotNull Path configPath();
 
     /**
      * The Simply No Shading config.
      *
      * @see #setConfig(Config)
      * @implSpec This method may return any non-{@code null} concrete
-     *           implementation of {@link Config} and preferrably carry no
-     *           side-effects to future calls to this method.
+     *           implementation of {@link Config} and preferably carry no
+     *           side effects to future calls to this method.
      */
     @NotNull Config config();
 
@@ -54,7 +54,7 @@ public interface SimplyNoShading {
      *
      * @see #config()
      * @implSpec This method may throw an exception on {@code null} values and
-     *           preferable copy the values to avoid untrivial side-effects.
+     *           preferable copy the values to avoid nontrivial side effects.
      */
     void setConfig(Config config);
 }
