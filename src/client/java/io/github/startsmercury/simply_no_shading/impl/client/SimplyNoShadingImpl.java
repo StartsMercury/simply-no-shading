@@ -80,7 +80,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     @Override
-    public void setConfig(final Config config) {
+    public void setConfig(final @NotNull Config config) {
         this.config.set(config);
         ComputedConfig.set(config);
     }
