@@ -64,8 +64,8 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         this.openConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
         this.reloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
         this.shadingToggles = ObjectList.of(
-            createShadingToggle("blockShading", false, ReloadType.blocks()),
-            createShadingToggle("cloudShading", false, ReloadType.clouds())
+            createShadingToggle("blockShading", ReloadType.blocks()),
+            createShadingToggle("cloudShading", ReloadType.clouds())
         );
     }
 
@@ -201,22 +201,20 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private static KeyMapping createKeyMapping(final String name) {
-        final var keyMapping = new KeyMapping(
+        return new KeyMapping(
             "simply-no-shading.key." + name,
             InputConstants.UNKNOWN.getValue(),
             KEY_CATEGORY
         );
-        return keyMapping;
     }
 
     private static ShadingToggle createShadingToggle(
         final String name,
-        final boolean defaultValue,
         final ReloadType reloadType
     ) {
         return new ShadingToggle(
             name,
-            defaultValue,
+            false,
             createKeyMapping("toggle" + toTitleCase(name)),
             reloadType
         );
@@ -226,7 +224,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         return switch (s.length()) {
             case 0 -> "";
             case 1 -> String.valueOf(Character.toTitleCase(s.charAt(0)));
-            default -> String.valueOf(Character.toTitleCase(s.charAt(0))) + s.substring(1);
+            default -> Character.toTitleCase(s.charAt(0)) + s.substring(1);
         };
     }
 
