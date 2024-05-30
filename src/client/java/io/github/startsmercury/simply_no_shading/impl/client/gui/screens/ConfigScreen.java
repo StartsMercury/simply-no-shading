@@ -66,7 +66,7 @@ public final class ConfigScreen extends OptionsSubScreen {
             shadingToggle.getFrom(this.config),
             enabled -> {
                 shadingToggle.setTo(this.config, enabled);
-                this.reloadType = this.reloadType.max(shadingToggle.reloadType());
+                this.reloadType = this.reloadType.compose(shadingToggle.reloadType());
             }
         );
     }
