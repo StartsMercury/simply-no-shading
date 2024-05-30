@@ -3,14 +3,13 @@ package io.github.startsmercury.simply_no_shading.impl;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.StringWriter;
-
-import org.junit.jupiter.api.Test;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import io.github.startsmercury.simply_no_shading.impl.util.JsonUtils;
+import java.io.StringWriter;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 7.0.0
