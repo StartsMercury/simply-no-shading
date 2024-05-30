@@ -7,9 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
-/**
- * @since 7.0.0
- */
 @Mixin(BedrockBlockShading.class)
 @Pseudo
 public class BedrockBlockShadingMixin {

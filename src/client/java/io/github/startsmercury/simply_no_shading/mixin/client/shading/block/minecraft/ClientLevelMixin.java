@@ -6,9 +6,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-/**
- * @since 7.0.0
- */
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin {
     private ClientLevelMixin() {

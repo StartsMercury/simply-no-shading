@@ -2,9 +2,6 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
-/**
- * @since 7.0.0
- */
 public enum ReloadType {
     ALL_CHANGED,
     NEEDS_UPDATE,
@@ -26,12 +23,6 @@ public enum ReloadType {
         }
     }
 
-    public ReloadType max(final ReloadType rhs) {
-        if (this.compareTo(rhs) <= 0) {
-            return this;
-        } else {
-            return rhs;
-        }
     public ReloadType compose(final ReloadType rhs) {
         return switch (this) {
             case ALL_CHANGED -> switch (rhs) {
