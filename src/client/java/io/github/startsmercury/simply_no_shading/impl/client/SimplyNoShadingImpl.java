@@ -25,6 +25,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,12 +70,12 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     @Override
-    public Path configPath() {
+    public @NotNull Path configPath() {
         return this.configPath;
     }
 
     @Override
-    public Config config() {
+    public @NotNull Config config() {
         return new ConfigImpl(this.config);
     }
 
