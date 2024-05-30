@@ -13,6 +13,7 @@ import com.mojang.logging.LogUtils;
  * to the delegated logger are prefixed.
  *
  * @since 5.0.0
+ * @deprecated No replacement
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
 @SuppressWarnings({ "all", "removal" })
