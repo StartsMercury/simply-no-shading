@@ -20,6 +20,9 @@ import net.minecraft.resources.ResourceLocation;
  * {@link ClientModInitializer} and is an entrypoint defined with the
  * {@code client} key in the {@code fabric.mod.json}. This allows Simply No
  * Shading to be initialized and configured for the minecraft client.
+ *
+ * @since 6.0.0
+ * @deprecated No replacement
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
 @SuppressWarnings({ "all", "removal" })
