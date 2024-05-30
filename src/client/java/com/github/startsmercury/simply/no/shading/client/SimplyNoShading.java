@@ -26,6 +26,7 @@ import net.minecraft.client.Minecraft;
  * @since 6.0.0
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public class SimplyNoShading {
 	/**
 	 * The first instance of the {@code SimplyNoShading} class.

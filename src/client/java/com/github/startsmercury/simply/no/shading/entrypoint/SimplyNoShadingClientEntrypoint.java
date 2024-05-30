@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
  * Shading to be initialized and configured for the minecraft client.
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	/**
 	 * {@inheritDoc}

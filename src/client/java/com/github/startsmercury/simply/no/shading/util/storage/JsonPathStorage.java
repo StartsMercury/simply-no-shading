@@ -13,6 +13,7 @@ import com.google.gson.Gson;
  * @param <T> the supported type for storing
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public class JsonPathStorage<T> extends PathStorage<T> {
 	/**
 	 * The fallback gson used when an instance accessing {@link #getGson()} received
