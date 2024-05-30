@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * The {@code Config} class is extendable but immutable collection of data that
- * plays a role in the bahavior of Simply No Shading, primarily in toggling
+ * plays a role in the behavior of Simply No Shading, primarily in toggling
  * shading.
  *
  * @since 6.0.0
@@ -43,9 +43,9 @@ public class Config {
 		}
 
 		/**
-		 * Returns a newly build config.
+		 * Returns a newly built config.
 		 *
-		 * @return a newly build config
+		 * @return a newly built config
 		 */
 		public Config build() {
 			return new Config(this.blockShadingEnabled, this.cloudShadingEnabled);
@@ -197,6 +197,6 @@ public class Config {
 	@Override
 	public String toString() {
 		return getClass().getCanonicalName() + "[blockShadingEnabled=" + this.blockShadingEnabled
-		        + ", cloadShadingEnabled=" + this.cloudShadingEnabled + "]";
+		        + ", cloudShadingEnabled=" + this.cloudShadingEnabled + "]";
 	}
 }
