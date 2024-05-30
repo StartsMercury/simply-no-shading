@@ -253,7 +253,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
             final var newValue = newShadingValues.getOrDefault(name, defaultValue);
 
             if (oldValue != newValue) {
-                reloadType = reloadType.max(shadingToggle.reloadType());
+                reloadType = reloadType.compose(shadingToggle.reloadType());
             }
         }
 
@@ -268,7 +268,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
 
         var reloadType = ReloadType.NONE;
         for (final var shadingToggle : this.shadingToggles()) {
-            reloadType = reloadType.max(shadingToggle.tryToggleOnKeyRelease(config));
+            reloadType = reloadType.compose(shadingToggle.tryToggleOnKeyRelease(config));
         }
 
         if (reloadType != ReloadType.NONE) {

@@ -32,5 +32,18 @@ public enum ReloadType {
         } else {
             return rhs;
         }
+    public ReloadType compose(final ReloadType rhs) {
+        return switch (this) {
+            case ALL_CHANGED -> switch (rhs) {
+                case ALL_CHANGED, NEEDS_UPDATE, NONE -> this;
+            };
+            case NEEDS_UPDATE -> switch (rhs) {
+                case ALL_CHANGED -> rhs;
+                case NEEDS_UPDATE, NONE -> this;
+            };
+            case NONE -> switch (rhs) {
+                case ALL_CHANGED, NEEDS_UPDATE, NONE -> rhs;
+            };
+        };
     }
 }
