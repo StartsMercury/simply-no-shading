@@ -12,6 +12,7 @@ import java.util.Objects;
  *     {@link io.github.startsmercury.simply_no_shading.api.client.Config}
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public class Config {
 	/**
 	 * The {@code Config.Builder} class is the builder for {@code Config}. For

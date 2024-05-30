@@ -10,5 +10,6 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
  * Shading and ModMenu.
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
 }

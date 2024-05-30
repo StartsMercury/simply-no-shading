@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * @since 6.0.0
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public interface Storage<T> {
 	/**
 	 * Loads the stored state as a new object.

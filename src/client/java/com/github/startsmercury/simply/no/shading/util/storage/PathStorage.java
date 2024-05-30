@@ -15,6 +15,7 @@ import java.util.Objects;
  * @since 6.0.0
  */
 @Deprecated(since = "7.0.0", forRemoval = true)
+@SuppressWarnings({ "all", "removal" })
 public abstract class PathStorage<T> implements Storage<T> {
 	/**
 	 * The assigned path to where states are read and written into.
