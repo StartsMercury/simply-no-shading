@@ -159,7 +159,7 @@ repositories {
         url = uri("https://github.com")
         patternLayout {
             artifact("[organization]/releases/download/[revision]/[module](-[classifier]).[ext]")
-            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classsifier]).[ext]")
+            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classifier]).[ext]")
             setM2compatible(true)
         }
         metadataSources {
