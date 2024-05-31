@@ -19,8 +19,15 @@ vec4 minecraft_mix_light(vec3 _lightDir0, vec3 _lightDir1, vec3 _normal, vec4 co
     return color;
 }
 
-// from the original, may cause problems when other shaders expected a different
-// definition provided by their or others' shader.
+/**
+ * Samples color from light map texture.
+ * <p>
+ * This is the original {@code minecraft_sample_lightmap}, though the original
+ * version of Minecraft was not tracked (yet).
+ *
+ * @return color at some point on the light map texture
+ * @implNote This implementation is kept to not break other shaders.
+ */
 vec4 minecraft_sample_lightmap(sampler2D lightMap, ivec2 uv) {
     return texture(lightMap, clamp(uv / 256.0, vec2(0.5 / 16.0), vec2(15.5 / 16.0)));
 }
