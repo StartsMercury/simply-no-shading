@@ -40,6 +40,7 @@ dependencies {
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
+    @Suppress("UnstableApiUsage")
     "modClientImplementation"(libs.modmenu) {
         exclude(mapOf("module" to "fabric-loader"))
     }
@@ -47,6 +48,7 @@ dependencies {
 
 testing {
     suites {
+        @Suppress("UnstableApiUsage")
         val clientTest by registering(JvmTestSuite::class) {
             val client by sourceSets.getting
 
@@ -168,6 +170,7 @@ repositories {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
     "modBedrockifyAuto"(libs.bedrockify)
     "modBedrockifyCompatTestClientRuntimeOnly"(libs.cloth.config) {
