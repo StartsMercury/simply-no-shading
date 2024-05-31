@@ -1,7 +1,5 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
-import static io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.LOGGER;
-
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
@@ -9,7 +7,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingToggle;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
@@ -36,7 +33,7 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     protected void init() {
-        this.list = new OptionsList(this.minecraft, this.width, this.height, this);
+        this.list = new OptionsList(super.minecraft, this.width, this.height, this);
         this.addRenderableWidget(this.list);
 
         // Non-critical, stream could be fine here...
@@ -67,7 +64,8 @@ public final class ConfigScreen extends OptionsSubScreen {
     }
 
     private Button createToEntityLikeShadingButton() {
-        final var minecraft = this.minecraft();
+        final var minecraft = super.minecraft;
+        assert minecraft != null;
 
         return Button.builder(
             Component.translatable("simply-no-shading.config.option.experimentalEntityLikeShading"),
@@ -95,26 +93,13 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        final var minecraft = this.minecraft();
         final var simplyNoShading = SimplyNoShading.instance();
 
         simplyNoShading.setConfig(this.config);
         ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
+
+        final var minecraft = super.minecraft;
+        assert minecraft != null;
         this.reloadType.applyTo(minecraft.levelRenderer);
-    }
-
-    private Minecraft minecraft() {
-        {
-            final var minecraft = this.minecraft;
-            if (minecraft != null) {
-                return minecraft;
-            }
-        }
-
-        LOGGER.warn(
-            "[Simply No Shading] {} might not have been opened using Minecraft::setScreen",
-            this
-        );
-        return this.minecraft = Minecraft.getInstance();
     }
 }
