@@ -14,3 +14,5 @@ A mod mimicking OptiFine's Internal Shader though with less performance impact.
 Visit the [wiki](https://github.com/StartsMercury/simply-no-shading/wiki) for more information.
 
 [CurseForge](https://www.curseforge.com/minecraft/mc-mods/simply-no-shading) • GitHub • [Modrinth](https://modrinth.com/mod/simply-no-shading)
+
+</div>
