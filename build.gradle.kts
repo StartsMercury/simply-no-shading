@@ -1,6 +1,6 @@
 object Constants {
     const val MOD_NAME: String = "Simply No Shading"
-    const val MOD_VERSION: String = "7.0.0"
+    const val MOD_VERSION: String = "7.1.0"
 }
 
 plugins {
