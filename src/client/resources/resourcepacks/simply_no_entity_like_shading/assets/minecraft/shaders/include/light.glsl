@@ -14,7 +14,7 @@
  * shading. It is to note that said solutions are not yet in progress and this
  * long comment is doing many work such as documenting and an ellaborate TODO.
  */
-vec4 minecraft_mix_light(vec3 lightDir0, vec3 lightDir1, vec3 normal, vec4 color) {
+vec4 minecraft_mix_light(vec3 _lightDir0, vec3 _lightDir1, vec3 _normal, vec4 color) {
     return color;
 }
 
