@@ -11,19 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Environment(EnvType.CLIENT)
 @Mixin(BakedQuad.class)
 public abstract class BakedQuadMixin {
-    /*@Final
-    @Mutable
-    @Shadow
-    private boolean shade;*/
-
     private BakedQuadMixin() {
     }
-
-    /* TODO
-    @Inject(method = "<init>([IILnet/minecraft/core/Direction;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Z)V", at = @At("RETURN"))
-    private void changeInitialShade(final CallbackInfo callback) {
-        this.shade = this.shade && SimplyNoShadingUtils.ComputedConfig.blockShadingEnabled;
-    }*/
 
     @ModifyReturnValue(method = "isShade()Z", at = @At("RETURN"))
     private boolean modifyShade(final boolean original) {
