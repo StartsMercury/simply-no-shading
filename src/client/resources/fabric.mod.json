@@ -43,12 +43,12 @@
     ],
 
     "depends": {
-        "fabric-api": "*",
         "fabricloader": ">=0.15",
         "java": ">=${javaVersion}",
         "minecraft": "*"
     },
     "recommends": {
+        "fabric-api": "*",
         "java": "${javaVersion}",
         "minecraft": "${gameVersion}",
         "modmenu": "*"

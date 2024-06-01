@@ -44,8 +44,8 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         final var simplyNoShading = new SimplyNoShadingImpl(fabricLoader);
 
         simplyNoShading.loadConfig();
-        simplyNoShading.registerKeyMappings();
-        simplyNoShading.registerResources();
+        simplyNoShading.registerKeyMappings(fabricLoader);
+        simplyNoShading.registerResources(fabricLoader);
         simplyNoShading.registerShutdownHook(simplyNoShading::saveConfig);
 
         SimplyNoShadingImpl.instance = simplyNoShading;
@@ -190,7 +190,14 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         return this.shadingToggles;
     }
 
-    protected void registerKeyMappings() {
+    protected void registerKeyMappings(final FabricLoader fabricLoader) {
+        if (
+            !fabricLoader.isModLoaded("fabric-key-binding-api-v1")
+                || !fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
+        ) {
+            return;
+        }
+
         KeyBindingHelper.registerKeyBinding(this.openConfigScreen());
         KeyBindingHelper.registerKeyBinding(this.reloadConfig());
         for (final var shadingToggle : this.shadingToggles()) {
@@ -276,8 +283,11 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    protected void registerResources() {
-        FabricLoader.getInstance()
+    protected void registerResources(final FabricLoader fabricLoader) {
+        if (!fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
+            return;
+        }
+        fabricLoader
             .getModContainer(MODID)
             .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
                 new ResourceLocation(MODID, "simply_no_entity_like_shading"),
