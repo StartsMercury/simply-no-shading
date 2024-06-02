@@ -1,5 +1,6 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.LevelRenderer;
 
 public enum ReloadType {
@@ -12,7 +13,11 @@ public enum ReloadType {
     }
 
     public static ReloadType clouds() {
-        return ReloadType.NEEDS_UPDATE;
+        if (FabricLoader.getInstance().isModLoaded("sodium")) {
+            return ReloadType.ALL_CHANGED;
+        } else {
+            return ReloadType.NEEDS_UPDATE;
+        }
     }
 
     public void applyTo(final LevelRenderer levelRenderer) {
