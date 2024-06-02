@@ -18,7 +18,7 @@ public class BedrockBlockShadingMixin {
             "getBlockShade(Lnet/minecraft/core/Direction;)F",
             "getLiquidShade(Lnet/minecraft/core/Direction;Z)F"
         },
-        at = @At("HEAD")
+        at = @At("RETURN")
     )
     private float modifyShade(final float original) {
         if (ComputedConfig.blockShadingEnabled) {
