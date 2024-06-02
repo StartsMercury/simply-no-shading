@@ -1,16 +1,16 @@
 [versions]
 arrp = "0.8.0"
-bedrockify = "1.9.1+mc1.20.4"
-cloth-config = "12.0.109"
+bedrockify = "1.9.5+mc1.20.6"
+cloth-config = "14.0.126"
 enhancedblockentities = "0.9.1+1.20.2"
-fabric-api = "0.97.4+1.20.5"
+fabric-api = "0.97.8+1.20.5"
 fabric-loader = "0.15.11"
-fabric-minecraft = "1.20.5-rc.3"
+fabric-minecraft = "1.20.5"
 indium = "1.0.30+mc1.20.4"
 java = "21"
-minecraft = "1.20.5-rc3"
+minecraft = "1.20.5"
 modmenu = "10.0.0-beta.1"
-sodium = "mc1.20.4-0.5.8"
+sodium = "mc1.20.6-0.5.8"
 
 [libraries]
 arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
