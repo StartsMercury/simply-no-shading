@@ -272,6 +272,7 @@ fun createCompatTest(name: String, vararg fosters: String) {
 
     configurations.named("mod${name.capitalize()}CompatTestClientImplementation") {
         extendsFrom(modAuto)
+        extendsFrom(modClientAuto)
     }
 }
 
