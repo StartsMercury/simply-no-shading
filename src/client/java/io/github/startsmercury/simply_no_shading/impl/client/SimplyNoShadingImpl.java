@@ -35,7 +35,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     public static final Logger LOGGER = LoggerFactory.getLogger("Simply No Shading");
     public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
 
-    public static SimplyNoShadingImpl instance;
+    private static SimplyNoShadingImpl instance;
 
     public static void init() {
         LOGGER.debug("Initializing Simply No Shading...");
@@ -50,6 +50,14 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
 
         SimplyNoShadingImpl.instance = simplyNoShading;
         LOGGER.info("Simply No Shading is initialized.");
+    }
+
+    public static @NotNull SimplyNoShading instance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            throw new RuntimeException("Simply No Shading is not yet initialized");
+        }
     }
 
     private final ConfigImpl config;
