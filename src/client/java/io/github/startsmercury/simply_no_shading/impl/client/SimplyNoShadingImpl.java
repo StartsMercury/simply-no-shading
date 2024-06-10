@@ -290,7 +290,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         fabricLoader
             .getModContainer(MODID)
             .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
-                new ResourceLocation(MODID, "simply_no_entity_like_shading"),
+                ResourceLocation.fromNamespaceAndPath(MODID, "simply_no_entity_like_shading"),
                 container,
                 Component.literal("Entity(ish) No Shading"),
                 ResourcePackActivationType.NORMAL
