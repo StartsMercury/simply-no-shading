@@ -2,6 +2,7 @@ package io.github.startsmercury.simply_no_shading.api.client;
 
 import java.nio.file.Path;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Simply No Shading.
@@ -33,14 +34,18 @@ public interface SimplyNoShading {
     }
 
     /**
-     * Simply No Shading's client configuration file path.
+     * Gets the config path.
      * <p>
-     * This method returns the same non-{@code null} {@link Path path} to the
-     * client configuration file.
+     * This path is where the config will be stored and read from or null when not set.
+     * <p>
+     * This is an optional operation.
      *
      * @return the client configuration file path
+     * @throws UnsupportedOperationException if getting the config path is not supported
      */
-    @NotNull Path configPath();
+    default @Nullable Path configPath() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("configPath");
+    }
 
     /**
      * The Simply No Shading config.
