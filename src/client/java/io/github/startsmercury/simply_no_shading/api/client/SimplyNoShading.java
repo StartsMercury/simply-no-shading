@@ -2,6 +2,7 @@ package io.github.startsmercury.simply_no_shading.api.client;
 
 import java.nio.file.Path;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Simply No Shading.
@@ -14,13 +15,14 @@ import org.jetbrains.annotations.NotNull;
 public interface SimplyNoShading {
     /**
      * The Simply No Shading implementation instance.
+     * <p>
+     * It is discouraged for this method to return different instances
+     * for an implementation as callers may validly assume that the
+     * first valid instance is a singleton.
      *
-     * @implSpec It is discouraged for this method to return different instances
-     *           for an implementation as callers may validly assume that the
-     *           first valid instance is a singleton.
-     * @implNote It is possible to call this method before the instance is
-     *           initialized, which may result in a
-     *           {@linkplain RuntimeException runtime exception}.
+     * @implSpec It is possible to call this method before an instance is
+     *     present which may result in a
+     *     {@linkplain RuntimeException runtime exception}.
      */
     static @NotNull SimplyNoShading instance() {
         final var instance = io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.instance;
@@ -32,29 +34,38 @@ public interface SimplyNoShading {
     }
 
     /**
-     * Simply No Shading's client configuration file path.
+     * Gets the config path.
+     * <p>
+     * This path is where the config will be stored and read from or null when not set.
+     * <p>
+     * This is an optional operation.
      *
-     * @implSpec This method should preferably return the same path and should
-     *           never be {@code null}.
+     * @return the client configuration file path
+     * @throws UnsupportedOperationException if getting the config path is not supported
      */
-    @NotNull Path configPath();
+    default @Nullable Path configPath() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("configPath");
+    }
 
     /**
      * The Simply No Shading config.
+     * <p>
+     * This returns a non-{@code null} read-only view or copy of config. The
+     * returned config must not affect later calls to this method.
      *
      * @see #setConfig(Config)
-     * @implSpec This method may return any non-{@code null} concrete
-     *           implementation of {@link Config} and preferably carry no
-     *           side effects to future calls to this method.
      */
     @NotNull Config config();
 
     /**
-     * Changes the config.
+     * Changes the config by copying values.
+     * <p>
+     * Copies another config such that changes from it will not be reflected
+     * (see {@link #config()}).
      *
+     * @param config the config to copy values from
      * @see #config()
-     * @implSpec This method may throw an exception on {@code null} values and
-     *           preferable copy the values to avoid nontrivial side effects.
+     * @throws NullPointerException when config is {@code null}.
      */
-    void setConfig(Config config);
+    void setConfig(@NotNull Config config);
 }
