@@ -3,12 +3,12 @@ arrp = "0.8.0"
 bedrockify = "1.9.5+mc1.20.6"
 cloth-config = "14.0.126"
 enhancedblockentities = "0.9.1+1.20.2"
-fabric-api = "0.99.4+1.20.6"
+fabric-api = "0.98.0+1.21"
 fabric-loader = "0.15.11"
-fabric-minecraft = "1.20.6"
+fabric-minecraft = "1.21-alpha.24.18.a"
 indium = "1.0.30+mc1.20.4"
 java = "21"
-minecraft = "1.20.6"
+minecraft = "24w18a"
 modmenu = "10.0.0-beta.1"
 sodium = "mc1.20.6-0.5.8"
 
@@ -25,4 +25,4 @@ modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.6.11"
+fabric-loom = "fabric-loom:1.6.12"
