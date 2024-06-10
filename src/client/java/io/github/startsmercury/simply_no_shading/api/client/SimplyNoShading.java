@@ -20,12 +20,7 @@ public interface SimplyNoShading {
      * @throws RuntimeException if the single instance is not yet available
      */
     static @NotNull SimplyNoShading instance() {
-        final var instance = io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.instance;
-        if (instance != null) {
-            return instance;
-        } else {
-            throw new RuntimeException("Simply No Shading is not yet initialized");
-        }
+        return io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.instance();
     }
 
     /**
