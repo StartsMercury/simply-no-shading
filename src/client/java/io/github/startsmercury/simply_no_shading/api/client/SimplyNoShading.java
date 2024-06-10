@@ -1,14 +1,12 @@
 package io.github.startsmercury.simply_no_shading.api.client;
 
 import java.nio.file.Path;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Simply No Shading.
- * <p>
- * A concrete instance of this class represents the state of Simply No Shading
- * as a Minecraft modification.
+ * The Simply No Shading minecraft mod public interface.
  *
  * @since 7.0.0
  */
@@ -43,24 +41,24 @@ public interface SimplyNoShading {
     }
 
     /**
-     * The Simply No Shading config.
+     * Gets the config.
      * <p>
-     * This returns a non-{@code null} read-only view or copy of config. The
-     * returned config must not affect later calls to this method.
+     * This mod's config is used for customization, determining which features
+     * should be expressed, how, or by how much.
      *
+     * @return the config
      * @see #setConfig(Config)
      */
     @NotNull Config config();
 
     /**
-     * Changes the config by copying values.
+     * Set the config by copying.
      * <p>
-     * Copies another config such that changes from it will not be reflected
-     * (see {@link #config()}).
+     * Changes the config by copying from another value.
      *
      * @param config the config to copy values from
+     * @throws NullPointerException if the config is null
      * @see #config()
-     * @throws NullPointerException when config is {@code null}.
      */
-    void setConfig(@NotNull Config config);
+    void setConfig(@NotNull Config config) throws NullPointerException;
 }
