@@ -46,10 +46,14 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         }
 
         final var fabricLoader = FabricLoader.getInstance();
-        final var simplyNoShading = new SimplyNoShadingImpl(fabricLoader);
+        final var self = new SimplyNoShadingImpl(fabricLoader);
 
+        self.loadConfig();
+        self.registerKeyMappings(fabricLoader);
+        self.registerResources(fabricLoader);
+        self.registerShutdownHook(self::saveConfig);
 
-        SimplyNoShadingImpl.instance = simplyNoShading;
+        SimplyNoShadingImpl.instance = self;
         LOGGER.info("Simply No Shading is initialized.");
     }
 
