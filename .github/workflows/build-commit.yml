@@ -28,9 +28,6 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
       - name: Gradle Build
         run: ./gradlew build
 
