@@ -40,13 +40,14 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     public static void init() {
         LOGGER.debug("Initializing Simply No Shading...");
 
+        if (instance != null) {
+            LOGGER.warn("Simply No Shading is already initialized!");
+            return;
+        }
+
         final var fabricLoader = FabricLoader.getInstance();
         final var simplyNoShading = new SimplyNoShadingImpl(fabricLoader);
 
-        simplyNoShading.loadConfig();
-        simplyNoShading.registerKeyMappings(fabricLoader);
-        simplyNoShading.registerResources(fabricLoader);
-        simplyNoShading.registerShutdownHook(simplyNoShading::saveConfig);
 
         SimplyNoShadingImpl.instance = simplyNoShading;
         LOGGER.info("Simply No Shading is initialized.");
