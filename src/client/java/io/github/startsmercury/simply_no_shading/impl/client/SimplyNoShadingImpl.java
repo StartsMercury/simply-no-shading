@@ -36,6 +36,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
 
     private static SimplyNoShadingImpl instance;
+    private static Path configPath;
 
     public static void init() {
         LOGGER.debug("Initializing Simply No Shading...");
@@ -46,14 +47,16 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         }
 
         final var fabricLoader = FabricLoader.getInstance();
-        final var self = new SimplyNoShadingImpl(fabricLoader);
+        final var self = new SimplyNoShadingImpl();
 
         self.loadConfig();
         self.registerKeyMappings(fabricLoader);
         self.registerResources(fabricLoader);
         self.registerShutdownHook(self::saveConfig);
 
-        SimplyNoShadingImpl.instance = self;
+        configPath = fabricLoader.getConfigDir().resolve(MODID + ".json");
+        instance = self;
+
         LOGGER.info("Simply No Shading is initialized.");
     }
 
@@ -66,14 +69,12 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private final ConfigImpl config;
-    private final Path configPath;
     private final KeyMapping openConfigScreen;
     private final KeyMapping reloadConfig;
     private final ObjectList<? extends ShadingToggle> shadingToggles;
 
-    public SimplyNoShadingImpl(final FabricLoader fabricLoader) {
+    public SimplyNoShadingImpl() {
         this.config = new ConfigImpl(false, false);
-        this.configPath = fabricLoader.getConfigDir().resolve(MODID + ".json");
         this.openConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
         this.reloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
         this.shadingToggles = ObjectList.of(
@@ -84,7 +85,8 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
 
     @Override
     public @NotNull Path configPath() {
-        return this.configPath;
+        assert configPath != null : "This should have been initialized before this, the instance";
+        return configPath;
     }
 
     @Override
