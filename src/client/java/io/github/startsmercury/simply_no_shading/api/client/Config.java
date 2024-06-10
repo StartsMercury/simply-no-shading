@@ -1,18 +1,23 @@
 package io.github.startsmercury.simply_no_shading.api.client;
 
 /**
- * The Simply No Shading client configuration.
+ * Stores data used by this mod.
  * <p>
- * A concrete instance of this class stores data used by Simply No Shading and
- * is usually serialized.
+ * This class is normally serialized and deserialized to persist and restore
+ * the same configuration data. Defaults should be preferred over nulls when
+ * representing an initial, pre-set, or default data.
  *
  * @since 7.0.0
  */
 public interface Config {
     /**
-     * Block shading.
+     * Gets block shading enabled.
+     * <p>
+     * Block shading being enabled or disabled affect liquids and blocks, excluding
+     * block entities or use similar rendering to, in unmodified Minecraft.
      *
      * @see #setBlockShadingEnabled(boolean)
+     * @return block shading enabled
      */
     boolean blockShadingEnabled();
 
@@ -25,8 +30,11 @@ public interface Config {
 
     /**
      * Cloud shading.
+     * <p>
+     * Cloud shading being enabled or disabled affect clouds in unmodified Minecraft.
      *
      * @see #setCloudShadingEnabled(boolean)
+     * @return cloud shading enabled
      */
     boolean cloudShadingEnabled();
 
