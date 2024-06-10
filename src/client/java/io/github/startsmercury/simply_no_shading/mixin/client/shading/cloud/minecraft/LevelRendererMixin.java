@@ -14,12 +14,12 @@ public abstract class LevelRendererMixin {
     @ModifyConstant(
         method = """
             buildClouds(\
-                Lcom/mojang/blaze3d/vertex/BufferBuilder;\
+                Lcom/mojang/blaze3d/vertex/Tesselator;\
                 D\
                 D\
                 D\
                 Lnet/minecraft/world/phys/Vec3;\
-            )Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;\
+            )Lcom/mojang/blaze3d/vertex/MeshData;\
         """,
         constant = {
             @Constant(floatValue = 0.9f, ordinal = 0),
