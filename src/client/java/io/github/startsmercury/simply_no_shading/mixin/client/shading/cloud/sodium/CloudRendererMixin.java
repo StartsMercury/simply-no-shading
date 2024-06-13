@@ -1,52 +1,50 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.sodium;
 
+import static org.objectweb.asm.Opcodes.GETSTATIC;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import me.jellysquid.mods.sodium.client.render.immediate.CloudRenderer;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(CloudRenderer.class)
 public abstract class CloudRendererMixin {
-    @Unique
-    private int texel;
+    @Final
+    @Shadow(remap = false)
+    private static int CLOUD_COLOR_POS_Y;
 
     private CloudRendererMixin() {
     }
 
-    @ModifyVariable(
-        method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
-        at = @At(value = "STORE"),
-        name = "texel",
-        allow = 1
-    )
-    private int cacheBaseColor(final int texel) {
-        return this.texel = texel;
-    }
-
-    @ModifyArg(
-        method = "rebuildGeometry(Lcom/mojang/blaze3d/vertex/BufferBuilder;III)V",
-        at = @At(
-            value = "INVOKE",
-            target = """
-                Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;writeVertex(\
-                    J\
-                    F\
-                    F\
-                    F\
-                    I\
-                )J\
-            """
-        ),
-        index = 4,
-        remap = false
-    )
-    private int undoColorMixing(final int mixedColor) {
+    @ModifyExpressionValue(method = "*", remap = false, at = {
+        @At(value = "FIELD", opcode = GETSTATIC, target = """
+            Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;\
+            CLOUD_COLOR_NEG_Y: I\
+        """),
+        @At(value = "FIELD", opcode = GETSTATIC, target = """
+            Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;\
+            CLOUD_COLOR_NEG_X: I\
+        """),
+        @At(value = "FIELD", opcode = GETSTATIC, target = """
+            Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;\
+            CLOUD_COLOR_POS_X: I\
+        """),
+        @At(value = "FIELD", opcode = GETSTATIC, target = """
+            Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;\
+            CLOUD_COLOR_NEG_Z: I\
+        """),
+        @At(value = "FIELD", opcode = GETSTATIC, target = """
+            Lme/jellysquid/mods/sodium/client/render/immediate/CloudRenderer;\
+            CLOUD_COLOR_POS_Z: I\
+        """),
+    })
+    private int changeCloudColor(final int color) {
         if (ComputedConfig.cloudShadingEnabled)
-            return mixedColor;
+            return color;
         else
-            return this.texel;
+            return CLOUD_COLOR_POS_Y;
     }
 }
