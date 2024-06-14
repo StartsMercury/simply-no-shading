@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimplyNoShadingImpl implements SimplyNoShading {
+public final class SimplyNoShadingImpl implements SimplyNoShading {
     public static final String MODID = "simply-no-shading";
     public static final String EXPERIMENTAL_ENTITY_SHADING_ID = "simply_no_entity_like_shading";
 
@@ -73,7 +73,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     private final KeyMapping keyReloadConfig;
     private final ObjectList<? extends ShadingToggle> shadingToggles;
 
-    public SimplyNoShadingImpl() {
+    private SimplyNoShadingImpl() {
         this.config = new ConfigImpl(false, false);
         this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("keyOpenConfigScreen");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("keyReloadConfig");
@@ -205,7 +205,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         return this.shadingToggles;
     }
 
-    protected void registerKeyMappings(final FabricLoader fabricLoader) {
+    private void registerKeyMappings(final FabricLoader fabricLoader) {
         if (
             !fabricLoader.isModLoaded("fabric-key-binding-api-v1")
                 || !fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
