@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public class SimplyNoShadingImpl implements SimplyNoShading {
     public static final String MODID = "simply-no-shading";
+    public static final String EXPERIMENTAL_ENTITY_SHADING_ID = "simply_no_entity_like_shading";
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Simply No Shading");
     public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
@@ -300,18 +301,33 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    protected void registerResources(final FabricLoader fabricLoader) {
+    private void registerResources(final FabricLoader fabricLoader) {
+        registerResourcesButSelfless(fabricLoader);
+    }
+
+    private static void registerResourcesButSelfless(final FabricLoader fabricLoader) {
         if (!fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
             return;
         }
-        fabricLoader
+        final var container = fabricLoader
             .getModContainer(MODID)
-            .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
-                new ResourceLocation(MODID, "simply_no_entity_like_shading"),
-                container,
-                Component.literal("Entity(ish) No Shading"),
-                ResourcePackActivationType.NORMAL
-            ));
+            .orElseThrow(() -> new AssertionError("""
+                Fabric mod container for ${MODID} does not exist. Developer might have used the a \
+                different mod id from the one in fabric.mod.json. Please create an issue in their \
+                repository.\
+            """.replace("${MODID}", MODID)));
+        final var success = ResourceManagerHelper.registerBuiltinResourcePack(
+            new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
+            container,
+            Component.literal("Entity(ish) No Shading"),
+            ResourcePackActivationType.NORMAL
+        );
+        if (!success) {
+            LOGGER.warn(
+                "[Simply No Shading] Unable to register the built-in resource pack {}",
+                EXPERIMENTAL_ENTITY_SHADING_ID
+            );
+        }
     }
 
     private void registerShutdownHook() {
