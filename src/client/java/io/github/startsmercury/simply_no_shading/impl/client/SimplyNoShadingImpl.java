@@ -53,7 +53,7 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         self.loadConfig();
         self.registerKeyMappings(fabricLoader);
         self.registerResources(fabricLoader);
-        self.registerShutdownHook(self::saveConfig);
+        self.registerShutdownHook();
         instance = self;
 
         LOGGER.info("Simply No Shading is initialized.");
@@ -314,8 +314,8 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
             ));
     }
 
-    protected void registerShutdownHook(final Runnable shutdownAction) {
-        final var shutdownThread = new Thread(shutdownAction);
+    private void registerShutdownHook() {
+        final var shutdownThread = new Thread(this::saveConfig);
         shutdownThread.setName("Simply No Shading Shutdown Thread");
         Runtime.getRuntime().addShutdownHook(shutdownThread);
     }
