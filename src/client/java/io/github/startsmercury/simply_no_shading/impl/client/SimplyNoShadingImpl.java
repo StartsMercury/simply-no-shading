@@ -68,14 +68,14 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private final ConfigImpl config;
-    private final KeyMapping openConfigScreen;
-    private final KeyMapping reloadConfig;
+    private final KeyMapping keyOpenConfigScreen;
+    private final KeyMapping keyReloadConfig;
     private final ObjectList<? extends ShadingToggle> shadingToggles;
 
     public SimplyNoShadingImpl() {
         this.config = new ConfigImpl(false, false);
-        this.openConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
-        this.reloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
+        this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("keyOpenConfigScreen");
+        this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("keyReloadConfig");
         this.shadingToggles = ObjectList.of(
             createShadingToggle("blockShading", ReloadType.blocks()),
             createShadingToggle("cloudShading", ReloadType.clouds())
@@ -192,12 +192,12 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    public KeyMapping openConfigScreen() {
-        return this.openConfigScreen;
+    public KeyMapping keyOpenConfigScreen() {
+        return this.keyOpenConfigScreen;
     }
 
-    public KeyMapping reloadConfig() {
-        return this.reloadConfig;
+    public KeyMapping keyReloadConfig() {
+        return this.keyReloadConfig;
     }
 
     public ObjectList<? extends ShadingToggle> shadingToggles() {
@@ -212,8 +212,8 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
             return;
         }
 
-        KeyBindingHelper.registerKeyBinding(this.openConfigScreen());
-        KeyBindingHelper.registerKeyBinding(this.reloadConfig());
+        KeyBindingHelper.registerKeyBinding(this.keyOpenConfigScreen());
+        KeyBindingHelper.registerKeyBinding(this.keyReloadConfig());
         for (final var shadingToggle : this.shadingToggles()) {
             KeyBindingHelper.registerKeyBinding(shadingToggle.keyMapping());
         }
@@ -250,9 +250,12 @@ public class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private void consumeKeyEvents(final Minecraft minecraft) {
-        if (this.openConfigScreen().isDown()) {
-            minecraft.setScreen(new ConfigScreen(null, this.config()));
-        } else if (this.reloadConfig().isDown()) {
+        if (this.keyOpenConfigScreen().isDown()) {
+            final var lastScreen = minecraft.screen;
+            final var config = this.config();
+
+            minecraft.setScreen(new ConfigScreen(lastScreen, config));
+        } else if (this.keyReloadConfig().isDown()) {
             this.reloadConfig(minecraft);
         } else {
             this.consumeKeyToggleEvents(minecraft);
