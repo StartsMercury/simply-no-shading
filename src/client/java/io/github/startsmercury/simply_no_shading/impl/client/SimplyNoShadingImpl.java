@@ -75,11 +75,12 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
     private SimplyNoShadingImpl() {
         this.config = new ConfigImpl(false, false);
-        this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("keyOpenConfigScreen");
-        this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("keyReloadConfig");
+        this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
+        this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
         this.shadingToggles = ObjectList.of(
             createShadingToggle("blockShading", ReloadType.blocks()),
-            createShadingToggle("cloudShading", ReloadType.clouds())
+            createShadingToggle("cloudShading", ReloadType.clouds()),
+            createShadingToggle("shaderShading", ReloadType.ALL_CHANGED)
         );
     }
 
