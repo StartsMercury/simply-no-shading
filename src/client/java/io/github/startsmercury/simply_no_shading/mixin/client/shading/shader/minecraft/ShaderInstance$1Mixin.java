@@ -61,7 +61,7 @@ public abstract class ShaderInstance$1Mixin {
     @Unique
     private static final String MACRO_REPLACING_TARGET_FUNCTION;
     static {
-        final var somehowDissociateFromSourceLineNumbering = "#correctLineNumber 0";
+        final var somehowDissociateFromSourceLineNumbering = "#line 0";
         final var helperFunctionName = TARGET_FUNCTION_NAME + TARGET_FUNCTION_RENAME_PREFIX;
 
         MACRO_REPLACING_TARGET_FUNCTION = """
@@ -112,7 +112,7 @@ public abstract class ShaderInstance$1Mixin {
         final var correctLineNumber = StringUtil.lineCount(source.substring(0, matcher.start()));
 
         final var beforeTargetFunction = source.substring(0, matcher.start());
-        final var ignoreChangesToLineNumbering = "\n#correctLineNumber " + correctLineNumber + "\n";
+        final var ignoreChangesToLineNumbering = "\n#line " + correctLineNumber + "\n";
         final var returnTypeAndOriginalName = matcher.group(1);
         final var afterReturnTypeAndChangedName = source.substring(matcher.end(1));
 
