@@ -19,6 +19,7 @@ public class ConfigImpl implements Config {
 
     public ConfigImpl(final Config other) {
         this(other.blockShadingEnabled(), other.cloudShadingEnabled());
+        if (other instanceof ConfigImpl) this.setShaderShadingEnabled(((ConfigImpl) other).shaderShadingEnabled());
     }
 
     @Override
@@ -56,6 +57,7 @@ public class ConfigImpl implements Config {
 
     public void set(final Config other) {
         this.set(other.blockShadingEnabled(), other.cloudShadingEnabled());
+        if (other instanceof ConfigImpl) this.setShaderShadingEnabled(((ConfigImpl) other).shaderShadingEnabled());
     }
 
     public void fromJson(final JsonElement json) {
