@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(targets = "net.minecraft.client.renderer.ShaderInstance$1")
 public abstract class ShaderInstance$1Mixin {
     @Unique
-    private static final String TARGET_SYSTEM_MOJ_IMPORT = "\"shaders/include/light.glsl\"";
+    private static final String TARGET_SYSTEM_MOJ_IMPORT = "shaders/include/light.glsl";
 
     @Unique
     private static final String TARGET_FUNCTION_NAME = "minecraft_mix_light";
