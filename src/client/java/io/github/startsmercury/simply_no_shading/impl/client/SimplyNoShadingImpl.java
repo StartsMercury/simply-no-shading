@@ -9,14 +9,13 @@ import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
 import io.github.startsmercury.simply_no_shading.impl.util.JsonUtils;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.List;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -71,17 +70,18 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     private final ConfigImpl config;
     private final KeyMapping keyOpenConfigScreen;
     private final KeyMapping keyReloadConfig;
-    private final ObjectList<? extends ShadingToggle> shadingToggles;
+    private final List<KeyMapping> keyShadingToggles;
 
     private SimplyNoShadingImpl() {
-        this.config = new ConfigImpl(false, false);
+        this.config = new ConfigImpl();
         this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
-        this.shadingToggles = ObjectList.of(
-            createShadingToggle("blockShading", ReloadType.blocks()),
-            createShadingToggle("cloudShading", ReloadType.clouds()),
-            createShadingToggle("shaderShading", ReloadType.ALL_CHANGED)
-        );
+        this.keyShadingToggles = ShadingTarget
+            .valueList()
+            .stream()
+            .map(ShadingTarget::toggleKey)
+            .map(SimplyNoShadingImpl::createKeyMapping)
+            .toList();
     }
 
     @Override
@@ -202,8 +202,8 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return this.keyReloadConfig;
     }
 
-    public ObjectList<? extends ShadingToggle> shadingToggles() {
-        return this.shadingToggles;
+    public List<? extends KeyMapping> keyShadingToggles() {
+        return this.keyShadingToggles;
     }
 
     private void registerKeyMappings(final FabricLoader fabricLoader) {
@@ -216,9 +216,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
         KeyBindingHelper.registerKeyBinding(this.keyOpenConfigScreen());
         KeyBindingHelper.registerKeyBinding(this.keyReloadConfig());
-        for (final var shadingToggle : this.shadingToggles()) {
-            KeyBindingHelper.registerKeyBinding(shadingToggle.keyMapping());
-        }
+        this.keyShadingToggles().forEach(KeyBindingHelper::registerKeyBinding);
 
         ClientTickEvents.END_CLIENT_TICK.register(this::consumeKeyEvents);
     }
@@ -229,26 +227,6 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             InputConstants.UNKNOWN.getValue(),
             KEY_CATEGORY
         );
-    }
-
-    private static ShadingToggle createShadingToggle(
-        final String name,
-        final ReloadType reloadType
-    ) {
-        return new ShadingToggle(
-            name,
-            false,
-            createKeyMapping("toggle" + toTitleCase(name)),
-            reloadType
-        );
-    }
-
-    private static String toTitleCase(final String s) {
-        return switch (s.length()) {
-            case 0 -> "";
-            case 1 -> String.valueOf(Character.toTitleCase(s.charAt(0)));
-            default -> Character.toTitleCase(s.charAt(0)) + s.substring(1);
-        };
     }
 
     private void consumeKeyEvents(final Minecraft minecraft) {
@@ -265,40 +243,42 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private void reloadConfig(final Minecraft minecraft) {
-        final var oldShadingValues = new Reference2BooleanOpenHashMap<>(this.config.shadingValues);
+        final var oldShadingValues = this.config.shadingValues.clone();
         this.loadConfig();
         final var newShadingValues = this.config.shadingValues;
 
         var reloadType = ReloadType.NONE;
-        for (final var shadingToggle : this.shadingToggles()) {
-            final var name = shadingToggle.name();
-            final var defaultValue = shadingToggle.defaultValue();
+        for (final var target : ShadingTarget.valueList()) {
+            final var ordinal = target.ordinal();
 
-            final var oldValue = oldShadingValues.getOrDefault(name, defaultValue);
-            final var newValue = newShadingValues.getOrDefault(name, defaultValue);
+            final var oldValue = oldShadingValues[ordinal];
+            final var newValue = newShadingValues[ordinal];
 
             if (oldValue != newValue) {
-                reloadType = reloadType.compose(shadingToggle.reloadType());
+                reloadType = reloadType.compose(target.reloadType());
             }
         }
 
-        System.out.println(reloadType);
-        if (reloadType != ReloadType.NONE) {
-            reloadType.applyTo(minecraft.levelRenderer);
-        }
+        reloadType.applyTo(minecraft);
     }
 
     private void consumeKeyToggleEvents(final Minecraft minecraft) {
-        final var config = new ConfigImpl(this.config());
+        final var shadingValues = this.config.shadingValues.clone();
 
         var reloadType = ReloadType.NONE;
-        for (final var shadingToggle : this.shadingToggles()) {
-            reloadType = reloadType.compose(shadingToggle.tryToggleOnKeyRelease(config));
+        for (final var target : ShadingTarget.valueList()) {
+            final var ordinal = target.ordinal();
+            if (!this.keyShadingToggles.get(ordinal).consumeReleased()) {
+                continue;
+            }
+            shadingValues[ordinal] ^= true;
+            reloadType = reloadType.compose(target.reloadType());
         }
 
         if (reloadType != ReloadType.NONE) {
-            reloadType.applyTo(minecraft.levelRenderer);
-            this.setConfig(config);
+            this.config.shadingValues = shadingValues;
+            ComputedConfig.set(this.config);
+            reloadType.applyTo(minecraft);
         }
     }
 

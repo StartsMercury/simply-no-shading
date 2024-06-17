@@ -3,61 +3,64 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
-import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
+import org.jetbrains.annotations.NotNull;
 
-public class ConfigImpl implements Config {
-    final Reference2BooleanMap<String> shadingValues;
+import java.util.Objects;
 
-    public ConfigImpl(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
-        this.shadingValues = new Reference2BooleanOpenHashMap<>();
-        this.set(blockShadingEnabled, cloudShadingEnabled);
-        this.setShaderShadingEnabled(false);
+public final class ConfigImpl implements Config {
+    boolean @NotNull [] shadingValues;
+
+    public ConfigImpl() {
+        this.shadingValues = new boolean[ShadingTarget.valueList().size()];
     }
 
     public ConfigImpl(final Config other) {
-        this(other.blockShadingEnabled(), other.cloudShadingEnabled());
-        if (other instanceof ConfigImpl) this.setShaderShadingEnabled(((ConfigImpl) other).shaderShadingEnabled());
+        this();
+        this.set(other);
+    }
+
+    public boolean shadingEnabled(final ShadingTarget target) {
+        return this.shadingValues[target.ordinal()];
+    }
+
+    public void setShadingEnabled(final ShadingTarget target, final boolean enabled) {
+        this.shadingValues[target.ordinal()] = enabled;
     }
 
     @Override
     public boolean blockShadingEnabled() {
-        return this.shadingValues.getBoolean("blockShading");
+        return shadingEnabled(ShadingTarget.BLOCK);
     }
 
     @Override
     public void setBlockShadingEnabled(final boolean enabled) {
-        this.shadingValues.put("blockShading", enabled);
+        setShadingEnabled(ShadingTarget.BLOCK, enabled);
     }
 
     @Override
     public boolean cloudShadingEnabled() {
-        return this.shadingValues.getBoolean("cloudShading");
+        return shadingEnabled(ShadingTarget.CLOUD);
     }
 
     @Override
     public void setCloudShadingEnabled(final boolean enabled) {
-        this.shadingValues.put("cloudShading", enabled);
+        setShadingEnabled(ShadingTarget.CLOUD, enabled);
     }
 
-    public boolean shaderShadingEnabled() {
-        return this.shadingValues.getBoolean("shaderShading");
+    public boolean entityShadingEnabled() {
+        return shadingEnabled(ShadingTarget.ENTITY);
     }
 
-    public void setShaderShadingEnabled(final boolean enabled) {
-        this.shadingValues.put("shaderShading", enabled);
-    }
-
-    public void set(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
-        this.setBlockShadingEnabled(blockShadingEnabled);
-        this.setCloudShadingEnabled(cloudShadingEnabled);
+    public void setEntityShadingEnabled(final boolean enabled) {
+        setShadingEnabled(ShadingTarget.ENTITY, enabled);
     }
 
     public void set(final Config other) {
-        this.set(other.blockShadingEnabled(), other.cloudShadingEnabled());
-        if (other instanceof ConfigImpl) this.setShaderShadingEnabled(((ConfigImpl) other).shaderShadingEnabled());
+        Objects.requireNonNull(other);
+        this.setBlockShadingEnabled(other.blockShadingEnabled());
+        this.setCloudShadingEnabled(other.cloudShadingEnabled());
+        if (other instanceof final ConfigImpl otherImpl) this.setEntityShadingEnabled(otherImpl.entityShadingEnabled());
     }
 
     public void fromJson(final JsonElement json) {
@@ -70,20 +73,17 @@ public class ConfigImpl implements Config {
             );
         }
 
-        jsonObject.asMap().forEach((key, node) -> {
-            if (!key.endsWith("Enabled")) {
-                return;
+        for (final var target : ShadingTarget.valueList()) {
+            final var enabled = target.fromJson(jsonObject);
+            if (enabled != null) {
+                setShadingEnabled(target, enabled);
             }
-            final var shadingKey = key.substring(0, key.length() - "Enabled".length());
-            if (this.shadingValues.containsKey(shadingKey) && node instanceof final JsonPrimitive enabled && enabled.isBoolean()) {
-                this.shadingValues.put(shadingKey, node.getAsBoolean());
-            }
-        });
+        }
     }
 
     public void toJson(final JsonObject tree) {
-        this.shadingValues.forEach(
-            (property, value) -> tree.addProperty(property + "Enabled", value)
-        );
+        for (final var target : ShadingTarget.valueList()) {
+            target.intoJson(tree, shadingEnabled(target));
+        }
     }
 }
