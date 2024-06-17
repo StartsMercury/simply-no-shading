@@ -97,7 +97,7 @@ public abstract class ShaderInstance$1Mixin {
         final String file
     ) {
         if (
-            ComputedConfig.shaderShadingEnabled
+            ComputedConfig.entityShadingEnabled
                 || quotesUsed
                 || !file.equals(TARGET_SYSTEM_MOJ_IMPORT)
         ) {

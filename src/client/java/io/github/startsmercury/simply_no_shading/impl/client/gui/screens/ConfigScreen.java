@@ -4,16 +4,14 @@ import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
-import io.github.startsmercury.simply_no_shading.impl.client.ShadingToggle;
+import io.github.startsmercury.simply_no_shading.impl.client.ShadingTarget;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
-import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
 
 public final class ConfigScreen extends OptionsSubScreen {
@@ -39,7 +37,7 @@ public final class ConfigScreen extends OptionsSubScreen {
 
         final var minecraft = super.minecraft;
         assert minecraft != null;
-        this.reloadType.applyTo(minecraft.levelRenderer);
+        this.reloadType.applyTo(minecraft);
     }
 
     @Override
@@ -47,47 +45,25 @@ public final class ConfigScreen extends OptionsSubScreen {
         final var list = this.list;
         assert list != null;
 
-        final var shadingOptions = ((SimplyNoShadingImpl) SimplyNoShading.instance())
-            .shadingToggles()
+        final var shadingOptions = ShadingTarget
+            .valueList()
             .stream()
             .map(this::createShadingOption)
             .toArray(OptionInstance[]::new);
         list.addSmall(shadingOptions);
-
-        list.addSmall(this.createToEntityLikeShadingButton(), null);
     }
 
-    private OptionInstance<Boolean> createShadingOption(final ShadingToggle shadingToggle) {
-        final var key = "simply-no-shading.config.option." + shadingToggle.name() + "Enabled";
+    private OptionInstance<Boolean> createShadingOption(final ShadingTarget target) {
+        final var key = "simply-no-shading.config.option." + target + "ShadingEnabled";
         final var tooltip = Tooltip.create(Component.translatable(key + ".tooltip"));
         return OptionInstance.createBoolean(
             key,
             enabled -> tooltip,
-            shadingToggle.getFrom(this.config),
+            this.config.shadingEnabled(target),
             enabled -> {
-                shadingToggle.setTo(this.config, enabled);
-                this.reloadType = this.reloadType.compose(shadingToggle.reloadType());
+                this.config.setShadingEnabled(target, enabled);
+                this.reloadType = this.reloadType.compose(target.reloadType());
             }
         );
-    }
-
-    private Button createToEntityLikeShadingButton() {
-        final var minecraft = super.minecraft;
-        assert minecraft != null;
-
-        return Button.builder(
-            Component.translatable("simply-no-shading.config.option.experimentalEntityLikeShading"),
-            self -> minecraft.setScreen(
-                new PackSelectionScreen(
-                    minecraft.getResourcePackRepository(),
-                    packRepository -> {
-                        minecraft.options.updateResourcePacks(packRepository);
-                        minecraft.setScreen(this);
-                    },
-                    minecraft.getResourcePackDirectory(),
-                    Component.translatable("resourcePack.title")
-                )
-            )
-        ).build();
     }
 }
