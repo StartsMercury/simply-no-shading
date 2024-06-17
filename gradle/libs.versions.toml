@@ -1,5 +1,4 @@
 [versions]
-arrp = "0.8.0"
 bedrockify = "1.9.5+mc1.20.6"
 cloth-config = "14.0.126"
 enhancedblockentities = "0.10.1+1.21"
@@ -13,7 +12,6 @@ modmenu = "11.0.0-rc.4"
 sodium = "mc1.21-0.5.9"
 
 [libraries]
-arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
 cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
 enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
