@@ -38,6 +38,14 @@
             "io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingModMenuEntrypoint"
         ]
     },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.github_releases": "https://github.com/StartsMercury/simply-no-shading/releases",
+                "modmenu.modrinth": "https://modrinth.com/mod/simply-no-shading"
+            }
+        }
+    },
     "mixins": [
         "simply-no-shading.mixins.json"
     ],
