@@ -1,12 +1,15 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.Minecraft;
 
 public enum ReloadType {
-    ALL_CHANGED,
+    NONE,
     NEEDS_UPDATE,
-    NONE;
+    ALL_CHANGED,
+    RESOURCE_PACKS;
+
+    private static final ReloadType[] VALUES = values();
 
     public static ReloadType blocks() {
         return ReloadType.ALL_CHANGED;
@@ -20,26 +23,20 @@ public enum ReloadType {
         }
     }
 
-    public void applyTo(final LevelRenderer levelRenderer) {
+    public static ReloadType entities() {
+        return ReloadType.RESOURCE_PACKS;
+    }
+
+    public void applyTo(final Minecraft minecraft) {
         switch (this) {
             case NONE -> {}
-            case NEEDS_UPDATE -> levelRenderer.needsUpdate();
-            case ALL_CHANGED -> levelRenderer.allChanged();
+            case NEEDS_UPDATE -> minecraft.levelRenderer.needsUpdate();
+            case ALL_CHANGED -> minecraft.levelRenderer.allChanged();
+            case RESOURCE_PACKS -> minecraft.reloadResourcePacks();
         }
     }
 
     public ReloadType compose(final ReloadType rhs) {
-        return switch (this) {
-            case ALL_CHANGED -> switch (rhs) {
-                case ALL_CHANGED, NEEDS_UPDATE, NONE -> this;
-            };
-            case NEEDS_UPDATE -> switch (rhs) {
-                case ALL_CHANGED -> rhs;
-                case NEEDS_UPDATE, NONE -> this;
-            };
-            case NONE -> switch (rhs) {
-                case ALL_CHANGED, NEEDS_UPDATE, NONE -> rhs;
-            };
-        };
+        return VALUES[Math.max(this.ordinal(), rhs.ordinal())];
     }
 }
