@@ -44,4 +44,22 @@ public interface Config {
      * @see #cloudShadingEnabled()
      */
     void setCloudShadingEnabled(boolean enabled);
+
+    /**
+     * Gets entity shading enabled.
+     * <p>
+     * Entity shading being enabled or disabled affect entities and block entities.
+     * This would also include the hand and held items.
+     *
+     * @see #setEntityShadingEnabled(boolean)
+     * @return entity shading enabled
+     */
+    boolean entityShadingEnabled();
+
+    /**
+     * Sets entity shading enabled or disabled.
+     *
+     * @see #entityShadingEnabled()
+     */
+    void setEntityShadingEnabled(boolean enabled);
 }
