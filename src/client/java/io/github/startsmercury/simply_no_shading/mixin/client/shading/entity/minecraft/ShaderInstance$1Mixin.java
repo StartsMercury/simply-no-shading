@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.shading.shader.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.shading.entity.minecraft;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.regex.Pattern;
