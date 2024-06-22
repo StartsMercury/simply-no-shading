@@ -11,6 +11,7 @@ public enum ReloadType {
 
     private static final ReloadType[] VALUES = values();
 
+    @SuppressWarnings("SameReturnValue")
     public static ReloadType blocks() {
         return ReloadType.ALL_CHANGED;
     }
@@ -23,6 +24,7 @@ public enum ReloadType {
         }
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static ReloadType entities() {
         return ReloadType.RESOURCE_PACKS;
     }
