@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public final class ComputedConfig {
     // config values frequently used such as in rendering
-    public static boolean blockShadingEnabled = true;
-    public static boolean cloudShadingEnabled = true;
-    public static boolean entityShadingEnabled = false;
+    public static boolean blockShadingEnabled;
+    public static boolean cloudShadingEnabled;
+    public static boolean entityShadingEnabled;
 
     public static void set(final Config config) {
         Objects.requireNonNull(config, "Parameter config is null");
