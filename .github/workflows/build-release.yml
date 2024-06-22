@@ -29,7 +29,7 @@ jobs:
           cache: gradle
 
       - name: Build
-        run: ./gradlew clean remapJar remapSourcesJar javadocJar -Pbuild.release=true
+        run: ./gradlew clean check build -Pbuild.release=true
 
       - name: Upload Binaries to GitHub Release
         uses: svenstaro/upload-release-action@v2
