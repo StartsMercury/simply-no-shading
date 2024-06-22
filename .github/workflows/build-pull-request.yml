@@ -26,4 +26,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Gradle Build
-        run: ./gradlew build
+        run: ./gradlew check build
