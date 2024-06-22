@@ -48,10 +48,12 @@ public final class ConfigImpl implements Config {
         setShadingEnabled(ShadingTarget.CLOUD, enabled);
     }
 
+    @Override
     public boolean entityShadingEnabled() {
         return shadingEnabled(ShadingTarget.ENTITY);
     }
 
+    @Override
     public void setEntityShadingEnabled(final boolean enabled) {
         setShadingEnabled(ShadingTarget.ENTITY, enabled);
     }
