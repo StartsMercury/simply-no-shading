@@ -1,6 +1,6 @@
 {
     "pack": {
         "pack_format": 29,
-        "description": "[Experimental] affects most dynamic models, even in GUIs"
+        "description": "[Deprecated] prefer the new toggle (v7.4.0)"
     }
 }
