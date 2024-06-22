@@ -14,7 +14,7 @@ public final class ComputedConfig {
 
         ComputedConfig.blockShadingEnabled = config.blockShadingEnabled();
         ComputedConfig.cloudShadingEnabled = config.cloudShadingEnabled();
-        ComputedConfig.entityShadingEnabled = ((ConfigImpl) config).entityShadingEnabled();
+        ComputedConfig.entityShadingEnabled = config.entityShadingEnabled();
     }
 
     private ComputedConfig() {
