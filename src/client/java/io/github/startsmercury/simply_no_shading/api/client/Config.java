@@ -16,8 +16,8 @@ public interface Config {
      * Block shading being enabled or disabled affect liquids and blocks, excluding
      * block entities or use similar rendering to, in unmodified Minecraft.
      *
-     * @see #setBlockShadingEnabled(boolean)
      * @return block shading enabled
+     * @see #setBlockShadingEnabled(boolean)
      */
     boolean blockShadingEnabled();
 
@@ -33,8 +33,8 @@ public interface Config {
      * <p>
      * Cloud shading being enabled or disabled affect clouds in unmodified Minecraft.
      *
-     * @see #setCloudShadingEnabled(boolean)
      * @return cloud shading enabled
+     * @see #setCloudShadingEnabled(boolean)
      */
     boolean cloudShadingEnabled();
 
@@ -51,8 +51,9 @@ public interface Config {
      * Entity shading being enabled or disabled affect entities and block entities.
      * This would also include the hand and held items.
      *
-     * @see #setEntityShadingEnabled(boolean)
      * @return entity shading enabled
+     * @since 7.4.0
+     * @see #setEntityShadingEnabled(boolean)
      */
     boolean entityShadingEnabled();
 
@@ -60,6 +61,7 @@ public interface Config {
      * Sets entity shading enabled or disabled.
      *
      * @see #entityShadingEnabled()
+     * @since 7.4.0
      */
     void setEntityShadingEnabled(boolean enabled);
 }
