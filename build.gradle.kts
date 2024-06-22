@@ -61,6 +61,8 @@ testing {
                 implementation(client.output)
             }
         }
+
+        withType<JvmTestSuite> { tasks.named("check") { dependsOn(targets.map { it.testTask }) } }
     }
 }
 
