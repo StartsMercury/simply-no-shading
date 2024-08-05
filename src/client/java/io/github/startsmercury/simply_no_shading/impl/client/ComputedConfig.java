@@ -7,12 +7,14 @@ public final class ComputedConfig {
     // config values frequently used such as in rendering
     public static boolean blockShadingEnabled = true;
     public static boolean cloudShadingEnabled = true;
+    public static boolean shaderShadingEnabled = false;
 
     public static void set(final Config config) {
         Objects.requireNonNull(config, "Parameter config is null");
 
         ComputedConfig.blockShadingEnabled = config.blockShadingEnabled();
         ComputedConfig.cloudShadingEnabled = config.cloudShadingEnabled();
+        ComputedConfig.shaderShadingEnabled = ((ConfigImpl) config).shaderShadingEnabled();
     }
 
     private ComputedConfig() {

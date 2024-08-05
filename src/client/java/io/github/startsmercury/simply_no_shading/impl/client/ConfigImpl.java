@@ -14,6 +14,7 @@ public class ConfigImpl implements Config {
     public ConfigImpl(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
         this.shadingValues = new Reference2BooleanOpenHashMap<>();
         this.set(blockShadingEnabled, cloudShadingEnabled);
+        this.setShaderShadingEnabled(false);
     }
 
     public ConfigImpl(final Config other) {
@@ -40,6 +41,14 @@ public class ConfigImpl implements Config {
         this.shadingValues.put("cloudShading", enabled);
     }
 
+    public boolean shaderShadingEnabled() {
+        return this.shadingValues.getBoolean("shaderShading");
+    }
+
+    public void setShaderShadingEnabled(final boolean enabled) {
+        this.shadingValues.put("shaderShading", enabled);
+    }
+
     public void set(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
         this.setBlockShadingEnabled(blockShadingEnabled);
         this.setCloudShadingEnabled(cloudShadingEnabled);
@@ -59,21 +68,20 @@ public class ConfigImpl implements Config {
             );
         }
 
-        if (jsonObject.get("blockShadingEnabled") instanceof final JsonPrimitive blockShadingEnabled
-            && blockShadingEnabled.isBoolean()
-        ) {
-            this.setBlockShadingEnabled(blockShadingEnabled.getAsBoolean());
-        }
-
-        if (jsonObject.get("cloudShadingEnabled") instanceof final JsonPrimitive cloudShadingEnabled
-            && cloudShadingEnabled.isBoolean()
-        ) {
-            this.setCloudShadingEnabled(cloudShadingEnabled.getAsBoolean());
-        }
+        jsonObject.asMap().forEach((key, node) -> {
+            if (!key.endsWith("Enabled")) {
+                return;
+            }
+            final var shadingKey = key.substring(0, key.length() - "Enabled".length());
+            if (this.shadingValues.containsKey(shadingKey) && node instanceof final JsonPrimitive enabled && enabled.isBoolean()) {
+                this.shadingValues.put(shadingKey, node.getAsBoolean());
+            }
+        });
     }
 
     public void toJson(final JsonObject tree) {
-        tree.addProperty("blockShadingEnabled", this.blockShadingEnabled());
-        tree.addProperty("cloudShadingEnabled", this.cloudShadingEnabled());
+        this.shadingValues.forEach(
+            (property, value) -> tree.addProperty(property + "Enabled", value)
+        );
     }
 }
