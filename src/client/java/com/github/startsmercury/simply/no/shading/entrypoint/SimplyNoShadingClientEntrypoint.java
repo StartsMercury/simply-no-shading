@@ -98,7 +98,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	protected void setupResources() {
 		FabricLoader.getInstance().getModContainer("simply-no-shading").ifPresent(container -> {
 			ResourceManagerHelper.registerBuiltinResourcePack(
-				new ResourceLocation("simply-no-shading", "simply_no_entity_like_shading"),
+				ResourceLocation.fromNamespaceAndPath("simply-no-shading", "simply_no_entity_like_shading"),
 				container,
 				ResourcePackActivationType.NORMAL
 			);

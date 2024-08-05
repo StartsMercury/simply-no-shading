@@ -12,15 +12,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface SimplyNoShading {
     /**
-     * The Simply No Shading implementation instance.
-     * <p>
-     * It is discouraged for this method to return different instances
-     * for an implementation as callers may validly assume that the
-     * first valid instance is a singleton.
+     * Gets the singleton implementation of this class.
      *
-     * @implSpec It is possible to call this method before an instance is
-     *     present which may result in a
-     *     {@linkplain RuntimeException runtime exception}.
+     * @return an instance of this class
+     * @throws RuntimeException if the single instance is not yet available
      */
     static @NotNull SimplyNoShading instance() {
         return io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.instance();
