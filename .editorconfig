@@ -15,5 +15,8 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
+[*.bat]
+end_of_line = crlf
+
 [*.java]
 ij_java_imports_layout = $*,|,*
