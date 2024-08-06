@@ -10,7 +10,7 @@ indium = "1.0.34+mc1.20.1"
 java = "17"
 minecraft = "1.20.1"
 modmenu = "7.2.2"
-sodium = "mc1.20.6-0.5.11"
+sodium = "mc1.20.1-0.5.11"
 
 [libraries]
 arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
