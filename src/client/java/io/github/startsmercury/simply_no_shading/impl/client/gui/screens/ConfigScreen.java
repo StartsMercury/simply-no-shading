@@ -9,14 +9,16 @@ import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
+import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.network.chat.Component;
 
 public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
     private final ConfigImpl config;
+    private OptionsList list;
     private ReloadType reloadType;
 
     public ConfigScreen(final Screen lastScreen, final Config config) {
@@ -29,28 +31,18 @@ public final class ConfigScreen extends OptionsSubScreen {
     }
 
     @Override
-    public void removed() {
-        final var simplyNoShading = SimplyNoShading.instance();
-
-        simplyNoShading.setConfig(this.config);
-        ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
-
-        final var minecraft = super.minecraft;
-        assert minecraft != null;
-        this.reloadType.applyTo(minecraft);
-    }
-
-    @Override
-    protected void addOptions() {
-        final var list = this.list;
-        assert list != null;
+    protected void init() {
+        this.list = new OptionsList(super.minecraft, this.width, this.height, this);
+        this.addRenderableWidget(this.list);
 
         final var shadingOptions = ShadingTarget
             .valueList()
             .stream()
             .map(this::createShadingOption)
             .toArray(OptionInstance[]::new);
-        list.addSmall(shadingOptions);
+        this.list.addSmall(shadingOptions);
+
+        super.init();
     }
 
     private OptionInstance<Boolean> createShadingOption(final ShadingTarget target) {
@@ -65,5 +57,25 @@ public final class ConfigScreen extends OptionsSubScreen {
                 this.reloadType = this.reloadType.compose(target.reloadType());
             }
         );
+    }
+
+    @Override
+    public void repositionElements() {
+        super.repositionElements();
+        if (this.list != null) {
+            this.list.updateSize(this.width, this.layout);
+        }
+    }
+
+    @Override
+    public void removed() {
+        final var simplyNoShading = SimplyNoShading.instance();
+
+        simplyNoShading.setConfig(this.config);
+        ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
+
+        final var minecraft = super.minecraft;
+        assert minecraft != null;
+        this.reloadType.applyTo(minecraft);
     }
 }

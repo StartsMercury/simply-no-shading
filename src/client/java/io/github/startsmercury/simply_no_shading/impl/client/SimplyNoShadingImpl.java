@@ -298,7 +298,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
                 repository.\
             """.replace("${MODID}", MODID)));
         final var success = ResourceManagerHelper.registerBuiltinResourcePack(
-            ResourceLocation.fromNamespaceAndPath(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
+            new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
             container,
             Component.literal("Entity(ish) No Shading"),
             ResourcePackActivationType.NORMAL
