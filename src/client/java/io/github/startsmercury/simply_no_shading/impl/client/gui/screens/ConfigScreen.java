@@ -9,10 +9,13 @@ import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 public final class ConfigScreen extends OptionsSubScreen {
@@ -32,8 +35,13 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     protected void init() {
-        this.list = new OptionsList(super.minecraft, this.width, this.height, this);
-        this.addRenderableWidget(this.list);
+        this.list = new OptionsList(super.minecraft,
+            this.width,
+            this.height,
+            32,
+            this.height - 32,
+            25
+        );
 
         final var shadingOptions = ShadingTarget
             .valueList()
@@ -41,8 +49,18 @@ public final class ConfigScreen extends OptionsSubScreen {
             .map(this::createShadingOption)
             .toArray(OptionInstance[]::new);
         this.list.addSmall(shadingOptions);
-
-        super.init();
+        this.addWidget(this.list);
+        this.addRenderableWidget(
+            Button.builder(
+                CommonComponents.GUI_DONE,
+                button -> {
+                    final var minecraft = super.minecraft;
+                    assert minecraft != null;
+                    minecraft.setScreen(this.lastScreen);
+                }
+            ).bounds(this.width / 2 - 100, this.height - 27, 200, 20)
+                .build()
+        );
     }
 
     private OptionInstance<Boolean> createShadingOption(final ShadingTarget target) {
@@ -60,14 +78,6 @@ public final class ConfigScreen extends OptionsSubScreen {
     }
 
     @Override
-    public void repositionElements() {
-        super.repositionElements();
-        if (this.list != null) {
-            this.list.updateSize(this.width, this.layout);
-        }
-    }
-
-    @Override
     public void removed() {
         final var simplyNoShading = SimplyNoShading.instance();
 
@@ -77,5 +87,10 @@ public final class ConfigScreen extends OptionsSubScreen {
         final var minecraft = super.minecraft;
         assert minecraft != null;
         this.reloadType.applyTo(minecraft);
+    }
+
+    @Override
+    public void render(final GuiGraphics guiGraphics, final int i, final int j, final float f) {
+        this.basicListRender(guiGraphics, this.list, i, j, f);
     }
 }

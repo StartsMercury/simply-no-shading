@@ -116,23 +116,22 @@ public final class JsonUtils {
         final AbstractReferenceList<JsonElement> nodes,
         final JsonElement node
     ) throws IOException {
-        switch (node) {
-            case null -> writer.nullValue();
-            case final JsonNull ignored -> writer.nullValue();
-            case final JsonPrimitive jsonPrimitive when jsonPrimitive.isBoolean() ->
-                writer.value(jsonPrimitive.getAsBoolean());
-            case final JsonPrimitive jsonPrimitive when jsonPrimitive.isNumber() ->
-                writer.value(jsonPrimitive.getAsNumber());
-            case final JsonPrimitive jsonPrimitive -> writer.value(jsonPrimitive.getAsString());
-            case final JsonArray jsonArray -> {
-                writer.beginArray();
-                extractArrayElementsForSerialization(markers, scopes, nodes, jsonArray);
-            }
-            case final JsonObject jsonObject -> {
-                writer.beginObject();
-                extractObjectEntriesForSerialization(keys, markers, scopes, nodes, jsonObject);
-            }
-            default -> throw new IllegalArgumentException(
+        if (node == null || node instanceof JsonNull) {
+            writer.nullValue();
+        } else if (node instanceof final JsonPrimitive jsonPrimitive && jsonPrimitive.isBoolean()) {
+            writer.value(jsonPrimitive.getAsBoolean());
+        } else if (node instanceof final JsonPrimitive jsonPrimitive && jsonPrimitive.isNumber()) {
+            writer.value(jsonPrimitive.getAsNumber());
+        } else if (node instanceof final JsonPrimitive jsonPrimitive) {
+            writer.value(jsonPrimitive.getAsString());
+        } else if (node instanceof final JsonArray jsonArray) {
+            writer.beginArray();
+            extractArrayElementsForSerialization(markers, scopes, nodes, jsonArray);
+        } else if (node instanceof final JsonObject jsonObject) {
+            writer.beginObject();
+            extractObjectEntriesForSerialization(keys, markers, scopes, nodes, jsonObject);
+        } else {
+            throw new IllegalArgumentException(
                 "Unrecognized node type: " + node.getClass().getName()
             );
         }
