@@ -182,6 +182,9 @@ dependencies {
     }
 
     "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
+    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.arrp) {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
 
     "modSodiumClientAuto"(libs.sodium)
 
