@@ -5,11 +5,11 @@ enhancedblockentities = "0.10.1+1.20.6"
 fabric-api = "0.100.8+1.20.6"
 fabric-loader = "0.16.0"
 fabric-minecraft = "1.20.6"
-indium = "1.0.31+mc1.20.4"
+indium = "1.0.34+mc1.20.1"
 java = "21"
 minecraft = "1.20.6"
 modmenu = "10.0.0"
-sodium = "mc1.21-0.5.9"
+sodium = "mc1.20.6-0.5.11"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
