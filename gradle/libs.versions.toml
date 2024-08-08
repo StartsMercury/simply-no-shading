@@ -23,4 +23,4 @@ modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.7.2"
+fabric-loom = "fabric-loom:1.7.3"
