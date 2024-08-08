@@ -2,7 +2,7 @@
 arrp = "0.6.7"
 bedrockify = "1.8.1+mc1.19.4"
 cloth-config = "10.0.96"
-enhancedblockentities = "0.9+1.20"
+enhancedblockentities = "0.9+1.19.4"
 fabric-api = "0.92.2+1.20.1"
 fabric-loader = "0.16.0"
 fabric-minecraft = "1.20.1"
@@ -11,6 +11,7 @@ java = "17"
 minecraft = "1.20.1"
 modmenu = "7.2.2"
 sodium = "mc1.20.1-0.5.11"
+spruceui = "4.2.0+1.19.4"
 
 [libraries]
 arrp = { module = "maven.modrinth:arrp", version.ref = "arrp" }
@@ -23,6 +24,7 @@ indium = { module = "maven.modrinth:indium", version.ref = "indium" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui" }
 
 [plugins]
 fabric-loom = "fabric-loom:1.7.3"

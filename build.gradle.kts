@@ -135,6 +135,14 @@ createCompatTest("indium", "sodium")
 
 repositories {
     maven {
+        name = "Gegy Maven"
+        url = uri("https://maven.gegy.dev")
+        content {
+            includeGroup("dev.lambdaurora")
+        }
+    }
+
+    maven {
         name = "shedaniel's Maven"
         url = uri("https://maven.shedaniel.me")
         content {
@@ -183,6 +191,9 @@ dependencies {
 
     "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
     "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.arrp) {
+        exclude(mapOf("module" to "fabric-loader"))
+    }
+    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.spruceui) {
         exclude(mapOf("module" to "fabric-loader"))
     }
 
