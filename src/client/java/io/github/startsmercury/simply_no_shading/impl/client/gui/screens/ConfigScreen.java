@@ -1,5 +1,6 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
@@ -9,7 +10,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.components.Tooltip;
@@ -90,7 +90,7 @@ public final class ConfigScreen extends OptionsSubScreen {
     }
 
     @Override
-    public void render(final GuiGraphics guiGraphics, final int i, final int j, final float f) {
-        this.basicListRender(guiGraphics, this.list, i, j, f);
+    public void render(final PoseStack poseStack, final int i, final int j, final float f) {
+        this.basicListRender(poseStack, this.list, i, j, f);
     }
 }

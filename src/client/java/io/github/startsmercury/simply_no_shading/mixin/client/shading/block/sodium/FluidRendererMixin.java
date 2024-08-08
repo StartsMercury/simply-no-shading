@@ -15,12 +15,12 @@ public class FluidRendererMixin {
         method = """
             updateQuad(\
                 Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;\
-                Lme/jellysquid/mods/sodium/client/world/WorldSlice;\
+                Lnet/minecraft/world/level/BlockAndTintGetter;\
                 Lnet/minecraft/core/BlockPos;\
                 Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;\
                 Lnet/minecraft/core/Direction;\
                 F\
-                Lme/jellysquid/mods/sodium/client/model/color/ColorProvider;\
+                Lme/jellysquid/mods/sodium/client/model/quad/blender/ColorSampler;\
                 Lnet/minecraft/world/level/material/FluidState;\
             )V\
         """,
