@@ -9,7 +9,7 @@
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.block.sodium.FluidRendererMixin",
-        "shading.cloud.minecraft.LevelRendererMixin",
+        "shading.cloud.minecraft.CloudRendererMixin",
         "shading.cloud.sodium.CloudRendererMixin",
       "shading.entity.minecraft.ShaderInstance$1Mixin"
     ],
