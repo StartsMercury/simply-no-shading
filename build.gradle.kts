@@ -131,7 +131,6 @@ tasks {
 createCompatTest("bedrockify")
 createCompatTest("enhancedblockentities")
 createCompatTest("sodium")
-createCompatTest("indium", "sodium")
 
 repositories {
     maven {
@@ -184,8 +183,6 @@ dependencies {
     "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
 
     "modSodiumClientAuto"(libs.sodium)
-
-    "modIndiumClientAuto"(libs.indium)
 }
 
 /******************************************************************************/
