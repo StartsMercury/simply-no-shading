@@ -8,10 +8,10 @@
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
-        "shading.block.sodium.FluidRendererMixin",
+        "shading.block.sodium.DefaultFluidRendererMixin",
         "shading.cloud.minecraft.LevelRendererMixin",
-        "shading.cloud.sodium.CloudRendererMixin",
-      "shading.entity.minecraft.ShaderInstance$1Mixin"
+        "shading.cloud.sodium.CloudRenderer$CloudFaceMixin",
+        "shading.entity.minecraft.ShaderInstance$1Mixin"
     ],
     "injectors": {
         "defaultRequire": 1
