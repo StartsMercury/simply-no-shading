@@ -47,8 +47,8 @@ dependencies {
 }
 
 testing {
+    @Suppress("UnstableApiUsage")
     suites {
-        @Suppress("UnstableApiUsage")
         val clientTest by registering(JvmTestSuite::class) {
             val client by sourceSets.getting
 
