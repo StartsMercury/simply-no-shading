@@ -1,5 +1,5 @@
 [versions]
-bedrockify = "1.9.7+mc1.21"
+bedrockify = "1.10.1+mc1.21"
 cloth-config = "15.0.128"
 enhancedblockentities = "0.10.1+1.21"
 fabric-api = "0.102.0+1.21"
