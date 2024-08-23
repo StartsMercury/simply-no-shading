@@ -1,26 +1,27 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.sodium;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
-import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.DefaultFluidRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(FluidRenderer.class)
-public class FluidRendererMixin {
-    private FluidRendererMixin() {
+@Mixin(DefaultFluidRenderer.class)
+public class DefaultFluidRendererMixin {
+    private DefaultFluidRendererMixin() {
     }
 
     @ModifyVariable(
         method = """
             updateQuad(\
-                Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;\
-                Lme/jellysquid/mods/sodium/client/world/WorldSlice;\
+                Lnet/caffeinemc/mods/sodium/client/model/quad/ModelQuadViewMutable;\
+                Lnet/caffeinemc/mods/sodium/client/world/LevelSlice;\
                 Lnet/minecraft/core/BlockPos;\
-                Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;\
+                Lnet/caffeinemc/mods/sodium/client/model/light/LightPipeline;\
                 Lnet/minecraft/core/Direction;\
+                Lnet/caffeinemc/mods/sodium/client/model/quad/properties/ModelQuadFacing;\
                 F\
-                Lme/jellysquid/mods/sodium/client/model/color/ColorProvider;\
+                Lnet/caffeinemc/mods/sodium/client/model/color/ColorProvider;\
                 Lnet/minecraft/world/level/material/FluidState;\
             )V\
         """,
