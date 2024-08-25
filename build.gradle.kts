@@ -67,6 +67,11 @@ testing {
 }
 
 tasks {
+    val validateMixinName by registering(net.fabricmc.loom.task.ValidateMixinNameTask::class) {
+        source(sourceSets.main.get().output)
+        source(sourceSets.named("client").get().output)
+    }
+
     withType<ProcessResources> {
         val data = mapOf(
             "gameVersion" to libs.versions.fabric.minecraft.get(),
