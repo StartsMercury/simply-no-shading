@@ -20,7 +20,7 @@ public class FluidRendererMixin {
                 Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;\
                 Lnet/minecraft/core/Direction;\
                 F\
-                Lme/jellysquid/mods/sodium/client/model/quad/blender/ColorSampler;\
+                Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadColorProvider;\
                 Lnet/minecraft/world/level/material/FluidState;\
             )V\
         """,

@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 
-import com.mojang.logging.LogUtils;
-
 /**
  * The {@code PrefixedLogger} represents a wrapped logger where messages passed
  * to the delegated logger are prefixed.
@@ -24,7 +22,7 @@ public class PrefixedLogger implements Logger {
 	 * @param name   the name of the logger
 	 * @param prefix the prefixes to the message
 	 * @return a named prefixed logger
-	 * @see LogUtils#getLogger()
+	 * @see LoggerFactory#getLogger(String)
 	 */
 	public static PrefixedLogger named(final String name, final String prefix) {
 		return new PrefixedLogger(LoggerFactory.getLogger(name), prefix);
@@ -47,7 +45,8 @@ public class PrefixedLogger implements Logger {
 	 * @param logger the logger
 	 * @param prefix the prefixes to the message
 	 * @return a prefixed logger
-	 * @see LogUtils#getLogger()
+     * @see PrefixedLogger#PrefixedLogger(Logger, String) new PrefixedLogger(Logger,
+     *      String)
 	 */
 	public static PrefixedLogger wrapped(final Logger logger, final String prefix) {
 		requireNonNull(logger);

@@ -118,7 +118,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
     private void loadConfigHelper(final Reader reader) {
         try (reader) {
-            final var json = JsonParser.parseReader(reader);
+            final var json = new JsonParser().parse(reader);
 
             final var config = new ConfigImpl(this.config);
             config.fromJson(json);
@@ -157,7 +157,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
     private JsonObject parseConfigAsJsonObject() {
         try (final var reader = Files.newBufferedReader(this.configPath())) {
-            if (JsonParser.parseReader(reader) instanceof JsonObject jsonObject) {
+            if (new JsonParser().parse(reader) instanceof JsonObject jsonObject) {
                 return jsonObject;
             }
         } catch (final IOException | JsonParseException ignored) {
@@ -299,7 +299,6 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         final var success = ResourceManagerHelper.registerBuiltinResourcePack(
             new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
             container,
-            "Entity(ish) No Shading",
             ResourcePackActivationType.NORMAL
         );
         if (!success) {

@@ -46,6 +46,10 @@ dependencies {
 
 testing {
     suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+
         withType<JvmTestSuite> { tasks.named("check") { dependsOn(targets.map { it.testTask }) } }
     }
 }

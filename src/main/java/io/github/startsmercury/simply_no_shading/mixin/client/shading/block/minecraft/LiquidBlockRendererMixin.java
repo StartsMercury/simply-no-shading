@@ -17,7 +17,6 @@ public class LiquidBlockRendererMixin {
                 Lnet/minecraft/world/level/BlockAndTintGetter;\
                 Lnet/minecraft/core/BlockPos;\
                 Lcom/mojang/blaze3d/vertex/VertexConsumer;\
-                Lnet/minecraft/world/level/block/state/BlockState;\
                 Lnet/minecraft/world/level/material/FluidState;\
             )Z\
         """,

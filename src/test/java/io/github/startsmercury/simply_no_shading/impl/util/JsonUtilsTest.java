@@ -1,21 +1,22 @@
 package io.github.startsmercury.simply_no_shading.impl.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
+import it.unimi.dsi.fastutil.booleans.BooleanLists;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntLists;
+import it.unimi.dsi.fastutil.objects.AbstractReferenceList;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ThreadLocalRandom;
-import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
-import it.unimi.dsi.fastutil.booleans.BooleanList;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.objects.AbstractReferenceList;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -100,7 +101,7 @@ class JsonUtilsTest {
         new JsonPrimitive("Hello, world!"),
         new JsonPrimitive("The fox jumped over the lazy dogs."),
 
-        new JsonArray(0),
+        new JsonArray(),
         new JsonObject(),
     };
 
@@ -121,7 +122,7 @@ class JsonUtilsTest {
         final var resource = JsonUtilsTest.class.getClassLoader().getResourceAsStream("fabric.mod.json");
         if (resource != null) {
             try (final var reader = new InputStreamReader(resource)) {
-                self = new JsonElement[] { JsonParser.parseReader(reader) };
+                self = new JsonElement[] { new JsonParser().parse(reader) };
             } catch (final IOException cause) {
                 throw new UncheckedIOException(cause);
             } catch (final JsonParseException ignored) {}
@@ -295,14 +296,14 @@ class JsonUtilsTest {
             scopes.push(JsonUtils.SERIALIZATION_SCOPE_ARRAY);
             nodes.size += 2;
             JsonUtils.serializeScopeEndIfApplicable(jsonWriter, markers, scopes, nodes);
-            assertEquals(IntList.of(0), markers);
+            assertEquals(IntLists.singleton(0), markers);
 
             nodes.size--;
             jsonWriter.beginArray();
             markers.push(nodes.size);
             scopes.push(JsonUtils.SERIALIZATION_SCOPE_ARRAY);
             JsonUtils.serializeScopeEndIfApplicable(jsonWriter, markers, scopes, nodes);
-            assertEquals(IntList.of(0), markers);
+            assertEquals(IntLists.singleton(0), markers);
 
             nodes.size--;
             jsonWriter.beginObject();
@@ -310,7 +311,7 @@ class JsonUtilsTest {
             //noinspection ConstantValue
             scopes.push(JsonUtils.SERIALIZATION_SCOPE_OBJECT);
             JsonUtils.serializeScopeEndIfApplicable(jsonWriter, markers, scopes, nodes);
-            assertEquals(IntList.of(), markers);
+            assertEquals(IntLists.EMPTY_LIST, markers);
 
             assertEquals("[[],{}]", stringWriter.toString());
         }
@@ -341,14 +342,14 @@ class JsonUtilsTest {
         final var markers = new IntArrayList(1);
         final var scopes = new BooleanArrayList(1);
         final var nodes = new Nodes(EXTRACT_COUNT);
-        final var node = new JsonArray(EXTRACT_COUNT);
+        final var node = new JsonArray();
         for (var i = 0; i < EXTRACT_COUNT; i++) {
             node.add(i);
         }
 
         JsonUtils.extractArrayElementsForSerialization(markers, scopes, nodes, node);
-        assertEquals(IntList.of(GHOST_NODE_COUNT), markers);
-        assertEquals(BooleanList.of(JsonUtils.SERIALIZATION_SCOPE_ARRAY), scopes);
+        assertEquals(IntLists.singleton(GHOST_NODE_COUNT), markers);
+        assertEquals(BooleanLists.singleton(JsonUtils.SERIALIZATION_SCOPE_ARRAY), scopes);
         assertEquals(GHOST_NODE_COUNT + EXTRACT_COUNT, nodes.size());
         for (var i = 0; i < EXTRACT_COUNT; i++) {
             assertEquals(i, nodes.peek(i).getAsInt());
@@ -386,9 +387,9 @@ class JsonUtilsTest {
         }
 
         JsonUtils.extractObjectEntriesForSerialization(keys, markers, scopes, nodes, node);
-        assertEquals(IntList.of(GHOST_NODE_COUNT), markers);
+        assertEquals(IntLists.singleton(GHOST_NODE_COUNT), markers);
         //noinspection ConstantValue
-        assertEquals(BooleanList.of(JsonUtils.SERIALIZATION_SCOPE_OBJECT), scopes);
+        assertEquals(BooleanLists.singleton(JsonUtils.SERIALIZATION_SCOPE_OBJECT), scopes);
         for (var i = 0; i < EXTRACT_COUNT; i++) {
             assertEquals("property" + i, keys.peek(i));
         }
