@@ -190,6 +190,7 @@ dependencies {
     }
 
     "modSodiumAuto"(libs.sodium)
+    "modSodiumCompatTestRuntimeOnly"(libs.joml)
 
     "modIndiumAuto"(libs.indium)
 }
