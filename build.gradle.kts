@@ -183,6 +183,14 @@ repositories {
             artifact()
         }
     }
+
+    maven {
+        name = "Devan Maven"
+        url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master")
+        content {
+            includeModule("net.devtech", "arrp")
+        }
+    }
 }
 
 @Suppress("UnstableApiUsage")
