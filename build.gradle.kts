@@ -15,8 +15,6 @@ base {
 
 loom {
     runtimeOnlyLog4j = true
-
-    splitEnvironmentSourceSets()
 }
 
 java {
@@ -41,27 +39,13 @@ dependencies {
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
     @Suppress("UnstableApiUsage")
-    "modClientImplementation"(libs.modmenu) {
+    "modImplementation"(libs.modmenu) {
         exclude(mapOf("module" to "fabric-loader"))
     }
 }
 
 testing {
     suites {
-        @Suppress("UnstableApiUsage")
-        val clientTest by registering(JvmTestSuite::class) {
-            val client by sourceSets.getting
-
-            sources {
-                compileClasspath += client.compileClasspath
-                runtimeClasspath += client.runtimeClasspath
-            }
-
-            dependencies {
-                implementation(client.output)
-            }
-        }
-
         withType<JvmTestSuite> { tasks.named("check") { dependsOn(targets.map { it.testTask }) } }
     }
 }
@@ -69,7 +53,6 @@ testing {
 tasks {
     val validateMixinName by registering(net.fabricmc.loom.task.ValidateMixinNameTask::class) {
         source(sourceSets.main.get().output)
-        source(sourceSets.named("client").get().output)
     }
 
     withType<ProcessResources> {
@@ -108,11 +91,7 @@ tasks {
         }
 
         source(sourceSets.main.get().allJava)
-        source(sourceSets.named("client").get().allJava)
-        classpath = files(
-            sourceSets.main.get().compileClasspath,
-            sourceSets.named("client").get().compileClasspath
-        )
+        classpath = files(sourceSets.main.get().compileClasspath)
         include("com/github/startsmercury/simply/no/shading/**")
         include("**/api/**")
         isFailOnError = true
@@ -196,23 +175,23 @@ repositories {
 @Suppress("UnstableApiUsage")
 dependencies {
     "modBedrockifyAuto"(libs.bedrockify)
-    "modBedrockifyCompatTestClientRuntimeOnly"(libs.cloth.config) {
+    "modBedrockifyCompatTestRuntimeOnly"(libs.cloth.config) {
         exclude(mapOf("group" to "net.fabricmc.fabric-api"))
         exclude(mapOf("module" to "fabric-loader"))
         exclude(mapOf("module" to "gson"))
     }
 
-    "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
-    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.arrp) {
+    "modEnhancedblockentitiesAuto"(libs.enhancedblockentities)
+    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.arrp) {
         exclude(mapOf("module" to "fabric-loader"))
     }
-    "modEnhancedblockentitiesCompatTestClientRuntimeOnly"(libs.spruceui) {
+    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.spruceui) {
         exclude(mapOf("module" to "fabric-loader"))
     }
 
-    "modSodiumClientAuto"(libs.sodium)
+    "modSodiumAuto"(libs.sodium)
 
-    "modIndiumClientAuto"(libs.indium)
+    "modIndiumAuto"(libs.indium)
 }
 
 /******************************************************************************/
@@ -241,36 +220,9 @@ fun createCompatTest(name: String, vararg fosters: String) {
         }
     }
 
-    val compatTestClient = sourceSets.create("${name}CompatTestClient") {
-        net.fabricmc.loom.configuration.RemapConfigurations.configureClientConfigurations(
-            project,
-            this
-        )
-    }
-
-    sourceSets.main {
-        compatTestClient.compileClasspath += this.compileClasspath
-        compatTestClient.runtimeClasspath += this.runtimeClasspath
-    }
-
-    val client by sourceSets.getting {
-        compatTestClient.compileClasspath += this.compileClasspath
-        compatTestClient.runtimeClasspath += this.runtimeClasspath
-    }
-
-    compatTestClient.compileClasspath += compatTest.compileClasspath
-    compatTestClient.runtimeClasspath += compatTest.runtimeClasspath
-
-    for (foster in fosters) {
-        sourceSets.named("${foster}CompatTestClient") {
-            compatTestClient.compileClasspath += this.compileClasspath
-            compatTestClient.runtimeClasspath += this.runtimeClasspath
-        }
-    }
-
     loom.runs.register("${name}CompatTestClient") {
         client()
-        source("${name}CompatTestClient")
+        source("${name}CompatTest")
     }
 
     loom.runs.register("${name}CompatTestServer") {
@@ -288,17 +240,6 @@ fun createCompatTest(name: String, vararg fosters: String) {
 
     configurations.named("mod${name.capitalize()}CompatTestImplementation") {
         extendsFrom(modAuto)
-    }
-
-    val modClientAuto = configurations.create("mod${name.capitalize()}ClientAuto")
-
-    val modClientCompileOnly by configurations.getting {
-        extendsFrom(modClientAuto)
-    }
-
-    configurations.named("mod${name.capitalize()}CompatTestClientImplementation") {
-        extendsFrom(modAuto)
-        extendsFrom(modClientAuto)
     }
 }
 
