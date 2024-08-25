@@ -1,7 +1,7 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.sodium;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
-import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;
+import me.jellysquid.mods.sodium.client.render.pipeline.FluidRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -13,7 +13,7 @@ public class FluidRendererMixin {
 
     @ModifyVariable(
         method = """
-            updateQuad(\
+            calculateQuadColors(\
                 Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;\
                 Lnet/minecraft/world/level/BlockAndTintGetter;\
                 Lnet/minecraft/core/BlockPos;\

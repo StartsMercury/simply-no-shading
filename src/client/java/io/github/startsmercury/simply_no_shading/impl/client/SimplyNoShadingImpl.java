@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -300,7 +299,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         final var success = ResourceManagerHelper.registerBuiltinResourcePack(
             new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
             container,
-            Component.literal("Entity(ish) No Shading"),
+            "Entity(ish) No Shading",
             ResourcePackActivationType.NORMAL
         );
         if (!success) {

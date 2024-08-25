@@ -19,7 +19,7 @@ public abstract class LevelRendererMixin {
                 D\
                 D\
                 Lnet/minecraft/world/phys/Vec3;\
-            )Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;\
+            )V\
         """,
         at = {
             @At(value = "CONSTANT", args = "floatValue=0.9", ordinal = 0),

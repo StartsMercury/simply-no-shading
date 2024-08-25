@@ -8,18 +8,20 @@ import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingTarget;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
+import net.minecraft.client.CycleOption;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.OptionInstance;
+import net.minecraft.client.Option;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public final class ConfigScreen extends OptionsSubScreen {
-    private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
+    private static final Component TITLE = new TranslatableComponent("simply-no-shading.config.title");
     private final ConfigImpl config;
     private OptionsList list;
     private ReloadType reloadType;
@@ -47,30 +49,33 @@ public final class ConfigScreen extends OptionsSubScreen {
             .valueList()
             .stream()
             .map(this::createShadingOption)
-            .toArray(OptionInstance[]::new);
+            .toArray(Option[]::new);
         this.list.addSmall(shadingOptions);
         this.addWidget(this.list);
         this.addRenderableWidget(
-            Button.builder(
+            new Button(
+                this.width / 2 - 100,
+                this.height - 27,
+                200,
+                20,
                 CommonComponents.GUI_DONE,
                 button -> {
                     final var minecraft = super.minecraft;
                     assert minecraft != null;
                     minecraft.setScreen(this.lastScreen);
                 }
-            ).bounds(this.width / 2 - 100, this.height - 27, 200, 20)
-                .build()
+            )
         );
     }
 
-    private OptionInstance<Boolean> createShadingOption(final ShadingTarget target) {
+    private CycleOption<Boolean> createShadingOption(final ShadingTarget target) {
         final var key = "simply-no-shading.config.option." + target + "ShadingEnabled";
-        final var tooltip = Tooltip.create(Component.translatable(key + ".tooltip"));
-        return OptionInstance.createBoolean(
+        final var tooltip = new TranslatableComponent(key + ".tooltip");
+        return CycleOption.createOnOff(
             key,
-            enabled -> tooltip,
-            this.config.shadingEnabled(target),
-            enabled -> {
+            tooltip,
+            options -> this.config.shadingEnabled(target),
+            (options, option, enabled) -> {
                 this.config.setShadingEnabled(target, enabled);
                 this.reloadType = this.reloadType.compose(target.reloadType());
             }
@@ -91,6 +96,10 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void render(final PoseStack poseStack, final int i, final int j, final float f) {
-        this.basicListRender(poseStack, this.list, i, j, f);
+        this.renderBackground(poseStack);
+        this.list.render(poseStack, i, j, f);
+        GuiComponent.drawCenteredString(poseStack, this.font, this.title, this.width / 2, 5, 0xFFFFFF);
+        super.render(poseStack, i, j, f);
+        this.renderTooltip(poseStack, tooltipAt(this.list, i, j), i, j);
     }
 }
