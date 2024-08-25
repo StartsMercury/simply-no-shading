@@ -9,7 +9,7 @@ fabric-minecraft = "1.18.2"
 indium = "1.0.19+mc1.19.4"
 java = "17"
 minecraft = "1.18.2"
-modmenu = "6.3.1"
+modmenu = "3.2.5"
 sodium = "mc1.19.4-0.4.10"
 spruceui = "3.3.3+1.18"
 
