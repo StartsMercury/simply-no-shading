@@ -11,7 +11,7 @@
         "shading.block.sodium.FluidRendererMixin",
         "shading.cloud.minecraft.LevelRendererMixin",
         "shading.cloud.sodium.CloudRendererMixin",
-      "shading.entity.minecraft.ShaderInstance$1Mixin"
+        "shading.entity.minecraft.ShaderInstance$1Mixin"
     ],
     "injectors": {
         "defaultRequire": 1
