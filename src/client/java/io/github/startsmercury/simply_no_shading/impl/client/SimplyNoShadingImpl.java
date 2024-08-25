@@ -299,7 +299,6 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         final var success = ResourceManagerHelper.registerBuiltinResourcePack(
             new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
             container,
-            "Entity(ish) No Shading",
             ResourcePackActivationType.NORMAL
         );
         if (!success) {
