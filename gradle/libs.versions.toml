@@ -1,7 +1,7 @@
 [versions]
 arrp = "0.6.7"
-bedrockify = "1.8.1+mc1.19.4"
-cloth-config = "10.0.96"
+bedrockify = "1.4.1+mc1.18.2"
+cloth-config = "6.2.57"
 enhancedblockentities = "0.9+1.19.4"
 fabric-api = "0.87.2+1.19.4"
 fabric-loader = "0.16.2"
