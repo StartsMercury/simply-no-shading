@@ -19,6 +19,9 @@ public class LiquidBlockRendererMixin {
                 Lcom/mojang/blaze3d/vertex/VertexConsumer;\
                 Lnet/minecraft/world/level/block/state/BlockState;\
                 Lnet/minecraft/world/level/material/FluidState;\
+                D\
+                D\
+                D\
             )V\
         """,
         at = @At(
