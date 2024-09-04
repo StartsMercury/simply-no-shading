@@ -55,19 +55,7 @@
         "java": ">=${javaVersion}",
         "minecraft": "*"
     },
-    "breaks": {
-        "sodium": "<0.6.0-beta.1"
-    },
     "recommends": {
-        "fabric-api": "*",
-        "java": "${javaVersion}",
-        "minecraft": "${gameVersion}",
-        "modmenu": "*"
-    },
-    "suggests": {
-        "bedrockify": "*",
-        "enhancedblockentities": "*",
-        "minecraft": "${minecraftVersion}",
-        "sodium": ">=0.6.0-beta.1"
+        "minecraft": "${gameVersion}"
     }
 }

@@ -1,281 +1,159 @@
+import net.fabricmc.loom.bootstrap.LoomGradlePluginBootstrap
+
 object Constants {
-    const val MOD_NAME: String = "Simply No Shading"
-    const val MOD_VERSION: String = "7.5.0"
+    const val GROUP = "io.github.startsmercury"
+    const val NAME = "simply-no-shading"
+    const val VERSION: String = "7.5.0"
+
+    const val SUBGROUP = "${GROUP}.${NAME}"
+
+    const val DISPLAY_NAME: String = "Simply No Shading"
+
+    const val VERSION_GAME = "1.21.2-alpha.24.35.a"
+    const val VERSION_JAVA = "21"
+    const val VERSION_MINECRAFT = "24w35a"
 }
 
 plugins {
-    alias(libs.plugins.fabric.loom)
+    `java-library`
+    id("fabric-loom") version "1.7.3"
 }
+
+val displayName by extra(Constants.DISPLAY_NAME)
+val globalVersion = createVersionString()
+val projectToBaseName: Map<String, String> by gradle.extra
 
 base {
-    group = "io.github.startsmercury"
-    archivesName = "simply-no-shading"
-    version = createVersionString()
+    group = Constants.GROUP
+    archivesName = Constants.NAME
+    version = globalVersion
 }
 
-loom {
-    runtimeOnlyLog4j = true
+subprojects {
+    apply<JavaLibraryPlugin>()
+    apply<LoomGradlePluginBootstrap>()
 
-    splitEnvironmentSourceSets()
-}
+    val baseName = projectToBaseName[path]
+    val displayName by extra("${Constants.DISPLAY_NAME}: $baseName")
 
-java {
-    toolchain {
-        languageVersion.convention(libs.versions.java.map(JavaLanguageVersion::of))
-    }
-
-    withJavadocJar()
-    withSourcesJar()
-}
-
-dependencies {
-    fun fabricModule(moduleName: String): Dependency? =
-        modCompileOnly(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
-
-    minecraft(libs.minecraft)
-    mappings(loom.officialMojangMappings())
-    modImplementation(libs.fabric.loader)
-
-    modImplementation(libs.fabric.api)
-    fabricModule("fabric-lifecycle-events-v1")
-    fabricModule("fabric-key-binding-api-v1")
-    fabricModule("fabric-resource-loader-v0")
-    @Suppress("UnstableApiUsage")
-    "modClientImplementation"(libs.modmenu) {
-        exclude(mapOf("module" to "fabric-loader"))
+    base {
+        group = Constants.SUBGROUP
+        archivesName = "${parent!!.base.archivesName.get()}-${name}"
+        version = globalVersion
     }
 }
 
-testing {
-    @Suppress("UnstableApiUsage")
-    suites {
-        val clientTest by registering(JvmTestSuite::class) {
-            val client by sourceSets.getting
+allprojects {
+    val displayName: String by extra
 
-            sources {
-                compileClasspath += client.compileClasspath
-                runtimeClasspath += client.runtimeClasspath
-            }
+    loom {
+        runtimeOnlyLog4j = true
+    }
 
-            dependencies {
-                implementation(client.output)
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(Constants.VERSION_JAVA))
+        }
+
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    dependencies {
+        // Minecraft
+        minecraft(group = "com.mojang", name = "minecraft", version = Constants.VERSION_MINECRAFT)
+
+        // Obfuscation Mappings
+        mappings(loom.officialMojangMappings())
+
+        // Fabric Loader
+        modImplementation(group = "net.fabricmc", name = "fabric-loader", version = "0.16.4")
+    }
+
+    tasks {
+        val validateMixinName by registering(net.fabricmc.loom.task.ValidateMixinNameTask::class) {
+            source(sourceSets.main.get().output)
+        }
+
+        withType<ProcessResources> {
+            val data = mapOf(
+                "displayName" to displayName,
+                "gameVersion" to Constants.VERSION_GAME,
+                "javaVersion" to Constants.VERSION_JAVA,
+                "version" to version,
+            )
+
+            inputs.properties(data)
+
+            filesMatching("fabric.mod.json") {
+                expand(data)
             }
         }
 
-        withType<JvmTestSuite> { tasks.named("check") { dependsOn(targets.map { it.testTask }) } }
+        withType<JavaCompile> {
+            options.encoding = "UTF-8"
+        }
+
+        withType<Javadoc> {
+            options {
+                this as StandardJavadocDocletOptions
+
+                source = Constants.VERSION_JAVA
+                encoding = "UTF-8"
+                charSet = "UTF-8"
+                memberLevel = JavadocMemberLevel.PACKAGE
+                addStringOption("Xdoclint:none", "-quiet")
+                tags(
+                    "apiNote:a:API Note:",
+                    "implSpec:a:Implementation Requirements:",
+                    "implNote:a:Implementation Note:",
+                )
+            }
+
+            include("com/github/startsmercury/simply/no/shading/**")
+            include("**/api/**")
+            isFailOnError = true
+        }
+
+        withType<Jar> {
+            manifest {
+                attributes(mapOf(
+                    "Implementation-Title" to Constants.DISPLAY_NAME,
+                    "Implementation-Version" to Constants.VERSION,
+                    "Implementation-Vendor" to "StartsMercury",
+                ))
+            }
+        }
+    }
+}
+
+dependencies {
+    subprojects {
+        implementation(sourceSets.main.get().output)
     }
 }
 
 tasks {
-    val validateMixinName by registering(net.fabricmc.loom.task.ValidateMixinNameTask::class) {
-        source(sourceSets.main.get().output)
-        source(sourceSets.named("client").get().output)
+    withType<Javadoc> {
+        val main = allprojects.map { it.sourceSets.main.get() }
+
+        source(main.map { it.allJava })
+        classpath = files(main.map { it.compileClasspath })
     }
 
-    withType<ProcessResources> {
-        val data = mapOf(
-            "gameVersion" to libs.versions.fabric.minecraft.get(),
-            "javaVersion" to libs.versions.java.get(),
-            "minecraftVersion" to libs.versions.minecraft.get(),
-            "version" to version,
-        )
+    withType<Jar> {
+        val main = subprojects.map { it.sourceSets.main.get() }
 
-        inputs.properties(data)
-
-        filesMatching("fabric.mod.json") {
-            expand(data)
+        from(main.map { it.output }) {
+            duplicatesStrategy = DuplicatesStrategy.WARN
         }
+        dependsOn(main.map { it.classesTaskName })
     }
-
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-    }
-
-    javadoc {
-        options {
-            this as StandardJavadocDocletOptions
-
-            source = libs.versions.java.get()
-            encoding = "UTF-8"
-            charSet = "UTF-8"
-            memberLevel = JavadocMemberLevel.PACKAGE
-            addStringOption("Xdoclint:none", "-quiet")
-            tags(
-                "apiNote:a:API Note:",
-                "implSpec:a:Implementation Requirements:",
-                "implNote:a:Implementation Note:",
-            )
-        }
-
-        source(sourceSets.main.get().allJava)
-        source(sourceSets.named("client").get().allJava)
-        classpath = files(
-            sourceSets.main.get().compileClasspath,
-            sourceSets.named("client").get().compileClasspath
-        )
-        include("com/github/startsmercury/simply/no/shading/**")
-        include("**/api/**")
-        isFailOnError = true
-    }
-
-    jar {
-        manifest {
-            attributes(mapOf(
-                "Implementation-Title" to Constants.MOD_NAME,
-                "Implementation-Version" to Constants.MOD_VERSION,
-                "Implementation-Vendor" to "StartsMercury",
-            ))
-        }
-    }
-}
-
-/******************************************************************************/
-/* COMPATIBILITY TESTS                                                        */
-/******************************************************************************/
-
-createCompatTest("bedrockify")
-createCompatTest("enhancedblockentities")
-createCompatTest("sodium")
-
-repositories {
-    maven {
-        name = "shedaniel's Maven"
-        url = uri("https://maven.shedaniel.me")
-        content {
-            includeGroup("me.shedaniel.cloth")
-        }
-    }
-
-    maven {
-        name = "Terraformers Maven"
-        url = uri("https://maven.terraformersmc.com")
-        content {
-            includeGroup("com.terraformersmc")
-        }
-    }
-
-    maven {
-        name = "Modrinth Maven"
-        url = uri("https://api.modrinth.com/maven")
-        content {
-            includeGroup("maven.modrinth")
-        }
-    }
-
-    ivy {
-        name = "GitHub Releases"
-        url = uri("https://github.com")
-        patternLayout {
-            artifact("[organization]/releases/download/[revision]/[module](-[classifier]).[ext]")
-            artifact("[organization]/releases/download/[revision]/[module]-[revision](-[classifier]).[ext]")
-            setM2compatible(true)
-        }
-        metadataSources {
-            artifact()
-        }
-    }
-}
-
-@Suppress("UnstableApiUsage")
-dependencies {
-    "modBedrockifyAuto"(libs.bedrockify)
-    "modBedrockifyCompatTestClientRuntimeOnly"(libs.cloth.config) {
-        exclude(mapOf("group" to "net.fabricmc.fabric-api"))
-        exclude(mapOf("module" to "fabric-loader"))
-        exclude(mapOf("module" to "gson"))
-    }
-
-    "modEnhancedblockentitiesClientAuto"(libs.enhancedblockentities)
-
-    "modSodiumClientAuto"(libs.sodium)
 }
 
 /******************************************************************************/
 /* HELPER FUNCTIONS                                                           */
 /******************************************************************************/
-
-/**
- * Creates similarly named source sets, remap configurations, and run tasks for
- * testing mod compatibility.
- *
- * @param name the base name
- * @param fosters the fosters to inherit from
- */
-fun createCompatTest(name: String, vararg fosters: String) {
-    val compatTest = sourceSets.create("${name}CompatTest", loom::createRemapConfigurations)
-
-    sourceSets.main {
-        compatTest.compileClasspath += this.compileClasspath
-        compatTest.runtimeClasspath += this.runtimeClasspath
-    }
-
-    for (foster in fosters) {
-        sourceSets.named("${foster}CompatTest") {
-            compatTest.compileClasspath += this.compileClasspath
-            compatTest.runtimeClasspath += this.runtimeClasspath
-        }
-    }
-
-    val compatTestClient = sourceSets.create("${name}CompatTestClient") {
-        net.fabricmc.loom.configuration.RemapConfigurations.configureClientConfigurations(
-            project,
-            this
-        )
-    }
-
-    sourceSets.main {
-        compatTestClient.compileClasspath += this.compileClasspath
-        compatTestClient.runtimeClasspath += this.runtimeClasspath
-    }
-
-    val client by sourceSets.getting {
-        compatTestClient.compileClasspath += this.compileClasspath
-        compatTestClient.runtimeClasspath += this.runtimeClasspath
-    }
-
-    compatTestClient.compileClasspath += compatTest.compileClasspath
-    compatTestClient.runtimeClasspath += compatTest.runtimeClasspath
-
-    for (foster in fosters) {
-        sourceSets.named("${foster}CompatTestClient") {
-            compatTestClient.compileClasspath += this.compileClasspath
-            compatTestClient.runtimeClasspath += this.runtimeClasspath
-        }
-    }
-
-    loom.runs.register("${name}CompatTestClient") {
-        client()
-        source("${name}CompatTestClient")
-    }
-
-    loom.runs.register("${name}CompatTestServer") {
-        server()
-        source("${name}CompatTest")
-    }
-
-    fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
-
-    val modAuto = configurations.create("mod${name.capitalize()}Auto")
-
-    val modCompileOnly by configurations.getting {
-        extendsFrom(modAuto)
-    }
-
-    configurations.named("mod${name.capitalize()}CompatTestImplementation") {
-        extendsFrom(modAuto)
-    }
-
-    val modClientAuto = configurations.create("mod${name.capitalize()}ClientAuto")
-
-    val modClientCompileOnly by configurations.getting {
-        extendsFrom(modClientAuto)
-    }
-
-    configurations.named("mod${name.capitalize()}CompatTestClientImplementation") {
-        extendsFrom(modAuto)
-        extendsFrom(modClientAuto)
-    }
-}
 
 fun createVersionString(): String {
     val builder = StringBuilder()
@@ -284,13 +162,13 @@ fun createVersionString(): String {
     val buildId = System.getenv("GITHUB_RUN_NUMBER")
 
     if (isReleaseBuild) {
-        builder.append(Constants.MOD_VERSION)
+        builder.append(Constants.VERSION)
     } else {
-        builder.append(Constants.MOD_VERSION.substringBefore('-'))
+        builder.append(Constants.VERSION.substringBefore('-'))
         builder.append("-snapshot")
     }
 
-    builder.append("+mc").append(libs.versions.minecraft.get())
+    builder.append("+mc").append(Constants.VERSION_MINECRAFT)
 
     if (!isReleaseBuild) {
         if (buildId != null) {
