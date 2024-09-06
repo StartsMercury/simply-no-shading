@@ -9,9 +9,9 @@ object Constants {
 
     const val DISPLAY_NAME: String = "Simply No Shading"
 
-    const val VERSION_GAME = "1.21.2-alpha.24.35.a"
+    const val VERSION_GAME = "1.21.1"
     const val VERSION_JAVA = "21"
-    const val VERSION_MINECRAFT = "24w35a"
+    const val VERSION_MINECRAFT = "1.21.1"
 }
 
 plugins {

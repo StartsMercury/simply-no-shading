@@ -24,7 +24,7 @@ dependencies {
     modCompileOnly(group = "maven.modrinth", name = "ebe", version = "0.10.1+1.21")
 
     // Fabric API
-    modCompileOnly(fabricApi.module("fabric-api", "0.103.1+1.21.2"))
+    modCompileOnly(fabricApi.module("fabric-api", "0.103.0+1.21.1"))
 
     // Mod Menu
     modCompileOnly(group = "com.terraformersmc", name = "modmenu", version = "11.0.2")

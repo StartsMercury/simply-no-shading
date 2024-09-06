@@ -9,9 +9,9 @@
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.block.sodium.DefaultFluidRendererMixin",
-        "shading.cloud.minecraft.CloudRendererMixin",
+        "shading.cloud.minecraft.LevelRendererMixin",
         "shading.cloud.sodium.CloudRenderer$CloudFaceMixin",
-        "shading.entity.minecraft.ShaderManager$1Mixin"
+        "shading.entity.minecraft.ShaderInstance$1Mixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 /**
  * @since 7.4.0
  */
-@Mixin(targets = "net.minecraft.client.renderer.ShaderManager$1")
-public abstract class ShaderManager$1Mixin {
+@Mixin(targets = "net.minecraft.client.renderer.ShaderInstance$1")
+public abstract class ShaderInstance$1Mixin {
     @Unique
-    private static final String TARGET_SYSTEM_MOJ_IMPORT = "minecraft:light.glsl";
+    private static final String TARGET_SYSTEM_MOJ_IMPORT = "shaders/include/light.glsl";
 
     @Unique
     private static final String TARGET_FUNCTION_NAME = "minecraft_mix_light";
@@ -99,7 +99,7 @@ public abstract class ShaderManager$1Mixin {
         if (
             ComputedConfig.entityShadingEnabled
                 || quotesUsed
-                || !TARGET_SYSTEM_MOJ_IMPORT.equals(file)
+                || !file.equals(TARGET_SYSTEM_MOJ_IMPORT)
         ) {
             return source;
         }
