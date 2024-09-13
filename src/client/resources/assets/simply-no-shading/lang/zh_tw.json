@@ -1,0 +1,15 @@
+{
+    "simply-no-shading.config.title": "Simply No Shading 設定",
+    "simply-no-shading.config.option.blockShadingEnabled": "方塊陰影",
+    "simply-no-shading.config.option.blockShadingEnabled.tooltip": "影響大部分的靜態方塊",
+    "simply-no-shading.config.option.cloudShadingEnabled": "雲陰影",
+    "simply-no-shading.config.option.cloudShadingEnabled.tooltip": "影響雲",
+    "simply-no-shading.config.option.entityShadingEnabled": "實體陰影",
+    "simply-no-shading.config.option.entityShadingEnabled.tooltip": "影響實體和方塊實體",
+    "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
+    "simply-no-shading.key.openConfigScreen": "開啟設定畫面",
+    "simply-no-shading.key.reloadConfig": "重新載入設定",
+    "simply-no-shading.key.toggleBlockShading": "切換方塊陰影",
+    "simply-no-shading.key.toggleCloudShading": "切換雲陰影",
+    "simply-no-shading.key.toggleEntityShading": "切換實體陰影"
+}
