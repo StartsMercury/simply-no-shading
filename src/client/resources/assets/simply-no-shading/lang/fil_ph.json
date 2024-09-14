@@ -1,0 +1,15 @@
+{
+    "simply-no-shading.config.title": "Konpigurasyon ng Simply No Shading",
+    "simply-no-shading.config.option.blockShadingEnabled": "Paglililim ng Bloke",
+    "simply-no-shading.config.option.blockShadingEnabled.tooltip": "Apektado ang halos lahat ng mga blokeng istatik",
+    "simply-no-shading.config.option.cloudShadingEnabled": "Paglililim ng Ulap",
+    "simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Apektado ang mga ulap",
+    "simply-no-shading.config.option.entityShadingEnabled": "Paglililim ng Entidad",
+    "simply-no-shading.config.option.entityShadingEnabled.tooltip": "Apektado ang mga Entidad at Blokeng Entidad",
+    "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
+    "simply-no-shading.key.openConfigScreen": "Buksan ang Iskrin ng Konpigurasyon",
+    "simply-no-shading.key.reloadConfig": "I-reload Konpig",
+    "simply-no-shading.key.toggleBlockShading": "I-toggle ang Paglililim ng Bloke",
+    "simply-no-shading.key.toggleCloudShading": "I-toggle ang Paglililim ng Ulap",
+    "simply-no-shading.key.toggleEntityShading": "I-toggle ang Paglililim ng Entidad"
+}
