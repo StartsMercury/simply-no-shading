@@ -8,7 +8,7 @@ fabric-minecraft = "1.21.1"
 java = "21"
 minecraft = "1.21.1"
 modmenu = "11.0.2"
-sodium = "mc1.21-0.6.0-beta.1-fabric"
+sodium = "mc1.21-0.6.0-beta.2-fabric"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
