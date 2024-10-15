@@ -1,6 +1,5 @@
 [versions]
 bedrockify = "1.10.1+mc1.21"
-cloth-config = "15.0.128"
 enhancedblockentities = "0.10.1+1.21"
 fabric-api = "0.104.0+1.21.1"
 fabric-loader = "0.16.5"
@@ -13,7 +12,6 @@ sodium = "mc1.21-0.6.0-beta.2-fabric"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
-cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
 enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhancedblockentities" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
