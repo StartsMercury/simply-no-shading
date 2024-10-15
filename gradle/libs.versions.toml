@@ -7,7 +7,7 @@ fabric-loader = "0.16.5"
 fabric-minecraft = "1.21"
 java = "21"
 minecraft = "1.21"
-modmenu = "11.0.2"
+modmenu = "11.0.3"
 sodium = "mc1.21-0.6.0-beta.2-fabric"
 
 [libraries]
