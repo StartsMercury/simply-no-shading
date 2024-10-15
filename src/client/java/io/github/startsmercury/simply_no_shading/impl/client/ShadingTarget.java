@@ -4,15 +4,13 @@ import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
+import io.github.startsmercury.simply_no_shading.api.client.Config;
 import java.util.List;
 
 public enum ShadingTarget {
-    BLOCK(ReloadType.blocks()),
-    CLOUD(ReloadType.clouds()),
-    ENTITY(ReloadType.entities());
+    BLOCK(),
+    CLOUD(),
+    ENTITY();
 
     private static final List<ShadingTarget> VALUE_LIST = List.of(values());
 
@@ -20,23 +18,56 @@ public enum ShadingTarget {
         return VALUE_LIST;
     }
 
-    private final String configKey;
-
-    private final ReloadType reloadType;
-
     private final String toggleKey;
 
     private final String toString;
 
-    ShadingTarget(final ReloadType reloadType) {
+    ShadingTarget() {
         this.toString = UPPER_UNDERSCORE.converterTo(LOWER_CAMEL).convert(this.name());
-        this.configKey = toString + "ShadingEnabled";
-        this.reloadType = reloadType;
         this.toggleKey = "toggle" + UPPER_UNDERSCORE.converterTo(UPPER_CAMEL).convert(this.name()) + "Shading";
     }
 
-    public ReloadType reloadType() {
-        return this.reloadType;
+    public boolean getFrom(final Config config) {
+        return switch (this) {
+            case BLOCK -> config.blockShadingEnabled();
+            case CLOUD -> config.cloudShadingEnabled();
+            case ENTITY -> config.entityShadingEnabled();
+        };
+    }
+
+    public boolean changedBetween(final Config lhs, final Config rhs) {
+        return this.getFrom(lhs) != this.getFrom(rhs);
+    }
+
+    public void setInto(final Config config, final boolean enabled) {
+        System.err.println(this + ": " + this.getFrom(config) + " -> " + enabled);
+        switch (this) {
+            case BLOCK -> config.setBlockShadingEnabled(enabled);
+            case CLOUD -> config.setCloudShadingEnabled(enabled);
+            case ENTITY -> config.setEntityShadingEnabled(enabled);
+        }
+    }
+
+    public ReloadLevel reloadTypeFor(final GameContext context) {
+        return switch (this) {
+            case BLOCK -> {
+                if (context.shadersEnabled()) {
+                    yield ReloadLevel.NONE;
+                } else {
+                    yield ReloadLevel.ALL_CHANGED;
+                }
+            }
+            case CLOUD -> {
+                if (context.shadersEnabled()) {
+                    yield ReloadLevel.NONE;
+                } else if (context.sodiumLoaded()) {
+                    yield ReloadLevel.ALL_CHANGED;
+                } else {
+                    yield ReloadLevel.NEEDS_UPDATE;
+                }
+            }
+            case ENTITY -> ReloadLevel.RESOURCE_PACKS;
+        };
     }
 
     public String toggleKey() {
@@ -46,13 +77,5 @@ public enum ShadingTarget {
     @Override
     public String toString() {
         return this.toString;
-    }
-
-    public Boolean fromJson(final JsonObject object) {
-        return object.get(this.configKey) instanceof final JsonPrimitive leaf && leaf.isBoolean() ? leaf.getAsBoolean() : null;
-    }
-
-    public void intoJson(final JsonObject object, final boolean value) {
-        object.addProperty(this.configKey, value);
     }
 }
