@@ -19,7 +19,7 @@ loom {
 
 java {
     toolchain {
-        languageVersion.convention(libs.versions.java.map(JavaLanguageVersion::of))
+        languageVersion = libs.versions.java.map(JavaLanguageVersion::of)
     }
 
     withJavadocJar()
@@ -28,18 +28,17 @@ java {
 
 dependencies {
     fun fabricModule(moduleName: String): Dependency? =
-        modCompileOnly(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
+        modImplementation(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
 
     minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
 
-    modImplementation(libs.fabric.api)
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
     @Suppress("UnstableApiUsage")
-    "modImplementation"(libs.modmenu) {
+    "modCompileOnly"(libs.modmenu) {
         exclude(mapOf("module" to "fabric-loader"))
     }
 }
@@ -116,28 +115,7 @@ tasks {
 /* COMPATIBILITY TESTS                                                        */
 /******************************************************************************/
 
-createCompatTest("bedrockify")
-createCompatTest("enhancedblockentities")
-createCompatTest("sodium")
-createCompatTest("indium", "sodium")
-
 repositories {
-    maven {
-        name = "Gegy Maven"
-        url = uri("https://maven.gegy.dev")
-        content {
-            includeGroup("dev.lambdaurora")
-        }
-    }
-
-    maven {
-        name = "shedaniel's Maven"
-        url = uri("https://maven.shedaniel.me")
-        content {
-            includeGroup("me.shedaniel.cloth")
-        }
-    }
-
     maven {
         name = "Terraformers Maven"
         url = uri("https://maven.terraformersmc.com")
@@ -176,75 +154,39 @@ repositories {
     }
 }
 
-@Suppress("UnstableApiUsage")
-dependencies {
-    "modBedrockifyAuto"(libs.bedrockify)
-    "modBedrockifyCompatTestRuntimeOnly"(libs.cloth.config) {
-        exclude(mapOf("group" to "net.fabricmc.fabric-api"))
-        exclude(mapOf("module" to "fabric-loader"))
-        exclude(mapOf("module" to "gson"))
-    }
-
-    "modEnhancedblockentitiesAuto"(libs.enhancedblockentities)
-    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.arrp) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
-    "modEnhancedblockentitiesCompatTestRuntimeOnly"(libs.spruceui) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
-
-    "modSodiumAuto"(libs.sodium)
-    "modSodiumCompatTestRuntimeOnly"(libs.joml)
-
-    "modIndiumAuto"(libs.indium)
-}
+createCompatTest("bedrockify", libs.bedrockify)
+createCompatTest("enhancedblockentities", libs.enhancedblockentities)
+createCompatTest("iris", libs.iris, libs.sodium)
+createCompatTest("sodium", libs.sodium)
 
 /******************************************************************************/
 /* HELPER FUNCTIONS                                                           */
 /******************************************************************************/
 
-/**
- * Creates similarly named source sets, remap configurations, and run tasks for
- * testing mod compatibility.
- *
- * @param name the base name
- * @param fosters the fosters to inherit from
- */
-fun createCompatTest(name: String, vararg fosters: String) {
-    val compatTest = sourceSets.create("${name}CompatTest", loom::createRemapConfigurations)
-
-    sourceSets.main {
-        compatTest.compileClasspath += this.compileClasspath
-        compatTest.runtimeClasspath += this.runtimeClasspath
+fun createCompatTest(name: String, objectNotation: Any, vararg dependencyNotations: Any) {
+    val config = configurations.register(name)
+    val configClasspath = configurations.register("${name}Classpath") {
+        extendsFrom(config.get())
     }
-
-    for (foster in fosters) {
-        sourceSets.named("${foster}CompatTest") {
-            compatTest.compileClasspath += this.compileClasspath
-            compatTest.runtimeClasspath += this.runtimeClasspath
+    configurations {
+        val modCompileOnly by getting {
+            extendsFrom(config.get())
         }
     }
 
-    loom.runs.register("${name}CompatTestClient") {
-        client()
-        source("${name}CompatTest")
+    dependencies {
+        add(name, objectNotation)
+        dependencyNotations.forEach {
+            add("${name}Classpath", it)
+        }
     }
 
-    loom.runs.register("${name}CompatTestServer") {
-        server()
-        source("${name}CompatTest")
-    }
+    afterEvaluate {
+        loom.runs.register(name) {
+            client()
 
-    fun String.capitalize(): String = this.replaceFirstChar(Character::toTitleCase)
-
-    val modAuto = configurations.create("mod${name.capitalize()}Auto")
-
-    val modCompileOnly by configurations.getting {
-        extendsFrom(modAuto)
-    }
-
-    configurations.named("mod${name.capitalize()}CompatTestImplementation") {
-        extendsFrom(modAuto)
+            property("fabric.addMods", configClasspath.get().files.joinToString(File.pathSeparator))
+        }
     }
 }
 
