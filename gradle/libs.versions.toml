@@ -7,6 +7,7 @@ fabric-api = "0.96.14+24w14potato"
 fabric-loader = "0.16.5"
 fabric-minecraft = "1.20.5-alpha.24.14.potato"
 indium = "1.0.31+mc1.20.4"
+iris = "1.7.2+1.20.4"
 java = "17"
 minecraft = "24w14potato"
 modmenu = "10.0.0-alpha.3"
@@ -20,6 +21,7 @@ enhancedblockentities = { module = "maven.modrinth:ebe", version.ref = "enhanced
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 indium = { module = "maven.modrinth:indium", version.ref = "indium" }
+iris = { module = "maven.modrinth:iris", version.ref = "iris" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
