@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
-import io.github.startsmercury.simply_no_shading.impl.client.ReloadType;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingTarget;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
@@ -22,7 +21,6 @@ public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
     private final ConfigImpl config;
     private OptionsList list;
-    private ReloadType reloadType;
 
     public ConfigScreen(final Screen lastScreen, final Config config) {
         super(lastScreen, Minecraft.getInstance().options, ConfigScreen.TITLE);
@@ -30,7 +28,6 @@ public final class ConfigScreen extends OptionsSubScreen {
         Objects.requireNonNull(config, "Parameter config is null");
 
         this.config = new ConfigImpl(config);
-        this.reloadType = ReloadType.NONE;
     }
 
     @Override
@@ -69,11 +66,8 @@ public final class ConfigScreen extends OptionsSubScreen {
         return OptionInstance.createBoolean(
             key,
             enabled -> tooltip,
-            this.config.shadingEnabled(target),
-            enabled -> {
-                this.config.setShadingEnabled(target, enabled);
-                this.reloadType = this.reloadType.compose(target.reloadType());
-            }
+            target.getFrom(config),
+            enabled -> target.setInto(config, enabled)
         );
     }
 
@@ -81,12 +75,14 @@ public final class ConfigScreen extends OptionsSubScreen {
     public void removed() {
         final var simplyNoShading = SimplyNoShading.instance();
 
-        simplyNoShading.setConfig(this.config);
+        final var oldConfig = simplyNoShading.config();
+        final var newConfig = this.config;
+        simplyNoShading.setConfig(newConfig);
         ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
 
         final var minecraft = super.minecraft;
         assert minecraft != null;
-        this.reloadType.applyTo(minecraft);
+        SimplyNoShadingImpl.instance().applyChangesBetween(oldConfig, newConfig, minecraft);
     }
 
     @Override
