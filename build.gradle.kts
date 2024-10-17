@@ -39,10 +39,6 @@ dependencies {
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
-    @Suppress("UnstableApiUsage")
-    "modClientCompileOnly"(libs.modmenu) {
-        exclude(mapOf("module" to "fabric-loader"))
-    }
 }
 
 testing {
@@ -166,6 +162,7 @@ repositories {
 createCompatTest("bedrockify", libs.bedrockify)
 createCompatTest("enhancedblockentities", libs.enhancedblockentities)
 createCompatTest("iris", libs.iris, libs.sodium)
+createCompatTest("modmenu", libs.modmenu)
 createCompatTest("sodium", libs.sodium)
 
 /******************************************************************************/
