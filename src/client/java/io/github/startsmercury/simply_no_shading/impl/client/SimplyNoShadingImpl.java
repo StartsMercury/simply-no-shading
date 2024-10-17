@@ -284,6 +284,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         final var context = this.context();
 
         if (context().shadersEnabled()) {
+            this.keyShadingToggles().forEach(KeyMapping::consumeAction);
             return;
         }
 
