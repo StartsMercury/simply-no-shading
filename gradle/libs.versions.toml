@@ -2,7 +2,7 @@
 bedrockify = "1.10.1+mc1.21"
 enhancedblockentities = "0.10.2+1.21"
 fabric-api = "0.105.4+1.21.2"
-fabric-loader = "0.16.5"
+fabric-loader = "0.16.7"
 fabric-minecraft = "1.21.2-beta.3"
 iris = "1.8.0-beta.4+1.21-fabric"
 java = "21"
