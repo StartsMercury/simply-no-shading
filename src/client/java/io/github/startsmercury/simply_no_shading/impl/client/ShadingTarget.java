@@ -40,7 +40,6 @@ public enum ShadingTarget {
     }
 
     public void setInto(final Config config, final boolean enabled) {
-        System.err.println(this + ": " + this.getFrom(config) + " -> " + enabled);
         switch (this) {
             case BLOCK -> config.setBlockShadingEnabled(enabled);
             case CLOUD -> config.setCloudShadingEnabled(enabled);
