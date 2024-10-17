@@ -10,6 +10,12 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
         super(name, InputConstants.Type.KEYSYM, keyCode, category);
     }
 
+    public boolean consumeAction() {
+        final var action = this.pressed || this.released;
+        this.pressed = this.released = false;
+        return action;
+    }
+
     public boolean consumePressed() {
         final var pressed = this.pressed;
         this.pressed = false;
