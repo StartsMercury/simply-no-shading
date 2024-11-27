@@ -3,19 +3,19 @@ package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.sod
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
-import net.caffeinemc.mods.sodium.api.util.ColorABGR;
+import net.caffeinemc.mods.sodium.api.util.ColorU8;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(targets = "net.caffeinemc.mods.sodium.client.render.immediate.CloudRenderer$CloudFace")
 public abstract class CloudRenderer$CloudFaceMixin {
     @Unique
-    private static final int WHITE = ColorABGR.pack(1.0F, 1.0F, 1.0F, 1.0F);
+    private static final int WHITE = ColorU8.normalizedFloatToByte(1.0F);
 
     private CloudRenderer$CloudFaceMixin() {
     }
 
-    @WrapMethod(method = "getColor()I", remap = false)
+    @WrapMethod(method = "getShade()I", remap = false)
     public int changeCloudColor(final Operation<Integer> original) {
         if (ComputedConfig.cloudShadingEnabled) {
             return original.call();
