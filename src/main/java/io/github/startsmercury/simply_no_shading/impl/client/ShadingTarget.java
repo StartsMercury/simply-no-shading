@@ -65,7 +65,7 @@ public enum ShadingTarget {
                     yield ReloadLevel.NEEDS_UPDATE;
                 }
             }
-            case ENTITY -> ReloadLevel.RESOURCE_PACKS;
+            case ENTITY -> ReloadLevel.NONE;
         };
     }
 

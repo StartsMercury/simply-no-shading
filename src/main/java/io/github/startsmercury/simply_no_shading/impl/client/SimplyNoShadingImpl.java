@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Lighting;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
@@ -22,21 +23,17 @@ import java.util.Comparator;
 import java.util.List;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class SimplyNoShadingImpl implements SimplyNoShading {
     public static final String NAME = "Simply No Shading";
     public static final String MODID = "simply-no-shading";
-    public static final String EXPERIMENTAL_ENTITY_SHADING_ID = "simply_no_entity_like_shading";
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
+    public static final Logger LOGGER = LogManager.getLogger(NAME);
     public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
 
     private static SimplyNoShadingImpl instance;
@@ -72,6 +69,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     private final KeyMapping keyOpenConfigScreen;
     private final KeyMapping keyReloadConfig;
     private final List<KeyMapping> keyShadingToggles;
+    private boolean lightingForceOff;
 
     private SimplyNoShadingImpl(FabricLoader fabricLoader) {
         this.config = new ConfigImpl();
@@ -88,7 +86,6 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
         this.loadConfig();
         this.registerKeyMappings(fabricLoader);
-        this.registerResources(fabricLoader);
         this.registerShutdownHook();
 
         if (fabricLoader.isModLoaded("sodium")) {
@@ -225,6 +222,21 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return this.keyShadingToggles;
     }
 
+    public boolean isLightingForceOff() {
+        return this.lightingForceOff;
+    }
+
+    public void lightingScope(final Runnable action) {
+        if (this.config().entityShadingEnabled()) {
+            action.run();
+        } else {
+            Lighting.turnOff();
+            this.lightingForceOff = true;
+            action.run();
+            this.lightingForceOff = false;
+        }
+    }
+
     private void registerKeyMappings(final FabricLoader fabricLoader) {
         if (
             !fabricLoader.isModLoaded("fabric-key-binding-api-v1")
@@ -304,35 +316,6 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             this.setConfig(config);
             ComputedConfig.set(config);
             reloadType.applyTo(minecraft);
-        }
-    }
-
-    private void registerResources(final FabricLoader fabricLoader) {
-        registerResourcesButSelfless(fabricLoader);
-    }
-
-    private static void registerResourcesButSelfless(final FabricLoader fabricLoader) {
-        if (!fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
-            return;
-        }
-        final var container = fabricLoader
-            .getModContainer(MODID)
-            .orElseThrow(() -> new AssertionError("""
-                Fabric mod container for ${MODID} does not exist. Developer might have used the a \
-                different mod id from the one in fabric.mod.json. Please create an issue in their \
-                repository.\
-            """.replace("${MODID}", MODID)));
-        final var success = ResourceManagerHelper.registerBuiltinResourcePack(
-            new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
-            container,
-            ResourcePackActivationType.NORMAL
-        );
-        if (!success) {
-            LOGGER.warn(
-                "[{}] Unable to register built-in resource pack {}",
-                NAME,
-                EXPERIMENTAL_ENTITY_SHADING_ID
-            );
         }
     }
 

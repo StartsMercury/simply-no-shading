@@ -13,10 +13,6 @@ base {
     version = createVersionString()
 }
 
-loom {
-    runtimeOnlyLog4j = true
-}
-
 java {
     toolchain {
         languageVersion = libs.versions.java.map(JavaLanguageVersion::of)
@@ -150,8 +146,13 @@ repositories {
     }
 }
 
-createCompatTest("bedrockify", libs.bedrockify)
-createCompatTest("enhancedblockentities", libs.enhancedblockentities)
+createCompatTest(
+    "bedrockify",
+    libs.bedrockify,
+    fabricApi.module("fabric-biome-api-v1", libs.versions.fabric.api.get()),
+    fabricApi.module("fabric-events-interaction-v0", libs.versions.fabric.api.get()),
+)
+createCompatTest("enhancedblockentities", libs.enhancedblockentities, libs.fabric.api)
 createCompatTest("iris", libs.iris, libs.sodium)
 createCompatTest("modmenu", libs.modmenu)
 createCompatTest("sodium", libs.sodium)

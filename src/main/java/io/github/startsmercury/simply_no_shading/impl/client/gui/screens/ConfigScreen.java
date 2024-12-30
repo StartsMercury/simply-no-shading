@@ -7,7 +7,7 @@ import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingTarget;
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
-import net.minecraft.client.CycleOption;
+import net.minecraft.client.BooleanOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.GuiComponent;
@@ -48,8 +48,8 @@ public final class ConfigScreen extends OptionsSubScreen {
             .map(this::createShadingOption)
             .toArray(Option[]::new);
         this.list.addSmall(shadingOptions);
-        this.addWidget(this.list);
-        this.addRenderableWidget(
+        this.children.add(this.list);
+        this.addButton(
             new Button(
                 this.width / 2 - 100,
                 this.height - 27,
@@ -65,14 +65,14 @@ public final class ConfigScreen extends OptionsSubScreen {
         );
     }
 
-    private CycleOption<Boolean> createShadingOption(final ShadingTarget target) {
+    private BooleanOption createShadingOption(final ShadingTarget target) {
         final var key = "simply-no-shading.config.option." + target + "ShadingEnabled";
         final var tooltip = new TranslatableComponent(key + ".tooltip");
-        return CycleOption.createOnOff(
+        return new BooleanOption(
             key,
             tooltip,
             options -> target.getFrom(config),
-            (options, option, enabled) -> target.setInto(config, enabled)
+            (options, enabled) -> target.setInto(config, enabled)
         );
     }
 
@@ -96,6 +96,10 @@ public final class ConfigScreen extends OptionsSubScreen {
         this.list.render(poseStack, i, j, f);
         GuiComponent.drawCenteredString(poseStack, this.font, this.title, this.width / 2, 5, 0xFFFFFF);
         super.render(poseStack, i, j, f);
-        this.renderTooltip(poseStack, tooltipAt(this.list, i, j), i, j);
+
+        final var tooltip = tooltipAt(this.list, i, j);
+        if (tooltip != null) {
+            this.renderTooltip(poseStack, tooltip, i, j);
+        }
     }
 }
