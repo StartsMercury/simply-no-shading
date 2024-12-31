@@ -310,9 +310,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             .peek(target -> target.setInto(config, !target.getFrom(config)))
             .map(target -> target.reloadTypeFor(context))
             .max(Comparator.naturalOrder())
-            .orElse(ReloadLevel.NONE);
+            .orElse(null);
 
-        if (reloadType != ReloadLevel.NONE) {
+        if (reloadType != null) {
             this.setConfig(config);
             ComputedConfig.set(config);
             reloadType.applyTo(minecraft);
