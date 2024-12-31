@@ -74,7 +74,9 @@ public enum ShadingTarget {
 
     ShadingTarget() {
         this.toString = UPPER_UNDERSCORE.converterTo(LOWER_CAMEL).convert(this.name());
-        this.toggleKey = "toggle" + UPPER_UNDERSCORE.converterTo(UPPER_CAMEL).convert(this.name()) + "Shading";
+        this.toggleKey = "toggle_"
+            + UPPER_UNDERSCORE.converterTo(LOWER_UNDERSCORE).convert(this.name())
+            + "_shading";
     }
 
     public abstract boolean getFrom(Config config);
