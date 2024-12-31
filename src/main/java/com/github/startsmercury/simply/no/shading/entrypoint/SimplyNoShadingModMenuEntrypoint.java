@@ -1,7 +1,8 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
 import io.github.prospector.modmenu.api.ModMenuApi;
+import java.util.function.Function;
+import net.minecraft.client.gui.screens.Screen;
 
 /**
  * The {@code SimplyNoShadingModMenuEntrypoint} class is an implementation of
@@ -23,7 +24,12 @@ public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
     }
 
     @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return delegate.getModConfigScreenFactory();
+    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
+        return this.delegate.getConfigScreenFactory();
+    }
+
+    @Override
+    public String getModId() {
+        return this.delegate.getModId();
     }
 }

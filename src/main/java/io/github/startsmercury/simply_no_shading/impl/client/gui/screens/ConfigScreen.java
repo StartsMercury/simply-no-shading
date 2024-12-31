@@ -11,23 +11,24 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
-import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 
-public final class ConfigScreen extends OptionsSubScreen {
+public final class ConfigScreen extends Screen {
     private static final Component TITLE = new TranslatableComponent("simply-no-shading.config.title");
     private final ConfigImpl config;
+    private final Screen lastScreen;
     private OptionsList list;
 
     public ConfigScreen(final Screen lastScreen, final Config config) {
-        super(lastScreen, Minecraft.getInstance().options, ConfigScreen.TITLE);
+        super(ConfigScreen.TITLE);
 
         Objects.requireNonNull(config, "Parameter config is null");
 
         this.config = new ConfigImpl(config);
+        this.lastScreen = lastScreen;
     }
 
     @Override

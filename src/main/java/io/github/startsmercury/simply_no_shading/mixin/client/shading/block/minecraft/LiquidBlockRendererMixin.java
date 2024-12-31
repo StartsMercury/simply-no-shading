@@ -13,9 +13,9 @@ public class LiquidBlockRendererMixin {
 
     @ModifyExpressionValue(
         method = "tesselate (" +
-            "Lnet/minecraft/world/level/BlockAndTintGetter;" +
+            "Lnet/minecraft/world/level/BlockAndBiomeGetter;" +
             "Lnet/minecraft/core/BlockPos;" +
-            "Lcom/mojang/blaze3d/vertex/VertexConsumer;" +
+            "Lcom/mojang/blaze3d/vertex/BufferBuilder;" +
             "Lnet/minecraft/world/level/material/FluidState;" +
         ") Z",
         at = {

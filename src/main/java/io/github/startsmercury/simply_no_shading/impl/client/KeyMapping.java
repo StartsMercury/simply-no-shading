@@ -2,7 +2,7 @@ package io.github.startsmercury.simply_no_shading.impl.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
-public class KeyMapping extends net.minecraft.client.KeyMapping {
+public class KeyMapping extends net.minecraft.client.KeyMapping implements AwareKeyMapping {
     protected boolean pressed;
     protected boolean released;
 
@@ -29,16 +29,14 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
     }
 
     @Override
-    public void setDown(final boolean down) {
+    public void onSetDown(boolean isDown) {
         if (this.isDown()) {
-            if (!down) {
+            if (!isDown) {
                 this.released = true;
-                super.setDown(false);
             }
         } else {
-            if (down) {
+            if (isDown) {
                 this.pressed = true;
-                super.setDown(true);
             }
         }
     }

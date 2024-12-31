@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Lighting.class)
 public class LightingMixin {
-    @WrapMethod(method = { "turnBackOn()V", "turnOff()V" })
+    @WrapMethod(method = { "turnOn()V", "turnOff()V" })
     private static void conditionalToggling(final Operation<Void> original) {
         if (SimplyNoShadingImpl.instance().isLightingForceOff()) {
             // DO NOTHING

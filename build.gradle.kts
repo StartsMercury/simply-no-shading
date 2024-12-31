@@ -113,7 +113,7 @@ repositories {
         name = "Terraformers Maven"
         url = uri("https://maven.terraformersmc.com")
         content {
-            includeGroup("com.terraformersmc")
+            includeGroup("io.github.prospector")
         }
     }
 
@@ -140,7 +140,6 @@ repositories {
 }
 
 createCompatTest("modmenu", libs.modmenu)
-createCompatTest("sodium", libs.sodium)
 
 /******************************************************************************/
 /* HELPER FUNCTIONS                                                           */

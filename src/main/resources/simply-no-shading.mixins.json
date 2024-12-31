@@ -4,12 +4,12 @@
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
     "compatibilityLevel": "JAVA_8",
     "client": [
+        "core.keymapping.KeyMappingMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
-        "shading.block.sodium.FluidRendererMixin",
-        "shading.block.sodium.MixinBakedQuadMixin",
         "shading.cloud.minecraft.LevelRendererMixin",
         "shading.entity.minecraft.GameRendererMixin",
+        "shading.entity.minecraft.ItemInHandRendererMixin",
         "shading.entity.minecraft.LightingMixin"
     ],
     "injectors": {

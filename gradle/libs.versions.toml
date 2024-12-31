@@ -1,18 +1,16 @@
 [versions]
-fabric-api = "0.28.5+1.15"
+fabric-api = "0.28.5+1.14"
 fabric-loader = "0.16.9"
-fabric-minecraft = "1.15.2"
+fabric-minecraft = "1.14.4"
 java = "8"
-minecraft = "1.15.2"
-modmenu = "1.10.7"
-sodium = "mc1.15.2-0.1.1-SNAPSHOT+2020-12-10"
+minecraft = "1.14.4"
+modmenu = "1.7.17+build.1"
 
 [libraries]
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-sodium = { module = "mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10", version.ref = "sodium" }
+modmenu = { module = "io.github.prospector:modmenu", version.ref = "modmenu" }
 
 [plugins]
 fabric-loom = "fabric-loom:1.9.2"
