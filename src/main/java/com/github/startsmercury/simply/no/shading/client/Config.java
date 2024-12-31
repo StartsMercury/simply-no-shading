@@ -8,21 +8,19 @@ import java.util.Objects;
  * shading.
  *
  * @since 6.0.0
- * @deprecated As of version 7.0.0, replaced by
+ * @deprecated For removal as of version 7.0.0, replaced by
  *     {@link io.github.startsmercury.simply_no_shading.api.client.Config}
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class Config {
 	/**
 	 * The {@code Config.Builder} class is the builder for {@code Config}. For
 	 * further details, refer to the {@code Config} class as documenting the builder
 	 * would potentially be redundant and may be overlooked or be outdated.
-	 *
      * @since 6.0.0
-	 * @deprecated No replacement
+	 * @deprecated For removal since 7.0.0 with no replacement
 	 */
-	@Deprecated(since = "7.0.0", forRemoval = true)
 	public static class Builder {
 		/**
 		 * Controls block shading, excluding block entities.
@@ -35,20 +33,30 @@ public class Config {
 		private boolean cloudShadingEnabled;
 
 		/**
+		 * Controls entity shading.
+		 */
+		private boolean entityShadingEnabled;
+
+		/**
 		 * Creates a new config builder with data initially set for vanilla behavior.
 		 */
 		public Builder() {
 			this.blockShadingEnabled = true;
 			this.cloudShadingEnabled = true;
+			this.entityShadingEnabled = true;
 		}
 
 		/**
-		 * Returns a newly built config.
+		 * Returns a newly build config.
 		 *
-		 * @return a newly built config
+		 * @return a newly build config
 		 */
 		public Config build() {
-			return new Config(this.blockShadingEnabled, this.cloudShadingEnabled);
+			return new Config(
+				this.blockShadingEnabled,
+				this.cloudShadingEnabled,
+				this.entityShadingEnabled
+			);
 		}
 
 		/**
@@ -67,6 +75,15 @@ public class Config {
 		 */
 		public boolean isCloudShadingEnabled() {
 			return this.cloudShadingEnabled;
+		}
+
+		/**
+		 * Returns {@code true} if entity shading is enabled; {@code false} otherwise.
+		 *
+		 * @return {@code true} if entity shading is enabled; {@code false} otherwise
+		 */
+		public boolean isEntityShadingEnabled() {
+			return this.entityShadingEnabled;
 		}
 
 		/**
@@ -92,12 +109,28 @@ public class Config {
 
 			return this;
 		}
+
+		/**
+		 * Sets entity shading enabled or disabled.
+		 *
+		 * @param entityShadingEnabled cloud shading flag
+		 * @return {@code this} builder
+		 */
+		public Builder setEntityShadingEnabled(final boolean entityShadingEnabled) {
+			this.entityShadingEnabled = entityShadingEnabled;
+
+			return this;
+		}
 	}
 
 	/**
 	 * The config preset where all shading options were disabled.
 	 */
-	public static final Config ALL_OFF = builder().setBlockShadingEnabled(false).setCloudShadingEnabled(false).build();
+	public static final Config ALL_OFF = builder()
+		.setBlockShadingEnabled(false)
+		.setCloudShadingEnabled(false)
+		.setEntityShadingEnabled(false)
+		.build();
 
 	/**
 	 * The config preset that mimics OptiFine's Internal Shaders (with Old Lighting
@@ -128,7 +161,8 @@ public class Config {
 	 */
 	public static Builder builder(final Config config) {
 		return builder().setBlockShadingEnabled(config.blockShadingEnabled)
-		                .setCloudShadingEnabled(config.cloudShadingEnabled);
+		                .setCloudShadingEnabled(config.cloudShadingEnabled)
+		                .setEntityShadingEnabled(config.entityShadingEnabled);
 	}
 
 	/**
@@ -142,14 +176,38 @@ public class Config {
 	public final boolean cloudShadingEnabled;
 
 	/**
+	 * Controls entity shading.
+	 */
+	public final boolean entityShadingEnabled;
+
+	/**
 	 * Creates a new config with all the fields set.
 	 *
 	 * @param blockShadingEnabled controls block shading, excluding block entities
 	 * @param cloudShadingEnabled controls cloud shading
+	 * @param entityShadingEnabled controls entity shading
 	 */
-	public Config(final boolean blockShadingEnabled, final boolean cloudShadingEnabled) {
+	public Config(
+		final boolean blockShadingEnabled,
+		final boolean cloudShadingEnabled,
+		final boolean entityShadingEnabled
+	) {
 		this.blockShadingEnabled = blockShadingEnabled;
 		this.cloudShadingEnabled = cloudShadingEnabled;
+		this.entityShadingEnabled = entityShadingEnabled;
+	}
+
+
+	/**
+	 * Returns {@code true} if {@code this} config's contents are equal to another's.
+	 *
+	 * @param other the other config
+	 * @return {@code true} if {@code this} contents is equal to {@code other}'s
+	 */
+	public boolean equals(final Config other) {
+		return this.blockShadingEnabled == other.blockShadingEnabled
+		        && this.cloudShadingEnabled == other.cloudShadingEnabled
+		        && this.entityShadingEnabled == other.entityShadingEnabled;
 	}
 
 	/**
@@ -159,9 +217,8 @@ public class Config {
 	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
-		if (obj instanceof final Config other)
-			return this.blockShadingEnabled == other.blockShadingEnabled
-			        && this.cloudShadingEnabled == other.cloudShadingEnabled;
+		if (obj instanceof Config)
+			return equals((Config) obj);
 		return false;
 	}
 
@@ -170,7 +227,11 @@ public class Config {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.blockShadingEnabled, this.cloudShadingEnabled);
+		return Objects.hash(
+			this.blockShadingEnabled,
+			this.cloudShadingEnabled,
+			this.entityShadingEnabled
+		);
 	}
 
 	/**
@@ -192,11 +253,26 @@ public class Config {
 	}
 
 	/**
+	 * Returns {@code true} if entity shading is enabled; {@code false} otherwise.
+	 *
+	 * @return {@code true} if entity shading is enabled; {@code false} otherwise
+	 */
+	public boolean isEntityShadingEnabled() {
+		return this.entityShadingEnabled;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		return getClass().getCanonicalName() + "[blockShadingEnabled=" + this.blockShadingEnabled
-		        + ", cloudShadingEnabled=" + this.cloudShadingEnabled + "]";
+		return getClass().getCanonicalName()
+		    + "[blockShadingEnabled="
+		    + this.blockShadingEnabled
+		    + ", cloadShadingEnabled="
+		    + this.cloudShadingEnabled
+		    + ", entityShadingEnabled="
+		    + this.entityShadingEnabled
+		    + "]";
 	}
 }

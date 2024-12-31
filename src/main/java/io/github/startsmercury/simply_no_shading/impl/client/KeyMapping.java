@@ -1,29 +1,31 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
+import net.minecraft.resources.ResourceLocation;
 
-public class KeyMapping extends net.minecraft.client.KeyMapping {
+public class KeyMapping extends FabricKeyBinding {
     protected boolean pressed;
     protected boolean released;
 
-    public KeyMapping(final String name, final int keyCode, final String category) {
-        super(name, InputConstants.Type.KEYSYM, keyCode, category);
+    public KeyMapping(final ResourceLocation resourceLocation, final int keyCode, final String category) {
+        super(resourceLocation, InputConstants.Type.KEYSYM, keyCode, category);
     }
 
     public boolean consumeAction() {
-        final var action = this.pressed || this.released;
+        final boolean action = this.pressed || this.released;
         this.pressed = this.released = false;
         return action;
     }
 
     public boolean consumePressed() {
-        final var pressed = this.pressed;
+        final boolean pressed = this.pressed;
         this.pressed = false;
         return pressed;
     }
 
     public boolean consumeReleased() {
-        final var released = this.released;
+        final boolean released = this.released;
         this.released = false;
         return released;
     }

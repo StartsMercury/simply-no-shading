@@ -7,9 +7,9 @@
     "simply-no-shading.config.option.entityShadingEnabled": "Entity Shading",
     "simply-no-shading.config.option.entityShadingEnabled.tooltip": "Affects entities and block entities",
     "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-    "simply-no-shading.key.openConfigScreen": "Ouvrir l'écran de configuration",
-    "simply-no-shading.key.reloadConfig": "Recharger la configuration",
-    "simply-no-shading.key.toggleBlockShading": "Activer/désactiver l'ombrage des blocs",
-    "simply-no-shading.key.toggleCloudShading": "Activer/désactiver l'ombrage des nuages",
-    "simply-no-shading.key.toggleEntityShading": "Toggle Entity Shading"
+    "key.simply-no-shading.open_config_screen": "Ouvrir l'écran de configuration",
+    "key.simply-no-shading.reload_config": "Recharger la configuration",
+    "key.simply-no-shading.toggle_block_shading": "Activer/désactiver l'ombrage des blocs",
+    "key.simply-no-shading.toggle_cloud_shading": "Activer/désactiver l'ombrage des nuages",
+    "key.simply-no-shading.toggle_entity_shading": "Toggle Entity Shading"
 }

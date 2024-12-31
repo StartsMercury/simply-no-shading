@@ -18,10 +18,10 @@ import org.apache.logging.log4j.util.Supplier;
  * to the delegated logger are prefixed.
  *
  * @since 5.0.0
- * @deprecated No replacement
+ * @deprecated For removal since 7.0.0 with no replacement
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class PrefixedLogger implements Logger {
 	/**
 	 * Returns a named prefix logger.

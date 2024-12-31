@@ -1,6 +1,5 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
 import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
@@ -10,12 +9,11 @@ import java.util.Objects;
 import net.minecraft.client.BooleanOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 
@@ -42,7 +40,7 @@ public final class ConfigScreen extends OptionsSubScreen {
             25
         );
 
-        final var shadingOptions = ShadingTarget
+        final Option[] shadingOptions = ShadingTarget
             .valueList()
             .stream()
             .map(this::createShadingOption)
@@ -55,9 +53,9 @@ public final class ConfigScreen extends OptionsSubScreen {
                 this.height - 27,
                 200,
                 20,
-                CommonComponents.GUI_DONE,
+                I18n.get("gui.done"),
                 button -> {
-                    final var minecraft = super.minecraft;
+                    final Minecraft minecraft = super.minecraft;
                     assert minecraft != null;
                     minecraft.setScreen(this.lastScreen);
                 }
@@ -66,11 +64,8 @@ public final class ConfigScreen extends OptionsSubScreen {
     }
 
     private BooleanOption createShadingOption(final ShadingTarget target) {
-        final var key = "simply-no-shading.config.option." + target + "ShadingEnabled";
-        final var tooltip = new TranslatableComponent(key + ".tooltip");
         return new BooleanOption(
-            key,
-            tooltip,
+            "simply-no-shading.config.option." + target + "ShadingEnabled",
             options -> target.getFrom(config),
             (options, enabled) -> target.setInto(config, enabled)
         );
@@ -78,28 +73,23 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        final var simplyNoShading = SimplyNoShading.instance();
+        final SimplyNoShading simplyNoShading = SimplyNoShading.instance();
 
-        final var oldConfig = simplyNoShading.config();
-        final var newConfig = this.config;
+        final Config oldConfig = simplyNoShading.config();
+        final Config newConfig = this.config;
         simplyNoShading.setConfig(newConfig);
         ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
 
-        final var minecraft = super.minecraft;
+        final Minecraft minecraft = super.minecraft;
         assert minecraft != null;
         SimplyNoShadingImpl.instance().applyChangesBetween(oldConfig, newConfig, minecraft);
     }
 
     @Override
-    public void render(final PoseStack poseStack, final int i, final int j, final float f) {
-        this.renderBackground(poseStack);
-        this.list.render(poseStack, i, j, f);
-        GuiComponent.drawCenteredString(poseStack, this.font, this.title, this.width / 2, 5, 0xFFFFFF);
-        super.render(poseStack, i, j, f);
-
-        final var tooltip = tooltipAt(this.list, i, j);
-        if (tooltip != null) {
-            this.renderTooltip(poseStack, tooltip, i, j);
-        }
+    public void render(final int i, final int j, final float f) {
+        this.renderBackground();
+        this.list.render(i, j, f);
+        this.drawCenteredString(this.font, this.title.getColoredString(), this.width / 2, 5, 16777215);
+        super.render(i, j, f);
     }
 }

@@ -1,16 +1,13 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import static net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding;
-
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
+import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.resources.ResourceLocation;
@@ -22,22 +19,21 @@ import net.minecraft.resources.ResourceLocation;
  * Shading to be initialized and configured for the minecraft client.
  *
  * @since 6.0.0
- * @deprecated No replacement
+ * @deprecated For removal since 7.0.0 with no replacement
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void onInitializeClient() {
-		final var simplyNoShading = new SimplyNoShading();
+		final SimplyNoShading simplyNoShading = new SimplyNoShading();
 
 		simplyNoShading.loadConfig();
 
 		setupKeyMappings(simplyNoShading);
-		setupResources();
 		setupShutdownHook(simplyNoShading::saveConfig);
 	}
 
@@ -47,27 +43,31 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	 * @param simplyNoShading the simply no shading instance
 	 */
 	protected void setupKeyMappings(final SimplyNoShading simplyNoShading) {
-		final var openConfigScreen = new KeyMapping("simply-no-shading.key.openConfigScreen",
+		final FabricKeyBinding openConfigScreen = FabricKeyBinding.Builder.create(new ResourceLocation("simply-no-shading", "open_config_screen"),
+		        InputConstants.Type.KEYSYM,
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading");
-		final var reloadConfig = new KeyMapping("simply-no-shading.key.reloadConfig",
+		        "simply-no-shading.key.categories.simply-no-shading").build();
+		final FabricKeyBinding reloadConfig = FabricKeyBinding.Builder.create(new ResourceLocation("simply-no-shading", "reload_config"),
+		        InputConstants.Type.KEYSYM,
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading");
-		final var toggleBlockShading = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
+		        "simply-no-shading.key.categories.simply-no-shading").build();
+		final FabricKeyBinding toggleBlockShading = FabricKeyBinding.Builder.create(new ResourceLocation("simply-no-shading", "toggle_block_shading"),
+		        InputConstants.Type.KEYSYM,
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
-		final var toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
+		        "simply-no-shading.key.categories.simply-no-shading").build();
+		final FabricKeyBinding toggleCloudShading = FabricKeyBinding.Builder.create(new ResourceLocation("simply-no-shading", "toggle_cloud_shading"),
+		        InputConstants.Type.KEYSYM,
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
-		        () -> simplyNoShading.getConfig().blockShadingEnabled);
+		        "simply-no-shading.key.categories.simply-no-shading").build();
 
-		registerKeyBinding(openConfigScreen);
-		registerKeyBinding(reloadConfig);
-		registerKeyBinding(toggleBlockShading);
-		registerKeyBinding(toggleCloudShading);
 
-		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
+		KeyBindingRegistry.INSTANCE.addCategory("simply-no-shading.key.categories.simply-no-shading");
+		KeyBindingRegistry.INSTANCE.register(openConfigScreen);
+		KeyBindingRegistry.INSTANCE.register(reloadConfig);
+		KeyBindingRegistry.INSTANCE.register(toggleBlockShading);
+		KeyBindingRegistry.INSTANCE.register(toggleCloudShading);
+
+		ClientTickCallback.EVENT.register(minecraft -> {
 			if (reloadConfig.consumeClick()) {
 				while (reloadConfig.consumeClick()) {}
 
@@ -81,7 +81,7 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 				return;
 			}
 
-			final var builder = Config.builder(simplyNoShading.getConfig());
+			final Config.Builder builder = Config.builder(simplyNoShading.getConfig());
 
 			while (toggleBlockShading.consumeClick())
 				builder.setBlockShadingEnabled(!builder.isBlockShadingEnabled());
@@ -93,25 +93,12 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	}
 
 	/**
- 	 * Registers resources such as built-in resource packs.
-   	 */
-	protected void setupResources() {
-		FabricLoader.getInstance().getModContainer("simply-no-shading").ifPresent(container -> {
-			ResourceManagerHelper.registerBuiltinResourcePack(
-				new ResourceLocation("simply-no-shading", "simply_no_entity_like_shading"),
-				container,
-				ResourcePackActivationType.NORMAL
-			);
-		});
-	}
-
-	/**
 	 * Registers a shutdown thread with the name 'Simply No Shading Shutdown Thread'
 	 *
 	 * @param shutdownAction the shutdown action to run
 	 */
 	protected void setupShutdownHook(final Runnable shutdownAction) {
-		final var shutdownThread = new Thread(shutdownAction);
+		final Thread shutdownThread = new Thread(shutdownAction);
 		shutdownThread.setName("Simply No Shading Shutdown Thread");
 		Runtime.getRuntime().addShutdownHook(shutdownThread);
 	}

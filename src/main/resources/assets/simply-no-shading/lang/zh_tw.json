@@ -7,9 +7,9 @@
     "simply-no-shading.config.option.entityShadingEnabled": "實體陰影",
     "simply-no-shading.config.option.entityShadingEnabled.tooltip": "影響實體和方塊實體",
     "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-    "simply-no-shading.key.openConfigScreen": "開啟設定畫面",
-    "simply-no-shading.key.reloadConfig": "重新載入設定",
-    "simply-no-shading.key.toggleBlockShading": "切換方塊陰影",
-    "simply-no-shading.key.toggleCloudShading": "切換雲陰影",
-    "simply-no-shading.key.toggleEntityShading": "切換實體陰影"
+    "key.simply-no-shading.open_config_screen": "開啟設定畫面",
+    "key.simply-no-shading.reload_config": "重新載入設定",
+    "key.simply-no-shading.toggle_block_shading": "切換方塊陰影",
+    "key.simply-no-shading.toggle_cloud_shading": "切換雲陰影",
+    "key.simply-no-shading.toggle_entity_shading": "切換實體陰影"
 }

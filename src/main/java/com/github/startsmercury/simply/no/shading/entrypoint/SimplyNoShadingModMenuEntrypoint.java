@@ -1,7 +1,7 @@
 package com.github.startsmercury.simply.no.shading.entrypoint;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
+import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import io.github.prospector.modmenu.api.ModMenuApi;
 
 /**
  * The {@code SimplyNoShadingModMenuEntrypoint} class is an implementation of
@@ -10,10 +10,10 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
  * Shading and ModMenu.
  *
  * @since 6.0.0
- * @deprecated No replacement
+ * @deprecated For removal since 7.0.0 with no replacement
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
     private final ModMenuApi delegate;
 

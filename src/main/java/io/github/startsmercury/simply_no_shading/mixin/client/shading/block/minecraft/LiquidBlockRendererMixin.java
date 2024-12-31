@@ -1,37 +1,38 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(value = LiquidBlockRenderer.class, priority = 999)
 public class LiquidBlockRendererMixin {
     private LiquidBlockRendererMixin() {
     }
 
-    @ModifyArg(
-        method = """
-            tesselate(\
-                Lnet/minecraft/world/level/BlockAndTintGetter;\
-                Lnet/minecraft/core/BlockPos;\
-                Lcom/mojang/blaze3d/vertex/VertexConsumer;\
-                Lnet/minecraft/world/level/material/FluidState;\
-            )Z\
-        """,
-        at = @At(
-            value = "INVOKE",
-            target = """
-                Lnet/minecraft/world/level/BlockAndTintGetter;getShade(\
-                    Lnet/minecraft/core/Direction;\
-                    Z\
-                )F\
-            """
-        ),
-        index = 1
+    @ModifyExpressionValue(
+        method = "tesselate (" +
+            "Lnet/minecraft/world/level/BlockAndTintGetter;" +
+            "Lnet/minecraft/core/BlockPos;" +
+            "Lcom/mojang/blaze3d/vertex/VertexConsumer;" +
+            "Lnet/minecraft/world/level/material/FluidState;" +
+        ") Z",
+        at = {
+            @At(value = "CONSTANT", args = "floatValue=0.5", ordinal = 0),
+            @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 0),
+            @At(value = "CONSTANT", args = "floatValue=0.6", ordinal = 0),
+            @At(value = "CONSTANT", args = "floatValue=0.5", ordinal = 1),
+            @At(value = "CONSTANT", args = "floatValue=0.5", ordinal = 2),
+            @At(value = "CONSTANT", args = "floatValue=0.5", ordinal = 3),
+            @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 1),
+            @At(value = "CONSTANT", args = "floatValue=0.6", ordinal = 1),
+        }
     )
-    private boolean changeShade(final boolean shade) {
-        return shade && ComputedConfig.blockShadingEnabled;
+    private float changeLiquidBrightness(float constantValue) {
+        if (ComputedConfig.blockShadingEnabled)
+            return constantValue;
+        else
+            return 1.0f;
     }
 }

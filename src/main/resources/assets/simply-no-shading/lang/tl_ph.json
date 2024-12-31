@@ -7,9 +7,9 @@
     "simply-no-shading.config.option.entityShadingEnabled": "Paglililim ng Nilalang",
     "simply-no-shading.config.option.entityShadingEnabled.tooltip": "Nakakaapekto sa mga nilalang at blokeng nilalang",
     "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-    "simply-no-shading.key.openConfigScreen": "Buksan ang Iskrin ng Pagsasaayos",
-    "simply-no-shading.key.reloadConfig": "Kargahin Muli ang Pagsasaayos",
-    "simply-no-shading.key.toggleBlockShading": "Halilihan ang Paglililim ng Bloke",
-    "simply-no-shading.key.toggleCloudShading": "Halilihan ang Paglililim ng Ulap",
-    "simply-no-shading.key.toggleEntityShading": "Halilihan ang Paglililim ng Nilalang"
+    "key.simply-no-shading.open_config_screen": "Buksan ang Iskrin ng Pagsasaayos",
+    "key.simply-no-shading.reload_config": "Kargahin Muli ang Pagsasaayos",
+    "key.simply-no-shading.toggle_block_shading": "Halilihan ang Paglililim ng Bloke",
+    "key.simply-no-shading.toggle_cloud_shading": "Halilihan ang Paglililim ng Ulap",
+    "key.simply-no-shading.toggle_entity_shading": "Halilihan ang Paglililim ng Nilalang"
 }
