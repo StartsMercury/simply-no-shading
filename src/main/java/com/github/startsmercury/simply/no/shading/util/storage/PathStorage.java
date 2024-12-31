@@ -13,10 +13,10 @@ import java.util.Objects;
  *
  * @param <T> the supported type for storing
  * @since 6.0.0
- * @deprecated No replacement
+ * @deprecated For removal since 7.0.0 with no replacement
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public abstract class PathStorage<T> implements Storage<T> {
 	/**
 	 * The assigned path to where states are read and written into.
@@ -42,8 +42,8 @@ public abstract class PathStorage<T> implements Storage<T> {
 	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
-		if (obj instanceof final PathStorage<?> other)
-			return Objects.equals(this.getPath(), other.getPath());
+		if (obj instanceof PathStorage)
+			return Objects.equals(this.getPath(), ((PathStorage<?>) obj).getPath());
 		return false;
 	}
 
@@ -71,12 +71,12 @@ public abstract class PathStorage<T> implements Storage<T> {
 	 */
 	@Override
 	public String toString() {
-		final var path = getPath();
+		final Path path = getPath();
 
 		if (path == null)
 			return super.toString();
 
-		final var className = getClass().getName();
+		final String className = getClass().getName();
 
 		return className + "[path=" + path + ']';
 	}

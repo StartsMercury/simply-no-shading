@@ -12,15 +12,13 @@ public abstract class LevelRendererMixin {
     }
 
     @ModifyExpressionValue(
-        method = """
-            buildClouds(\
-                Lcom/mojang/blaze3d/vertex/BufferBuilder;\
-                D\
-                D\
-                D\
-                Lnet/minecraft/world/phys/Vec3;\
-            )V\
-        """,
+        method = "buildClouds (" +
+            "Lcom/mojang/blaze3d/vertex/BufferBuilder;" +
+            "D" +
+            "D" +
+            "D" +
+            "Lnet/minecraft/world/phys/Vec3;" +
+        ") V",
         at = {
             @At(value = "CONSTANT", args = "floatValue=0.9", ordinal = 0),
             @At(value = "CONSTANT", args = "floatValue=0.9", ordinal = 1),

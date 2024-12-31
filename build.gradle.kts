@@ -30,6 +30,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
 
+    fabricModule("fabric-api-base")
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
@@ -136,24 +137,8 @@ repositories {
             artifact()
         }
     }
-
-    maven {
-        name = "Devan Maven"
-        url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master")
-        content {
-            includeModule("net.devtech", "arrp")
-        }
-    }
 }
 
-createCompatTest(
-    "bedrockify",
-    libs.bedrockify,
-    fabricApi.module("fabric-biome-api-v1", libs.versions.fabric.api.get()),
-    fabricApi.module("fabric-events-interaction-v0", libs.versions.fabric.api.get()),
-)
-createCompatTest("enhancedblockentities", libs.enhancedblockentities, libs.fabric.api)
-createCompatTest("iris", libs.iris, libs.sodium)
 createCompatTest("modmenu", libs.modmenu)
 createCompatTest("sodium", libs.sodium)
 

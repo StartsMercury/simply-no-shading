@@ -1,5 +1,7 @@
 package com.github.startsmercury.simply.no.shading.util.storage;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,10 +14,10 @@ import com.google.gson.Gson;
  *
  * @param <T> the supported type for storing
  * @since 6.0.0
- * @deprecated No replacement
+ * @deprecated For removal since 7.0.0 with no replacement
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class JsonPathStorage<T> extends PathStorage<T> {
 	/**
 	 * The fallback gson used when an instance accessing {@link #getGson()} received
@@ -106,7 +108,7 @@ public class JsonPathStorage<T> extends PathStorage<T> {
 	 * @return the gson used for (de)serialization
 	 */
 	protected final Gson getGsonElseFallback() {
-		final var gson = getGson();
+		final Gson gson = getGson();
 
 		if (gson == null)
 			return JsonPathStorage.FALLBACK_GSON;
@@ -127,21 +129,21 @@ public class JsonPathStorage<T> extends PathStorage<T> {
 	 */
 	@Override
 	public T load() throws Exception {
-		final var path = getPath();
+		final Path path = getPath();
 
 		if (path == null)
 			throw new IllegalStateException("Unable to load when " + getClass().getName() + "::getPath() returns null",
 			        new NullPointerException("Source path was null"));
 
-		final var type = getType();
+		final Type type = getType();
 
 		if (type == null)
 			throw new IllegalStateException("Unable to load when " + getClass().getName() + "::getType() returns null",
 			        new NullPointerException("type was null"));
 
-		final var gson = getGsonElseFallback();
+		final Gson gson = getGsonElseFallback();
 
-		try (final var reader = Files.newBufferedReader(path)) {
+		try (final BufferedReader reader = Files.newBufferedReader(path)) {
 			return gson.fromJson(reader, type);
 		}
 	}
@@ -151,21 +153,21 @@ public class JsonPathStorage<T> extends PathStorage<T> {
 	 */
 	@Override
 	public void save(final T obj) throws Exception {
-		final var path = getPath();
+		final Path path = getPath();
 
 		if (path == null)
 			throw new IllegalStateException("Unable to save when " + getClass().getName() + "::getPath() returns null",
 			        new NullPointerException("Destination path was null"));
 
-		final var type = getType();
+		final Type type = getType();
 
 		if (type == null)
 			throw new IllegalStateException("Unable to save when " + getClass().getName() + "::getType() returns null",
 			        new NullPointerException("type was null"));
 
-		final var gson = getGsonElseFallback();
+		final Gson gson = getGsonElseFallback();
 
-		try (final var writer = Files.newBufferedWriter(path)) {
+		try (final BufferedWriter writer = Files.newBufferedWriter(path)) {
 			gson.toJson(obj, type, writer);
 		}
 	}

@@ -56,7 +56,7 @@
         "minecraft": "*"
     },
     "recommends": {
-        "fabric-api": "*",
+        "fabric": "*",
         "java": "${javaVersion}",
         "minecraft": "${gameVersion}",
         "modmenu": "*"

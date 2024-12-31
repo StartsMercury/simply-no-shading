@@ -12,17 +12,15 @@ public class FluidRendererMixin {
     }
 
     @ModifyVariable(
-        method = """
-            calculateQuadColors(\
-                Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;\
-                Lnet/minecraft/world/level/BlockAndTintGetter;\
-                Lnet/minecraft/core/BlockPos;\
-                Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;\
-                Lnet/minecraft/core/Direction;\
-                F\
-                Z\
-            )V\
-        """,
+        method = "calculateQuadColors (" +
+            "Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadViewMutable;" +
+            "Lnet/minecraft/world/level/BlockAndTintGetter;" +
+            "Lnet/minecraft/core/BlockPos;" +
+            "Lme/jellysquid/mods/sodium/client/model/light/LightPipeline;" +
+            "Lnet/minecraft/core/Direction;" +
+            "F" +
+            "Z" +
+        ") V",
         at = @At("HEAD"),
         argsOnly = true
     )

@@ -25,11 +25,11 @@ import net.minecraft.client.Minecraft;
  * {@link SimplyNoShadingClientEntrypoint} (and the mixins).
  *
  * @since 6.0.0
- * @deprecated As of version 7.0.0, replaced by
+ * @deprecated For removal as of version 7.0.0, replaced by
  *     {@link io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading}
  */
-@Deprecated(since = "7.0.0", forRemoval = true)
-@SuppressWarnings({ "all", "removal" })
+@Deprecated
+@SuppressWarnings("all")
 public class SimplyNoShading {
 	/**
 	 * The first instance of the {@code SimplyNoShading} class.

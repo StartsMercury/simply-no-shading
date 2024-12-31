@@ -11,19 +11,19 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
     }
 
     public boolean consumeAction() {
-        final var action = this.pressed || this.released;
+        final boolean action = this.pressed || this.released;
         this.pressed = this.released = false;
         return action;
     }
 
     public boolean consumePressed() {
-        final var pressed = this.pressed;
+        final boolean pressed = this.pressed;
         this.pressed = false;
         return pressed;
     }
 
     public boolean consumeReleased() {
-        final var released = this.released;
+        final boolean released = this.released;
         this.released = false;
         return released;
     }
