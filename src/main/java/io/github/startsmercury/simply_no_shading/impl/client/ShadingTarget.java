@@ -10,30 +10,34 @@ import java.util.List;
 public enum ShadingTarget {
     BLOCK() {
         @Override
-        public boolean getFrom(Config config) {
+        public boolean getFrom(final Config config) {
             return config.blockShadingEnabled();
         }
 
         @Override
-        public ReloadLevel reloadTypeFor(GameContext context) {
-            if (context.shadersEnabled()) {
-                return ReloadLevel.NONE;
-            } else {
-                return ReloadLevel.ALL_CHANGED;
-            }
+        public void setInto(final Config config, final boolean enabled) {
+            config.setBlockShadingEnabled(enabled);
+        }
+
+        @Override
+        public ReloadLevel reloadTypeFor(final GameContext context) {
+            return ReloadLevel.ALL_CHANGED;
         }
     },
     CLOUD() {
         @Override
-        public boolean getFrom(Config config) {
+        public boolean getFrom(final Config config) {
             return config.cloudShadingEnabled();
         }
 
         @Override
-        public ReloadLevel reloadTypeFor(GameContext context) {
-            if (context.shadersEnabled()) {
-                return ReloadLevel.NONE;
-            } else if (context.sodiumLoaded()) {
+        public void setInto(final Config config, final boolean enabled) {
+            config.setCloudShadingEnabled(enabled);
+        }
+
+        @Override
+        public ReloadLevel reloadTypeFor(final GameContext context) {
+            if (context.sodiumLoaded()) {
                 return ReloadLevel.ALL_CHANGED;
             } else {
                 return ReloadLevel.NEEDS_UPDATE;
@@ -42,12 +46,17 @@ public enum ShadingTarget {
     },
     ENTITY() {
         @Override
-        public boolean getFrom(Config config) {
+        public boolean getFrom(final Config config) {
             return config.entityShadingEnabled();
         }
 
         @Override
-        public ReloadLevel reloadTypeFor(GameContext context) {
+        public void setInto(final Config config, final boolean enabled) {
+            config.setEntityShadingEnabled(enabled);
+        }
+
+        @Override
+        public ReloadLevel reloadTypeFor(final GameContext context) {
             return ReloadLevel.NONE;
         }
     };
@@ -65,24 +74,16 @@ public enum ShadingTarget {
 
     ShadingTarget() {
         this.toString = UPPER_UNDERSCORE.converterTo(LOWER_CAMEL).convert(this.name());
-        this.toggleKey = "toggle_"
-            + UPPER_UNDERSCORE.converterTo(LOWER_UNDERSCORE).convert(this.name())
-            + "_shading";
+        this.toggleKey = "toggle" + UPPER_UNDERSCORE.converterTo(UPPER_CAMEL).convert(this.name()) + "Shading";
     }
 
-    public abstract boolean getFrom(final Config config);
+    public abstract boolean getFrom(Config config);
 
     public boolean changedBetween(final Config lhs, final Config rhs) {
         return this.getFrom(lhs) != this.getFrom(rhs);
     }
 
-    public void setInto(final Config config, final boolean enabled) {
-        switch (this) {
-            case BLOCK: config.setBlockShadingEnabled(enabled);
-            case CLOUD: config.setCloudShadingEnabled(enabled);
-            case ENTITY: config.setEntityShadingEnabled(enabled);
-        }
-    }
+    public abstract void setInto(Config config, boolean enabled);
 
     public abstract ReloadLevel reloadTypeFor(final GameContext context);
 
