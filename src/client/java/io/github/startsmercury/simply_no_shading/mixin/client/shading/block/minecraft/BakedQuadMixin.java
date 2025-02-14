@@ -14,7 +14,7 @@ public abstract class BakedQuadMixin {
     private BakedQuadMixin() {
     }
 
-    @ModifyReturnValue(method = "isShade()Z", at = @At("RETURN"))
+    @ModifyReturnValue(method = "shade()Z", at = @At("RETURN"))
     private boolean modifyShade(final boolean original) {
         // TODO try FaceBakery, BlockModel, ModelBlockRenderer, BlockRenderDispatcher, SectionRenderDispatcher, LevelRenderer
 
