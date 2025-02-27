@@ -13,14 +13,14 @@ public abstract class CloudRendererMixin {
 
     @ModifyExpressionValue(
         method = """
-            buildMesh(\
-                Lcom/mojang/blaze3d/vertex/Tesselator;\
-                I\
-                I\
-                Lnet/minecraft/client/CloudStatus;\
-                Lnet/minecraft/client/renderer/CloudRenderer$RelativeCameraPos;\
-                Lnet/minecraft/client/renderer/RenderType;\
-            )Lcom/mojang/blaze3d/vertex/MeshData;\
+            buildMesh(                                                          \
+                Lcom/mojang/blaze3d/vertex/Tesselator;                          \
+                I                                                               \
+                I                                                               \
+                Lnet/minecraft/client/CloudStatus;                              \
+                Lnet/minecraft/client/renderer/CloudRenderer$RelativeCameraPos; \
+                Lcom/mojang/blaze3d/pipeline/RenderPipeline;                    \
+            ) Lcom/mojang/blaze3d/vertex/MeshData;                              \
         """,
         at = {
             @At(value = "CONSTANT", args = "floatValue=0.9", ordinal = 0),
