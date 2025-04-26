@@ -2,12 +2,18 @@ package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.min
 
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.minecraft.client.renderer.CloudRenderer;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(CloudRenderer.class)
 public abstract class CloudRendererMixin {
+    @Final
+    @Shadow
+    private static int FLAG_USE_TOP_COLOR;
+
     private CloudRendererMixin() {
     }
 
@@ -21,6 +27,6 @@ public abstract class CloudRendererMixin {
         if (ComputedConfig.cloudShadingEnabled)
             return flags;
         else
-            return flags | CloudRenderer.FLAG_USE_TOP_COLOR;
+            return flags | CloudRendererMixin.FLAG_USE_TOP_COLOR;
     }
 }
