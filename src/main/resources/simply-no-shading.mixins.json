@@ -4,6 +4,7 @@
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
     "compatibilityLevel": "JAVA_8",
     "client": [
+        "extension.MinecraftMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",

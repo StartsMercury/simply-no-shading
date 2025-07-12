@@ -3,13 +3,10 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 import com.mojang.blaze3d.platform.InputConstants;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
 import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.ToggleKeyMapping;
 import net.minecraft.resources.ResourceLocation;
 
 /**
