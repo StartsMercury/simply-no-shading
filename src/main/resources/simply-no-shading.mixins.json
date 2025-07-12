@@ -5,18 +5,17 @@
     "compatibilityLevel": "JAVA_16",
     "client": [
         "compat.iris.IrisConfigMixin",
+        "extension.MinecraftMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.block.sodium.FluidRendererMixin",
         "shading.cloud.minecraft.LevelRendererMixin",
+        "shading.entity.bedrockify.PaperDollMixin",
         "shading.entity.minecraft.GameRendererMixin",
         "shading.entity.minecraft.LightingMixin"
     ],
     "injectors": {
         "defaultRequire": 1
-    },
-    "mixins": [
-        "shading.entity.bedrockify.PaperDollMixin"
-    ]
+    }
 }

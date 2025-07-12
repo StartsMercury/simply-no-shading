@@ -1,7 +1,7 @@
 package io.github.startsmercury.simply_no_shading.api.client;
 
 import java.nio.file.Path;
-
+import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +18,7 @@ public interface SimplyNoShading {
      * @throws RuntimeException if the single instance is not yet available
      */
     static @NotNull SimplyNoShading instance() {
-        return io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl.instance();
+        return Minecraft.getInstance().getSimplyNoShading();
     }
 
     /**
