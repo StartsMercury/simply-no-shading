@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_16",
     "client": [
         "compat.iris.IrisConfigMixin",
+        "extension.MinecraftMixin",
         "shading.block.bedrockify.BedrockBlockShadingMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.ClientLevelMixin",
