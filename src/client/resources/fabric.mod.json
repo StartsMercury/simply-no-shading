@@ -32,10 +32,10 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl::init"
+            "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingFabric"
         ],
         "modmenu": [
-            "io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingModMenuEntrypoint"
+            "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu"
         ]
     },
     "custom": {
@@ -44,6 +44,11 @@
                 "modmenu.github_releases": "https://github.com/StartsMercury/simply-no-shading/releases",
                 "modmenu.modrinth": "https://modrinth.com/mod/simply-no-shading"
             }
+        },
+        "loom:injected_interfaces": {
+            "net/minecraft/class_310": [
+                "io/github/startsmercury/simply_no_shading/impl/client/extension/compile/CompileSimplyNoShadingAware"
+            ]
         }
     },
     "mixins": [
