@@ -2,11 +2,10 @@ package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.startsmercury.simply_no_shading.api.client.Config;
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
 import io.github.startsmercury.simply_no_shading.impl.client.ConfigImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.ShadingTarget;
-import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import java.util.Objects;
+import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.Button;
@@ -19,15 +18,23 @@ import net.minecraft.network.chat.Component;
 
 public final class ConfigScreen extends OptionsSubScreen {
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
+
     private final ConfigImpl config;
     private OptionsList list;
 
-    public ConfigScreen(final Screen lastScreen, final Config config) {
+    private final Consumer<? super Config> configCallback;
+
+    public ConfigScreen(
+        final Screen lastScreen,
+        final Config config,
+        final Consumer<? super Config> configCallback
+    ) {
         super(lastScreen, Minecraft.getInstance().options, ConfigScreen.TITLE);
 
         Objects.requireNonNull(config, "Parameter config is null");
 
         this.config = new ConfigImpl(config);
+        this.configCallback = configCallback;
     }
 
     @Override
@@ -73,16 +80,7 @@ public final class ConfigScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        final var simplyNoShading = SimplyNoShading.instance();
-
-        final var oldConfig = simplyNoShading.config();
-        final var newConfig = this.config;
-        simplyNoShading.setConfig(newConfig);
-        ((SimplyNoShadingImpl) simplyNoShading).saveConfig();
-
-        final var minecraft = super.minecraft;
-        assert minecraft != null;
-        SimplyNoShadingImpl.instance().applyChangesBetween(oldConfig, newConfig, minecraft);
+        this.configCallback.accept(this.config);
     }
 
     @Override

@@ -26,6 +26,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -33,50 +34,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SimplyNoShadingImpl implements SimplyNoShading {
-    public static final String NAME = "Simply No Shading";
-    public static final String MODID = "simply-no-shading";
-    public static final String EXPERIMENTAL_ENTITY_SHADING_ID = "simply_no_entity_like_shading";
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
-    public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
-
-    private static SimplyNoShadingImpl instance;
-    private static Path configPath;
-
-    public static void init() {
-        LOGGER.debug("Initializing {}...", NAME);
-
-        if (instance != null) {
-            LOGGER.warn("{} is already initialized!", NAME);
-            return;
-        }
-
-        final var fabricLoader = FabricLoader.getInstance();
-        configPath = fabricLoader.getConfigDir().resolve(MODID + ".json");
-
-        SimplyNoShadingImpl.instance = new SimplyNoShadingImpl(fabricLoader);
-
-        LOGGER.info("{} is initialized.", NAME);
-    }
-
-    public static @NotNull SimplyNoShadingImpl instance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            throw new RuntimeException(NAME + " is not yet initialized");
-        }
-    }
-
     private final ConfigImpl config;
+    private final Path configPath;
     private final GameContext context;
+    private final FabricLoader fabricLoader;
     private SoftReference<Gson> gsonRef;
     private final KeyMapping keyOpenConfigScreen;
     private final KeyMapping keyReloadConfig;
     private final List<KeyMapping> keyShadingToggles;
+    private final Logger logger;
+    private final Minecraft minecraft;
 
-    private SimplyNoShadingImpl(FabricLoader fabricLoader) {
+    public SimplyNoShadingImpl(final Minecraft minecraft) {
         this.config = new ConfigImpl();
         this.context = new GameContext();
+        this.fabricLoader = FabricLoader.getInstance();
         this.gsonRef = new SoftReference<>(null);
         this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
@@ -86,21 +58,30 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             .map(ShadingTarget::toggleKey)
             .map(SimplyNoShadingImpl::createKeyMapping)
             .toList();
+        this.logger = LoggerFactory.getLogger(SnsConstants.NAME);
+        this.minecraft = minecraft;
+
+        this.configPath = this.fabricLoader.getConfigDir().resolve(SnsConstants.MODID + ".json");
+    }
+
+    public void onInitialize() {
+        this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
         this.loadConfig();
-        this.registerKeyMappings(fabricLoader);
-        this.registerResources(fabricLoader);
+        this.registerKeyMappings();
+        this.registerResources();
         this.registerShutdownHook();
 
-        if (fabricLoader.isModLoaded("sodium")) {
+        if (this.fabricLoader.isModLoaded("sodium")) {
             this.context.setSodiumLoaded(true);
         }
+
+        this.logger.info("{} is initialized.", SnsConstants.NAME);
     }
 
     @Override
     public @NotNull Path configPath() {
-        assert configPath != null : "This should have been initialized before this, the instance";
-        return configPath;
+        return this.configPath;
     }
 
     @Override
@@ -127,15 +108,15 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     public void loadConfig() {
-        LOGGER.debug("[{}] Loading the config...", NAME);
+        this.logger.debug("[{}] Loading the config...", SnsConstants.NAME);
 
         try {
             final var reader = Files.newBufferedReader(this.configPath());
             this.loadConfigHelper(reader);
         } catch (final NoSuchFileException cause) {
-            LOGGER.info("[{}] Config file not present, defaults will be used.", NAME);
+            this.logger.info("[{}] Config file not present, defaults will be used.", SnsConstants.NAME);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to create config file reader.", NAME, cause);
+            this.logger.error("[{}] Unable to create config file reader.", SnsConstants.NAME, cause);
         }
     }
 
@@ -143,18 +124,18 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         try (reader) {
             final var config = this.gson().fromJson(reader, ConfigImpl.class);
             this.setConfig(config);
-            LOGGER.info("[{}] The config is loaded.", NAME);
+            this.logger.info("[{}] The config is loaded.", SnsConstants.NAME);
         } catch (final JsonSyntaxException cause) {
-            LOGGER.error("[{}] Invalid config JSON syntax.", NAME, cause);
+            this.logger.error("[{}] Invalid config JSON syntax.", SnsConstants.NAME, cause);
         } catch (final JsonIOException cause) {
-            LOGGER.error("[{}] Unable to read config JSON.", NAME, cause);
+            this.logger.error("[{}] Unable to read config JSON.", SnsConstants.NAME, cause);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to soundly close config file reader.", NAME, cause);
+            this.logger.error("[{}] Unable to soundly close config file reader.", SnsConstants.NAME, cause);
         }
     }
 
     public void saveConfig() {
-        LOGGER.debug("[{}] Saving the config...", NAME);
+        this.logger.debug("[{}] Saving the config...", SnsConstants.NAME);
         final var gson = this.gson();
 
         final var tree = this.parseConfigAsJsonObject();
@@ -168,7 +149,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             final var writer = Files.newBufferedWriter(this.configPath());
             this.saveConfigHelper(gson, tree, writer);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to create config file writer.", NAME, cause);
+            this.logger.error("[{}] Unable to create config file writer.", SnsConstants.NAME, cause);
         }
     }
 
@@ -195,7 +176,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         try (writer; jsonWriter) {
             this.saveConfigHelperHelper(gson, tree, jsonWriter);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to soundly close config file writer.", NAME, cause);
+            this.logger.error("[{}] Unable to soundly close config file writer.", SnsConstants.NAME, cause);
         }
     }
 
@@ -206,9 +187,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     ) {
         try {
             gson.toJson(tree, jsonWriter);
-            LOGGER.info("[{}] The config is saved.", NAME);
+            this.logger.info("[{}] The config is saved.", SnsConstants.NAME);
         } catch (final JsonIOException cause) {
-            LOGGER.error("[{}] Unable to write to config file.", NAME, cause);
+            this.logger.error("[{}] Unable to write to config file.", SnsConstants.NAME, cause);
         }
     }
 
@@ -224,10 +205,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return this.keyShadingToggles;
     }
 
-    private void registerKeyMappings(final FabricLoader fabricLoader) {
-        if (
-            !fabricLoader.isModLoaded("fabric-key-binding-api-v1")
-                || !fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
+    private void registerKeyMappings() {
+        if (!this.fabricLoader.isModLoaded("fabric-key-binding-api-v1")
+            || !this.fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
         ) {
             return;
         }
@@ -243,24 +223,32 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return new KeyMapping(
             "simply-no-shading.key." + name,
             InputConstants.UNKNOWN.getValue(),
-            KEY_CATEGORY
+            SnsConstants.KEY_CATEGORY
         );
     }
 
-    private void consumeKeyEvents(final Minecraft minecraft) {
+    private void consumeKeyEvents(final Minecraft ignored) {
         if (this.keyOpenConfigScreen().isDown()) {
-            final var lastScreen = minecraft.screen;
-            final var config = this.config();
+            final var lastScreen = this.minecraft.screen;
 
-            minecraft.setScreen(new ConfigScreen(lastScreen, config));
+            this.minecraft.setScreen(this.createConfigScreen(lastScreen));
         } else if (this.keyReloadConfig().isDown()) {
-            this.reloadConfig(minecraft);
+            this.reloadConfig();
         } else {
-            this.consumeKeyToggleEvents(minecraft);
+            this.consumeKeyToggleEvents();
         }
     }
 
-    public void applyChangesBetween(final Config lhs, final Config rhs, final Minecraft minecraft) {
+    public Screen createConfigScreen(final Screen lastScreen) {
+        return new ConfigScreen(lastScreen, this.config(), newConfig -> {
+            final var oldConfig = this.config();
+            this.setConfig(newConfig);
+            this.saveConfig();
+            this.applyChangesBetween(oldConfig, newConfig);
+        });
+    }
+
+    public void applyChangesBetween(final Config lhs, final Config rhs) {
         final var context = this.context();
 
         ShadingTarget.valueList()
@@ -269,18 +257,18 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             .map(target -> target.reloadTypeFor(context))
             .max(Comparator.naturalOrder())
             .orElse(ReloadLevel.NONE)
-            .applyTo(minecraft);
+            .applyTo(this.minecraft);
     }
 
-    private void reloadConfig(final Minecraft minecraft) {
+    private void reloadConfig() {
         final var oldConfig = this.config();
         this.loadConfig();
         final var newConfig = this.config();
 
-        this.applyChangesBetween(oldConfig, newConfig, minecraft);
+        this.applyChangesBetween(oldConfig, newConfig);
     }
 
-    private void consumeKeyToggleEvents(final Minecraft minecraft) {
+    private void consumeKeyToggleEvents() {
         final var context = this.context();
 
         if (context().shadersEnabled()) {
@@ -302,43 +290,42 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         if (reloadType != null) {
             this.setConfig(config);
             ComputedConfig.set(config);
-            reloadType.applyTo(minecraft);
+            reloadType.applyTo(this.minecraft);
         }
     }
 
-    private void registerResources(final FabricLoader fabricLoader) {
-        registerResourcesButSelfless(fabricLoader);
-    }
-
-    private static void registerResourcesButSelfless(final FabricLoader fabricLoader) {
-        if (!fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
+    private void registerResources() {
+        if (!this.fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
             return;
         }
-        final var container = fabricLoader
-            .getModContainer(MODID)
+        final var container = this.fabricLoader
+            .getModContainer(SnsConstants.MODID)
             .orElseThrow(() -> new AssertionError("""
-                Fabric mod container for ${MODID} does not exist. Developer might have used the a \
+                Fabric mod container for ${MODID} does not exist. Developer might have used a \
                 different mod id from the one in fabric.mod.json. Please create an issue in their \
                 repository.\
-            """.replace("${MODID}", MODID)));
+            """.replace("${MODID}", SnsConstants.MODID)));
         final var success = ResourceManagerHelper.registerBuiltinResourcePack(
-            new ResourceLocation(MODID, EXPERIMENTAL_ENTITY_SHADING_ID),
+            new ResourceLocation(
+                SnsConstants.MODID,
+                SnsConstants.EXPERIMENTAL_ENTITY_SHADING_ID
+            ),
             container,
             Component.literal("Entity(ish) No Shading"),
             ResourcePackActivationType.NORMAL
         );
         if (!success) {
-            LOGGER.warn(
+            this.logger.warn(
                 "[{}] Unable to register built-in resource pack {}",
-                NAME,
-                EXPERIMENTAL_ENTITY_SHADING_ID
+                SnsConstants.NAME,
+                SnsConstants.EXPERIMENTAL_ENTITY_SHADING_ID
             );
         }
     }
 
     private void registerShutdownHook() {
         final var shutdownThread = new Thread(this::saveConfig);
-        shutdownThread.setName(NAME + " Shutdown Thread");
+        shutdownThread.setName(SnsConstants.NAME + " Shutdown Thread");
         Runtime.getRuntime().addShutdownHook(shutdownThread);
     }
 }
