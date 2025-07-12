@@ -26,50 +26,22 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public final class SimplyNoShadingImpl implements SimplyNoShading {
-    public static final String NAME = "Simply No Shading";
-    public static final String MODID = "simply-no-shading";
-
-    public static final Logger LOGGER = LogManager.getLogger(NAME);
-    public static final String KEY_CATEGORY = MODID + ".key.categories." + MODID;
-
-    private static SimplyNoShadingImpl instance;
-    private static Path configPath;
-
-    public static void init() {
-        LOGGER.debug("Initializing {}...", NAME);
-
-        if (instance != null) {
-            LOGGER.warn("{} is already initialized!", NAME);
-            return;
-        }
-
-        final FabricLoader fabricLoader = FabricLoader.getInstance();
-        configPath = fabricLoader.getConfigDir().resolve(MODID + ".json");
-
-        SimplyNoShadingImpl.instance = new SimplyNoShadingImpl(fabricLoader);
-
-        LOGGER.info("{} is initialized.", NAME);
-    }
-
-    public static @NotNull SimplyNoShadingImpl instance() {
-        if (instance != null) {
-            return instance;
-        } else {
-            throw new RuntimeException(NAME + " is not yet initialized");
-        }
-    }
-
     private final ConfigImpl config;
+    private final Path configPath;
     private final GameContext context;
+    private final FabricLoader fabricLoader;
     private SoftReference<Gson> gsonRef;
     private final KeyMapping keyOpenConfigScreen;
     private final KeyMapping keyReloadConfig;
     private final List<KeyMapping> keyShadingToggles;
+    private final Logger logger;
+    private final Minecraft minecraft;
     private boolean lightingForceOff;
 
-    private SimplyNoShadingImpl(FabricLoader fabricLoader) {
+    public SimplyNoShadingImpl(final Minecraft minecraft) {
         this.config = new ConfigImpl();
         this.context = new GameContext();
+        this.fabricLoader = FabricLoader.getInstance();
         this.gsonRef = new SoftReference<>(null);
         this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
@@ -79,20 +51,29 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             .map(ShadingTarget::toggleKey)
             .map(SimplyNoShadingImpl::createKeyMapping)
             .collect(Collectors.toList());
+        this.logger = LogManager.getLogger(SnsConstants.NAME);
+        this.minecraft = minecraft;
+
+        this.configPath = this.fabricLoader.getConfigDir().resolve(SnsConstants.MODID + ".json");
+    }
+
+    public void onInitialize() {
+        this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
         this.loadConfig();
-        this.registerKeyMappings(fabricLoader);
+        this.registerKeyMappings();
         this.registerShutdownHook();
 
-        if (fabricLoader.isModLoaded("sodium")) {
+        if (this.fabricLoader.isModLoaded("sodium")) {
             this.context.setSodiumLoaded(true);
         }
+
+        this.logger.info("{} is initialized.", SnsConstants.NAME);
     }
 
     @Override
     public @NotNull Path configPath() {
-        assert configPath != null : "This should have been initialized before this, the instance";
-        return configPath;
+        return this.configPath;
     }
 
     @Override
@@ -119,15 +100,15 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     public void loadConfig() {
-        LOGGER.debug("[{}] Loading the config...", NAME);
+        this.logger.debug("[{}] Loading the config...", SnsConstants.NAME);
 
         try {
             final BufferedReader reader = Files.newBufferedReader(this.configPath());
             this.loadConfigHelper(reader);
         } catch (final NoSuchFileException cause) {
-            LOGGER.info("[{}] Config file not present, defaults will be used.", NAME);
+            this.logger.info("[{}] Config file not present, defaults will be used.", SnsConstants.NAME);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to create config file reader.", NAME, cause);
+            this.logger.error("[{}] Unable to create config file reader.", SnsConstants.NAME, cause);
         }
     }
 
@@ -135,22 +116,22 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         try {
             final Config config = this.gson().fromJson(reader, ConfigImpl.class);
             this.setConfig(config);
-            LOGGER.info("[{}] The config is loaded.", NAME);
+            this.logger.info("[{}] The config is loaded.", SnsConstants.NAME);
         } catch (final JsonSyntaxException cause) {
-            LOGGER.error("[{}] Invalid config JSON syntax.", NAME, cause);
+            this.logger.error("[{}] Invalid config JSON syntax.", SnsConstants.NAME, cause);
         } catch (final JsonIOException cause) {
-            LOGGER.error("[{}] Unable to read config JSON.", NAME, cause);
+            this.logger.error("[{}] Unable to read config JSON.", SnsConstants.NAME, cause);
         } finally {
             try {
                 reader.close();
             } catch (final IOException cause) {
-                LOGGER.error("[{}] Unable to soundly close config file reader.", NAME, cause);
+                this.logger.error("[{}] Unable to soundly close config file reader.", SnsConstants.NAME, cause);
             }
         }
     }
 
     public void saveConfig() {
-        LOGGER.debug("[{}] Saving the config...", NAME);
+        this.logger.debug("[{}] Saving the config...", SnsConstants.NAME);
         final Gson gson = this.gson();
 
         final JsonObject tree = this.parseConfigAsJsonObject();
@@ -167,7 +148,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             final BufferedWriter writer = Files.newBufferedWriter(this.configPath());
             this.saveConfigHelper(gson, tree, writer);
         } catch (final IOException cause) {
-            LOGGER.error("[{}] Unable to create config file writer.", NAME, cause);
+            this.logger.error("[{}] Unable to create config file writer.", SnsConstants.NAME, cause);
         }
     }
 
@@ -198,7 +179,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             try {
                 jsonWriter.close();
             } catch (final IOException cause) {
-                LOGGER.error("[{}] Unable to soundly close config file writer.", NAME, cause);
+                this.logger.error("[{}] Unable to soundly close config file writer.", SnsConstants.NAME, cause);
             }
         }
     }
@@ -210,9 +191,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     ) {
         try {
             gson.toJson(tree, jsonWriter);
-            LOGGER.info("[{}] The config is saved.", NAME);
+            this.logger.info("[{}] The config is saved.", SnsConstants.NAME);
         } catch (final JsonIOException cause) {
-            LOGGER.error("[{}] Unable to write to config file.", NAME, cause);
+            this.logger.error("[{}] Unable to write to config file.", SnsConstants.NAME, cause);
         }
     }
 
@@ -243,10 +224,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    private void registerKeyMappings(final FabricLoader fabricLoader) {
-        if (
-            !fabricLoader.isModLoaded("fabric-key-binding-api-v1")
-                || !fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
+    private void registerKeyMappings() {
+        if (!this.fabricLoader.isModLoaded("fabric-key-binding-api-v1")
+            || !this.fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
         ) {
             return;
         }
@@ -262,24 +242,32 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return new KeyMapping(
             "simply-no-shading.key." + name,
             InputConstants.UNKNOWN.getValue(),
-            KEY_CATEGORY
+            SnsConstants.KEY_CATEGORY
         );
     }
 
-    private void consumeKeyEvents(final Minecraft minecraft) {
+    private void consumeKeyEvents(final Minecraft ignored) {
         if (this.keyOpenConfigScreen().isDown()) {
-            final Screen lastScreen = minecraft.screen;
-            final Config config = this.config();
+            final Screen lastScreen = this.minecraft.screen;
 
-            minecraft.setScreen(new ConfigScreen(lastScreen, config));
+            this.minecraft.setScreen(this.createConfigScreen(lastScreen));
         } else if (this.keyReloadConfig().isDown()) {
-            this.reloadConfig(minecraft);
+            this.reloadConfig();
         } else {
-            this.consumeKeyToggleEvents(minecraft);
+            this.consumeKeyToggleEvents();
         }
     }
 
-    public void applyChangesBetween(final Config lhs, final Config rhs, final Minecraft minecraft) {
+    public Screen createConfigScreen(final Screen lastScreen) {
+        return new ConfigScreen(lastScreen, this.config(), newConfig -> {
+            final Config oldConfig = this.config();
+            this.setConfig(newConfig);
+            this.saveConfig();
+            this.applyChangesBetween(oldConfig, newConfig);
+        });
+    }
+
+    public void applyChangesBetween(final Config lhs, final Config rhs) {
         final GameContext context = this.context();
 
         ShadingTarget.valueList()
@@ -288,18 +276,18 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             .map(target -> target.reloadTypeFor(context))
             .max(Comparator.naturalOrder())
             .orElse(ReloadLevel.NONE)
-            .applyTo(minecraft);
+            .applyTo(this.minecraft);
     }
 
-    private void reloadConfig(final Minecraft minecraft) {
+    private void reloadConfig() {
         final Config oldConfig = this.config();
         this.loadConfig();
         final Config newConfig = this.config();
 
-        this.applyChangesBetween(oldConfig, newConfig, minecraft);
+        this.applyChangesBetween(oldConfig, newConfig);
     }
 
-    private void consumeKeyToggleEvents(final Minecraft minecraft) {
+    private void consumeKeyToggleEvents() {
         final GameContext context = this.context();
 
         final Config config = this.config();
@@ -316,13 +304,13 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         if (reloadType != null) {
             this.setConfig(config);
             ComputedConfig.set(config);
-            reloadType.applyTo(minecraft);
+            reloadType.applyTo(this.minecraft);
         }
     }
 
     private void registerShutdownHook() {
         final Thread shutdownThread = new Thread(this::saveConfig);
-        shutdownThread.setName(NAME + " Shutdown Thread");
+        shutdownThread.setName(SnsConstants.NAME + " Shutdown Thread");
         Runtime.getRuntime().addShutdownHook(shutdownThread);
     }
 }

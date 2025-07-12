@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_8",
     "client": [
         "core.keymapping.KeyMappingMixin",
+        "extension.MinecraftMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.cloud.minecraft.LevelRendererMixin",

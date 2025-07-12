@@ -20,7 +20,7 @@ public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
 
     public SimplyNoShadingModMenuEntrypoint() {
         this.delegate =
-            new io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingModMenuEntrypoint();
+            new io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu();
     }
 
     @Override

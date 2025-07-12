@@ -5,7 +5,6 @@ import static net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.regi
 import com.github.startsmercury.simply.no.shading.client.Config;
 import com.github.startsmercury.simply.no.shading.client.SimplyNoShading;
 import com.mojang.blaze3d.platform.InputConstants;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.KeyMapping;
