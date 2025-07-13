@@ -9,5 +9,7 @@ public final class SnsConstants {
 
     public static final String EXPERIMENTAL_ENTITY_SHADING_ID = "simply_no_entity_like_shading";
 
+    public static final String CUSTOM_SHADER_SUFFIX = "_no_shading";
+
     private SnsConstants() {}
 }
