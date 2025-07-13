@@ -78,6 +78,10 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         this.logger.info("{} is initialized.", SnsConstants.NAME);
     }
 
+    public Logger logger() {
+        return this.logger;
+    }
+
     @Override
     public @NotNull Path configPath() {
         return this.configPath;

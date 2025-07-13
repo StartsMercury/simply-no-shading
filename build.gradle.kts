@@ -14,7 +14,12 @@ base {
 }
 
 loom {
+    accessWidenerPath = file("src/main/resources/simply-no-shading.accesswidener")
     runtimeOnlyLog4j = true
+
+    mods.register("simply-no-shading") {
+        sourceSet("main")
+    }
 }
 
 java {
