@@ -2,7 +2,6 @@ package com.github.startsmercury.simply.no.shading.entrypoint;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu;
 
 /**
  * The {@code SimplyNoShadingModMenuEntrypoint} class is an implementation of
@@ -20,7 +19,7 @@ public class SimplyNoShadingModMenuEntrypoint implements ModMenuApi {
 
     public SimplyNoShadingModMenuEntrypoint() {
         this.delegate =
-            new SimplyNoShadingModMenu();
+            new io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu();
     }
 
     @Override
