@@ -1,0 +1,4 @@
+accessWidener v2 named
+
+accessible class com/mojang/blaze3d/preprocessor/GlslPreprocessor$Context
+accessible class net/minecraft/client/renderer/RenderStateShard$ShaderStateShard
