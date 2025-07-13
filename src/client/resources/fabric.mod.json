@@ -54,7 +54,7 @@
     "mixins": [
         "simply-no-shading.mixins.json"
     ],
-
+    "accessWidener": "simply-no-shading.accesswidener",
     "depends": {
         "fabricloader": ">=0.15",
         "java": ">=${javaVersion}",

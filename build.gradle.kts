@@ -14,9 +14,14 @@ base {
 }
 
 loom {
+    accessWidenerPath = file("src/client/resources/simply-no-shading.accesswidener")
     runtimeOnlyLog4j = true
-
     splitEnvironmentSourceSets()
+
+    mods.register("simply-no-shading") {
+        sourceSet("main")
+        sourceSet("client")
+    }
 }
 
 java {
@@ -220,4 +225,13 @@ fun createVersionString(): String {
     }
 
     return builder.toString()
+}
+
+// TODO remove
+loom {
+    runConfigs {
+        val client by existing {
+            vmArg("-Dmixin.debug=true")
+        }
+    }
 }
