@@ -13,6 +13,7 @@
         "shading.block.sodium.DefaultFluidRendererMixin",
         "shading.cloud.minecraft.CloudRendererMixin",
         "shading.cloud.sodium.CloudRendererMixin",
+        "shading.entity.minecraft.GlslPreprocessorMixin",
         "shading.entity.minecraft.ShaderManager$1Mixin"
     ],
     "injectors": {
