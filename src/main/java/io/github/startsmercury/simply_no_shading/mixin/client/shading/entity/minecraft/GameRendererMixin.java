@@ -24,4 +24,15 @@ public class GameRendererMixin {
         final SimplyNoShadingImpl simplyNoShading = (SimplyNoShadingImpl) minecraft.getSimplyNoShading();
         simplyNoShading.lightingScope(() -> original.call(partialTick, nanos));
     }
+
+    @WrapMethod(method = "renderItemActivationAnimation(IIF)V")
+    private void modifyEntityLighting(
+        final int width,
+        final int height,
+        final float partialTick,
+        final Operation<Void> original
+    ) {
+        final SimplyNoShadingImpl simplyNoShading = (SimplyNoShadingImpl) minecraft.getSimplyNoShading();
+        simplyNoShading.lightingScope(() -> original.call(width, height, partialTick));
+    }
 }
