@@ -1,0 +1,23 @@
+name: Dependency Submission
+on: [ push ]
+
+permissions:
+  contents: write
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 21
+        cache: gradle
+
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v4
