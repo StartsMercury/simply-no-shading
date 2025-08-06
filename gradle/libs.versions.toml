@@ -13,4 +13,4 @@ minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "io.github.prospector:modmenu", version.ref = "modmenu" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.11.4"
+fabric-loom = "fabric-loom:1.11.5"
