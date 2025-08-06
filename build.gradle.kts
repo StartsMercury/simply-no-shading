@@ -35,6 +35,27 @@ dependencies {
     fabricModule("fabric-resource-loader-v0")
 }
 
+// Replace vulnerable libraries with next safe versions. A few are development
+// dependencies added by loom (terminalconsoleappender). Older Minecraft version
+// manifests are unchanged, resolving dated dependencies, client launchers
+// usually get around this by replacing dependencies or through other means
+// (e.g. log4j config).
+//
+// Since we are not in that environment we'll have to do it ourselves.
+//
+// Hint: IntelliJ IDEA > Problems (Alt+6) > Project Errors > Inspect Code...
+//       Inspections on Project '<project>' > Inspection Results > Security > Vulnerable imported dependency
+dependencies {
+    // fabric-loom:fabric-loom.gradle.plugin -> net.minecrell:terminalconsoleappender:1.3.0
+    loomDevelopmentDependencies(substituteLibs.bundles.loom)
+
+    // some minecraft versions require these
+    "minecraftLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftRuntimeLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftClientLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftClientRuntimeLibraries"(substituteLibs.bundles.minecraft)
+}
+
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
