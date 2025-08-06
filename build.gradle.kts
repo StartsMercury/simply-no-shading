@@ -65,6 +65,8 @@ dependencies {
     "minecraftRuntimeLibraries"(substituteLibs.bundles.minecraft)
     "minecraftClientLibraries"(substituteLibs.bundles.minecraft)
     "minecraftClientRuntimeLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftServerLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftServerRuntimeLibraries"(substituteLibs.bundles.minecraft)
 }
 
 testing {
