@@ -15,4 +15,4 @@ modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 sodium = { module = "mrmangohands.sodium-fabric:sodium-1.15.2-backport-fabric-0.1.1-SNAPSHOT+2020-12-10", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "fabric-loom:1.11.4"
+fabric-loom = "fabric-loom:1.11.5"
