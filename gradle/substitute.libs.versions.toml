@@ -13,8 +13,8 @@ netty-handler = "4.1.118.Final"
 
 [libraries]
 commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
 commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 minecraft-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "minecraft-log4j" }
@@ -26,15 +26,15 @@ netty-handler = { module = "io.netty:netty-handler", version.ref = "netty-handle
 
 [bundles]
 loom = [ "log4j-core" ]
-minecraft = [
+minecraft-client = [
     "commons-compress",
-    "commons-lang3",
     "commons-io",
+    "commons-lang3",
     "guava",
-    "minecraft-log4j-core",
     "netty-all",
     "netty-codec-http",
     "netty-codec-http2",
     "netty-common",
     "netty-handler",
 ]
+minecraft-server = [ "commons-io", "commons-lang3", "guava", "netty-all" ]
