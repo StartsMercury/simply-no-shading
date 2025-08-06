@@ -61,10 +61,12 @@ dependencies {
     loomDevelopmentDependencies(substituteLibs.bundles.loom)
 
     // some minecraft versions require these
-    "minecraftLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftRuntimeLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftClientLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftClientRuntimeLibraries"(substituteLibs.bundles.minecraft)
+    "minecraftLibraries"(substituteLibs.bundles.minecraft.client)
+    "minecraftRuntimeLibraries"(substituteLibs.bundles.minecraft.client)
+    "minecraftClientLibraries"(substituteLibs.bundles.minecraft.client)
+    "minecraftClientRuntimeLibraries"(substituteLibs.bundles.minecraft.client)
+    "minecraftServerLibraries"(substituteLibs.bundles.minecraft.server)
+    "minecraftServerRuntimeLibraries"(substituteLibs.bundles.minecraft.server)
 }
 
 testing {
