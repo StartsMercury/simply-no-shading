@@ -1,0 +1,15 @@
+[versions]
+commons-lang3 = "3.18.0"
+jackson-core = "2.15.0"
+json-smart = "2.5.2"
+log4j = "2.12.4"
+
+[libraries]
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-core" }
+json-smart = { module = "net.minidev:json-smart", version.ref = "json-smart" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+
+[bundles]
+loom = [ "log4j-core" ]
+minecraft = [ "commons-lang3", "jackson-core", "json-smart" ]
