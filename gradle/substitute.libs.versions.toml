@@ -1,0 +1,47 @@
+[versions]
+commons-codec = "1.13"
+commons-compress = "1.26.0"
+commons-io = "2.14.0"
+commons-lang3 = "3.18.0"
+gson = "2.8.9"
+guava = "32.0.1-jre"
+httpclient = "4.5.13"
+log4j = "2.12.4"
+netty-all = "4.1.94.Final"
+netty-codec-http = "4.1.108.Final"
+netty-codec-http2 = "4.1.100.Final"
+netty-common = "4.1.118.Final"
+netty-handler = "4.1.118.Final"
+
+[libraries]
+commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "httpclient" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+netty-all = { module = "io.netty:netty-all", version.ref = "netty-all" }
+netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "netty-codec-http" }
+netty-codec-http2 = { module = "io.netty:netty-codec-http2", version.ref = "netty-codec-http2" }
+netty-common = { module = "io.netty:netty-common", version.ref = "netty-common" }
+netty-handler = { module = "io.netty:netty-handler", version.ref = "netty-handler" }
+
+[bundles]
+loom = [ "log4j-core" ]
+minecraft = [
+    "commons-codec",
+    "commons-compress",
+    "commons-lang3",
+    "commons-io",
+    "gson",
+    "guava",
+    "httpclient",
+    "log4j-core",
+    "netty-all",
+    "netty-codec-http",
+    "netty-codec-http2",
+    "netty-common",
+    "netty-handler",
+]
