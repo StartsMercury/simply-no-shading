@@ -5,6 +5,7 @@ json-smart = "2.5.2"
 log4j = "2.12.4"
 netty-common = "4.1.118.Final"
 netty-handler = "4.1.118.Final"
+nimbus-jose-jwt = "10.0.2"
 
 [libraries]
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
@@ -13,6 +14,7 @@ json-smart = { module = "net.minidev:json-smart", version.ref = "json-smart" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 netty-common = { module = "io.netty:netty-common", version.ref = "netty-common" }
 netty-handler = { module = "io.netty:netty-handler", version.ref = "netty-handler" }
+nimbus-jose-jwt = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbus-jose-jwt" }
 
 [bundles]
 loom = [ "log4j-core" ]
@@ -22,4 +24,5 @@ minecraft = [
     "json-smart",
     "netty-common",
     "netty-handler",
+    "nimbus-jose-jwt",
 ]
