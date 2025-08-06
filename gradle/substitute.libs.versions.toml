@@ -14,5 +14,4 @@ nimbus-jose-jwt = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimb
 
 [bundles]
 loom = [ "log4j-core" ]
-minecraft-client = [ "commons-lang3", "jackson-core", "json-smart", "nimbus-jose-jwt" ]
-minecraft-server = [ "jackson-core", "json-smart", "nimbus-jose-jwt" ]
+minecraft = [ "commons-lang3", "jackson-core", "json-smart", "nimbus-jose-jwt" ]
