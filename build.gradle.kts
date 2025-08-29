@@ -43,7 +43,7 @@ dependencies {
 
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
-    fabricModule("fabric-resource-loader-v0")
+    modCompileOnly(fabricApi.module("fabric-resource-loader-v0", libs.versions.fabric.api.get()))
 }
 
 // Replace vulnerable libraries with next safe versions. A few are development
