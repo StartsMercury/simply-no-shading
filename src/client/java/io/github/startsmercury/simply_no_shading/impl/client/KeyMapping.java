@@ -6,7 +6,7 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
     protected boolean pressed;
     protected boolean released;
 
-    public KeyMapping(final String name, final int keyCode, final String category) {
+    public KeyMapping(final String name, final int keyCode, final Category category) {
         super(name, InputConstants.Type.KEYSYM, keyCode, category);
     }
 

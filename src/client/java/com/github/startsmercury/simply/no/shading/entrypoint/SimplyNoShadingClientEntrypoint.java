@@ -49,17 +49,17 @@ public class SimplyNoShadingClientEntrypoint implements ClientModInitializer {
 	protected void setupKeyMappings(final SimplyNoShading simplyNoShading) {
 		final var openConfigScreen = new KeyMapping("simply-no-shading.key.openConfigScreen",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading");
+		        KeyMapping.Category.MISC);
 		final var reloadConfig = new KeyMapping("simply-no-shading.key.reloadConfig",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading");
+		        KeyMapping.Category.MISC);
 		final var toggleBlockShading = new ToggleKeyMapping("simply-no-shading.key.toggleBlockShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
+		        KeyMapping.Category.MISC,
 		        () -> simplyNoShading.getConfig().blockShadingEnabled);
 		final var toggleCloudShading = new ToggleKeyMapping("simply-no-shading.key.toggleCloudShading",
 		        InputConstants.UNKNOWN.getValue(),
-		        "simply-no-shading.key.categories.simply-no-shading",
+		        KeyMapping.Category.MISC,
 		        () -> simplyNoShading.getConfig().blockShadingEnabled);
 
 		registerKeyBinding(openConfigScreen);

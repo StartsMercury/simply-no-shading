@@ -223,7 +223,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return new KeyMapping(
             "simply-no-shading.key." + name,
             InputConstants.UNKNOWN.getValue(),
-            SnsConstants.KEY_CATEGORY
+            KeyMapping.Category.MISC
         );
     }
 
