@@ -39,7 +39,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     private final GameContext context;
     private final FabricLoader fabricLoader;
     private SoftReference<Gson> gsonRef;
-    private final KeyMapping keyOpenConfigScreen;
+    private final KeyMapping keyOpenModConfig;
     private final KeyMapping keyReloadConfig;
     private final List<KeyMapping> keyShadingToggles;
     private final Logger logger;
@@ -50,7 +50,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         this.context = new GameContext();
         this.fabricLoader = FabricLoader.getInstance();
         this.gsonRef = new SoftReference<>(null);
-        this.keyOpenConfigScreen = SimplyNoShadingImpl.createKeyMapping("openConfigScreen");
+        this.keyOpenModConfig = SimplyNoShadingImpl.createKeyMapping("openModConfig");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
         this.keyShadingToggles = ShadingTarget
             .valueList()
@@ -193,8 +193,8 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    public KeyMapping keyOpenConfigScreen() {
-        return this.keyOpenConfigScreen;
+    public KeyMapping keyOpenModConfig() {
+        return this.keyOpenModConfig;
     }
 
     public KeyMapping keyReloadConfig() {
@@ -212,7 +212,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
             return;
         }
 
-        KeyBindingHelper.registerKeyBinding(this.keyOpenConfigScreen());
+        KeyBindingHelper.registerKeyBinding(this.keyOpenModConfig());
         KeyBindingHelper.registerKeyBinding(this.keyReloadConfig());
         this.keyShadingToggles().forEach(KeyBindingHelper::registerKeyBinding);
 
@@ -228,7 +228,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
     }
 
     private void consumeKeyEvents(final Minecraft ignored) {
-        if (this.keyOpenConfigScreen().isDown()) {
+        if (this.keyOpenModConfig().isDown()) {
             final var lastScreen = this.minecraft.screen;
 
             this.minecraft.setScreen(this.createConfigScreen(lastScreen));

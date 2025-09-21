@@ -1,5 +1,5 @@
 {
-    "simply-no-shading.config.title": "Konpigurasyon ng Simply No Shading",
+    "simply-no-shading.config.title": "Kumpigurasyon ng Simply No Shading",
     "simply-no-shading.config.option.blockShadingEnabled": "Paglililim ng Bloke",
     "simply-no-shading.config.option.blockShadingEnabled.tooltip": "Nakakaapekto sa karamihan ng mga blokeng istatik",
     "simply-no-shading.config.option.cloudShadingEnabled": "Paglililim ng Ulap",
@@ -7,8 +7,9 @@
     "simply-no-shading.config.option.entityShadingEnabled": "Paglililim ng Entidad",
     "simply-no-shading.config.option.entityShadingEnabled.tooltip": "Nakakaapekto sa mga entidad at blokeng entidad",
     "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
-    "simply-no-shading.key.openConfigScreen": "Buksan ang Iskrin ng Konpigurasyon",
-    "simply-no-shading.key.reloadConfig": "I-reload ang Konpigurasyon",
+    "simply-no-shading.key.openConfigScreen": "Buksan ang Iskrin ng Kumpigurasyon",
+    "simply-no-shading.key.openModConfig": "Buksan ang Kumpigurasyon ng Simply No Shading",
+    "simply-no-shading.key.reloadConfig": "I-reload ang Kumpigurasyon",
     "simply-no-shading.key.toggleBlockShading": "I-toggle ang Paglililim ng Bloke",
     "simply-no-shading.key.toggleCloudShading": "I-toggle ang Paglililim ng Ulap",
     "simply-no-shading.key.toggleEntityShading": "I-toggle ang Paglililim ng Entidad"

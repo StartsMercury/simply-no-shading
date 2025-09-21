@@ -8,6 +8,7 @@
     "simply-no-shading.config.option.entityShadingEnabled.tooltip": "Affects entities and block entities",
     "simply-no-shading.key.categories.simply-no-shading": "Simply No Shading",
     "simply-no-shading.key.openConfigScreen": "Abrir tela de config.",
+    "simply-no-shading.key.openModConfig": "Open Simply No Shading Config",
     "simply-no-shading.key.reloadConfig": "Recarregar config.",
     "simply-no-shading.key.toggleBlockShading": "Alternar Sombreamento do Bloco",
     "simply-no-shading.key.toggleCloudShading": "Alternar Sombreamento da Nuvem",
