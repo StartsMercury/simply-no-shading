@@ -17,5 +17,4 @@ nimbus-jose-jwt = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimb
 
 [bundles]
 loom = [ "log4j-core" ]
-netty = [ "netty-codec", "netty-codec-http" ]
-minecraft = [ "commons-lang3", "jackson-core", "json-smart", "nimbus-jose-jwt" ]
+minecraft = [ "commons-lang3", "jackson-core", "json-smart", "netty-codec", "netty-codec-http", "nimbus-jose-jwt" ]
