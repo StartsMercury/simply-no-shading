@@ -3,6 +3,7 @@ commons-lang3 = "3.18.0"
 jackson-core = "2.15.0"
 json-smart = "2.5.2"
 log4j = "2.12.4"
+netty = "4.1.125.Final"
 nimbus-jose-jwt = "10.0.2"
 
 [libraries]
@@ -10,8 +11,11 @@ commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "co
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-core" }
 json-smart = { module = "net.minidev:json-smart", version.ref = "json-smart" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+netty-codec = { module = "io.netty:netty-codec", version.ref = "netty" }
+netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "netty" }
 nimbus-jose-jwt = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbus-jose-jwt" }
 
 [bundles]
 loom = [ "log4j-core" ]
+netty = [ "netty-codec", "netty-codec-http" ]
 minecraft = [ "commons-lang3", "jackson-core", "json-smart", "nimbus-jose-jwt" ]
