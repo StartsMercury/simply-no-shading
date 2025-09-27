@@ -1,7 +1,7 @@
 {
     "simply-no-shading.config.title": "Kumpigurasyon ng Simply No Shading",
     "simply-no-shading.config.option.blockShadingEnabled": "Paglililim ng Bloke",
-    "simply-no-shading.config.option.blockShadingEnabled.tooltip": "Nakakaapekto sa karamihan ng mga blokeng istatik",
+    "simply-no-shading.config.option.blockShadingEnabled.tooltip": "Nakakaapekto sa karamihan ng mga estatikong bloke",
     "simply-no-shading.config.option.cloudShadingEnabled": "Paglililim ng Ulap",
     "simply-no-shading.config.option.cloudShadingEnabled.tooltip": "Nakakaapekto sa mga ulap",
     "simply-no-shading.config.option.entityShadingEnabled": "Paglililim ng Entidad",
