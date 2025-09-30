@@ -1,34 +1,35 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.sodium;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
-import net.caffeinemc.mods.sodium.client.render.immediate.CloudRenderer;
+import net.minecraft.client.renderer.CloudRenderer;
+import org.spongepowered.asm.mixin.Dynamic;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(CloudRenderer.class)
 public abstract class CloudRendererMixin {
+    @Final
+    @Shadow
+    private static int FLAG_USE_TOP_COLOR;
+
     private CloudRendererMixin() {
     }
 
-    @WrapOperation(
-        method = { "emitCellGeometryExterior", "emitCellGeometryInterior" },
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/caffeinemc/mods/sodium/api/util/ColorABGR;mulRGB(II)I"
-        ),
-        remap = false
+    @Dynamic(mixin = net.caffeinemc.mods.sodium.mixin.features.render.world.clouds.CloudRendererMixin.class)
+    @ModifyVariable(
+        method = "sodium$encodeCellFace(JJIILnet/minecraft/core/Direction;I)V",
+        at = @At("HEAD"),
+        ordinal = 2,
+        argsOnly = true,
+        require = 0
     )
-    private static int changeCloudColor(
-        final int color,
-        final int factor,
-        final Operation<Integer> original
-    ) {
-        if (ComputedConfig.cloudShadingEnabled) {
-            return original.call(color, factor);
-        } else {
-            return color;
-        }
+    private static int changeCloudBrightness(final int extraData) {
+        if (ComputedConfig.cloudShadingEnabled)
+            return extraData;
+        else
+            return extraData | CloudRendererMixin.FLAG_USE_TOP_COLOR;
     }
 }

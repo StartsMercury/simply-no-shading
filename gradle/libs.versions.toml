@@ -8,7 +8,7 @@ iris = "1.9.1+1.21.7-fabric"
 java = "21"
 minecraft = "1.21.9"
 modmenu = "15.0.0"
-sodium = "mc1.21.6-0.6.13-fabric"
+sodium = "mc1.21.9-0.7.0-fabric"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
