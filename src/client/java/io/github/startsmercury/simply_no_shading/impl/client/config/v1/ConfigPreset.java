@@ -2,6 +2,7 @@ package io.github.startsmercury.simply_no_shading.impl.client.config.v1;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -20,6 +21,12 @@ public enum ConfigPreset {
     /** The customized preset is internally retained across presets. */
     CUSTOM,
     ;
+
+    private static final List<ConfigPreset> VALUE_LIST = List.of(values());
+
+    public static List<ConfigPreset> valueList() {
+        return VALUE_LIST;
+    }
 
     public static final Codec<ConfigPreset> CODEC = Codec.STRING.comapFlatMap(
         input -> {
