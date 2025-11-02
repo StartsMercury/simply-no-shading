@@ -14,6 +14,7 @@ base {
 }
 
 loom {
+    accessWidenerPath = file("src/client/resources/simply-no-shading.accesswidener")
     runtimeOnlyLog4j = true
     splitEnvironmentSourceSets()
 

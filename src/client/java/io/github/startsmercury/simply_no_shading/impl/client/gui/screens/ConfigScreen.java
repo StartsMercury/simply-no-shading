@@ -3,7 +3,7 @@ package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import java.util.List;
+import io.github.startsmercury.simply_no_shading.impl.client.extension.OptionsList$HeaderEntryAware;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -95,7 +95,10 @@ public final class ConfigScreen extends OptionsSubScreen {
                         + p.name().toLowerCase(Locale.ROOT)
                 )
             ),
-            new OptionInstance.SliderableEnum<>(List.of(ConfigPreset.values()), ConfigPreset.CODEC),
+            new OptionInstance.IntRange(0, ConfigPreset.valueList().size() - 1, false).xmap(
+                ConfigPreset.valueList()::get,
+                ConfigPreset::ordinal
+            ),
             ConfigPreset.CODEC,
             this.preset,
             p -> {
@@ -104,14 +107,14 @@ public final class ConfigScreen extends OptionsSubScreen {
             }
         );
 
-        list.addHeader(QUALITY_HEADER);
+        ((OptionsList$HeaderEntryAware) list).simply_no_shading$addHeader(QUALITY_HEADER);
         list.addSmall(this.createBoolean(
             "compatibilityMode",
             this.compatibilityMode,
             b -> this.compatibilityMode = b
         ));
 
-        list.addHeader(PREFERENCES_HEADER);
+        ((OptionsList$HeaderEntryAware) list).simply_no_shading$addHeader(PREFERENCES_HEADER);
         list.addBig(preset);
         list.addSmall(shadeBlocks, shadeClouds);
         list.addSmall(shadeEntities);

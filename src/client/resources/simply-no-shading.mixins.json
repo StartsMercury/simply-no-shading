@@ -7,6 +7,7 @@
         "accessor.BlockRenderDispatcherAccessor",
         "compat.iris.IrisConfigMixin",
         "extension.MinecraftMixin",
+        "extension.OptionsListMixin",
         "shading.block.bedrockify.BedrockBlockShadingMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.ClientLevelMixin",
