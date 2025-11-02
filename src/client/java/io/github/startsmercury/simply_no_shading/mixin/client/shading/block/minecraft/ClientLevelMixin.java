@@ -1,5 +1,6 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin implements SnsConfigDataAware {
     @Unique
-    private ConfigData simply_no_shading$configData = ConfigData.VANILLA;
+    private ConfigData simply_no_shading$configData = SimplyNoShadingImpl.DEFAULT_CONFIG_DATA;
 
     private ClientLevelMixin() {
     }
