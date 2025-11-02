@@ -1,6 +1,6 @@
 object Constants {
     const val MOD_NAME: String = "Simply No Shading"
-    const val MOD_VERSION: String = "7.6.6"
+    const val MOD_VERSION: String = "8.0.0-alpha.1"
 }
 
 plugins {
@@ -14,7 +14,6 @@ base {
 }
 
 loom {
-    accessWidenerPath = file("src/client/resources/simply-no-shading.accesswidener")
     runtimeOnlyLog4j = true
     splitEnvironmentSourceSets()
 
@@ -37,6 +36,8 @@ dependencies {
     fun fabricModule(moduleName: String): Dependency? =
         modImplementation(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
 
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+
     minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
@@ -44,29 +45,6 @@ dependencies {
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
     fabricModule("fabric-resource-loader-v0")
-}
-
-// Replace vulnerable libraries with next safe versions. A few are development
-// dependencies added by loom (terminalconsoleappender). Older Minecraft version
-// manifests are unchanged, resolving dated dependencies, client launchers
-// usually get around this by replacing dependencies or through other means
-// (e.g. log4j config).
-//
-// Since we are not in that environment we'll have to do it ourselves.
-//
-// Hint: IntelliJ IDEA > Problems (Alt+6) > Project Errors > Inspect Code...
-//       Inspections on Project '<project>' > Inspection Results > Security > Vulnerable imported dependency
-dependencies {
-    // fabric-loom:fabric-loom.gradle.plugin -> net.minecrell:terminalconsoleappender:1.3.0
-    loomDevelopmentDependencies(substituteLibs.bundles.loom)
-
-    // some minecraft versions require these
-    "minecraftLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftRuntimeLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftClientLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftClientRuntimeLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftServerLibraries"(substituteLibs.bundles.minecraft)
-    "minecraftServerRuntimeLibraries"(substituteLibs.bundles.minecraft)
 }
 
 testing {
@@ -121,7 +99,7 @@ tasks {
             source = libs.versions.java.get()
             encoding = "UTF-8"
             charSet = "UTF-8"
-            memberLevel = JavadocMemberLevel.PACKAGE
+            memberLevel = JavadocMemberLevel.PRIVATE
             addStringOption("Xdoclint:none", "-quiet")
             tags(
                 "apiNote:a:API Note:",
@@ -136,8 +114,6 @@ tasks {
             sourceSets.main.get().compileClasspath,
             sourceSets.named("client").get().compileClasspath
         )
-        include("com/github/startsmercury/simply/no/shading/**")
-        include("**/api/**")
         isFailOnError = true
     }
 

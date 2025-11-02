@@ -1,67 +1,69 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.blaze3d.platform.InputConstants;
-import io.github.startsmercury.simply_no_shading.api.client.Config;
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
+import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
+import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
+import io.github.startsmercury.simply_no_shading.mixin.client.accessor.BlockRenderDispatcherAccessor;
+import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.lang.ref.SoftReference;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class SimplyNoShadingImpl implements SimplyNoShading {
-    private final ConfigImpl config;
-    private final Path configPath;
+public final class SimplyNoShadingImpl {
+    public static final KeyMapping.Category KEY_MAPPING_CATEGORY = KeyMapping.Category.register(
+        ResourceLocation.fromNamespaceAndPath(SnsConstants.MODID, SnsConstants.MODID)
+    );
+
+    private Config config;
     private final GameContext context;
     private final FabricLoader fabricLoader;
-    private SoftReference<Gson> gsonRef;
     private final KeyMapping keyOpenModConfig;
     private final KeyMapping keyReloadConfig;
-    private final List<KeyMapping> keyShadingToggles;
+    private final KeyMapping keyToggleBlockShading;
+    private final KeyMapping keyToggleCloudShading;
+    private final KeyMapping keyToggleEntityShading;
     private final Logger logger;
     private final Minecraft minecraft;
 
     public SimplyNoShadingImpl(final Minecraft minecraft) {
-        this.config = new ConfigImpl();
+        this.config = Config.DEFAULT;
         this.context = new GameContext();
         this.fabricLoader = FabricLoader.getInstance();
-        this.gsonRef = new SoftReference<>(null);
         this.keyOpenModConfig = SimplyNoShadingImpl.createKeyMapping("openModConfig");
         this.keyReloadConfig = SimplyNoShadingImpl.createKeyMapping("reloadConfig");
-        this.keyShadingToggles = ShadingTarget
-            .valueList()
-            .stream()
-            .map(ShadingTarget::toggleKey)
-            .map(SimplyNoShadingImpl::createKeyMapping)
-            .toList();
+        this.keyToggleBlockShading = SimplyNoShadingImpl.createKeyMapping("toggleBlockShading");
+        this.keyToggleCloudShading = SimplyNoShadingImpl.createKeyMapping("toggleCloudShading");
+        this.keyToggleEntityShading = SimplyNoShadingImpl.createKeyMapping("toggleEntityShading");
         this.logger = LoggerFactory.getLogger(SnsConstants.NAME);
         this.minecraft = minecraft;
-
-        this.configPath = this.fabricLoader.getConfigDir().resolve(SnsConstants.MODID + ".json");
     }
 
     public void onInitialize() {
@@ -69,8 +71,11 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
         this.loadConfig();
         this.registerKeyMappings();
-        this.registerResources();
         this.registerShutdownHook();
+
+        if (this.fabricLoader.isModLoaded("bedrockify")) {
+            this.context.setBedrockifyLoaded(true);
+        }
 
         if (this.fabricLoader.isModLoaded("sodium")) {
             this.context.setSodiumLoaded(true);
@@ -79,118 +84,218 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         this.logger.info("{} is initialized.", SnsConstants.NAME);
     }
 
-    @Override
-    public @NotNull Path configPath() {
-        return this.configPath;
+    public Config getConfig() {
+        return this.config;
     }
 
-    @Override
-    public @NotNull Config config() {
-        return new ConfigImpl(this.config);
+    public void setConfig(final Config config) {
+        final var context = this.getContext();
+
+        final ReloadLevel reloadLevel = getReloadLevel(this.config, config, context);
+        this.config = config;
+        final var data = config.data();
+
+        final var minecraft = Minecraft.getInstance();
+        final var level = minecraft.level;
+        if (level == null) return;
+
+        switch (reloadLevel) {
+            case RESOURCE_PACKS:
+            case ALL_CHANGED:
+                ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
+                ((SnsConfigDataAware) ((BlockRenderDispatcherAccessor) minecraft.getBlockRenderer()).getLiquidBlockRenderer()).simply_no_shading$setConfigData(data);
+
+                if (context.isBedrockifyLoaded()) {
+                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
+                }
+            case NEEDS_UPDATE:
+                if (config.compatibilityMode() || !context.isSodiumLoaded()) {
+                    ((SnsConfigDataAware) minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
+                }
+            case NONE:
+        }
+
+        reloadLevel.applyTo(this.minecraft);
     }
 
-    @Override
-    public void setConfig(final @NotNull Config config) {
-        this.config.set(config);
-        ComputedConfig.set(config);
+    private static ReloadLevel getReloadLevel(
+        final Config oldConfig,
+        final Config newConfig,
+        final GameContext context
+    ) {
+        final ReloadLevel reloadLevel;
+        if (oldConfig.data().shadeEntities() != newConfig.data().shadeEntities()) {
+            reloadLevel = ReloadLevel.RESOURCE_PACKS;
+        } else if (context.isShadersEnabled()) {
+            reloadLevel = ReloadLevel.NONE;
+        } else if (oldConfig.data().shadeBlocks() != newConfig.data().shadeBlocks()) {
+            reloadLevel = ReloadLevel.ALL_CHANGED;
+        } else if (oldConfig.data().shadeClouds() != newConfig.data().shadeClouds()) {
+            reloadLevel = context.isSodiumLoaded() ? ReloadLevel.ALL_CHANGED : ReloadLevel.NEEDS_UPDATE;
+        } else {
+            reloadLevel = ReloadLevel.NONE;
+        }
+        return reloadLevel;
     }
 
-    public GameContext context() {
+    public GameContext getContext() {
         return this.context;
     }
 
-    private Gson gson() {
-        var gson = this.gsonRef.get();
-        if (gson == null) {
-            this.gsonRef = new SoftReference<>(gson = new Gson());
-        }
-        return gson;
+    public void openConfigFile() {
+        this.logger.debug("[{}] Opening config...", SnsConstants.NAME);
+        Util.getPlatform().openFile(this.getConfigFile());
     }
 
-    public void loadConfig() {
+    public void reloadConfig() {
+        if (this.loadConfig()) {
+            this.saveConfig();
+        } else {
+            this.openConfigFile();
+        }
+    }
+
+    /**
+     * @return {@code false} if loading encountered json syntax exceptions;
+     *     {@code true} otherwise.
+     */
+    public boolean loadConfig() {
         this.logger.debug("[{}] Loading the config...", SnsConstants.NAME);
 
-        try {
-            final var reader = Files.newBufferedReader(this.configPath());
-            this.loadConfigHelper(reader);
-        } catch (final NoSuchFileException cause) {
-            this.logger.info("[{}] Config file not present, defaults will be used.", SnsConstants.NAME);
-        } catch (final IOException cause) {
-            this.logger.error("[{}] Unable to create config file reader.", SnsConstants.NAME, cause);
-        }
-    }
+        final var path = this.getConfigPath();
+        final JsonElement json;
 
-    private void loadConfigHelper(final Reader reader) {
-        try (reader) {
-            final var config = this.gson().fromJson(reader, ConfigImpl.class);
-            this.setConfig(config);
-            this.logger.info("[{}] The config is loaded.", SnsConstants.NAME);
-        } catch (final JsonSyntaxException cause) {
-            this.logger.error("[{}] Invalid config JSON syntax.", SnsConstants.NAME, cause);
-        } catch (final JsonIOException cause) {
-            this.logger.error("[{}] Unable to read config JSON.", SnsConstants.NAME, cause);
+        final ArrayList<CharSequence> lines;
+        try (final var lineStream = Files.lines(path)) {
+            lines = lineStream
+                .filter(line -> !line.endsWith(SnsConstants.IGNORE_TAG))
+                .collect(Collectors.toCollection(ArrayList::new));
+        } catch (final NoSuchFileException cause) {
+            this.logger.info("[{}] Config does not exist, using default", SnsConstants.NAME);
+            return true;
         } catch (final IOException cause) {
-            this.logger.error("[{}] Unable to soundly close config file reader.", SnsConstants.NAME, cause);
+            this.logger.warn("[{}] Unable to read config json", SnsConstants.NAME, cause);
+            return true;
         }
+
+        try{
+            json = JsonParser.parseString(String.join("\n", lines));
+        } catch (final JsonParseException cause) {
+            this.logger.warn("[{}] Invalid config json syntax", SnsConstants.NAME, cause);
+
+            final var lineMatcher = SnsConstants.LINE_PATTERN.matcher(cause.getMessage());
+            var line = 0;
+
+            if (lineMatcher.find()) {
+                final var capturedLine = lineMatcher.group(1);
+                try {
+                    line = Integer.parseInt(capturedLine);
+                } catch (final NumberFormatException ignored) {
+
+                }
+            }
+
+
+            final var errorMessageBuilder = new StringBuilder();
+
+            final var columnMatcher = SnsConstants.COLUMN_PATTERN.matcher(cause.getMessage());
+
+            if (columnMatcher.find()) {
+                try {
+                    final var capturedColumn = columnMatcher.group(1);
+                    final var column = Integer.parseInt(capturedColumn);
+
+                    if (column >= 2) {
+                        errorMessageBuilder.append(" ".repeat(column - 2));
+                    }
+
+                    errorMessageBuilder.append("^ ");
+                } catch (final NumberFormatException ignored) {
+
+                }
+            }
+
+            errorMessageBuilder.append(cause.getMessage())
+                .append("\t")
+                .append(SnsConstants.IGNORE_TAG);
+            lines.add(line, errorMessageBuilder);
+
+            try {
+                Files.write(path, lines);
+            } catch (final IOException cause2) {
+                this.logger.warn(
+                    "[{}] Unable to update config json with an error message",
+                    SnsConstants.NAME,
+                    cause2
+                );
+            }
+
+            return false;
+        }
+
+        if (json instanceof final JsonObject object && !object.has("version")) {
+            object.addProperty("version", IConfig.MIN_VERSION);
+        }
+
+        IConfig.LENIENT_CODEC
+            .decode(JsonOps.INSTANCE, json)
+            .ifSuccess(result -> result
+                .getFirst()
+                .upgrade()
+                .ifSuccess(this::setConfig)
+                .ifError(result2 -> this.logger
+                    .warn("[{}] Unable to upgrade config: {}", SnsConstants.NAME, result2.message())
+                )
+            )
+            .ifError(result -> this.logger
+                .warn("[{}] Unable to decode config: {}", SnsConstants.NAME, result.message())
+            );
+
+        return true;
     }
 
     public void saveConfig() {
-        this.logger.debug("[{}] Saving the config...", SnsConstants.NAME);
-        final var gson = this.gson();
+        this.logger.debug("[{}] Saving config...", SnsConstants.NAME);
 
-        final var tree = this.parseConfigAsJsonObject();
-        if (gson.toJsonTree(this.config()) instanceof final JsonObject overrides) {
-            tree.asMap().putAll(overrides.asMap());
-        } else {
-            throw new AssertionError("Expected config to serialize as JSON object");
+        final var path = this.fabricLoader.getConfigDir().resolve(SnsConstants.CONFIG_NAME);
+
+        final JsonObject json;
+        switch (IConfig.CODEC.encodeStart(JsonOps.INSTANCE, this.config)) {
+            case DataResult.Success<JsonElement>(final var value, final var lifecycle):
+                json = (JsonObject) value;
+                break;
+            case DataResult.Error<JsonElement>(
+                final var messageSupplier,
+                final var partialValue,
+                final var lifecycle
+            ):
+                final var message = messageSupplier.get();
+                this.logger.warn("[{}] Unable to encode config: {}", SnsConstants.NAME, message);
+                return;
         }
 
-        try {
-            final var writer = Files.newBufferedWriter(this.configPath());
-            this.saveConfigHelper(gson, tree, writer);
+        // json.addProperty("__message", "Click the config button again to load changes.");
+
+        try (
+            final var bufferedWriter = Files.newBufferedWriter(path);
+            final var jsonWriter = new JsonWriter(bufferedWriter)
+        ) {
+            jsonWriter.setIndent("    ");
+
+            GsonHelper.writeValue(jsonWriter, json, Comparator.naturalOrder());
+
+            bufferedWriter.newLine();
         } catch (final IOException cause) {
-            this.logger.error("[{}] Unable to create config file writer.", SnsConstants.NAME, cause);
+            this.logger.warn("[{}] Unable to write config json", SnsConstants.NAME, cause);
         }
     }
 
-    private JsonObject parseConfigAsJsonObject() {
-        try (final var reader = Files.newBufferedReader(this.configPath())) {
-            if (JsonParser.parseReader(reader) instanceof JsonObject jsonObject) {
-                return jsonObject;
-            }
-        } catch (final IOException | JsonParseException ignored) {
-
-        }
-
-        return new JsonObject();
+    private Path getConfigPath() {
+        return this.fabricLoader.getConfigDir().resolve(SnsConstants.CONFIG_NAME);
     }
 
-    private void saveConfigHelper(
-        final Gson gson,
-        final JsonObject tree,
-        final Writer writer
-    ) {
-        final var jsonWriter = new JsonWriter(writer);
-        jsonWriter.setIndent("    ");
-
-        try (writer; jsonWriter) {
-            this.saveConfigHelperHelper(gson, tree, jsonWriter);
-        } catch (final IOException cause) {
-            this.logger.error("[{}] Unable to soundly close config file writer.", SnsConstants.NAME, cause);
-        }
-    }
-
-    private void saveConfigHelperHelper(
-        final Gson gson,
-        final JsonObject tree,
-        final JsonWriter jsonWriter
-    ) {
-        try {
-            gson.toJson(tree, jsonWriter);
-            this.logger.info("[{}] The config is saved.", SnsConstants.NAME);
-        } catch (final JsonIOException cause) {
-            this.logger.error("[{}] Unable to write to config file.", SnsConstants.NAME, cause);
-        }
+    public File getConfigFile() {
+        return this.getConfigPath().toFile();
     }
 
     public KeyMapping keyOpenModConfig() {
@@ -201,8 +306,16 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return this.keyReloadConfig;
     }
 
-    public List<? extends KeyMapping> keyShadingToggles() {
-        return this.keyShadingToggles;
+    public KeyMapping keyToggleBlockShading() {
+        return this.keyToggleBlockShading;
+    }
+
+    public KeyMapping keyToggleCloudShading() {
+        return this.keyToggleCloudShading;
+    }
+
+    public KeyMapping keyToggleEntityShading() {
+        return this.keyToggleEntityShading;
     }
 
     private void registerKeyMappings() {
@@ -214,7 +327,9 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
 
         KeyBindingHelper.registerKeyBinding(this.keyOpenModConfig());
         KeyBindingHelper.registerKeyBinding(this.keyReloadConfig());
-        this.keyShadingToggles().forEach(KeyBindingHelper::registerKeyBinding);
+        KeyBindingHelper.registerKeyBinding(this.keyToggleBlockShading());
+        KeyBindingHelper.registerKeyBinding(this.keyToggleCloudShading());
+        KeyBindingHelper.registerKeyBinding(this.keyToggleEntityShading());
 
         ClientTickEvents.END_CLIENT_TICK.register(this::consumeKeyEvents);
     }
@@ -223,7 +338,7 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         return new KeyMapping(
             "simply-no-shading.key." + name,
             InputConstants.UNKNOWN.getValue(),
-            KeyMapping.Category.MISC
+            KEY_MAPPING_CATEGORY
         );
     }
 
@@ -239,87 +354,37 @@ public final class SimplyNoShadingImpl implements SimplyNoShading {
         }
     }
 
-    public Screen createConfigScreen(final Screen lastScreen) {
-        return new ConfigScreen(lastScreen, this.config(), newConfig -> {
-            final var oldConfig = this.config();
-            this.setConfig(newConfig);
+    public Screen createConfigScreen(final @Nullable Screen lastScreen) {
+        return new ConfigScreen(lastScreen, this.getConfig(), config -> {
+            this.setConfig(config);
             this.saveConfig();
-            this.applyChangesBetween(oldConfig, newConfig);
         });
     }
 
-    public void applyChangesBetween(final Config lhs, final Config rhs) {
-        final var context = this.context();
-
-        ShadingTarget.valueList()
-            .stream()
-            .filter(target -> target.changedBetween(lhs, rhs))
-            .map(target -> target.reloadTypeFor(context))
-            .max(Comparator.naturalOrder())
-            .orElse(ReloadLevel.NONE)
-            .applyTo(this.minecraft);
-    }
-
-    private void reloadConfig() {
-        final var oldConfig = this.config();
-        this.loadConfig();
-        final var newConfig = this.config();
-
-        this.applyChangesBetween(oldConfig, newConfig);
-    }
-
     private void consumeKeyToggleEvents() {
-        final var context = this.context();
-
-        if (context().shadersEnabled()) {
-            this.keyShadingToggles().forEach(KeyMapping::consumeAction);
+        if (getContext().isShadersEnabled()) {
+            this.keyToggleBlockShading().consumeAction();
+            this.keyToggleCloudShading().consumeAction();
+            this.keyToggleEntityShading().consumeAction();
             return;
         }
 
-        final var config = this.config();
-        final var keyShadingToggles = this.keyShadingToggles;
+        final var toggleBlockShading = this.keyToggleBlockShading.consumeReleased();
+        final var toggleCloudShading = this.keyToggleCloudShading.consumeReleased();
+        final var toggleEntityShading = this.keyToggleEntityShading.consumeReleased();
 
-        final var reloadType = ShadingTarget.valueList()
-            .stream()
-            .filter(target -> keyShadingToggles.get(target.ordinal()).consumeReleased())
-            .peek(target -> target.setInto(config, !target.getFrom(config)))
-            .map(target -> target.reloadTypeFor(context))
-            .max(Comparator.naturalOrder())
-            .orElse(null);
+        if (toggleBlockShading || toggleCloudShading || toggleEntityShading) {
+            final var config = this.getConfig();
+            final var data = config.data();
 
-        if (reloadType != null) {
-            this.setConfig(config);
-            ComputedConfig.set(config);
-            reloadType.applyTo(this.minecraft);
-        }
-    }
-
-    private void registerResources() {
-        if (!this.fabricLoader.isModLoaded("fabric-resource-loader-v0")) {
-            return;
-        }
-        final var container = this.fabricLoader
-            .getModContainer(SnsConstants.MODID)
-            .orElseThrow(() -> new AssertionError("""
-                Fabric mod container for ${MODID} does not exist. Developer might have used a \
-                different mod id from the one in fabric.mod.json. Please create an issue in their \
-                repository.\
-            """.replace("${MODID}", SnsConstants.MODID)));
-        final var success = ResourceManagerHelper.registerBuiltinResourcePack(
-            ResourceLocation.fromNamespaceAndPath(
-                SnsConstants.MODID,
-                SnsConstants.EXPERIMENTAL_ENTITY_SHADING_ID
-            ),
-            container,
-            Component.literal("Entity(ish) No Shading"),
-            ResourcePackActivationType.NORMAL
-        );
-        if (!success) {
-            this.logger.warn(
-                "[{}] Unable to register built-in resource pack {}",
-                SnsConstants.NAME,
-                SnsConstants.EXPERIMENTAL_ENTITY_SHADING_ID
-            );
+            this.setConfig(new Config(
+                config.compatibilityMode(),
+                ConfigPreset.CUSTOM,
+                Optional.of(new ConfigData(
+                    data.shadeBlocks() ^ toggleBlockShading,
+                    data.shadeClouds() ^ toggleCloudShading,
+                    data.shadeEntities() ^ toggleEntityShading
+                ))));
         }
     }
 

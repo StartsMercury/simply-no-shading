@@ -1,6 +1,5 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.compat.iris;
 
-import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import net.irisshaders.iris.config.IrisConfig;
 import net.minecraft.client.Minecraft;
 import org.objectweb.asm.Opcodes;
@@ -17,8 +16,7 @@ public class IrisConfigMixin {
 
     @Inject(method = "setShadersEnabled(Z)V", at = @At("RETURN"), remap = false)
     private void onSetShadersEnabled(final boolean enabled, final CallbackInfo callback) {
-        final var simplyNoShading = (SimplyNoShadingImpl) Minecraft.getInstance().getSimplyNoShading();
-        simplyNoShading.context().setShadersEnabled(enabled);
+        Minecraft.getInstance().getSimplyNoShading().getContext().setShadersEnabled(enabled);
     }
 
     @Inject(
@@ -32,7 +30,6 @@ public class IrisConfigMixin {
         remap = false
     )
     private void onLoadShadersEnabled(final CallbackInfo callback) {
-        final var simplyNoShading = (SimplyNoShadingImpl) Minecraft.getInstance().getSimplyNoShading();
-        simplyNoShading.context().setShadersEnabled(this.enableShaders);
+        Minecraft.getInstance().getSimplyNoShading().getContext().setShadersEnabled(this.enableShaders);
     }
 }
