@@ -37,6 +37,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/libs/*.jar
           file_glob: true
+          overwrite: true
 
       - name: Upload Binaries to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3
