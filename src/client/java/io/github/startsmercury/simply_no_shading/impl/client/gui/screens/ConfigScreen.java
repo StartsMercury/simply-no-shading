@@ -3,7 +3,6 @@ package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -95,7 +94,7 @@ public final class ConfigScreen extends OptionsSubScreen {
                         + p.name().toLowerCase(Locale.ROOT)
                 )
             ),
-            new OptionInstance.SliderableEnum<>(List.of(ConfigPreset.values()), ConfigPreset.CODEC),
+            new OptionInstance.SliderableEnum<>(ConfigPreset.valueList(), ConfigPreset.CODEC),
             ConfigPreset.CODEC,
             this.preset,
             p -> {
