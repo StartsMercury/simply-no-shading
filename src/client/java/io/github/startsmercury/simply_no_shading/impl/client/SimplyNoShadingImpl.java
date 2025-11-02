@@ -6,6 +6,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
@@ -42,7 +43,11 @@ public final class SimplyNoShadingImpl {
         ResourceLocation.fromNamespaceAndPath(SnsConstants.MODID, SnsConstants.MODID)
     );
 
-    private Config config;
+    private static final Config DEFAULT_CONFIG =
+        new Config(true, ConfigPreset.VANILLA, Optional.empty());
+
+    public static final ConfigData DEFAULT_CONFIG_DATA = DEFAULT_CONFIG.data();
+
     private final GameContext context;
     private final FabricLoader fabricLoader;
     private final KeyMapping keyOpenModConfig;
@@ -53,8 +58,9 @@ public final class SimplyNoShadingImpl {
     private final Logger logger;
     private final Minecraft minecraft;
 
+    private Config config = DEFAULT_CONFIG;
+
     public SimplyNoShadingImpl(final Minecraft minecraft) {
-        this.config = Config.DEFAULT;
         this.context = new GameContext();
         this.fabricLoader = FabricLoader.getInstance();
         this.keyOpenModConfig = SimplyNoShadingImpl.createKeyMapping("openModConfig");
@@ -69,7 +75,9 @@ public final class SimplyNoShadingImpl {
     public void onInitialize() {
         this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
-        this.loadConfig();
+        this.setConfig(this.loadConfig().orElse(Config.DEFAULT));
+        this.minecraft.schedule(() -> this.syncConfigFor(this.config, ReloadLevel.ALL_CHANGED));
+
         this.registerKeyMappings();
         this.registerShutdownHook();
 
@@ -88,34 +96,20 @@ public final class SimplyNoShadingImpl {
         return this.config;
     }
 
-    public void setConfig(final Config config) {
+    public void setConfigAndReload(final Config config) {
+        final var oldConfig = this.setConfig(config);
+
         final var context = this.getContext();
+        final var reloadLevel = getReloadLevel(oldConfig, config, context);
 
-        final ReloadLevel reloadLevel = getReloadLevel(this.config, config, context);
-        this.config = config;
-        final var data = config.data();
-
-        final var minecraft = Minecraft.getInstance();
-        final var level = minecraft.level;
-        if (level == null) return;
-
-        switch (reloadLevel) {
-            case RESOURCE_PACKS:
-            case ALL_CHANGED:
-                ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
-                ((SnsConfigDataAware) ((BlockRenderDispatcherAccessor) minecraft.getBlockRenderer()).getLiquidBlockRenderer()).simply_no_shading$setConfigData(data);
-
-                if (context.isBedrockifyLoaded()) {
-                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
-                }
-            case NEEDS_UPDATE:
-                if (config.compatibilityMode() || !context.isSodiumLoaded()) {
-                    ((SnsConfigDataAware) minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
-                }
-            case NONE:
-        }
-
+        this.syncConfigFor(config, reloadLevel);
         reloadLevel.applyTo(this.minecraft);
+    }
+
+    private Config setConfig(final Config config) {
+        final var oldConfig = this.config;
+        this.config = config;
+        return oldConfig;
     }
 
     private static ReloadLevel getReloadLevel(
@@ -138,6 +132,30 @@ public final class SimplyNoShadingImpl {
         return reloadLevel;
     }
 
+    private void syncConfigFor(final Config config, final ReloadLevel reloadLevel) {
+        final var data = config.data();
+
+        switch (reloadLevel) {
+            case RESOURCE_PACKS:
+            case ALL_CHANGED:
+                final var level = this.minecraft.level;
+                if (level != null) {
+                    ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
+                }
+
+                ((SnsConfigDataAware) ((BlockRenderDispatcherAccessor) this.minecraft.getBlockRenderer()).getLiquidBlockRenderer()).simply_no_shading$setConfigData(data);
+
+                if (this.context.isBedrockifyLoaded()) {
+                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
+                }
+            case NEEDS_UPDATE:
+                if (config.compatibilityMode() || !this.context.isSodiumLoaded()) {
+                    ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
+                }
+            case NONE:
+        }
+    }
+
     public GameContext getContext() {
         return this.context;
     }
@@ -148,18 +166,21 @@ public final class SimplyNoShadingImpl {
     }
 
     public void reloadConfig() {
-        if (this.loadConfig()) {
-            this.saveConfig();
-        } else {
-            this.openConfigFile();
-        }
+        this.loadConfig().ifPresentOrElse(
+            config -> {
+                this.setConfigAndReload(config);
+                this.saveConfig();
+            },
+            this::openConfigFile
+        );
     }
 
     /**
      * @return {@code false} if loading encountered json syntax exceptions;
      *     {@code true} otherwise.
      */
-    public boolean loadConfig() {
+    public Optional<Config> loadConfig() {
+        // TODO, separate unified load and save
         this.logger.debug("[{}] Loading the config...", SnsConstants.NAME);
 
         final var path = this.getConfigPath();
@@ -172,10 +193,10 @@ public final class SimplyNoShadingImpl {
                 .collect(Collectors.toCollection(ArrayList::new));
         } catch (final NoSuchFileException cause) {
             this.logger.info("[{}] Config does not exist, using default", SnsConstants.NAME);
-            return true;
+            return Optional.of(Config.DEFAULT);
         } catch (final IOException cause) {
             this.logger.warn("[{}] Unable to read config json", SnsConstants.NAME, cause);
-            return true;
+            return Optional.of(Config.DEFAULT);
         }
 
         try{
@@ -194,7 +215,6 @@ public final class SimplyNoShadingImpl {
 
                 }
             }
-
 
             final var errorMessageBuilder = new StringBuilder();
 
@@ -230,28 +250,39 @@ public final class SimplyNoShadingImpl {
                 );
             }
 
-            return false;
+            return Optional.empty();
         }
 
         if (json instanceof final JsonObject object && !object.has("version")) {
             object.addProperty("version", IConfig.MIN_VERSION);
         }
 
-        IConfig.LENIENT_CODEC
-            .decode(JsonOps.INSTANCE, json)
-            .ifSuccess(result -> result
-                .getFirst()
-                .upgrade()
-                .ifSuccess(this::setConfig)
-                .ifError(result2 -> this.logger
-                    .warn("[{}] Unable to upgrade config: {}", SnsConstants.NAME, result2.message())
-                )
-            )
-            .ifError(result -> this.logger
-                .warn("[{}] Unable to decode config: {}", SnsConstants.NAME, result.message())
-            );
+        switch (
+            IConfig.LENIENT_CODEC
+                .decode(JsonOps.INSTANCE, json)
+                .map(Pair::getFirst)
+                .map(IConfig::upgrade)
+        ) {
+            case DataResult.Success(final DataResult.Success<Config> success, final var _0) -> {
+                return Optional.of(success.value());
+            }
+            case DataResult.Success(final DataResult.Error<?> error, final var _0) -> {
+                if (this.logger.isWarnEnabled()) {
+                    this.logger.atWarn().log(() ->
+                        "[" + SnsConstants.NAME + "] Unable to upgrade config: " + error.message()
+                    );
+                }
+            }
+            case final DataResult.Error<?> error -> {
+                if (this.logger.isWarnEnabled()) {
+                    this.logger.atWarn().log(() ->
+                        "[" + SnsConstants.NAME + "] Unable to decode config: " + error.message()
+                    );
+                }
+            }
+        }
 
-        return true;
+        return Optional.empty();
     }
 
     public void saveConfig() {
@@ -261,16 +292,15 @@ public final class SimplyNoShadingImpl {
 
         final JsonObject json;
         switch (IConfig.CODEC.encodeStart(JsonOps.INSTANCE, this.config)) {
-            case DataResult.Success<JsonElement>(final var value, final var lifecycle):
-                json = (JsonObject) value;
+            case final DataResult.Success<JsonElement> success:
+                json = (JsonObject) success.value();
                 break;
-            case DataResult.Error<JsonElement>(
-                final var messageSupplier,
-                final var partialValue,
-                final var lifecycle
-            ):
-                final var message = messageSupplier.get();
-                this.logger.warn("[{}] Unable to encode config: {}", SnsConstants.NAME, message);
+            case final DataResult.Error<?> error:
+                if (this.logger.isWarnEnabled()) {
+                    this.logger.atWarn().log(() ->
+                        "[" + SnsConstants.NAME + "] Unable to encode config: " + error.message()
+                    );
+                }
                 return;
         }
 
@@ -356,7 +386,7 @@ public final class SimplyNoShadingImpl {
 
     public Screen createConfigScreen(final @Nullable Screen lastScreen) {
         return new ConfigScreen(lastScreen, this.getConfig(), config -> {
-            this.setConfig(config);
+            this.setConfigAndReload(config);
             this.saveConfig();
         });
     }
@@ -377,14 +407,15 @@ public final class SimplyNoShadingImpl {
             final var config = this.getConfig();
             final var data = config.data();
 
-            this.setConfig(new Config(
+            this.setConfigAndReload(new Config(
                 config.compatibilityMode(),
                 ConfigPreset.CUSTOM,
                 Optional.of(new ConfigData(
                     data.shadeBlocks() ^ toggleBlockShading,
                     data.shadeClouds() ^ toggleCloudShading,
                     data.shadeEntities() ^ toggleEntityShading
-                ))));
+                ))
+            ));
         }
     }
 
