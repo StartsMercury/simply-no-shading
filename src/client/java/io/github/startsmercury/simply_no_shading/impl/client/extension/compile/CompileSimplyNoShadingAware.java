@@ -1,6 +1,6 @@
 package io.github.startsmercury.simply_no_shading.impl.client.extension.compile;
 
-import io.github.startsmercury.simply_no_shading.api.client.SimplyNoShading;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.SimplyNoShadingAware;
 
 /**
@@ -14,7 +14,7 @@ import io.github.startsmercury.simply_no_shading.impl.client.extension.SimplyNoS
 @SuppressWarnings("DeprecatedIsStillUsed")
 public interface CompileSimplyNoShadingAware extends SimplyNoShadingAware {
     @Override
-    default SimplyNoShading getSimplyNoShading() {
+    default SimplyNoShadingImpl getSimplyNoShading() {
         return CompileAwareHelper.unimplemented();
     }
 }

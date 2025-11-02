@@ -1,9 +1,9 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.minecraft;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,8 +16,14 @@ public abstract class BakedQuadMixin {
 
     @ModifyReturnValue(method = "shade()Z", at = @At("RETURN"))
     private boolean modifyShade(final boolean original) {
-        // TODO try FaceBakery, BlockModel, ModelBlockRenderer, BlockRenderDispatcher, SectionRenderDispatcher, LevelRenderer
+        // This usually only gets called during meshing; hopefully not every frame
+        final var config = Minecraft.getInstance().getSimplyNoShading().getConfig();
 
-        return original && ComputedConfig.blockShadingEnabled;
+        if (config.compatibilityMode()) {
+            // Injecting into ClientLevel.getShade may not be sufficient, thus:
+            return original && config.data().shadeBlocks();
+        } else {
+            return original;
+        }
     }
 }

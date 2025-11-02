@@ -4,14 +4,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.preprocessor.GlslPreprocessor;
-import io.github.startsmercury.simply_no_shading.impl.client.ComputedConfig;
 import io.github.startsmercury.simply_no_shading.impl.client.ShaderPreprocessor;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.GetShaderPreprocessor;
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(GlslPreprocessor.class)
 public class GlslPreprocessorMixin implements GetShaderPreprocessor {
+    @Unique
+    private final ConfigData simply_no_shading$configData = Minecraft.getInstance().getSimplyNoShading().getConfig().data();
+
     /**
      * Modifies the {@code minecraft_mix_light} function in Minecraft's
      * {@code shaders/include/light.glsl} shader to enforce Simply No Shading
@@ -37,7 +42,7 @@ public class GlslPreprocessorMixin implements GetShaderPreprocessor {
         final @Local(ordinal = 0, argsOnly = true) String source
     ) {
         final var original = operation.call(self, quotesUsed, file);
-        if (ComputedConfig.entityShadingEnabled
+        if (simply_no_shading$configData.shadeEntities()
             || quotesUsed
             || !ShaderPreprocessor.TARGET_SYSTEM_MOJ_IMPORT.equals(file)
         ) {

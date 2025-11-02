@@ -1,10 +1,19 @@
 package io.github.startsmercury.simply_no_shading.impl.client;
 
 public final class GameContext {
+    private boolean bedrockifyLoaded;
     private boolean shadersEnabled;
     private boolean sodiumLoaded;
 
-    public boolean shadersEnabled() {
+    public boolean isBedrockifyLoaded() {
+        return this.bedrockifyLoaded;
+    }
+
+    public void setBedrockifyLoaded(final boolean bedrockifyLoaded) {
+        this.bedrockifyLoaded = bedrockifyLoaded;
+    }
+
+    public boolean isShadersEnabled() {
         return shadersEnabled;
     }
 
@@ -12,7 +21,8 @@ public final class GameContext {
         this.shadersEnabled = shadersEnabled;
     }
 
-    public boolean sodiumLoaded() {
+
+    public boolean isSodiumLoaded() {
         return sodiumLoaded;
     }
 
