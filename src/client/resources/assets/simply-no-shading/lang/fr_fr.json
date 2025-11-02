@@ -1,7 +1,6 @@
 {
     "modmenu.nameTranslation.simply-no-shading": "Simply No Shading",
     "modmenu.descriptionTranslation.simply-no-shading": "Brings and extends old block lighting from internal shaders! Originally aimed to mimic OptiFine's internal shaders that affects the look of blocks, extended later for vanilla clouds, and with the help of contributors, brought the same feel for entities. Although the mentioned internal shader may have been very minimal, it had issues, for me, StartsMercury, at least, namely reduced frame rates.",
-    "modmenu.summaryTranslation.simply-no-shading": "Brings and extends old block lighting from internal shaders!",
 
     "key.category.simply-no-shading.simply-no-shading": "Simply No Shading",
     "simply-no-shading.key.openModConfig": "Open Simply No Shading Config",

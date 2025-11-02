@@ -1,7 +1,6 @@
 {
     "modmenu.nameTranslation.simply-no-shading": "Simply No Shading",
     "modmenu.descriptionTranslation.simply-no-shading": "Nagdadala at nagpapalawak sa lumang paglililim ng bloke mula sa internal shader! Orihinal na naglalayong gayahin ang internal shader ng OptiFine na nakakaapekto sa hitsura ng mga bloke, na kalaunan ay pinalawak para sa mga ulap ng vanilla, at sa tulong ng mga kontributor, nagdulot ng parehong dama para sa mga entidad.",
-    "modmenu.summaryTranslation.simply-no-shading": "Nagdadala at nagpapalawak sa lumang paglililim ng bloke mula sa internal shader!",
 
     "key.category.simply-no-shading.simply-no-shading": "Simply No Shading",
     "simply-no-shading.key.openModConfig": "Buksan ang Kumpigurasyon ng Simply No Shading",
