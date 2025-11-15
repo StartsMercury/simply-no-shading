@@ -15,7 +15,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigDat
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
-import io.github.startsmercury.simply_no_shading.mixin.client.accessor.BlockRenderDispatcherAccessor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -143,7 +142,7 @@ public final class SimplyNoShadingImpl {
                     ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
                 }
 
-                ((SnsConfigDataAware) ((BlockRenderDispatcherAccessor) this.minecraft.getBlockRenderer()).getLiquidBlockRenderer()).simply_no_shading$setConfigData(data);
+                ((SnsConfigDataAware) this.minecraft.getBlockRenderer()).simply_no_shading$setConfigData(data);
 
                 if (this.context.isBedrockifyLoaded()) {
                     ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);

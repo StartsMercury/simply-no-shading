@@ -4,11 +4,11 @@
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "accessor.BlockRenderDispatcherAccessor",
         "compat.iris.IrisConfigMixin",
         "extension.MinecraftMixin",
         "shading.block.bedrockify.BedrockBlockShadingMixin",
         "shading.block.minecraft.BakedQuadMixin",
+        "shading.block.minecraft.BlockRenderDispatcherMixin",
         "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.block.sodium.DefaultFluidRendererMixin",
