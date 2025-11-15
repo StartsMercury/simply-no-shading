@@ -2,7 +2,7 @@ package io.github.startsmercury.simply_no_shading.mixin.client.shading.entity.mi
 
 import io.github.startsmercury.simply_no_shading.impl.client.ShaderPreprocessor;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.GetShaderPreprocessor;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 /**

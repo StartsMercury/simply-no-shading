@@ -36,8 +36,6 @@ dependencies {
     fun fabricModule(moduleName: String): Dependency? =
         modImplementation(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
 
-    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-
     minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
     modImplementation(libs.fabric.loader)
