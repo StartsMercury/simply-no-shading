@@ -55,7 +55,7 @@
         "simply-no-shading.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.15",
+        "fabricloader": ">=0.18",
         "java": ">=${javaVersion}",
         "minecraft": "*"
     },
