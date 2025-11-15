@@ -29,18 +29,18 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SimplyNoShadingImpl {
     public static final KeyMapping.Category KEY_MAPPING_CATEGORY = KeyMapping.Category.register(
-        ResourceLocation.fromNamespaceAndPath(SnsConstants.MODID, SnsConstants.MODID)
+        Identifier.fromNamespaceAndPath(SnsConstants.MODID, SnsConstants.MODID)
     );
 
     private static final Config DEFAULT_CONFIG =
