@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -144,9 +143,10 @@ public final class SimplyNoShadingImpl {
 
                 ((SnsConfigDataAware) this.minecraft.getBlockRenderer()).simply_no_shading$setConfigData(data);
 
-                if (this.context.isBedrockifyLoaded()) {
-                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
-                }
+//TODO Re-enable when unobfuscated BedrockIfy is available
+//                if (this.context.isBedrockifyLoaded()) {
+//                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
+//                }
             case NEEDS_UPDATE:
                 if (config.compatibilityMode() || !this.context.isSodiumLoaded()) {
                     ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);

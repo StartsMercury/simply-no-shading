@@ -34,11 +34,10 @@ java {
 
 dependencies {
     fun fabricModule(moduleName: String): Dependency? =
-        modImplementation(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
+        implementation(fabricApi.module(moduleName, libs.versions.fabric.api.get()))
 
     minecraft(libs.minecraft)
-    mappings(loom.officialMojangMappings())
-    modImplementation(libs.fabric.loader)
+    implementation(libs.fabric.loader)
 
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-binding-api-v1")
@@ -161,11 +160,12 @@ repositories {
     }
 }
 
-createCompatTest("bedrockify", libs.bedrockify)
-createCompatTest("enhancedblockentities", libs.enhancedblockentities)
-createCompatTest("iris", libs.iris, libs.sodium)
-createCompatTest("modmenu", libs.modmenu)
-createCompatTest("sodium", libs.sodium)
+// TODO Uncomment when those have builds for unobfuscated minecraft
+// createCompatTest("bedrockify", libs.bedrockify)
+// createCompatTest("enhancedblockentities", libs.enhancedblockentities)
+// createCompatTest("iris", libs.iris, libs.sodium)
+// createCompatTest("modmenu", libs.modmenu)
+// createCompatTest("sodium", libs.sodium)
 
 /******************************************************************************/
 /* HELPER FUNCTIONS                                                           */
@@ -177,7 +177,7 @@ fun createCompatTest(name: String, objectNotation: Any, vararg dependencyNotatio
         extendsFrom(config.get())
     }
     configurations {
-        val modCompileOnly by getting {
+        val compileOnly by getting {
             extendsFrom(config.get())
         }
     }

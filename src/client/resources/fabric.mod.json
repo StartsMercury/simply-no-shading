@@ -33,9 +33,6 @@
     "entrypoints": {
         "client": [
             "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingFabric"
-        ],
-        "modmenu": [
-            "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu"
         ]
     },
     "custom": {
@@ -46,7 +43,7 @@
             }
         },
         "loom:injected_interfaces": {
-            "net/minecraft/class_310": [
+            "net/minecraft/client/Minecraft": [
                 "io/github/startsmercury/simply_no_shading/impl/client/extension/compile/CompileSimplyNoShadingAware"
             ]
         }
@@ -55,7 +52,7 @@
         "simply-no-shading.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.18",
+        "fabricloader": ">=0.18.3",
         "java": ">=${javaVersion}",
         "minecraft": "*"
     },
