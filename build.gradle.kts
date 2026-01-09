@@ -164,7 +164,7 @@ repositories {
 // createCompatTest("bedrockify", libs.bedrockify)
 // createCompatTest("enhancedblockentities", libs.enhancedblockentities)
 // createCompatTest("iris", libs.iris, libs.sodium)
-// createCompatTest("modmenu", libs.modmenu)
+createCompatTest("modmenu", libs.modmenu)
 // createCompatTest("sodium", libs.sodium)
 
 /******************************************************************************/
