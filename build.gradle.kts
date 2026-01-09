@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.fabric.loader)
 
     fabricModule("fabric-lifecycle-events-v1")
-    fabricModule("fabric-key-binding-api-v1")
+    fabricModule("fabric-key-mapping-api-v1")
     fabricModule("fabric-resource-loader-v0")
 }
 

@@ -25,7 +25,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -354,11 +354,11 @@ public final class SimplyNoShadingImpl {
             return;
         }
 
-        KeyBindingHelper.registerKeyBinding(this.keyOpenModConfig());
-        KeyBindingHelper.registerKeyBinding(this.keyReloadConfig());
-        KeyBindingHelper.registerKeyBinding(this.keyToggleBlockShading());
-        KeyBindingHelper.registerKeyBinding(this.keyToggleCloudShading());
-        KeyBindingHelper.registerKeyBinding(this.keyToggleEntityShading());
+        KeyMappingHelper.registerKeyMapping(this.keyOpenModConfig());
+        KeyMappingHelper.registerKeyMapping(this.keyReloadConfig());
+        KeyMappingHelper.registerKeyMapping(this.keyToggleBlockShading());
+        KeyMappingHelper.registerKeyMapping(this.keyToggleCloudShading());
+        KeyMappingHelper.registerKeyMapping(this.keyToggleEntityShading());
 
         ClientTickEvents.END_CLIENT_TICK.register(this::consumeKeyEvents);
     }
