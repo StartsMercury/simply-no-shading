@@ -348,7 +348,7 @@ public final class SimplyNoShadingImpl {
     }
 
     private void registerKeyMappings() {
-        if (!this.fabricLoader.isModLoaded("fabric-key-binding-api-v1")
+        if (!this.fabricLoader.isModLoaded("fabric-key-mapping-api-v1")
             || !this.fabricLoader.isModLoaded("fabric-lifecycle-events-v1")
         ) {
             return;
