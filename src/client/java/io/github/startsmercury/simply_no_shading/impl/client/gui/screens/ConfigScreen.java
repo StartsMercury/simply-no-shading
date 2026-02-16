@@ -1,5 +1,6 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
+import io.github.startsmercury.simply_no_shading.impl.client.SnsConstants;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigBuilder;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
@@ -64,10 +65,7 @@ public final class ConfigScreen extends OptionsSubScreen {
             ),
             (component, p) -> Options.genericValueLabel(
                 component,
-                Component.translatable(
-                    "simply-no-shading.config.preset."
-                        + p.name().toLowerCase(Locale.ROOT)
-                )
+                SnsConstants.PRESET_NAMES.apply(p)
             ),
             new OptionInstance.SliderableEnum<>(ConfigPreset.valueList(), ConfigPreset.CODEC),
             ConfigPreset.CODEC,
