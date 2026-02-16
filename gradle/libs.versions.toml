@@ -8,7 +8,7 @@ iris = "1.10.5+1.21.11-fabric"
 java = "25"
 minecraft = "26.1-snapshot-2"
 modmenu = "18.0.0-alpha.4"
-sodium = "mc1.21.11-0.8.4-fabric"
+sodium = "0.8.4+mc1.21.11"
 
 [libraries]
 bedrockify = { module = "maven.modrinth:bedrockify", version.ref = "bedrockify" }
@@ -18,7 +18,8 @@ fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-l
 iris = { module = "maven.modrinth:iris", version.ref = "iris" }
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+sodium-api = { module = "net.caffeinemc:sodium-fabric-api", version.ref = "sodium" }
+sodium-fabric = { module = "net.caffeinemc:sodium-fabric", version.ref = "sodium" }
 
 [plugins]
 fabric-loom = "net.fabricmc.fabric-loom:1.15.3"
