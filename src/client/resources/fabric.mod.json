@@ -36,6 +36,9 @@
         ],
         "modmenu": [
             "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingModMenu"
+        ],
+        "sodium:config_api_user": [
+            "io.github.startsmercury.simply_no_shading.impl.client.entrypoint.SimplyNoShadingSodium"
         ]
     },
     "custom": {
