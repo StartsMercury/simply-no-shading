@@ -29,6 +29,15 @@ public record Config(
     public static final int VERSION = 1;
 
     /**
+     * Creates a config builder.
+     *
+     * @return a config builder.
+     */
+    public static ConfigBuilder builder() {
+        return new ConfigBuilder();
+    }
+
+    /**
      * @implSpec The version must be {@code 1}.
      */
     @Override
