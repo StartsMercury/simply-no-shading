@@ -2,6 +2,7 @@
     "required": true,
     "minVersion": "0.8",
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
+    "refmap": "simply-no-shading.refmap.json",
     "compatibilityLevel": "JAVA_25",
     "client": [
         "extension.MinecraftMixin",
