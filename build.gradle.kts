@@ -147,6 +147,32 @@ repositories {
     exclusiveContent {
         forRepository {
             maven {
+                name = "CaffeineMC Maven"
+                url = uri("https://maven.caffeinemc.net/releases")
+                mavenContent {
+                    releasesOnly()
+                }
+            }
+        }
+
+        forRepository {
+            maven {
+                name = "CaffeineMC Snapshots Maven"
+                url = uri("https://maven.caffeinemc.net/snapshots")
+                mavenContent {
+                    snapshotsOnly()
+                }
+            }
+        }
+
+        filter {
+            includeGroup("net.caffeinemc")
+        }
+    }
+
+    exclusiveContent {
+        forRepository {
+            maven {
                 name = "Modrinth Maven"
                 url = uri("https://api.modrinth.com/maven")
             }
@@ -173,9 +199,13 @@ repositories {
 
 createCompatTest("bedrockify", libs.bedrockify)
 createCompatTest("enhancedblockentities", libs.enhancedblockentities)
-createCompatTest("iris", libs.iris, libs.sodium)
+createCompatTest("iris", libs.iris, libs.sodium.fabric)
 createCompatTest("modmenu", libs.modmenu)
-createCompatTest("sodium", libs.sodium)
+createCompatTest("sodium", libs.sodium.fabric)
+
+dependencies {
+    modCompileOnly(libs.sodium.api)
+}
 
 /******************************************************************************/
 /* HELPER FUNCTIONS                                                           */
