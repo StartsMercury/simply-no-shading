@@ -1,11 +1,11 @@
 package io.github.startsmercury.simply_no_shading.impl.client.gui.screens;
 
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigBuilder;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
@@ -20,31 +20,12 @@ import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
 public final class ConfigScreen extends OptionsSubScreen {
-    private static class Data {
-        private boolean shadeBlocks;
-        private boolean shadeClouds;
-        private boolean shadeEntities;
-
-        public Data(final ConfigData data) {
-            this.shadeBlocks = data.shadeBlocks();
-            this.shadeClouds = data.shadeClouds();
-            this.shadeEntities = data.shadeEntities();
-        }
-
-        public ConfigData build() {
-            return new ConfigData(this.shadeBlocks, this.shadeClouds, this.shadeEntities);
-        }
-    }
-
     private static final Component TITLE = Component.translatable("simply-no-shading.config.title");
-    private static final Component QUALITY_HEADER = Component.translatable("simply-no-shading.config.general.header");
-    private static final Component PREFERENCES_HEADER = Component.translatable("simply-no-shading.config.preferences.header");
+    private static final Component GENERAL = Component.translatable("simply-no-shading.config.general.header");
+    private static final Component PREFERENCES = Component.translatable("simply-no-shading.config.preferences.header");
 
+    private final ConfigBuilder configBuilder;
     private final Consumer<? super Config> configCallback;
-
-    private ConfigPreset preset;
-    private boolean compatibilityMode;
-    private Optional<Data> custom;
 
     public ConfigScreen(
         final @Nullable Screen lastScreen,
@@ -56,19 +37,13 @@ public final class ConfigScreen extends OptionsSubScreen {
 
         Objects.requireNonNull(initialConfig, "Parameter initialConfig is null");
 
-        this.preset = initialConfig.preset();
-        this.compatibilityMode = initialConfig.compatibilityMode();
-        this.custom = initialConfig.custom().map(Data::new);
-
+        this.configBuilder = new ConfigBuilder(initialConfig);
         this.configCallback = configCallback;
     }
 
     @Override
     public void removed() {
-        this.configCallback.accept(new Config(
-            this.compatibilityMode,
-            this.preset,
-            this.custom.map(Data::build)));
+        this.configCallback.accept(this.configBuilder.build());
     }
 
     @Override
@@ -76,11 +51,11 @@ public final class ConfigScreen extends OptionsSubScreen {
         final var list = this.list;
         assert list != null;
 
-        final var data = this.custom.map(Data::build).orElse(ConfigData.DEFAULT);
+        final var data = this.configBuilder.getCustom().orElse(ConfigData.DEFAULT);
 
-        final var shadeBlocks = this.createBoolean("shadeBlocks", data.shadeBlocks(), b -> this.getOrCreateCustom().shadeBlocks = b);
-        final var shadeClouds = this.createBoolean("shadeClouds", data.shadeClouds(), b -> this.getOrCreateCustom().shadeClouds = b);
-        final var shadeEntities = this.createBoolean("shadeEntities", data.shadeEntities(), b -> this.getOrCreateCustom().shadeEntities = b);
+        final var shadeBlocks = this.createBoolean("shadeBlocks", data.shadeBlocks(), this.configBuilder::setShadeBlocks);
+        final var shadeClouds = this.createBoolean("shadeClouds", data.shadeClouds(), this.configBuilder::setShadeClouds);
+        final var shadeEntities = this.createBoolean("shadeEntities", data.shadeEntities(), this.configBuilder::setShadeEntities);
 
         final var preset = new OptionInstance<>(
             "simply-no-shading.config.preset",
@@ -96,34 +71,26 @@ public final class ConfigScreen extends OptionsSubScreen {
             ),
             new OptionInstance.SliderableEnum<>(ConfigPreset.valueList(), ConfigPreset.CODEC),
             ConfigPreset.CODEC,
-            this.preset,
+            this.configBuilder.getPreset(),
             p -> {
-                this.preset = p;
+                this.configBuilder.setPreset(p);
                 this.presetChanged(list, shadeBlocks, shadeClouds, shadeEntities, p);
             }
         );
 
-        list.addHeader(QUALITY_HEADER);
+        list.addHeader(GENERAL);
         list.addSmall(this.createBoolean(
             "compatibilityMode",
-            this.compatibilityMode,
-            b -> this.compatibilityMode = b
+            this.configBuilder.isCompatibilityMode(),
+            this.configBuilder::setCompatibilityMode
         ));
 
-        list.addHeader(PREFERENCES_HEADER);
+        list.addHeader(PREFERENCES);
         list.addBig(preset);
         list.addSmall(shadeBlocks, shadeClouds);
         list.addSmall(shadeEntities);
 
-        this.presetChanged(list, shadeBlocks, shadeClouds, shadeEntities, this.preset);
-    }
-
-    private Data getOrCreateCustom() {
-        return this.custom.orElseGet(() -> {
-            final var custom = new Data(this.preset.override().orElse(ConfigData.DEFAULT));
-            this.custom = Optional.of(custom);
-            return custom;
-        });
+        this.presetChanged(list, shadeBlocks, shadeClouds, shadeEntities, this.configBuilder.getPreset());
     }
 
     private void presetChanged(
@@ -142,7 +109,7 @@ public final class ConfigScreen extends OptionsSubScreen {
             shadeEntitiesWidget == null
         ) return;
 
-        preset.override().or(() -> this.custom.map(Data::build)).ifPresent(data -> {
+        preset.override().or(this.configBuilder::getCustom).ifPresent(data -> {
             trySetWidget(shadeBlocksWidget, data.shadeBlocks());
             trySetWidget(shadeCloudsWidget, data.shadeClouds());
             trySetWidget(shadeEntitiesWidget, data.shadeEntities());
