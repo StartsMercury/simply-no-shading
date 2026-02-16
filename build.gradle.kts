@@ -131,18 +131,28 @@ tasks {
 /******************************************************************************/
 
 repositories {
-    maven {
-        name = "Terraformers Maven"
-        url = uri("https://maven.terraformersmc.com")
-        content {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Terraformers Maven"
+                url = uri("https://maven.terraformersmc.com")
+            }
+        }
+
+        filter {
             includeGroup("com.terraformersmc")
         }
     }
 
-    maven {
-        name = "Modrinth Maven"
-        url = uri("https://api.modrinth.com/maven")
-        content {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth Maven"
+                url = uri("https://api.modrinth.com/maven")
+            }
+        }
+
+        filter {
             includeGroup("maven.modrinth")
         }
     }
