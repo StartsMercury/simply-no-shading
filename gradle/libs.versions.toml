@@ -21,4 +21,4 @@ modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "net.fabricmc.fabric-loom:1.14.10"
+fabric-loom = "net.fabricmc.fabric-loom:1.15.3"
