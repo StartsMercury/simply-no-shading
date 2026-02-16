@@ -27,7 +27,7 @@
     },
 
     "license": "MIT",
-    "icon": "assets/simply-no-shading/icon.png",
+    "icon": "assets/simply-no-shading/textures/gui/icon/opaque.png",
 
     "environment": "client",
     "entrypoints": {
