@@ -7,7 +7,7 @@
             stroke: white;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-width: 9;">
+            stroke-width: 15;">
     <defs>
         <filter id="darken">
             <feColorMatrix
