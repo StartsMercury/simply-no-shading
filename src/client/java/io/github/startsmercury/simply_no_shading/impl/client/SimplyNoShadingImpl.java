@@ -136,11 +136,6 @@ public final class SimplyNoShadingImpl {
         switch (reloadLevel) {
             case RESOURCE_PACKS:
             case ALL_CHANGED:
-                final var level = this.minecraft.level;
-                if (level != null) {
-                    ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
-                }
-
                 ((SnsConfigDataAware) this.minecraft.getBlockRenderer()).simply_no_shading$setConfigData(data);
 
 //TODO Re-enable when unobfuscated BedrockIfy is available

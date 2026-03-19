@@ -8,7 +8,6 @@
         "extension.MinecraftMixin",
         "shading.block.minecraft.BakedQuadMixin",
         "shading.block.minecraft.BlockRenderDispatcherMixin",
-        "shading.block.minecraft.ClientLevelMixin",
         "shading.block.minecraft.LiquidBlockRendererMixin",
         "shading.cloud.minecraft.CloudRendererMixin",
         "shading.entity.minecraft.GlslPreprocessorMixin",
