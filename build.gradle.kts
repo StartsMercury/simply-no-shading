@@ -250,18 +250,15 @@ fun createVersionString(): String {
         builder.append(Constants.MOD_VERSION)
     } else {
         builder.append(Constants.MOD_VERSION.substringBefore('-'))
-        builder.append("-snapshot")
-    }
 
-    builder.append("+mc").append(libs.versions.minecraft.get())
-
-    if (!isReleaseBuild) {
         if (buildId != null) {
             builder.append("-build.${buildId}")
         } else {
             builder.append("-local")
         }
     }
+
+    builder.append("+mc").append(libs.versions.minecraft.get())
 
     return builder.toString()
 }
