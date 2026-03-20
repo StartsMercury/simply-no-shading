@@ -12,6 +12,8 @@ public class MinecraftMixin implements CompileSimplyNoShadingAware {
     @Unique
     private final SimplyNoShadingImpl simplyNoShading = new SimplyNoShadingImpl((Minecraft) (Object) this);
 
+    private MinecraftMixin() {}
+
     @Override
     @SuppressWarnings("AddedMixinMembersNamePattern")
     public SimplyNoShadingImpl getSimplyNoShading() {

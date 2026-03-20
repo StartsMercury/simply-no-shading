@@ -1,5 +1,5 @@
 //TODO Re-enable when unobfuscated BedrockIfy is available
-//package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.bedrockify;
+//package io.github.startsmercury.simply_no_shading.mixin.client.bedrockify;
 //
 //import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 //import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;

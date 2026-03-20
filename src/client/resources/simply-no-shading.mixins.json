@@ -4,13 +4,20 @@
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
     "compatibilityLevel": "JAVA_25",
     "client": [
+        "block.BlockModelLighterMixin",
+        "block.FallingBlockRendererMixin",
+        "block.FluidRendererMixin",
+        "block.PistonHeadRendererMixin",
+        "cloud.CloudRendererMixin",
+        "entity.GlslPreprocessorMixin",
+        "entity.ShaderManager$1Mixin",
+        "extension.BlockAndTintGetter$1Mixin",
+        "extension.BlockAndTintGetterMixin",
+        "extension.ClientLevelMixin",
+        "extension.LevelRendererMixin",
         "extension.MinecraftMixin",
-        "shading.block.minecraft.BakedQuadMixin",
-        "shading.block.minecraft.BlockRenderDispatcherMixin",
-        "shading.block.minecraft.LiquidBlockRendererMixin",
-        "shading.cloud.minecraft.CloudRendererMixin",
-        "shading.entity.minecraft.GlslPreprocessorMixin",
-        "shading.entity.minecraft.ShaderManager$1Mixin"
+        "extension.MovingBlockRenderStateMixin",
+        "extension.RenderSectionRegionMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -1,5 +1,5 @@
 //TODO Re-enable when unobfuscated Iris Shaders is available
-//package io.github.startsmercury.simply_no_shading.mixin.client.compat.iris;
+//package io.github.startsmercury.simply_no_shading.mixin.client.iris;
 //
 //import net.irisshaders.iris.config.IrisConfig;
 //import net.minecraft.client.Minecraft;

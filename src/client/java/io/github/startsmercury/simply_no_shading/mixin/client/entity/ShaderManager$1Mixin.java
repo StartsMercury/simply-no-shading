@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.shading.entity.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.entity;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ShaderPreprocessor;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.GetShaderPreprocessor;
@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
  */
 @Mixin(targets = "net.minecraft.client.renderer.ShaderManager$1")
 public class ShaderManager$1Mixin implements GetShaderPreprocessor {
+    private ShaderManager$1Mixin() {}
+
     @Override
     public @Nullable ShaderPreprocessor simply_no_shading$getShaderPreprocessor() {
         return ShaderPreprocessor.CONDITIONAL;

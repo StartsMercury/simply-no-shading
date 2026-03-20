@@ -1,5 +1,5 @@
 //TODO Re-enable when unobfuscated Sodium is available
-//package io.github.startsmercury.simply_no_shading.mixin.client.shading.block.sodium;
+//package io.github.startsmercury.simply_no_shading.mixin.client.sodium;
 //
 //import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 //import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.DefaultFluidRenderer;

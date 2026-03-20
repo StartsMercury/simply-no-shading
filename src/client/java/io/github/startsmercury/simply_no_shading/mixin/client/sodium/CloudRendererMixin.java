@@ -1,5 +1,5 @@
 //TODO Re-enable when unobfuscated BedrockIfy is available
-//package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.sodium;
+//package io.github.startsmercury.simply_no_shading.mixin.client.sodium;
 //
 //import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 //import com.llamalad7.mixinextras.sugar.Local;

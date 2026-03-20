@@ -54,6 +54,7 @@
             ]
         }
     },
+    "accessWidener": "simply-no-shading.classtweaker",
     "mixins": [
         "simply-no-shading.mixins.json"
     ],

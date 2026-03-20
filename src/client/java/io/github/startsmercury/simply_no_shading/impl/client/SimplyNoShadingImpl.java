@@ -13,7 +13,7 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
+import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataOwner;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
 import java.io.File;
 import java.io.IOException;
@@ -136,15 +136,15 @@ public final class SimplyNoShadingImpl {
         switch (reloadLevel) {
             case RESOURCE_PACKS:
             case ALL_CHANGED:
-                ((SnsConfigDataAware) this.minecraft.getBlockRenderer()).simply_no_shading$setConfigData(data);
+                this.minecraft.levelRenderer.simply_no_shading$setConfigData(config.data());
 
 //TODO Re-enable when unobfuscated BedrockIfy is available
 //                if (this.context.isBedrockifyLoaded()) {
-//                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
+//                    ((SnsConfigDataOwner) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
 //                }
             case NEEDS_UPDATE:
                 if (config.compatibilityMode() || !this.context.isSodiumLoaded()) {
-                    ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
+                    ((SnsConfigDataOwner) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
                 }
             case NONE:
         }

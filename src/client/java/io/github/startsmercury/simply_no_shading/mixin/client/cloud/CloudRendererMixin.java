@@ -1,8 +1,8 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.cloud;
 
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
+import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataOwner;
 import net.minecraft.client.renderer.CloudRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(CloudRenderer.class)
-public abstract class CloudRendererMixin implements SnsConfigDataAware {
+public abstract class CloudRendererMixin implements SnsConfigDataOwner {
     @Final
     @Shadow
     private static int FLAG_USE_TOP_COLOR;
@@ -38,7 +38,7 @@ public abstract class CloudRendererMixin implements SnsConfigDataAware {
     }
 
     @Override
-    public ConfigData simply_no_shading$getConfigData() {
+    public ConfigData simply_no_shading$configData() {
         return this.simply_noShading$configData;
     }
 

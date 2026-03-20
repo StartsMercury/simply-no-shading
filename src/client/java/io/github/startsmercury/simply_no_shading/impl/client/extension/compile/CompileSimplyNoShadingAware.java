@@ -15,6 +15,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.extension.SimplyNoS
 public interface CompileSimplyNoShadingAware extends SimplyNoShadingAware {
     @Override
     default SimplyNoShadingImpl getSimplyNoShading() {
-        return CompileAwareHelper.unimplemented();
+        return InjectedInterfaceHelper.unimplemented();
     }
 }
