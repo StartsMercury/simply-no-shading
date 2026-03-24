@@ -18,6 +18,7 @@
         "extension.MinecraftMixin",
         "extension.MovingBlockRenderStateMixin",
         "extension.RenderSectionRegionMixin",
+        "iris.IrisConfigMixin",
         "sodium.CloudRendererMixin",
         "sodium.DefaultFluidRendererMixin",
         "sodium.FabricBlockAccessMixin",
