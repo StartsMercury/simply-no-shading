@@ -148,9 +148,7 @@ public final class SimplyNoShadingImpl {
                     ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
                 }
             case NEEDS_UPDATE:
-                if (config.compatibilityMode() || !this.context.isSodiumLoaded()) {
-                    ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
-                }
+                ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
             case NONE:
         }
     }
