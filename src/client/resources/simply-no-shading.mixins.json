@@ -17,7 +17,13 @@
         "extension.LevelRendererMixin",
         "extension.MinecraftMixin",
         "extension.MovingBlockRenderStateMixin",
-        "extension.RenderSectionRegionMixin"
+        "extension.RenderSectionRegionMixin",
+        "sodium.CloudRendererMixin",
+        "sodium.DefaultFluidRendererMixin",
+        "sodium.FabricBlockAccessMixin",
+        "sodium.FlatLightPipelineMixin",
+        "sodium.LevelSliceMixin",
+        "sodium.SmoothLightPipelineMixin"
     ],
     "injectors": {
         "defaultRequire": 1

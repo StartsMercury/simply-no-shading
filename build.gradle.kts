@@ -202,11 +202,10 @@ repositories {
 // createCompatTest("enhancedblockentities", libs.enhancedblockentities)
 // createCompatTest("iris", libs.iris, libs.sodium.fabric)
 createCompatTest("modmenu", libs.modmenu)
-// createCompatTest("sodium", libs.sodium.fabric)
+createCompatTest("sodium", libs.sodium.fabric)
 
 dependencies {
-    // TODO Uncomment when those have builds for unobfuscated minecraft
-    // compileOnly(libs.sodium.api)
+    compileOnly(libs.sodium.api)
 }
 
 /******************************************************************************/
