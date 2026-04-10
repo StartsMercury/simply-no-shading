@@ -366,9 +366,9 @@ public final class SimplyNoShadingImpl {
 
     private void consumeKeyEvents(final Minecraft ignored) {
         if (this.keyOpenModConfig().isDown()) {
-            final var lastScreen = this.minecraft.screen;
+            final var lastScreen = this.minecraft.gui.screen();
 
-            this.minecraft.setScreen(this.createConfigScreen(lastScreen));
+            this.minecraft.setScreenAndShow(this.createConfigScreen(lastScreen));
         } else if (this.keyReloadConfig().isDown()) {
             this.reloadConfig();
         } else {
