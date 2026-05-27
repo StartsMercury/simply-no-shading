@@ -11,8 +11,8 @@ public enum ReloadLevel {
     public void applyTo(final Minecraft minecraft) {
         switch (this) {
             case NONE -> {}
-            case NEEDS_UPDATE -> minecraft.levelRenderer.getCloudRenderer().markForRebuild();
-            case ALL_CHANGED -> minecraft.levelRenderer.allChanged();
+            case NEEDS_UPDATE -> minecraft.levelRenderer.cloudRenderer().markForRebuild();
+            case ALL_CHANGED -> minecraft.levelExtractor.allChanged();
             case RESOURCE_PACKS -> minecraft.reloadResourcePacks();
         }
     }

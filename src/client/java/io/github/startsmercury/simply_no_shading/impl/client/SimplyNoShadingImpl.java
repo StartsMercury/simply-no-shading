@@ -13,7 +13,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataOwner;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +43,17 @@ public final class SimplyNoShadingImpl {
     private static final Config DEFAULT_CONFIG =
         new Config(true, ConfigPreset.VANILLA, Optional.empty());
 
-    public static final ConfigData DEFAULT_CONFIG_DATA = DEFAULT_CONFIG.data();
+    public static SimplyNoShadingRenderState renderState() {
+        return renderStateOf(Minecraft.getInstance());
+    }
+
+    public static SimplyNoShadingRenderState renderStateOf(final Minecraft minecraft) {
+        return minecraft
+            .gameRenderer
+            .gameRenderState()
+            .optionsRenderState
+            .simplyNoShadingRenderState();
+    }
 
     private final GameContext context;
     private final FabricLoader fabricLoader;
@@ -74,7 +83,6 @@ public final class SimplyNoShadingImpl {
         this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
         this.setConfig(this.loadConfig().orElse(Config.DEFAULT));
-        this.minecraft.schedule(() -> this.syncConfigFor(this.config, ReloadLevel.ALL_CHANGED));
 
         this.registerKeyMappings();
         this.registerShutdownHook();
@@ -100,7 +108,6 @@ public final class SimplyNoShadingImpl {
         final var context = this.getContext();
         final var reloadLevel = getReloadLevel(oldConfig, config, context);
 
-        this.syncConfigFor(config, reloadLevel);
         reloadLevel.applyTo(this.minecraft);
     }
 
@@ -128,24 +135,6 @@ public final class SimplyNoShadingImpl {
             reloadLevel = ReloadLevel.NONE;
         }
         return reloadLevel;
-    }
-
-    private void syncConfigFor(final Config config, final ReloadLevel reloadLevel) {
-        final var data = config.data();
-
-        switch (reloadLevel) {
-            case RESOURCE_PACKS:
-            case ALL_CHANGED:
-                this.minecraft.levelRenderer.simply_no_shading$setConfigData(config.data());
-
-//TODO Re-enable when unobfuscated BedrockIfy is available
-//                if (this.context.isBedrockifyLoaded()) {
-//                    ((SnsConfigDataOwner) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
-//                }
-            case NEEDS_UPDATE:
-                ((SnsConfigDataOwner) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
-            case NONE:
-        }
     }
 
     public GameContext getContext() {
@@ -255,10 +244,10 @@ public final class SimplyNoShadingImpl {
                 .map(Pair::getFirst)
                 .map(IConfig::upgrade)
         ) {
-            case DataResult.Success(final DataResult.Success<Config> success, final var _0) -> {
+            case DataResult.Success(final DataResult.Success<Config> success, _) -> {
                 return Optional.of(success.value());
             }
-            case DataResult.Success(final DataResult.Error<?> error, final var _0) -> {
+            case DataResult.Success(final DataResult.Error<?> error, _) -> {
                 if (this.logger.isWarnEnabled()) {
                     this.logger.atWarn().log(() ->
                         "[" + SnsConstants.NAME + "] Unable to upgrade config: " + error.message()
@@ -368,7 +357,7 @@ public final class SimplyNoShadingImpl {
         if (this.keyOpenModConfig().isDown()) {
             final var lastScreen = this.minecraft.gui.screen();
 
-            this.minecraft.setScreenAndShow(this.createConfigScreen(lastScreen));
+            this.minecraft.gui.setScreen(this.createConfigScreen(lastScreen));
         } else if (this.keyReloadConfig().isDown()) {
             this.reloadConfig();
         } else {

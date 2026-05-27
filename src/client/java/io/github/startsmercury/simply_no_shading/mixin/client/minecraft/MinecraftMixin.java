@@ -1,14 +1,13 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.extension;
+package io.github.startsmercury.simply_no_shading.mixin.client.minecraft;
 
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.compile.CompileSimplyNoShadingAware;
+import io.github.startsmercury.simply_no_shading.impl.client.extension.compile.MinecraftExtension;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Minecraft.class)
-@SuppressWarnings("deprecation")
-public class MinecraftMixin implements CompileSimplyNoShadingAware {
+public class MinecraftMixin implements MinecraftExtension {
     @Unique
     private final SimplyNoShadingImpl simplyNoShading = new SimplyNoShadingImpl((Minecraft) (Object) this);
 

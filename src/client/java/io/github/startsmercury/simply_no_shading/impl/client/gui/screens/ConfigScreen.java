@@ -5,7 +5,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigBuilder;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
@@ -130,7 +129,7 @@ public final class ConfigScreen extends OptionsSubScreen {
     private OptionInstance<Boolean> createBoolean(
         final String id,
         final boolean initial,
-        final Consumer<Boolean> setter
+        final OptionInstance.ValueUpdateListener<Boolean> setter
     ) {
         final var key = "simply-no-shading.config." + id;
         final var tooltip = Tooltip.create(Component.translatable(key + ".tooltip"));
