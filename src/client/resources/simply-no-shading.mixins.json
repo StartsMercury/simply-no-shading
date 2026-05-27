@@ -4,6 +4,7 @@
     "package": "io.github.startsmercury.simply_no_shading.mixin.client",
     "compatibilityLevel": "JAVA_25",
     "client": [
+        "bedrockify.BedrockBlockShadingMixin",
         "iris.IrisConfigMixin",
         "minecraft.ClientLevelMixin",
         "minecraft.CloudRendererMixin",
