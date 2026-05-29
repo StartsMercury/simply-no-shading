@@ -10,13 +10,23 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(BlockModelLighter.class)
 public class BlockModelLighterMixin {
     @ModifyExpressionValue(
-        method = "prepareQuadAmbientOcclusion(" +
-            "Lnet/minecraft/client/renderer/block/BlockAndTintGetter;" +
-            "Lnet/minecraft/world/level/block/state/BlockState;" +
-            "Lnet/minecraft/core/BlockPos;" +
-            "Lnet/minecraft/client/resources/model/geometry/BakedQuad;" +
-            "Lcom/mojang/blaze3d/vertex/QuadInstance;" +
-        ")V",
+        method = {
+            "prepareQuadAmbientOcclusion(" +
+                "Lnet/minecraft/client/renderer/block/BlockAndTintGetter;" +
+                "Lnet/minecraft/world/level/block/state/BlockState;" +
+                "Lnet/minecraft/core/BlockPos;" +
+                "Lnet/minecraft/client/resources/model/geometry/BakedQuad;" +
+                "Lcom/mojang/blaze3d/vertex/QuadInstance;" +
+            ")V",
+            "prepareQuadFlat(" +
+                "Lnet/minecraft/client/renderer/block/BlockAndTintGetter;" +
+                "Lnet/minecraft/world/level/block/state/BlockState;" +
+                "Lnet/minecraft/core/BlockPos;" +
+                "I" +
+                "Lnet/minecraft/client/resources/model/geometry/BakedQuad;" +
+                "Lcom/mojang/blaze3d/vertex/QuadInstance;" +
+            ")V"
+        },
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/resources/model/geometry/BakedQuad$MaterialInfo;shade()Z"
