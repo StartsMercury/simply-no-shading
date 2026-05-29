@@ -22,4 +22,4 @@ sodium-api = { module = "net.caffeinemc:sodium-fabric-api", version.ref = "sodiu
 sodium-fabric = { module = "net.caffeinemc:sodium-fabric", version.ref = "sodium" }
 
 [plugins]
-fabric-loom = "net.fabricmc.fabric-loom:1.16.1"
+fabric-loom = "net.fabricmc.fabric-loom:1.16.2"
