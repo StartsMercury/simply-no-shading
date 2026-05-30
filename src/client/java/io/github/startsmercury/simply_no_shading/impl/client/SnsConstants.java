@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Util;
+import net.minecraft.world.level.CardinalLighting;
 
 public final class SnsConstants {
     public static final Pattern COLUMN_PATTERN = Pattern.compile("column\\s+([0-9]+)");
@@ -26,6 +27,8 @@ public final class SnsConstants {
         "simply-no-shading.config.preset."
         + preset.name().toLowerCase(Locale.ROOT)
     ));
+
+    public static final CardinalLighting CARDINAL_LIGHTING = new CardinalLighting(1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
 
     private SnsConstants() {}
 }

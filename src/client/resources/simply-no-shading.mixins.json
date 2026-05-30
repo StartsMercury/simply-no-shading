@@ -5,27 +5,14 @@
     "compatibilityLevel": "JAVA_25",
     "client": [
         "bedrockify.BedrockBlockShadingMixin",
-        "block.BlockModelLighterMixin",
-        "block.FallingBlockRendererMixin",
-        "block.FluidRendererMixin",
-        "block.PistonHeadRendererMixin",
-        "cloud.CloudRendererMixin",
-        "entity.GlslPreprocessorMixin",
-        "entity.ShaderManager$1Mixin",
-        "extension.BlockAndTintGetter$1Mixin",
-        "extension.BlockAndTintGetterMixin",
-        "extension.ClientLevelMixin",
-        "extension.LevelRendererMixin",
-        "extension.MinecraftMixin",
-        "extension.MovingBlockRenderStateMixin",
-        "extension.RenderSectionRegionMixin",
         "iris.IrisConfigMixin",
+        "minecraft.ClientLevelMixin",
+        "minecraft.CloudRendererMixin",
+        "minecraft.GlslPreprocessorMixin",
+        "minecraft.MinecraftMixin",
+        "minecraft.ShaderManager$1Mixin",
         "sodium.CloudRendererMixin",
-        "sodium.DefaultFluidRendererMixin",
-        "sodium.FabricBlockAccessMixin",
-        "sodium.FlatLightPipelineMixin",
-        "sodium.LevelSliceMixin",
-        "sodium.SmoothLightPipelineMixin"
+        "sodium.DefaultFluidRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -2,7 +2,7 @@ package io.github.startsmercury.simply_no_shading.mixin.client.sodium;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import net.minecraft.client.renderer.CloudRenderer;
 import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Dynamic;
@@ -36,7 +36,7 @@ public abstract class CloudRendererMixin {
         final @Local(ordinal = 0) long ptr,
         final @Local(ordinal = 5) int cellIndex
     ) {
-        if (!((SnsConfigDataAware) this).simply_no_shading$configData().shadeClouds()) {
+        if (SimplyNoShadingImpl.mainRenderState().shadeClouds) {
             for (var index = cellIndex; index < newIndex; index++) {
                 final var ptrIndex = ptr + index * 3L + 2L;
                 MemoryUtil.memPutByte(ptrIndex, (byte) (MemoryUtil.memGetByte(ptrIndex) | FLAG_USE_TOP_COLOR));

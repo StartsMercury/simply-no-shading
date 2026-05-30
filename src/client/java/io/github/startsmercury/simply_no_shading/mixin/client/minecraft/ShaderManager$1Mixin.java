@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.entity;
+package io.github.startsmercury.simply_no_shading.mixin.client.minecraft;
 
 import io.github.startsmercury.simply_no_shading.impl.client.ShaderPreprocessor;
 import io.github.startsmercury.simply_no_shading.impl.client.extension.GetShaderPreprocessor;

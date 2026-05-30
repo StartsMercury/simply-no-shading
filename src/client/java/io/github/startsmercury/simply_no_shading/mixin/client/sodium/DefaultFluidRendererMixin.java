@@ -1,8 +1,7 @@
 package io.github.startsmercury.simply_no_shading.mixin.client.sodium;
 
-import com.llamalad7.mixinextras.sugar.Local;
+import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.DefaultFluidRenderer;
-import net.caffeinemc.mods.sodium.client.world.LevelSlice;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -24,13 +23,11 @@ public class DefaultFluidRendererMixin {
             "Lnet/minecraft/world/level/material/FluidState;" +
         ")V",
         at = @At("HEAD"),
+        ordinal = 0,
         argsOnly = true
     )
-    private float changeShade(
-        final float brightness,
-        final @Local(ordinal = 0, argsOnly = true) LevelSlice slice
-    ) {
-        if (slice.simply_no_shading$configData().shadeBlocks()) {
+    private float changeShade(final float brightness) {
+        if (SimplyNoShadingImpl.mainRenderState().shadeBlocks) {
             return brightness;
         } else {
             return 1.0F;
