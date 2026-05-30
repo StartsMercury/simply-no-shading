@@ -1,6 +1,6 @@
 package io.github.startsmercury.simply_no_shading.impl.client.extension.compile;
 
-final class CompileAwareHelper {
+final class InjectedInterfaceHelper {
     private static Error unimplemented0() {
         final var err = new InternalError("Unimplemented interface injected method");
         //noinspection CallToPrintStackTrace
@@ -17,5 +17,5 @@ final class CompileAwareHelper {
         throw unimplemented0();
     }
 
-    private CompileAwareHelper() {}
+    private InjectedInterfaceHelper() {}
 }

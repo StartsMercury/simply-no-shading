@@ -1,24 +1,18 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.shading.cloud.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.minecraft;
 
 import io.github.startsmercury.simply_no_shading.impl.client.SimplyNoShadingImpl;
-import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
 import net.minecraft.client.renderer.CloudRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(CloudRenderer.class)
-public abstract class CloudRendererMixin implements SnsConfigDataAware {
+public abstract class CloudRendererMixin {
     @Final
     @Shadow
     private static int FLAG_USE_TOP_COLOR;
-
-    @Unique
-    private ConfigData simply_noShading$configData = SimplyNoShadingImpl.DEFAULT_CONFIG_DATA;
 
     private CloudRendererMixin() {
     }
@@ -30,20 +24,10 @@ public abstract class CloudRendererMixin implements SnsConfigDataAware {
         argsOnly = true
     )
     private int simply_no_shading$changeCloudBrightness(final int flags) {
-        if (simply_noShading$configData.shadeClouds()) {
+        if (SimplyNoShadingImpl.mainRenderState().shadeClouds) {
             return flags;
         } else {
             return flags | CloudRendererMixin.FLAG_USE_TOP_COLOR;
         }
-    }
-
-    @Override
-    public ConfigData simply_no_shading$getConfigData() {
-        return this.simply_noShading$configData;
-    }
-
-    @Override
-    public void simply_no_shading$setConfigData(final ConfigData configData) {
-        this.simply_noShading$configData = configData;
     }
 }

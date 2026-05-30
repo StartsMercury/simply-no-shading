@@ -13,7 +13,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import io.github.startsmercury.simply_no_shading.impl.client.extension.SnsConfigDataAware;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -45,7 +43,13 @@ public final class SimplyNoShadingImpl {
     private static final Config DEFAULT_CONFIG =
         new Config(true, ConfigPreset.VANILLA, Optional.empty());
 
-    public static final ConfigData DEFAULT_CONFIG_DATA = DEFAULT_CONFIG.data();
+    public static SimplyNoShadingRenderState mainRenderState() {
+        return renderStateOf(Minecraft.getInstance());
+    }
+
+    public static SimplyNoShadingRenderState renderStateOf(final Minecraft minecraft) {
+        return minecraft.getSimplyNoShading().renderState();
+    }
 
     private final GameContext context;
     private final FabricLoader fabricLoader;
@@ -56,6 +60,7 @@ public final class SimplyNoShadingImpl {
     private final KeyMapping keyToggleEntityShading;
     private final Logger logger;
     private final Minecraft minecraft;
+    private final SimplyNoShadingRenderState renderState;
 
     private Config config = DEFAULT_CONFIG;
 
@@ -69,13 +74,13 @@ public final class SimplyNoShadingImpl {
         this.keyToggleEntityShading = SimplyNoShadingImpl.createKeyMapping("toggleEntityShading");
         this.logger = LoggerFactory.getLogger(SnsConstants.NAME);
         this.minecraft = minecraft;
+        this.renderState = new SimplyNoShadingRenderState();
     }
 
     public void onInitialize() {
         this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
         this.setConfig(this.loadConfig().orElse(Config.DEFAULT));
-        this.minecraft.schedule(() -> this.syncConfigFor(this.config, ReloadLevel.ALL_CHANGED));
 
         this.registerKeyMappings();
         this.registerShutdownHook();
@@ -101,13 +106,19 @@ public final class SimplyNoShadingImpl {
         final var context = this.getContext();
         final var reloadLevel = getReloadLevel(oldConfig, config, context);
 
-        this.syncConfigFor(config, reloadLevel);
         reloadLevel.applyTo(this.minecraft);
     }
 
     private Config setConfig(final Config config) {
         final var oldConfig = this.config;
         this.config = config;
+
+        this.renderState.compatibilityMode = config.compatibilityMode();
+        final var data = config.data();
+        this.renderState.shadeBlocks = data.shadeBlocks();
+        this.renderState.shadeClouds = data.shadeClouds();
+        this.renderState.shadeEntities = data.shadeEntities();
+
         return oldConfig;
     }
 
@@ -129,28 +140,6 @@ public final class SimplyNoShadingImpl {
             reloadLevel = ReloadLevel.NONE;
         }
         return reloadLevel;
-    }
-
-    private void syncConfigFor(final Config config, final ReloadLevel reloadLevel) {
-        final var data = config.data();
-
-        switch (reloadLevel) {
-            case RESOURCE_PACKS:
-            case ALL_CHANGED:
-                final var level = this.minecraft.level;
-                if (level != null) {
-                    ((SnsConfigDataAware) level).simply_no_shading$setConfigData(data);
-                }
-
-                ((SnsConfigDataAware) this.minecraft.getBlockRenderer()).simply_no_shading$setConfigData(data);
-
-                if (this.context.isBedrockifyLoaded()) {
-                    ((SnsConfigDataAware) BedrockifyClient.getInstance().bedrockBlockShading).simply_no_shading$setConfigData(data);
-                }
-            case NEEDS_UPDATE:
-                ((SnsConfigDataAware) this.minecraft.levelRenderer.getCloudRenderer()).simply_no_shading$setConfigData(data);
-            case NONE:
-        }
     }
 
     public GameContext getContext() {
@@ -420,5 +409,9 @@ public final class SimplyNoShadingImpl {
         final var shutdownThread = new Thread(this::saveConfig);
         shutdownThread.setName(SnsConstants.NAME + " Shutdown Thread");
         Runtime.getRuntime().addShutdownHook(shutdownThread);
+    }
+
+    public SimplyNoShadingRenderState renderState() {
+        return this.renderState;
     }
 }

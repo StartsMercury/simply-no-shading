@@ -47,13 +47,9 @@
                 "modmenu.github_releases": "https://github.com/StartsMercury/simply-no-shading/releases",
                 "modmenu.modrinth": "https://modrinth.com/mod/simply-no-shading"
             }
-        },
-        "loom:injected_interfaces": {
-            "net/minecraft/class_310": [
-                "io/github/startsmercury/simply_no_shading/impl/client/extension/compile/CompileSimplyNoShadingAware"
-            ]
         }
     },
+    "accessWidener": "simply-no-shading.classtweaker",
     "mixins": [
         "simply-no-shading.mixins.json"
     ],

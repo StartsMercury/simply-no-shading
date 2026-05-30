@@ -1,4 +1,4 @@
-package io.github.startsmercury.simply_no_shading.mixin.client.shading.entity.minecraft;
+package io.github.startsmercury.simply_no_shading.mixin.client.minecraft;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -15,7 +15,10 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(GlslPreprocessor.class)
 public class GlslPreprocessorMixin implements GetShaderPreprocessor {
     @Unique
-    private final ConfigData simply_no_shading$configData = Minecraft.getInstance().getSimplyNoShading().getConfig().data();
+    private final ConfigData simply_no_shading$configData = Minecraft.getInstance()
+        .getSimplyNoShading()
+        .getConfig()
+        .data();
 
     /**
      * Modifies the {@code minecraft_mix_light} function in Minecraft's

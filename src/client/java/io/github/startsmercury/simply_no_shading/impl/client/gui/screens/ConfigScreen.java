@@ -5,7 +5,6 @@ import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigBuilder;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
