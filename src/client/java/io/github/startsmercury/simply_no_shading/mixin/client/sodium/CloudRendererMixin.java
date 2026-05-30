@@ -36,7 +36,7 @@ public abstract class CloudRendererMixin {
         final @Local(ordinal = 0) long ptr,
         final @Local(ordinal = 5) int cellIndex
     ) {
-        if (SimplyNoShadingImpl.mainRenderState().shadeClouds) {
+        if (!SimplyNoShadingImpl.mainRenderState().shadeClouds) {
             for (var index = cellIndex; index < newIndex; index++) {
                 final var ptrIndex = ptr + index * 3L + 2L;
                 MemoryUtil.memPutByte(ptrIndex, (byte) (MemoryUtil.memGetByte(ptrIndex) | FLAG_USE_TOP_COLOR));
