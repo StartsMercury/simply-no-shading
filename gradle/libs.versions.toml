@@ -7,7 +7,7 @@ fabric-minecraft = "26.2-beta.3"
 iris = "1.10.9+26.1-fabric"
 java = "25"
 minecraft = "26.2-pre-3"
-modmenu = "19.0.0-alpha.1"
+modmenu = "20.0.0-alpha.1"
 sodium = "0.8.9+mc26.1.1"
 
 [libraries]
