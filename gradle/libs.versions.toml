@@ -1,6 +1,6 @@
 [versions]
 bedrockify = "1.11.8+mc26.2"
-fabric-api = "0.160.0+26.2"
+fabric-api = "0.160.3+26.3"
 fabric-loader = "0.19.5"
 fabric-minecraft = "26.3-rc.1"
 iris = "1.11.2+26.2-fabric"
