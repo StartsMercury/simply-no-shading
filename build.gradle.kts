@@ -48,8 +48,8 @@ dependencies {
 testing {
     @Suppress("UnstableApiUsage")
     suites {
-        val clientTest by registering(JvmTestSuite::class) {
-            val client by sourceSets.getting
+        register<JvmTestSuite>("clientTest") {
+            val client = sourceSets.getByName("client")
 
             sources {
                 compileClasspath += client.compileClasspath
@@ -66,7 +66,7 @@ testing {
 }
 
 tasks {
-    val validateMixinName by registering(net.fabricmc.loom.task.ValidateMixinNameTask::class) {
+    register<net.fabricmc.loom.task.ValidateMixinNameTask>("validateMixinName") {
         source(sourceSets.main.get().output)
         source(sourceSets.named("client").get().output)
     }
@@ -218,7 +218,7 @@ fun createCompatTest(name: String, objectNotation: Any, vararg dependencyNotatio
         extendsFrom(config.get())
     }
     configurations {
-        val compileOnly by getting {
+        getByName("compileOnly") {
             extendsFrom(config.get())
         }
     }
@@ -234,7 +234,7 @@ fun createCompatTest(name: String, objectNotation: Any, vararg dependencyNotatio
         loom.runs.register(name) {
             client()
 
-            property("fabric.addMods", configClasspath.get().files.joinToString(File.pathSeparator))
+            systemProperties.put("fabric.addMods", configClasspath.get().files.joinToString(File.pathSeparator))
         }
     }
 }
