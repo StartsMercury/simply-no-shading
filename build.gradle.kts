@@ -197,9 +197,7 @@ repositories {
     }
 }
 
-// TODO Uncomment when those have builds for unobfuscated minecraft
 createCompatTest("bedrockify", libs.bedrockify)
-// createCompatTest("enhancedblockentities", libs.enhancedblockentities)
 createCompatTest("iris", libs.iris, libs.sodium.fabric)
 createCompatTest("modmenu", libs.modmenu)
 createCompatTest("sodium", libs.sodium.fabric)
