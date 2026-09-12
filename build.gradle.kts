@@ -42,7 +42,7 @@ dependencies {
 
     fabricModule("fabric-lifecycle-events-v1")
     fabricModule("fabric-key-mapping-api-v1")
-    fabricModule("fabric-resource-loader-v0")
+    fabricModule("fabric-resource-loader-v1")
 }
 
 testing {

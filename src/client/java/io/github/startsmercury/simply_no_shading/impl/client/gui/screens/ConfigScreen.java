@@ -76,7 +76,7 @@ public final class ConfigScreen extends OptionsSubScreen {
         );
 
         list.addHeader(GENERAL);
-        list.addSmall(this.createBoolean(
+        list.addBig(this.createBoolean(
             "compatibilityMode",
             this.configBuilder.isCompatibilityMode(),
             this.configBuilder::setCompatibilityMode

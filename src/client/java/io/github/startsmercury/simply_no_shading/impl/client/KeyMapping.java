@@ -7,7 +7,7 @@ public class KeyMapping extends net.minecraft.client.KeyMapping {
     protected boolean released;
 
     public KeyMapping(final String name, final int keyCode, final Category category) {
-        super(name, InputConstants.Type.KEYSYM, keyCode, category);
+        super(name, InputConstants.Type.KEYBOARD, keyCode, category);
     }
 
     public boolean consumeAction() {

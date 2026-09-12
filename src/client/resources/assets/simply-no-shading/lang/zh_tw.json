@@ -25,5 +25,8 @@
     "simply-no-shading.config.shadeClouds": "雲陰影",
     "simply-no-shading.config.shadeClouds.tooltip": "影響雲",
     "simply-no-shading.config.shadeEntities": "實體陰影",
-    "simply-no-shading.config.shadeEntities.tooltip": "影響實體和方塊實體"
+    "simply-no-shading.config.shadeEntities.tooltip": "影響實體和方塊實體",
+
+    "resourcePack.simply-no-shading.no-entity-shading.name": "No Entity Shading",
+    "resourcePack.simply-no-shading.no-entity-shading.description": "Disables per-face shading for in-world entities."
 }

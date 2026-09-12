@@ -21,7 +21,6 @@ public final class GameContext {
         this.shadersEnabled = shadersEnabled;
     }
 
-
     public boolean isSodiumLoaded() {
         return sodiumLoaded;
     }

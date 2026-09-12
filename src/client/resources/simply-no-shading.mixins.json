@@ -9,10 +9,8 @@
         "minecraft.ClientLevelMixin",
         "minecraft.CloudRendererMixin",
         "minecraft.GameRendererMixin",
-        "minecraft.GlslPreprocessorMixin",
         "minecraft.MinecraftMixin",
         "minecraft.OptionsRenderStateMixin",
-        "minecraft.ShaderManager$1Mixin",
         "sodium.CloudRendererMixin",
         "sodium.DefaultFluidRendererMixin"
     ],

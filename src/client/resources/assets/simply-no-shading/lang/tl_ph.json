@@ -1,13 +1,13 @@
 {
     "modmenu.nameTranslation.simply-no-shading": "Simply No Shading",
-    "modmenu.descriptionTranslation.simply-no-shading": "Nagdadala at nagpapalawak sa lumang paglililim ng bloke mula sa panloob na tagalilom! Unang naglalayong gayahin ang panloob na tagalilom ng OptiFine na nakakaapekto sa labas ng mga bloke, na kalaunang pinalawak sa mga ulap ng baynilya, at sa tulong ng mga tagapag-ambag, nagdulot ng tulad na dama sa mga nilalang.",
+    "modmenu.descriptionTranslation.simply-no-shading": "Nagdadala at nagpapalawak sa lumang paglililim ng bloke mula sa panloob na tagalilom! Unang naglalayong gayahin ang panloob na tagalilom ng OptiFine na nakakaapekto sa labas ng mga bloke, na kalaunang pinalawak sa mga ulap ng baynilya, at sa tulong ng mga tagapag-ambag, nagdulot ng tulad na dama sa mga lalang.",
 
     "key.category.simply-no-shading.simply-no-shading": "Simply No Shading",
     "simply-no-shading.key.openModConfig": "Buksan ang Pagsasaayos ng Simply No Shading",
     "simply-no-shading.key.reloadConfig": "Kargahin Muli ang Pagsasaayos",
     "simply-no-shading.key.toggleBlockShading": "Halilihan ang Paglililim ng Bloke",
     "simply-no-shading.key.toggleCloudShading": "Halilihan ang Paglililim ng Ulap",
-    "simply-no-shading.key.toggleEntityShading": "Halilihan ang Paglililim ng Nilalang",
+    "simply-no-shading.key.toggleEntityShading": "Halilihan ang Paglililim ng Lalang",
 
     "simply-no-shading.config.title": "Pasasaayos ng Simply No Shading",
     "simply-no-shading.config.general.header": "Pangkalahatan",
@@ -24,6 +24,9 @@
     "simply-no-shading.config.shadeBlocks.tooltip": "Nakakaapekto sa karamihan ng mga tigiling bloke",
     "simply-no-shading.config.shadeClouds": "Paglililim ng Ulap",
     "simply-no-shading.config.shadeClouds.tooltip": "Nakakaapekto sa mga ulap",
-    "simply-no-shading.config.shadeEntities": "Paglililim ng Nilalang",
-    "simply-no-shading.config.shadeEntities.tooltip": "Nakakaapekto sa mga nilalang at blokeng nilalang"
+    "simply-no-shading.config.shadeEntities": "Paglililim ng Lalang",
+    "simply-no-shading.config.shadeEntities.tooltip": "Nakakaapekto sa mga lalang at blokeng lalang",
+
+    "resourcePack.simply-no-shading.no-entity-shading.name": "Di-Paglililim ng Lalang",
+    "resourcePack.simply-no-shading.no-entity-shading.description": "Walang sariling lilim ang bawat panid ng mga lalang sa daigdig."
 }

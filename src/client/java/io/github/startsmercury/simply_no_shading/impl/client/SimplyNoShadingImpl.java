@@ -5,16 +5,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import io.github.startsmercury.simply_no_shading.impl.client.config.IConfig;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.Config;
+import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigBuilder;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigData;
 import io.github.startsmercury.simply_no_shading.impl.client.config.v1.ConfigPreset;
 import io.github.startsmercury.simply_no_shading.impl.client.gui.screens.ConfigScreen;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -25,12 +26,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.util.Util;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,10 +87,13 @@ public final class SimplyNoShadingImpl {
     public void onInitialize() {
         this.logger.debug("Initializing {}...", SnsConstants.NAME);
 
-        this.setConfig(this.loadConfig().orElse(Config.DEFAULT));
+        final var config = this.loadConfig().orElse(Config.DEFAULT);
+
+        this.setConfig(config);
 
         this.registerKeyMappings();
         this.registerShutdownHook();
+        this.registerResources();
 
         if (this.fabricLoader.isModLoaded("bedrockify")) {
             this.context.setBedrockifyLoaded(true);
@@ -108,7 +116,17 @@ public final class SimplyNoShadingImpl {
         final var context = this.getContext();
         final var reloadLevel = getReloadLevel(oldConfig, config, context);
 
-        reloadLevel.applyTo(this.minecraft);
+        if (reloadLevel == ReloadLevel.RESOURCE_PACKS) {
+            final var repository = this.minecraft.getResourcePackRepository();
+            if (config.data().shadeEntities()) {
+                repository.removePack(SnsConstants.NO_ENTITY_SHADING_ID);
+            } else {
+                repository.addPack(SnsConstants.NO_ENTITY_SHADING_ID);
+            }
+            this.minecraft.options.updateResourcePacks(repository);
+        } else {
+            reloadLevel.applyTo(this.minecraft);
+        }
     }
 
     private Config setConfig(final Config config) {
@@ -141,9 +159,9 @@ public final class SimplyNoShadingImpl {
         return this.context;
     }
 
-    public void openConfigFile() {
+    public void openConfigPath() {
         this.logger.debug("[{}] Opening config...", SnsConstants.NAME);
-        Util.getPlatform().openFile(this.getConfigFile());
+        Blaze3D.openPath(this.getConfigPath());
     }
 
     public void reloadConfig() {
@@ -152,7 +170,7 @@ public final class SimplyNoShadingImpl {
                 this.setConfigAndReload(config);
                 this.saveConfig();
             },
-            this::openConfigFile
+            this::openConfigPath
         );
     }
 
@@ -269,7 +287,7 @@ public final class SimplyNoShadingImpl {
     public void saveConfig() {
         this.logger.debug("[{}] Saving config...", SnsConstants.NAME);
 
-        final var path = this.fabricLoader.getConfigDir().resolve(SnsConstants.CONFIG_NAME);
+        final var path = this.getConfigPath();
 
         final JsonObject json;
         switch (IConfig.CODEC.encodeStart(JsonOps.INSTANCE, this.config)) {
@@ -303,10 +321,6 @@ public final class SimplyNoShadingImpl {
 
     private Path getConfigPath() {
         return this.fabricLoader.getConfigDir().resolve(SnsConstants.CONFIG_NAME);
-    }
-
-    public File getConfigFile() {
-        return this.getConfigPath().toFile();
     }
 
     public KeyMapping keyOpenModConfig() {
@@ -404,5 +418,34 @@ public final class SimplyNoShadingImpl {
         final var shutdownThread = new Thread(this::saveConfig);
         shutdownThread.setName(SnsConstants.NAME + " Shutdown Thread");
         Runtime.getRuntime().addShutdownHook(shutdownThread);
+    }
+
+    private void registerResources() {
+        if (!this.fabricLoader.isModLoaded("fabric-resource-loader-v1")) {
+            return;
+        }
+
+        ResourceLoader.registerBuiltinPack(
+            SnsConstants.NO_ENTITY_SHADING_IDENTIFIER,
+            this.fabricLoader.getModContainer(SnsConstants.MODID)
+                .orElseThrow(() -> new RuntimeException("TODO")),
+            Component.translatable(
+                SnsConstants.NO_ENTITY_SHADING_IDENTIFIER
+                    .toLanguageKey("resourcePack", "name")
+            ),
+            PackActivationType.NORMAL
+        );
+
+        // Syncs the config since we depend on resource packs for shadeEntities
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(
+            Identifier.fromNamespaceAndPath(SnsConstants.MODID, "shade-entities"),
+            (ResourceManagerReloadListener) _ -> this.setConfig(
+                new ConfigBuilder(this.getConfig())
+                    .setShadeEntities(!this.minecraft.getResourcePackRepository()
+                        .getSelectedIds()
+                        .contains(SnsConstants.NO_ENTITY_SHADING_ID))
+                    .build()
+            )
+        );
     }
 }

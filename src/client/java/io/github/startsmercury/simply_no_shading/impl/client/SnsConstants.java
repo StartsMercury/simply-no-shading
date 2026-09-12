@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.CardinalLighting;
 
@@ -16,6 +17,13 @@ public final class SnsConstants {
     public static final String MODID = "simply-no-shading";
 
     public static final String NAME = "Simply No Shading";
+
+    public static final String NO_ENTITY_SHADING_NAME = "no-entity-shading";
+
+    public static final Identifier NO_ENTITY_SHADING_IDENTIFIER =
+        Identifier.fromNamespaceAndPath(SnsConstants.MODID, NO_ENTITY_SHADING_NAME);
+
+    public static final String NO_ENTITY_SHADING_ID = NO_ENTITY_SHADING_IDENTIFIER.toString();
 
     public static final String CONFIG_EXT = ".json";
 

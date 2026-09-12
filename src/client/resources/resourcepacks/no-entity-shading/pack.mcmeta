@@ -1,0 +1,10 @@
+{
+    "pack": {
+        "description": {
+            "type": "translatable",
+            "translate": "resourcePack.simply-no-shading.no-entity-shading.description"
+        },
+        "min_format": 97.1,
+        "max_format": 97.1
+    }
+}

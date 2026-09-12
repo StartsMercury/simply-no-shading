@@ -25,5 +25,8 @@
     "simply-no-shading.config.shadeClouds": "Paglililim ng Ulap",
     "simply-no-shading.config.shadeClouds.tooltip": "Nakakaapekto sa mga ulap",
     "simply-no-shading.config.shadeEntities": "Paglililim ng Entidad",
-    "simply-no-shading.config.shadeEntities.tooltip": "Nakakaapekto sa mga entidad at blokeng entidad"
+    "simply-no-shading.config.shadeEntities.tooltip": "Nakakaapekto sa mga entidad at blokeng entidad",
+
+    "resourcePack.simply-no-shading.no-entity-shading.name": "Di-Paglililim ng Entidad",
+    "resourcePack.simply-no-shading.no-entity-shading.description": "Walang sariling lilim ang bawat panid ng mga entidad sa mundo."
 }
